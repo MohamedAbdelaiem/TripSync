@@ -1,0 +1,29 @@
+.image-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .image-container img {
+    display: block;
+    width: 100%;
+  }
+  
+  .text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-60%, -500%);
+    color: white;
+    /* padding: 10px 20px; */
+    font-size: 30px;
+  }
+  .text-overlay-sub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-60%, -400%);
+    color: white;
+    /* padding: 10px 20px; */
+    font-size: 30px;
+    color: aquamarine;
+  }

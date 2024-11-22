@@ -1,0 +1,14 @@
+.sign_in{
+    color: rgb(3, 9, 14);
+    border-radius: 6px;
+    border-color: #2F80ED ;
+}
+.sign_in:hover{
+    background-color: #1a61be;
+    color: aliceblue;
+}
+/* .register{
+    border-color: #2F80ED;
+    color: #2F80ED;
+
+} */

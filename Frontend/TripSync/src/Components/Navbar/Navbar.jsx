@@ -2,6 +2,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Navbar.css'
 import planeImage from '../../assets/plane.png';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     return (<>
@@ -30,14 +31,11 @@ const Navbar = () => {
                     </ul> 
             </div> 
             <div className="collapse navbar-collapse d-flex justify-content-end">
-                
-                    <button className="register btn btn-primary mx-1">register</button>
-                    <button className="sign_in btn btn-outline-light mx-1">sign in</button>
-                
-                   {/* <ul className="navbar-nav m-2">
-                        <li className="register nav-item active mx-2">Register</li>
-                        <li className="sign_in nav-item active mx-2">Sign in</li>
-                    </ul>   */}
+                <NavLink to="Register"><button className="register btn btn-primary mx-1">register</button></NavLink>
+                <NavLink to="Sign_in "> <button className="sign_in btn btn-outline-light mx-1">sign in</button>
+</NavLink>
+                                 
+
             </div>
       </nav></>
   )

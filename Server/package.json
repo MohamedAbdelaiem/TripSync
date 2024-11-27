@@ -4,15 +4,18 @@
     "nodemon": "^3.1.7"
   },
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "helmet": "^8.0.0",
     "node": "^20.18.1",
-    "pg": "^8.13.1"
+    "path": "^0.12.7",
+    "pg": "^8.13.1",
+    "xss-clean": "^0.1.4"
   }
 }

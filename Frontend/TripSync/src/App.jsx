@@ -21,20 +21,6 @@ export class App extends Component {
       //   </main>
       // </BrowserRouter>
       <TicketSystem />
-
-<<<<<<< HEAD
-        <main>
-          {/* Define Routes */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/Sign_in" element={<Sign_in />} />
-            <Route path="/Preregister/Register" element={<Register />} />
-            <Route path="/Preregister" element={<Preregister />} />
-          </Routes>
-        </main>
-      </BrowserRouter>
-=======
->>>>>>> 42d88e47bfe4ff214fca17193408bf33ec140adb
     );
   }
 }

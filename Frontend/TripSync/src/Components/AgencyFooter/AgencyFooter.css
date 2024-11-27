@@ -1,0 +1,28 @@
+.footer {
+    background-color: #f0f0f0;
+ 
+  }
+  
+  .top-section {
+    display: flex;
+    justify-content:space-between;
+    padding: 30px;
+  }
+  
+  .contact-info {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .bottom-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+  }
+  .flex{
+    display: flex;
+    gap:5px;
+  }

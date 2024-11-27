@@ -20,7 +20,7 @@ userRouter.route('/:user_id').get(UserConroller.getUser);
 userRouter.route('/createUser').post(UserConroller.createUser);
 
 //PATCH Routes for Users
-userRouter.route('/updateUser/:user_id').patch(UserConroller.UpdateUser);//will be Changed soon
+// userRouter.route('/updateUser/:user_id').patch(UserConroller.UpdateUser);//will be Changed soon
 
 //Delete Routes for Users
 userRouter.route('/deleteUser/:user_id').delete(UserConroller.DeleteUser);

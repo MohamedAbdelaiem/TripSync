@@ -177,30 +177,31 @@ exports.createUser = async (req, res) => {
 };
 
 // i think we will not need to this function and better seperate it to every user type
+//we can't update password or email in this function
 
-exports.UpdateUser=async(req,res)=>{
-    try {
-        const { user_id, user_name, user_email, user_password } = req.body;
-        if (!user_id || !user_name || !user_email || !user_password) {
-            return res.status(400).json({
-                success: false,
-                error: 'Please provide all details',
-            });
-        }
-        await client.query('BEGIN'); // Start transaction
-        await client.query(
-            'UPDATE users SET username=$1, email=$2, password=$3 WHERE user_id=$4',
-            [user_name, user_email, user_password, user_id]
-        );
-        await client.query('COMMIT');
-        res.status(200).json({ success: true, message: 'User updated successfully' });
-    }
-    catch (err) {
-        await client.query('ROLLBACK');
-        console.error('Error updating user:', err);
-        res.status(500).send('Error in updating user');
-    }
-}
+// exports.UpdateUser=async(req,res)=>{
+//     try {
+//         const {user_name, user_email, user_password } = req.body;
+//         if (!user_id || !user_name || !user_email || !user_password) {
+//             return res.status(400).json({
+//                 success: false,
+//                 error: 'Please provide all details',
+//             });
+//         }
+//         await client.query('BEGIN'); // Start transaction
+//         await client.query(
+//             'UPDATE users SET username=$1, email=$2, password=$3 WHERE user_id=$4',
+//             [user_name, user_email, user_password, user_id]
+//         );
+//         await client.query('COMMIT');
+//         res.status(200).json({ success: true, message: 'User updated successfully' });
+//     }
+//     catch (err) {
+//         await client.query('ROLLBACK');
+//         console.error('Error updating user:', err);
+//         res.status(500).send('Error in updating user');
+//     }
+// }
 
 exports.DeleteUser=async(req,res)=>{
     try {
@@ -222,5 +223,56 @@ exports.DeleteUser=async(req,res)=>{
         res.status(500).send('Error in deleting user');
     }
 }
+
+exports.UpdateMe=async(req,res)=>{
+    try {
+        const {user_name, user_email, user_password } = req.body;
+        if(user_name)
+        {
+            await client.query('UPDATE users SET username=$1 WHERE user_id=$2',[user_name,req.user.user_id],(err,result)=>{
+                if(err)
+                {
+                    console.log(err);
+                    res.status(400).send('Error in updating data');
+                }
+                else{
+                    res.status(200).json(result.rows);
+                }
+            });
+        }
+        if(user_email)
+        {
+            await client.query('UPDATE users SET email=$1 WHERE user_id=$2',[user_email,req.user.user_id],(err,result)=>{
+                if(err)
+                {
+                    console.log(err);
+                    res.status(400).send('Error in updating data');
+                }
+                else{
+                    res.status(200).json(result.rows);
+                }
+            });
+        }
+
+        if(user_password)
+        {
+            await client.query('UPDATE users SET password=$1 WHERE user_id=$2',[user_password,req.user.user_id],(err,result)=>{
+                if(err)
+                {
+                    console.log(err);
+                    res.status(400).send('Error in updating data');
+                }
+                else{
+                    res.status(200).json(result.rows);
+                }
+            });
+        }
+    }
+    catch (err) {
+        console.error('Error updating user:', err);
+        res.status(500).send('Error in updating user');
+    }
+}
+        
 
 

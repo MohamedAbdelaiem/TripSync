@@ -1,10 +1,8 @@
-// import React from 'react'
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./Navbar.css";
+import React from "react";
 import planeImage from "../../assets/plane.png";
 import { NavLink } from "react-router-dom";
-
-const Navbar = () => {
+import profile from "../../assets/profile.png";
+function NavbarSignedIn() {
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -34,20 +32,12 @@ const Navbar = () => {
             <li className="nav-item active mx-2">Content</li>
           </ul>
         </div>
-        <div className="collapse navbar-collapse d-flex justify-content-end">
-          <NavLink to="Preregister">
-            <button className="register btn btn-primary mx-1">register</button>
-          </NavLink>
-          <NavLink to="Sign_in ">
-            {" "}
-            <button className="sign_in btn btn-outline-light mx-1">
-              sign in
-            </button>
-          </NavLink>
-        </div>
+        <NavLink to="profile">
+          <img src={profile} height={50} width={50} className="mx-3" />
+        </NavLink>
       </nav>
     </>
   );
-};
+}
 
-export default Navbar;
+export default NavbarSignedIn;

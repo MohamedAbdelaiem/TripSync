@@ -27,3 +27,12 @@
     font-size: 30px;
     color: aquamarine;
   }
+
+.NavbarSignedIn {
+  visibility:hidden;
+}
+
+.Navbar{
+  visibility:hidden;
+
+}

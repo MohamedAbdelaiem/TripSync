@@ -1,0 +1,26 @@
+.headertitle{
+    font-size: 26px;
+}
+
+.title{
+    margin: 40px;
+    font-size: 30px;
+}
+
+.register{
+    font-size: 20px;
+}
+
+.card{
+    /* align-items: center; */
+    
+}
+
+.card:hover{
+    background-color: aliceblue;
+}
+.register:hover{
+    transition-duration:;
+    transition-delay: 2ms;
+    scale: 1.1;
+}

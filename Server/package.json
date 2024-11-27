@@ -1,10 +1,18 @@
 {
+  "main": "app.js",
   "devDependencies": {
     "nodemon": "^3.1.7"
   },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "node": "^20.18.1",
     "pg": "^8.13.1"
   }
 }

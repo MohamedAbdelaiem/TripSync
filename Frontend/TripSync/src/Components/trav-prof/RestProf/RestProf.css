@@ -1,0 +1,99 @@
+/* Basic sidebar styling */
+.RestProf-container {
+  height: 100%;
+  width: 75%;
+
+
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  left: 25%;
+
+
+
+}
+
+h1.greeting-message {
+  text-align: center;
+  padding: 20px;
+  padding-bottom: 50px;
+  margin: 0px;
+}
+
+.user-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.stat-box {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  height: 150px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+  width: 320px;
+  height: 170px;
+}
+
+
+.stat-box h3 {
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+.stat-box p {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.stat-icon {
+  font-size: 40px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  opacity: 0.2;
+}
+
+.stat-icon i {
+  font-size: 60px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user-stats {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-box {
+    margin-bottom: 20px;
+    width: 80%;
+  }
+
+  .stat-box:hover {
+    margin-bottom: 20px;
+    width: 85%;
+    height: 170px;
+  }
+}
+
+
+
+
+
+

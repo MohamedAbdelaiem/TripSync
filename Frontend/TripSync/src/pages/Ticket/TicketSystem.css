@@ -1,0 +1,150 @@
+/* * {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #87CEEB, #4682B4);
+    font-family: 'Ubuntu', sans-serif;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #1c1c1c;
+  }
+  
+  .ticket-system {
+    max-width: 450px;
+    margin-top: 50px;
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .ticket-system .receipt {
+    padding: 30px;
+    text-align: left;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  .Thanks {
+    font-weight: 700;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .airliner-logo {
+    max-width: 80px;
+    margin-bottom: 15px;
+  }
+  
+  .route {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+  }
+  
+  .plane-icon {
+    width: 35px;
+    height: 35px;
+    transform: rotate(90deg);
+  }
+  
+  h2 {
+    font-weight: 300;
+    font-size: 2.4em;
+    margin: 0;
+    color: #3f32e5;
+  }
+  
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1em;
+  }
+  
+  .item span {
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 600;
+  }
+  
+  .item h3 {
+    margin-left: 10px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .download-btn {
+    margin-top: 25px;
+    padding: 12px 25px;
+    background-color: #00577a;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.2s ease-in-out;
+    -webkit-transition: background-color 0.2s ease-in-out;
+    -moz-transition: background-color 0.2s ease-in-out;
+    -ms-transition: background-color 0.2s ease-in-out;
+    -o-transition: background-color 0.2s ease-in-out;
+}
+  
+  .download-btn:hover {
+    background-color: #046b2f;
+    transform: scale(1.05);
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .ticket-system {
+      padding: 15px;
+    }
+  
+    .receipt {
+      padding: 20px;
+    }
+  
+    .route h2 {
+      font-size: 1.8em;
+    }
+  
+    .item span, .item h3 {
+      font-size: 0.9em;
+    }
+  
+    .download-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  }
+   */

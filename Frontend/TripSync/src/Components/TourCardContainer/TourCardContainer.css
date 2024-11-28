@@ -1,0 +1,9 @@
+.tour-card-container {
+    display: flex;
+    justify-content:space-around; 
+    flex-wrap:wrap;
+    align-items:center; 
+    gap: 5px;
+    margin-top: 150px;
+  }
+ 

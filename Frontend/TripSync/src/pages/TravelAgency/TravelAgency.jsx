@@ -3,7 +3,7 @@ import  { Component } from 'react'
 import AgencyNav from '../../Components/AgencyNav/AgencyNav';
 import AgencyFooter from '../../Components/AgencyFooter/AgencyFooter';
 import './TravelAgency.css'
-import TourCardContainer from '../../Components/TourCardContainer/TourCardContainer';
+import BestTours from '../../Components/BestTours/BestTours';
 import image from '../../assets/TravelAgency.jpg'
 export class TravelAgency extends Component {
     render() {
@@ -23,7 +23,7 @@ export class TravelAgency extends Component {
           <h1>BEST TOUR PACKAGES</h1>
          <div className="line"></div>
     </div>
-          <TourCardContainer />
+          <BestTours />
           <AgencyFooter></AgencyFooter>
           </div>
        

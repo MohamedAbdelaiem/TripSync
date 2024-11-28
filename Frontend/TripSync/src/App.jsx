@@ -6,7 +6,7 @@ import Register from "./pages/Register/Register";
 import Preregister from "./pages/Preregister/Preregister";
 import TicketSystem from "./pages/Ticket/Ticket";
 import TravelAgency from "./pages/TravelAgency/TravelAgency";
-
+import Tours from "./pages/Tours/Tours"
 export class App extends Component {
   render() {
     return (
@@ -20,6 +20,7 @@ export class App extends Component {
             <Route path="/Register" element={<Register />} />
             <Route path="/TravelAgency" element={<TravelAgency />} />
             <Route path="/TicketSystem" element={<TicketSystem />} />
+            <Route path="/Tours" element={<Tours/>} />
           </Routes>
         </main>
       </BrowserRouter>

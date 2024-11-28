@@ -1,0 +1,120 @@
+
+
+
+
+/* Styling for Ticket Component */
+.ticket {
+  width: 50%; /* Half of the screen width */
+  margin: 20px auto; /* Center horizontally */
+  background: linear-gradient(145deg, #e3f2fd, #bbdefb); /* Gradient background */
+  border-radius: 15px; /* Rounded edges */
+  overflow: hidden; /* To keep image inside the box */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  transition: transform 0.3s ease-in-out; /* Smooth scaling animation */
+}
+
+/* Hover Effect */
+.ticket:hover {
+  transform: scale(1.05); /* Enlarge on hover */
+}
+
+/* Image Styling */
+.ticket img {
+  width: 100%; /* Full width of the ticket */
+  height: 200px; /* Fixed height */
+  object-fit: cover; /* Crop image to fit */
+}
+
+/* Content Styling */
+.ticket-content {
+  padding: 15px; /* Inner spacing */
+  text-align: left; /* Align text to the left */
+}
+
+/* Title Styling */
+.ticket-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #007bff; /* Blue color for the trip name */
+}
+
+/* Paragraph Styling */
+.ticket-content p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #333; /* Dark text for better readability */
+}
+
+/* Highlighted Text (e.g., "Not Started") */
+.ticket-content .highlight {
+  font-weight: bold;
+  color: #d32f2f; /* Red for Status */
+}
+
+/* List of Tickets */
+.tickets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between tickets */
+  align-items: center;
+}
+
+.download-button {
+  display: inline-block;
+  padding: 12px 25px;
+  background: linear-gradient(90deg, #ff5722, #ff9800); /* Gradient color (orange) */
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.download-button:hover {
+  background: linear-gradient(90deg, #ff9800, #ff5722); /* Reverse gradient on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  transform: scale(1.05); /* Slightly enlarge */
+}
+
+
+/* Add Icon (Optional) */
+.download-button::before {
+  content: '⬇️'; /* Icon */
+  margin-right: 8px; /* Space between icon and text */
+}
+
+
+/* Entry Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply Animation */
+
+
+
+.empty-tickets {
+  display: flex; /* لجعل العنصر يعمل كـ Flexbox */
+  justify-content: center; /* يجعل المحتوى في المنتصف أفقيًا */
+  align-items: center; /* يجعل المحتوى في المنتصف رأسيًا */
+  height: 100vh; /* يشغل كامل ارتفاع الشاشة */
+  font-size: 24px; /* حجم الخط */
+  color: #555; /* لون النص */
+  font-family: 'Arial', sans-serif; /* نوع الخط */
+  background-color: #f9f9f9; /* لون الخلفية */
+  border: 2px dashed #3498db; /* إطار متقطع حول النص */
+  border-radius: 8px; /* زوايا مستديرة للإطار */
+  text-align: center; /* محاذاة النص في المنتصف */
+}

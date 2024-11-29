@@ -5,6 +5,7 @@ import AgencyFooter from '../../Components/AgencyFooter/AgencyFooter';
 import './TravelAgency.css'
 import BestTours from '../../Components/BestTours/BestTours';
 import image from '../../assets/TravelAgency.jpg'
+
 export class TravelAgency extends Component {
     render() {
       return (

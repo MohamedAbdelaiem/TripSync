@@ -1,0 +1,148 @@
+/* Reset Styles */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    height: 100%;
+  }
+  .titleReview{
+    margin-top: 200px;
+    margin-bottom: 30px;
+  }
+  .cardReview{
+    /* border: #ffd700; */
+    /* border-style: outset; */
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    margin: 100px;
+    width: 600px;
+    height: 200px;
+    /* background-color: lightblue; */
+
+  }
+  .card-title{
+    display: block;
+  }
+  /* Star Progress Container */
+  .star-progress {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Star Style */
+.star {
+    font-size: 40px;
+    color: #ddd; /* Empty star color */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.star.filled {
+    color: #ffd700; /* Filled star color */
+}
+
+.star:hover ~ .star {
+    color: #ddd; /* Reset stars to the right of the hovered star */
+}
+.rateNum{
+    
+}
+.input-review{
+    height: 70px;
+}
+.stars{
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+.progress{
+    margin-top: -10px;
+    margin-left: 20px;
+    height: 100px;padding-left: 210px;background-color: #fff;margin-bottom: -50px;
+}
+.nvbar{
+    /* top: 0; */
+    margin-left: -350px;
+    /* position: fixed; */
+}
+
+/* Styling for the overall review container */
+.ReviewContent {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Styling the textarea for a clean and modern look */
+  .input-review {
+    width: 100%;
+    max-width: 500px; /* Maximum width of the textarea */
+    height: 150px; /* Height of the textarea */
+    padding: 10px;
+    font-size: 16px; /* Font size for the text */
+    border: 2px solid #ccc; /* Light border color */
+    border-radius: 8px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in element's total width/height */
+    resize: vertical; /* Allow resizing vertically */
+    transition: all 0.3s ease; /* Smooth transition for focus and hover effects */
+    background-color: #f9f9f9; /* Light background color */
+    color: #333; /* Text color */
+    outline: none; /* Remove outline on focus */
+  }
+  
+  /* Focus effect */
+  .input-review:focus {
+    border-color: #4CAF50; /* Green border on focus */
+    background-color: #fff; /* White background on focus */
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.3); /* Light green shadow */
+  }
+  
+  /* Hover effect */
+  .input-review:hover {
+    border-color: #aaa; /* Darker border on hover */
+  }
+  
+  /* Placeholder styling */
+  .input-review::placeholder {
+    color: #888; /* Lighter color for placeholder text */
+    font-style: italic; /* Italicize the placeholder */
+  }
+  /* Styling the submit button */
+.sendBtn {
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text color */
+    padding: 12px 24px; /* Vertical and horizontal padding */
+    font-size: 16px; /* Font size for the text */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Show a pointer cursor when hovering */
+    transition: all 0.3s ease; /* Smooth transition effect */
+    margin-top: 20px; /* Space above the button */
+    width: 100%; /* Make button take the full width of its container */
+    max-width: 250px; /* Maximum width */
+    text-align: center; /* Center-align the text */
+  }
+  
+  /* Hover effect */
+  .sendBtn:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+    transform: translateY(-2px); /* Lift the button slightly on hover */
+  }
+  
+  /* Active state (when the button is clicked) */
+  .sendBtn:active {
+    background-color: #388e3c; /* Even darker green when the button is clicked */
+    transform: translateY(0); /* Reset the lift effect */
+  }
+  
+  /* Focus state for accessibility */
+  .sendBtn:focus {
+    outline: none; /* Remove the default focus outline */
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3); /* Green shadow for focus */
+  }
+  

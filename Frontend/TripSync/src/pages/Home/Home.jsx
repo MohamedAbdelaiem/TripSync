@@ -9,9 +9,8 @@ export class Home extends Component {
   render() {
     return (
       <>
-        {/* < className="navbar"><Navbar/></> */}
-        
-        <NavbarSignedIn className="NavbarSignedIn"/>
+        <Navbar></Navbar>
+        {/* <NavbarSignedIn className="NavbarSignedIn"/> */}
         <img src={image1} className="image-container mx-auto d-block m-3" width={1400} height={600} />
         <div className="text-overlay">Enjoy Your Dream Vacation</div>
         <div className="text-overlay-sub">Embark on your next adventure with ease—discover the world most breathtaking destinations and exclusive travel experiences, tailored just for you! </div>

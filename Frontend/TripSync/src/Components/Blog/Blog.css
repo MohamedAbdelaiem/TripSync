@@ -1,0 +1,49 @@
+.flexContainer{
+    /* display: flexbox; */
+     min-height: 600px;
+    width: 300px;
+    /* justify-items: center;
+    justify-content: center;
+    align-items: center; */
+    margin: 50px;
+   /* max-width: 100px; */
+}
+
+.cardbody {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #e0e0e0; /* Light border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06); /* Soft shadow */
+    padding: 20px; /* Spacing inside the card */
+    margin: 15px; /* Space between cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .cardbody:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1); /* Deeper shadow on hover */
+  }
+  
+.newBlog{
+  display: flexbox;
+  width: 300px;
+justify-items: center;
+  background-color: #ffffff; /* White background */
+    border: 1px solid #e0e0e0; /* Light border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06); /* Soft shadow */
+    padding: 20px; /* Spacing inside the card */
+    margin: 15px; /* Space between cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+.cardtitle{
+  display: inline;
+}
+.blogerphoto{
+  margin-left: -20px;
+  margin-top: -10px;
+}
+.date{
+  margin-left: 20px;
+  font-size: 13.5px;
+}

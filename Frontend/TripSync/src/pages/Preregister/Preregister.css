@@ -20,7 +20,7 @@
     background-color: aliceblue;
 }
 .register:hover{
-    transition-duration:;
+    /* transition-duration:; */
     transition-delay: 2ms;
     scale: 1.1;
 }

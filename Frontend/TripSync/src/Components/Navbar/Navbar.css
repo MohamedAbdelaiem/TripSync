@@ -1,14 +1,13 @@
-.sign_in{
+.sign_inHome{
     color: rgb(3, 9, 14);
     border-radius: 6px;
     border-color: #2F80ED ;
 }
-.sign_in:hover{
+.sign_inHome:hover{
     background-color: #1a61be;
     color: aliceblue;
 }
 /* .register{
     border-color: #2F80ED;
     color: #2F80ED;
-
 } */

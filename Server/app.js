@@ -6,6 +6,8 @@ const xss=require('xss-clean');
 
 //Intialize Routers
 const UserRouter=require('./Routes/userRouter');
+const PoliciesRouter=require('./Routes/policesRouter');
+const rewardsRouter=require('./Routes/RewardsRouter');
 
 
 const app=express();
@@ -25,6 +27,9 @@ app.use(express.urlencoded({extended:true}));//for form data
 
 //Mount Routers
 app.use('/api/v1/users',UserRouter);
+app.use('/api/v1/policies',PoliciesRouter);
+app.use('/api/v1/rewards',rewardsRouter);
+
 
 
 //Error Handler

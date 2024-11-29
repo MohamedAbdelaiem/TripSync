@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Component } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Home from "./pages/Home/Home";
@@ -12,8 +12,8 @@ import RewardsList from "./pages/RewardsList/RewardsList";
 
 
 
-import Preregister from "./pages/Preregister/Preregister";
-import TicketSystem from "./pages/Ticket/Ticket";
+// import Preregister from "./pages/Preregister/Preregister";
+// import TicketSystem from "./pages/Ticket/Ticket";
 import TravelAgency from "./pages/TravelAgency/TravelAgency";
 import Tours from "./pages/Tours/Tours"
 
@@ -34,7 +34,7 @@ export class App extends Component {
             <Route path="/Rewards/:id" element={<RewardsList/>} />
 
             <Route path="/TravelAgency" element={<TravelAgency />} />
-            <Route path="/TicketSystem" element={<TicketSystem />} />
+            {/* <Route path="/TicketSystem" element={<TicketSystem />} /> */}
             <Route path="/Tours" element={<Tours/>} />
 
           </Routes>

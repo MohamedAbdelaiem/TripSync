@@ -27,8 +27,10 @@ app.use(express.urlencoded({extended:true}));//for form data
 app.use('/api/v1/users',UserRouter);
 
 
-//Connect to the database
-
+//Error Handler
+app.use((req,res,next)=>{
+    res.status(404).send('Page Not Found');
+});
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);

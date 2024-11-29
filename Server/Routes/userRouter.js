@@ -1,33 +1,40 @@
-const express=require('express');
-const UserConroller=require('../Controllers/UserConroller');
+const express = require('express');
+const UserConroller = require('../Controllers/UserConroller');
+const AuthConroller = require('../Controllers/AuthorizationController');
+const userRouter = express.Router();
 
-const userRouter=express.Router();
-//api/v1/users
+// Authentication Routes
+userRouter.route('/SignUp').post(AuthConroller.signup);
+userRouter.route('/Login').post(AuthConroller.LogIn);
+userRouter.route('/Logout').post(AuthConroller.LogOut); // Changed to POST
+userRouter.route('/ForgotPassword').post(AuthConroller.forgotPassword);
+userRouter.route('/ResetPassword/:resetToken').patch(AuthConroller.resetPassword);
 
-//Get Routes for Users
+// Admin-protected routes
 
-userRouter.route('/getAllUsers').get(UserConroller.getAllUsers);
+userRouter
+  .route('/getAllUsers')
+  .get(AuthConroller.protect,AuthConroller.restrictTo("admin"), UserConroller.getAllUsers);
 
-userRouter.route('/getAllTravelAgencies').get(UserConroller.getAllTravelAgencies);
+userRouter
+  .route('/getAllAdmins')
+  .get(AuthConroller.protect,AuthConroller.restrictTo("admin"), UserConroller.getAllAdmins);
 
-userRouter.route('/getAllTravelers').get(UserConroller.getAllTravelers);
+userRouter
+  .route('/createUser')
+  .post(AuthConroller.protect,AuthConroller.restrictTo("admin"), UserConroller.createUser);
 
-userRouter.route('/getAllAdmins').get(UserConroller.getAllAdmins);
+userRouter
+  .route('/deleteUser')
+  .delete(AuthConroller.protect,AuthConroller.restrictTo("admin"), UserConroller.DeleteUser);
 
-userRouter.route('/:user_id').get(UserConroller.getUser);
+// General routes
+userRouter.route('/myProfile').get(AuthConroller.protect,UserConroller.getMe,UserConroller.getUser);
+userRouter.route('/getAllTravelAgencies').get(AuthConroller.protect,UserConroller.getAllTravelAgencies);
+userRouter.route('/getAllTravelers').get(AuthConroller.protect,UserConroller.getAllTravelers);
+userRouter.route('/:user_id').get(AuthConroller.protect,UserConroller.getUser);
+userRouter.route('/DeleteME').delete(AuthConroller.protect,UserConroller.getMe,UserConroller.DeleteMe);
+userRouter.route('/updateMe').patch(AuthConroller.protect,UserConroller.getMe,UserConroller.UpdateMe);
 
-//Post Routes for Users
-userRouter.route('/createUser').post(UserConroller.createUser);
-
-//PATCH Routes for Users
-// userRouter.route('/updateUser/:user_id').patch(UserConroller.UpdateUser);//will be Changed soon
-
-//Delete Routes for Users
-userRouter.route('/deleteUser/:user_id').delete(UserConroller.DeleteUser);
-
-
-
-
-
-
-module.exports=userRouter;
+// Export the router
+module.exports = userRouter;

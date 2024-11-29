@@ -4,7 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Home from "./pages/Home/Home";
 import Sign_in from "./pages/Sign_in/Sign_in";
 import Register from "./pages/Register/Register";
-
+import OurStory from "./pages/OurStory/OurStory";
 import TravellerProf from "./pages/Traveller_Prof/TravellerProf";
 import TicketsList from "./pages/TicketList/TicketList";
 import RewardsList from "./pages/RewardsList/RewardsList";
@@ -36,7 +36,7 @@ export class App extends Component {
             <Route path="/TravelAgency" element={<TravelAgency />} />
             {/* <Route path="/TicketSystem" element={<TicketSystem />} /> */}
             <Route path="/Tours" element={<Tours/>} />
-
+            <Route path="/Story" element={<OurStory/>} />
           </Routes>
         </main>
       </BrowserRouter>

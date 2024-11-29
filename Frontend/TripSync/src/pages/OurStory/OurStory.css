@@ -1,0 +1,35 @@
+.about-us {
+    text-align: center;
+    margin: 50px auto;
+    max-width: 800px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin-top: 130px;
+  }
+  
+  .about-us h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
+  
+  
+  .description {
+    font-size: 1.1em;
+    line-height: 1.6;
+  }
+  .flex{
+    display: flex;
+    flex-direction: column;
+}  
+.header-underline {
+    width: 100px;
+    height: 3px;
+    background-color:blue; /* Choose a color for the underline */
+    margin: 10px auto;
+ }
+ .header-title {
+    font-size: 2.5em;
+    color: #000;
+    margin: 0;
+  }

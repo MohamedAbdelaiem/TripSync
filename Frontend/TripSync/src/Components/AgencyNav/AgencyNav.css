@@ -52,6 +52,7 @@ nav {
   .nav-links .active {
     background-color:blue; 
     font-weight: bold;
+    color: black !important;
     
   }
   /* .nav-links a:last-child {

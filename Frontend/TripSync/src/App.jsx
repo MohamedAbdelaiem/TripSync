@@ -14,6 +14,7 @@ import TravelAgency from "./pages/TravelAgency/TravelAgency";
 import Tours from "./pages/Tours/Tours";
 import Blogs from "./pages/Blogs/Blogs";
 import Review from "./pages/Review/Review";
+import QACards from "./pages/QACards/QACards"; 
 export class App extends Component {
   render() {
     return (
@@ -36,6 +37,7 @@ export class App extends Component {
             <Route path="/Blog" element={<Blogs />} />
             <Route path="/Tours" element={<Tours/>} />
             <Route path="/Story" element={<OurStory/>} />
+            <Route path="/Q&A" element={<QACards/>} />
           </Routes>
         </main>
       </BrowserRouter>

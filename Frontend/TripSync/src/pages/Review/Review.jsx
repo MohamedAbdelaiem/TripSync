@@ -1,5 +1,6 @@
 import React from "react";
 import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedInner";
+import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 import "./Review.css";
 import { useState } from "react";
 import StarProgress from "../../Components/StarProgress/StarProgress";

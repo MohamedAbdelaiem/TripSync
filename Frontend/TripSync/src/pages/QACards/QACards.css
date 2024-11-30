@@ -1,14 +1,11 @@
-.flex{
+.flexx{
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
 }  
 .qa-cards-container {
   
-    margin-top: 100px;
-    /* margin: 20px; */
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin: 20px;
+  
     padding: 20px;
     background-color: #f9f9f9;
     border: 2px solid blue; 

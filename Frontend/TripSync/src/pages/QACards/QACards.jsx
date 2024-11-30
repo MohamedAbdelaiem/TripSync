@@ -1,6 +1,6 @@
 
 import "./QACards.css"; 
-import AgencyNav from "../../Components/AgencyNav/AgencyNav";
+import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 const QACards = () => {
   const qaData = [
     {
@@ -36,8 +36,8 @@ const QACards = () => {
 
   return (
     <>
-    <div className="flex">
-    <AgencyNav></AgencyNav>
+   <div className="flexx">
+   <SideNavBar></SideNavBar>
     <div className="qa-cards-container">
       <h2 className="qa-cards-title">Questions & Answers</h2>
       <div className="qa-cards">

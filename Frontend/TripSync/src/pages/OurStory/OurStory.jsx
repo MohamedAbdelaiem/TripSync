@@ -1,8 +1,6 @@
 
 import './OurStory.css'
-
-import AgencyNav from '../../Components/AgencyNav/AgencyNav';
-import AgencyFooter from '../../Components/AgencyFooter/AgencyFooter';
+import  SidNavBar from '../../Components/SideNavBar/SideNavBar';
 import  { useState, useEffect } from "react";
 
 const OurStory = () => {
@@ -37,13 +35,13 @@ const OurStory = () => {
   return (
     <>
     <div className='flex'>
-    <AgencyNav></AgencyNav>
+    <SidNavBar></SidNavBar>
     <div className="about-us">
       <h1 className="header-title">{Name}</h1>
       <div className="header-underline"></div>
       <div className="description">{description}</div>
     </div>
-    <AgencyFooter></AgencyFooter>
+    
     </div>
  
     </>

@@ -45,7 +45,7 @@
   }
   
   .price-row button {
-    background-color: #888;
+    background-color:blue;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -56,7 +56,7 @@
   }
   .price-row button:hover
   {
-    background-color:blue;
+    background-color:rgb(21, 21, 156);
   }
 
 .original-price {
@@ -84,7 +84,7 @@
   background-color: blue; /* Adjust color as needed */
   color: #fff;
   padding: 5px 10px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 .sale-image {
   position: relative;

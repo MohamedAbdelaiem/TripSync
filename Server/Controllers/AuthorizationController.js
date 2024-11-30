@@ -80,7 +80,7 @@ exports.signup = async (req, res) => {
             {
                 await client.query('INSERT INTO traveller(traveller_id) VALUES($1) RETURNING *',[newUser.rows[0].user_id]);
             }
-        else if(req.body.role==='travelagency')
+        else if(req.body.role==='travel_agency')
         {
             try{
             const { phoneNumber, location, address, email, description, country } = req.body;
@@ -93,7 +93,7 @@ exports.signup = async (req, res) => {
                     });
                 }
             await client.query(
-                'INSERT INTO travelagency(travelagency_id, phone_number, location, address, email,description, country) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',[newUser.rows[0].user_id,phoneNumber,location,address,email,description,country]);
+                'INSERT INTO travelagency(travelagency_id, phonenumber, location, address, email,description, country) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',[newUser.rows[0].user_id,phoneNumber,location,address,email,description,country]);
             }
         catch(err)
         {

@@ -3,6 +3,21 @@ const client=require('../db');
 const { console } = require('inspector/promises');
 const bcrypt=require('bcrypt');
 
+function checkRole(user_id)
+{
+    client.query('SELECT role FROM users WHERE user_id=$1',[user_id],(err,result)=>
+    {
+        if(err)
+        {
+            console.log(err);
+            return null;
+        }
+        else{
+            return result.rows[0].role;
+        }
+    });
+}
+
 exports.getAllUsers=async(req,res)=>{
     try{
         client.query('SELECT user_id,email,profilephoto,profilename,role,username FROM users',(err,result)=>
@@ -92,6 +107,7 @@ exports.getAllAdmins=async(req,res)=>{
 exports.getUser=async(req,res)=>{
     try{
         const user_id=req.params.user_id;
+        const userofrequest=req.user.role;
         if(!user_id)
         {
             return res.status(400).json({
@@ -99,7 +115,8 @@ exports.getUser=async(req,res)=>{
                 error:'Please provide Valid user_id'
             })
         }
-        
+
+
         client.query('SELECT email,ProfilePhoto,profilename,role,username FROM users WHERE user_id=$1',[user_id],(err,result)=>
         {
             if(err)
@@ -155,10 +172,19 @@ exports.getUser=async(req,res)=>{
                     });
                 }
                 else{
+                    if(userofrequest==='admin')
+                    {
                     return res.status(200).json({
                         success:true,
                         data:result.rows,
                     });
+                }
+                else{
+                    return res.status(401).json({
+                        success:false,
+                        error:'You are not authorized to view this data'
+                    });
+                }
                 }
                 
             }

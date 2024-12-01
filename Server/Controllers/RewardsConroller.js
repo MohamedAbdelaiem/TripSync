@@ -1,4 +1,4 @@
-const { console } = require('inspector');
+
 const client = require('../db');
 
 exports.getAllRewards = async (req, res) => {
@@ -27,6 +27,7 @@ exports.getRewardById = async (req, res) => {
                 message: 'There is no reward with this id'
             });
         }
+
         if(req.user.role === 'traveller'){
             delete reward.rows[0].admin_id;
             return res.status(200).json(reward.rows);
@@ -41,6 +42,7 @@ exports.getRewardById = async (req, res) => {
 
 exports.addReward = async (req, res) => {
     try {
+
         const {reward_description, reward_points } = req.body;
         if (!reward_description && !reward_points) 
         {
@@ -92,6 +94,7 @@ exports.updateReward = async (req, res) => {
         const {reward_description, reward_points,reward_photo,reward_type } = req.body;
         const reward_id = req.params.reward_id;
         if (!reward_description && !reward_points&& !reward_photo&& !reward_type) {
+
             return res.status(400).json({
                 status: 'failed',
                 message: 'Please provide any data to update'
@@ -110,6 +113,7 @@ exports.updateReward = async (req, res) => {
                 message: 'Reward not found'
             });
         }
+
         if(reward_description){
             await client.query('UPDATE rewards SET Description=$1 WHERE reward_id=$2', [reward_description, reward_id]);
         }
@@ -122,6 +126,7 @@ exports.updateReward = async (req, res) => {
         if(reward_type){
             await client.query('UPDATE rewards SET Type=$1 WHERE reward_id=$2', [reward_type, reward_id]);
         }
+
 
         const newReward = await client.query('SELECT * FROM rewards WHERE reward_id=$1', [reward_id]);
 
@@ -142,6 +147,7 @@ exports.RedeemReward = async (req, res) => {
     try {
         const user_id = req.user.user_id;
         const reward_id = req.params.reward_id;
+
         if(!reward_id){
             return res.status(400).json({
                 status: 'failed',
@@ -162,8 +168,6 @@ exports.RedeemReward = async (req, res) => {
                 message: 'User id should be a number'
             });
         }
-
-
         const reward = await client.query('SELECT * FROM rewards WHERE reward_id=$1', [reward_id]);
         if(reward.rows.length === 0){
             return res.status(400).json({
@@ -176,12 +180,14 @@ exports.RedeemReward = async (req, res) => {
         const user = await client.query('SELECT * FROM traveller WHERE traveller_id=$1', [user_id]);
         //checking if user exists
         if(user.rows.length == 0){
+
             return res.status(400).json({
                 status: 'failed',
                 message: 'User not found'
             });
         }
         const user_points = user.rows[0].points;
+
         if(user_points < reward_points){
             return res.status(400).json({
                 status: 'failed',
@@ -189,9 +195,11 @@ exports.RedeemReward = async (req, res) => {
             });
         }
 
+
         const new_user_points = Number (user_points - reward_points);
         await client.query('UPDATE Traveller SET Points=$1 WHERE TRAVELLER_ID=$2', [new_user_points, user_id]);
         await client.query('INSERT INTO GetReward(TRAVELLER_ID,REWARD_ID) VALUES($1,$2)', [user_id, reward_id]);
+
 
         res.status(200).json({
             status: 'success',

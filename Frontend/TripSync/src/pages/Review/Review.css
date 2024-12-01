@@ -66,8 +66,9 @@
 }
 .nvbar{
     /* top: 0; */
-    margin-left: -350px;
+    /* margin-left: -350px; */
     /* position: fixed; */
+    display: flex;
 }
 
 /* Styling for the overall review container */

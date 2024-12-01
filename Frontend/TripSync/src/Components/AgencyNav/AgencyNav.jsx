@@ -40,10 +40,10 @@ const AgencyNav = () => {
             Tours
           </NavLink>
           <NavLink
-            to="/blog"
+            to="/Q&A"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            Blog
+            Q&A
           </NavLink>
           <NavLink
             to="/Review"

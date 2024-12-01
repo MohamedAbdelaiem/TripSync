@@ -14,8 +14,23 @@ import TravelAgency from "./pages/TravelAgency/TravelAgency";
 import Tours from "./pages/Tours/Tours";
 import Blogs from "./pages/Blogs/Blogs";
 import Review from "./pages/Review/Review";
+import QACards from "./pages/QACards/QACards"; 
+import TravelAgencyProfile from "./pages/TravelAgencyProfile/TravelAgencyProfile";
 export class App extends Component {
   render() {
+    const agency = {
+      TravelAgencyID: "001",
+      Username: "holiday_travel",
+      ProfilePicture: "https://via.placeholder.com/150",
+      ProfileName: "Holiday Travel Agency",
+      Address: "123 Nile Avenue, Cairo",
+      Location: "Cairo, Egypt",
+      Rate: "4.8/5",
+      Description: "A leading travel agency specializing in premium travel services.",
+      Mail: "contact@holidaytravel.com",
+      Phone: "+20 123 456 7890",
+      Country: "Egypt",
+    };
     return (
       <BrowserRouter>
         <main>
@@ -36,6 +51,8 @@ export class App extends Component {
             <Route path="/Blog" element={<Blogs />} />
             <Route path="/Tours" element={<Tours/>} />
             <Route path="/Story" element={<OurStory/>} />
+            <Route path="/Q&A" element={<QACards/>} />
+            <Route path="/TravelAgencyProfile" element={<TravelAgencyProfile agency={agency}/>} />
           </Routes>
         </main>
       </BrowserRouter>

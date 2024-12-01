@@ -1,6 +1,5 @@
 import  { Component } from 'react'
-import AgencyNav from '../../Components/AgencyNav/AgencyNav'
-import AgencyFooter from '../../Components/AgencyFooter/AgencyFooter';
+import SideNavBar from '../../Components/SideNavBar/SideNavBar';
 import TourCardContainer from '../../Components/TourCardContainer/TourCardContainer';
 import './Tours.css'
 export class Tours extends Component {
@@ -9,9 +8,8 @@ export class Tours extends Component {
         <>
           {/* < className="navbar"><Navbar/></> */}
           <div className='flex'>
-          <AgencyNav></AgencyNav>
+         <SideNavBar></SideNavBar>
          <TourCardContainer></TourCardContainer>
-         <AgencyFooter></AgencyFooter>
           </div>
       
         </>

@@ -1,13 +1,12 @@
 const express = require('express');
 const UserConroller = require('../Controllers/UserConroller');
 const AuthConroller = require('../Controllers/AuthorizationController');
+
 const rewardController = require('../Controllers/RewardsConroller');
 
 //Routes
 const QARouter=require('./QARouter');
 const userRouter = express.Router();
-
-
 
 // Authentication Routes
 userRouter.route('/SignUp').post(AuthConroller.signup);
@@ -45,7 +44,6 @@ userRouter.route('/updateMe').patch(AuthConroller.protect,UserConroller.getMe,Us
 
 //Other routers to use apart from the userRouter
 userRouter.route('/myProfile/rewards').get(AuthConroller.protect,AuthConroller.restrictTo('traveller'),rewardController.getmyRewards);
-
 
 //Other routers dependent
 userRouter.use('/myProfile/QA',QARouter);

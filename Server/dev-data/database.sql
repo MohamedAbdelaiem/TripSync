@@ -85,12 +85,13 @@ CREATE TABLE QA
 
 CREATE TABLE Rewards
 (
-    REWARD_ID SERIAL PRIMARY KEY ,
-    ADMIN_ID INT,
-    PHOTO VARCHAR(200) NOT NULL,
-    Description VARCHAR(400) NOT NULL,
-    PointsNeeded INT NOT NULL,
-    Foreign Key (ADMIN_ID) REFERENCES Admins(ADMIN_ID) ON DELETE SET NULL 
+    REWARD_ID SERIAL PRIMARY KEY,               -- Unique identifier for the reward
+    ADMIN_ID INT,                               -- Foreign key to Admins table
+    PHOTO VARCHAR(200) NOT NULL,               -- Photo of the reward
+    Description VARCHAR(400) NOT NULL,         -- Description of the reward
+    PointsNeeded INT NOT NULL,                 -- Points needed to redeem the reward
+    Type VARCHAR(100) NOT NULL CHECK (Type IN ('general', 'promotion', 'free trip')), -- Type of the reward
+    FOREIGN KEY (ADMIN_ID) REFERENCES Admins(ADMIN_ID) ON DELETE SET NULL -- Set admin to NULL if deleted
 );
 
 CREATE TABLE Policies
@@ -132,8 +133,8 @@ CREATE TABLE GetReward
     REWARD_ID INT,
     TRAVELLER_ID INT,
     PRIMARY KEY (REWARD_ID, TRAVELLER_ID),
-    FOREIGN KEY (REWARD_ID) REFERENCES Rewards(REWARD_ID) ON DELETE SET NULL,
-    FOREIGN KEY (TRAVELLER_ID) REFERENCES Traveller(TRAVELLER_ID) ON DELETE SET NULL
+    FOREIGN KEY (REWARD_ID) REFERENCES Rewards(REWARD_ID) ON DELETE CASCADE,
+    FOREIGN KEY (TRAVELLER_ID) REFERENCES Traveller(TRAVELLER_ID) ON DELETE CASCADE
 );
 
 CREATE TABLE Promote

@@ -14,4 +14,5 @@ rewardsRouter.route('/RedeemReward/:reward_id').post(AuthController.protect,Auth
 
 
 
+
 module.exports = rewardsRouter;

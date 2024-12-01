@@ -338,6 +338,7 @@ exports.UpdateMe = async (req, res) => {
         
         if (newPassword) {
             if (!previousPassword) {
+                await client.query('ROLLBACK');  // Rollback transaction on error
                 return res.json({ success: false, message: "Please provide previous password" });
             }
             
@@ -345,6 +346,7 @@ exports.UpdateMe = async (req, res) => {
             const isMatch = await bcrypt.compare(previousPassword, user.rows[0].password);
             
             if (!isMatch) {
+                await client.query('ROLLBACK');  // Rollback transaction on error
                 return res.json({ success: false, message: "Incorrect password" });
             }
             
@@ -358,15 +360,37 @@ exports.UpdateMe = async (req, res) => {
 
         if(req.user.role!=='admin')
         {
-        
-        if (profilephoto) {
-            await client.query('UPDATE users SET profilephoto=$1 WHERE user_id=$2', [profilephoto, req.params.user_id]);
+            if (profilephoto) {
+                await client.query('UPDATE users SET profilephoto=$1 WHERE user_id=$2', [profilephoto, req.params.user_id]);
+            }
+
+            if (profilename) {
+                await client.query('UPDATE users SET profilename=$1 WHERE user_id=$2', [profilename, req.params.user_id]);
+            }
         }
 
-        if (profilename) {
-            await client.query('UPDATE users SET profilename=$1 WHERE user_id=$2', [profilename, req.params.user_id]);
+        if(req.user.role==='travel_agency')
+        {
+            const { phoneNumber, location, address, email, description, country } = req.body;
+            if (phoneNumber) {
+                await client.query('UPDATE travelagency SET phonenumber=$1 WHERE travelagency_id=$2', [phoneNumber, req.params.user_id]);
+            }
+            if (location) {
+                await client.query('UPDATE travelagency SET location=$1 WHERE travelagency_id=$2', [location, req.params.user_id]);
+            }
+            if (address) {
+                await client.query('UPDATE travelagency SET address=$1 WHERE travelagency_id=$2', [address, req.params.user_id]);
+            }
+            if (email) {
+                await client.query('UPDATE travelagency SET email=$1 WHERE travelagency_id=$2', [email, req.params.user_id]);
+            }
+            if (description) {
+                await client.query('UPDATE travelagency SET description=$1 WHERE travelagency_id=$2', [description, req.params.user_id]);
+            }
+            if (country) {
+                await client.query('UPDATE travelagency SET country=$1 WHERE travelagency_id=$2', [country, req.params.user_id]);
+            }
         }
-    }
         await client.query('COMMIT');  // Commit transaction
         res.json({ success: true, message: "User updated successfully" });
     } catch (err) {

@@ -80,6 +80,7 @@ exports.signup = async (req, res) => {
             await client.query('INSERT INTO traveller(traveller_id) VALUES($1)', [newUser.rows[0].user_id]);
         } else if (role === 'travel_agency') {
             if (!phoneNumber || !location || !address || !description || !country) {
+                await client.query('ROLLBACK');  // Rollback transaction
                 return res.status(400).json({
                     status: 'fail',
                     message: 'Please provide all travel agency details',

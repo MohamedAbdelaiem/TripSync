@@ -109,6 +109,7 @@ exports.updateReward = async (req, res) => {
         }
         const reward = await client.query('SELECT * FROM rewards WHERE reward_id=$1', [reward_id]);
         if(reward.rows.length === 0){
+            await client.query('ROLLBACK');
             return res.status(400).json({
                 status: 'failed',
                 message: 'Reward not found'

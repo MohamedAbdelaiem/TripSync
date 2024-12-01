@@ -80,6 +80,7 @@ exports.updatePolicy=async(req,res)=>{
         if(policy_title){
             const policy=await client.query('UPDATE policies SET Title=$1 WHERE policy_id=$2 RETURNING *',[policy_title,policy_id]);
             if(policy.rowCount==0){
+                await client.query('ROLLBACK');
                 return res.status(404).json({
                     status:'failed',
                     message:'Policy not found'
@@ -89,6 +90,7 @@ exports.updatePolicy=async(req,res)=>{
         if(description){
             const policy=await client.query('UPDATE policies SET description=$1 WHERE policy_id=$2 RETURNING *',[description,policy_id]);
             if(policy.rowCount==0){
+                await client.query('ROLLBACK');
                 return res.status(404).json({
                     status:'failed',
                     message:'Policy not found'

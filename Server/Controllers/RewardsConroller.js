@@ -91,6 +91,7 @@ exports.deleteReward = async (req, res) => {
 
 exports.updateReward = async (req, res) => {
     try {
+        await client.query('BEGIN');
         const {reward_description, reward_points,reward_photo,reward_type } = req.body;
         const reward_id = req.params.reward_id;
         if (!reward_description && !reward_points&& !reward_photo&& !reward_type) {
@@ -108,6 +109,7 @@ exports.updateReward = async (req, res) => {
         }
         const reward = await client.query('SELECT * FROM rewards WHERE reward_id=$1', [reward_id]);
         if(reward.rows.length === 0){
+            await client.query('ROLLBACK');
             return res.status(400).json({
                 status: 'failed',
                 message: 'Reward not found'
@@ -129,6 +131,7 @@ exports.updateReward = async (req, res) => {
 
 
         const newReward = await client.query('SELECT * FROM rewards WHERE reward_id=$1', [reward_id]);
+        await client.query('COMMIT');
 
         res.status(200).json({
             status: 'success',
@@ -138,6 +141,7 @@ exports.updateReward = async (req, res) => {
 
     }
     catch (e) {
+        await client.query('ROLLBACK');
         res.status(400).send('Error in updating data');
         console.log(e);
     }
@@ -197,8 +201,10 @@ exports.RedeemReward = async (req, res) => {
 
 
         const new_user_points = Number (user_points - reward_points);
+        await client.query('BEGIN');
         await client.query('UPDATE Traveller SET Points=$1 WHERE TRAVELLER_ID=$2', [new_user_points, user_id]);
         await client.query('INSERT INTO GetReward(TRAVELLER_ID,REWARD_ID) VALUES($1,$2)', [user_id, reward_id]);
+        await client.query('COMMIT');
 
 
         res.status(200).json({
@@ -207,6 +213,7 @@ exports.RedeemReward = async (req, res) => {
         });
     }
     catch (e) {
+        await client.query('ROLLBACK');
         console.log(e);
 
         // const user = await client.query('SELECT * FROM traveller WHERE traveller_id=$1', [req.user.user_id]);

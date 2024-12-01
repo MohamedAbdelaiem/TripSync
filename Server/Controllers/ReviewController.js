@@ -61,15 +61,18 @@ exports.makeReview = async (req, res) => {
                 message: "Traveler ID should be a number"
             });
         }
+        await client.query('BEGIN');
         await client.query('INSERT INTO reviews (TRAVEL_AGENCY_ID, TRAVELLER_ID, RATE, REVIEW,DATE) VALUES ($1, $2, $3, $4,CURRENT_DATE)', [travelAgency_id, traveler_id, rating, review]);
         const newRate = await client.query('SELECT AVG(rate) FROM reviews WHERE TRAVEL_AGENCY_ID=$1', [travelAgency_id]);
         await client.query('UPDATE travel_agencies SET rate=$1 WHERE travel_agency_id=$2', [newRate.rows[0].avg, travelAgency_id]);
+        await client.query('COMMIT');
         res.status(201).json({
             status: "success",
             message: "Review added successfully"
         });
     }
     catch(err){
+        await client.query('ROLLBACK');
         res.status(500).json({
             status: "failed",
             message: "Internal Server Error"
@@ -100,15 +103,18 @@ exports.deleteReview = async (req, res) => {
                 message: "You are not allowed to delete this review"
             });
         }
+        await client.query('BEGIN');
         await client.query('DELETE FROM reviews WHERE review_id=$1', [review_id]);
         const newRate = await client.query('SELECT AVG(rate) FROM reviews WHERE TRAVEL_AGENCY_ID=$1', [review.rows[0].travel_agency_id]);
         await client.query('UPDATE travel_agencies SET rate=$1 WHERE travel_agency_id=$2', [newRate.rows[0].avg, review.rows[0].travel_agency_id]);
+        await client.query('COMMIT');
         res.status(200).json({
             status: "success",
             message: "Review deleted successfully"
         });
     }
     catch(err){
+        await client.query('ROLLBACK');
         res.status(500).json({
             status: "failed",
             message: "Internal Server Error"

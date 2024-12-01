@@ -76,6 +76,7 @@ exports.updatePolicy=async(req,res)=>{
                 message:'Please provide data to update'
             });
         }
+        client.query('BEGIN');
         if(policy_title){
             const policy=await client.query('UPDATE policies SET Title=$1 WHERE policy_id=$2 RETURNING *',[policy_title,policy_id]);
             if(policy.rowCount==0){
@@ -94,12 +95,14 @@ exports.updatePolicy=async(req,res)=>{
                 });
             }
         }
+        await client.query('COMMIT');
         return res.status(200).json({
             status:'success',
             message:'Policy updated successfully'
         });
     }
     catch(e){
+        client.query('ROLLBACK');
         res.status(400).send('Error in updating data');
         console.log(e);
     }

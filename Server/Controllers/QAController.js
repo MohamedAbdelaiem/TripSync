@@ -103,6 +103,8 @@ exports.updateQA=async(req,res)=>{
                     message:'You are not allowed to update this QA'
                 });
             }
+
+        await client.query('BEGIN');    
         if(question){
             await client.query('UPDATE QA SET question=$1 WHERE QUESTION_ID=$2',[question,QA_id]);
         }
@@ -110,6 +112,7 @@ exports.updateQA=async(req,res)=>{
             await client.query('UPDATE QA SET answer=$1 WHERE QUESTION_ID=$2',[answer,QA_id]);
         }
         const newQA=await client.query('SELECT * FROM QA WHERE QUESTION_ID=$1',[QA_id]);
+        await client.query('COMMIT');
 
         res.status(200).json({
             status:'success',
@@ -118,6 +121,7 @@ exports.updateQA=async(req,res)=>{
         });
     }
     catch(e){
+        await client.query('ROLLBACK');
         res.status(400).send('Error in updating data');
         console.log(e);
     }

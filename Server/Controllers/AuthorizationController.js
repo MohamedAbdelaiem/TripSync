@@ -54,89 +54,79 @@ function verifyResetToken(token) {
 
 
 exports.signup = async (req, res) => {
-    try {
-        // Insert user into the database
-        const hashedPassword = await bcrypt.hash(req.body.password, 12);
-        if(!req.body.username||!req.body.email||!req.body.password||!req.body.role)
-        {
-            return res.status(400).json({
-                status:'fail',
-                message:'Please provide all the required fields'
-            });
-        }
-        const newUser = await client.query(
-            'INSERT INTO users (username, email, password, profilePhoto, profileName,role) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *',
-            [
-                req.body.username,
-                req.body.email,
-                hashedPassword,
-                req.body.profilePhoto,
-                req.body.profileName,
-                req.body.role
-            ]
-        );
+    const { username, email, password, profilePhoto, profileName, role, phoneNumber, location, address, description, country } = req.body;
 
-        if(req.body.role==='traveller')
-            {
-                await client.query('INSERT INTO traveller(traveller_id) VALUES($1) RETURNING *',[newUser.rows[0].user_id]);
-            }
-        else if(req.body.role==='travel_agency')
-        {
-            try{
-            const { phoneNumber, location, address, email, description, country } = req.body;
-            // Validate travel agency specific fields
-            if (!phoneNumber || !location || !address || !email || !description || !country)
-                {
-                    return res.status(400).json({
-                        status: 'fail',
-                        message: 'Please provide all travel agency details',
-                    });
-                }
-            await client.query(
-                'INSERT INTO travelagency(travelagency_id, phonenumber, location, address, email,description, country) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',[newUser.rows[0].user_id,phoneNumber,location,address,email,description,country]);
-            }
-        catch(err)
-        {
-            console.error(err);
-            res.status(400).json({
-                status: 'fail',
-                message: 'Failed to create travel agency',
-            });
-        }
-    }
-    else{
+    // Validate required fields
+    if (!username || !email || !password || !role) {
         return res.status(400).json({
-            status:'fail',
-            message:'Invalid role'
+            status: 'fail',
+            message: 'Please provide all the required fields',
         });
     }
 
-        // Create token
-        const token = jwt.sign(
-            { id: newUser.rows[0].user_id},
-            process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN } // e.g., '5d'
+    try {
+        await client.query('BEGIN');  // Start transaction
+
+        const hashedPassword = await bcrypt.hash(password, 12);
+
+        // Insert user into the database
+        const newUser = await client.query(
+            'INSERT INTO users (username, email, password, profilePhoto, profileName, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [username, email, hashedPassword, profilePhoto, profileName, role]
         );
 
-        // Remove sensitive data before sending response
-        const user = { ...newUser.rows[0] };
-        delete user.user_password; // Do not send the password in the response
+        // Insert role-specific details
+        if (role === 'traveller') {
+            await client.query('INSERT INTO traveller(traveller_id) VALUES($1)', [newUser.rows[0].user_id]);
+        } else if (role === 'travel_agency') {
+            if (!phoneNumber || !location || !address || !description || !country) {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Please provide all travel agency details',
+                });
+            }
+            await client.query(
+                'INSERT INTO travelagency(travelagency_id, phonenumber, location, address, email, description, country) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+                [newUser.rows[0].user_id, phoneNumber, location, address, email, description, country]
+            );
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Invalid role',
+            });
+        }
 
-        // Send the response
+        await client.query('COMMIT');  // Commit transaction
+
+        // Create token
+        const token = jwt.sign(
+            { id: newUser.rows[0].user_id },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN }
+        );
+
+        // Remove sensitive data
+        const user = { ...newUser.rows[0] };
+        delete user.password;
+
+        // Send response
         res.status(201).json({
             status: 'success',
             token,
             data: { user },
         });
+
     } catch (err) {
-        console.error(err); // Log error for debugging
+        await client.query('ROLLBACK');  // Rollback transaction on error
+        console.error(err);  // Log error for debugging
         res.status(400).json({
             status: 'fail',
             message: 'Error signing up the user',
-            error: err,
+            error: err.message,
         });
     }
 };
+
 
 exports.LogIn=async(req,res,next)=>{
     try{

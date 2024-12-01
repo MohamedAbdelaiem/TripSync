@@ -6,6 +6,7 @@ const rewardController = require('../Controllers/RewardsConroller');
 
 //Routes
 const QARouter=require('./QARouter');
+const reviewRouter=require('./ReviewRouter');
 const userRouter = express.Router();
 
 // Authentication Routes
@@ -47,6 +48,9 @@ userRouter.route('/myProfile/rewards').get(AuthConroller.protect,AuthConroller.r
 
 //Other routers dependent
 userRouter.use('/myProfile/QA',QARouter);
+userRouter.use('/myProfile/reviews',AuthConroller.protect,AuthConroller.restrictTo('travel_agency'),reviewRouter); 
+userRouter.use('/:user_id/reviews',AuthConroller.protect,reviewRouter);
+
 
 // Export the router
 module.exports = userRouter;

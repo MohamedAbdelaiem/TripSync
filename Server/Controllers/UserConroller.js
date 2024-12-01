@@ -137,7 +137,7 @@ exports.getUser=async(req,res)=>{
             else{
                 //search for the role of the user
                 const role=result.rows[0].role;
-                if(role==='travelAgency')
+                if(role==='travel_agency')
                 {
                     client.query('SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id AND user_id=$1',[user_id],(err,result)=>
                         {
@@ -218,23 +218,23 @@ exports.createUser = async (req, res) => {
         delete req.body.user_password;
 
         // // Insert into the users table
+        
         const userResult = await client.query(
             'INSERT INTO users(username, email, password,role) VALUES($1, $2, $3,$4) RETURNING user_id',
             [user_name, user_email, hashedPassword,role]
         );
-
         const userId = userResult.rows[0].user_id;
-
 
         if (role === 'traveller') {
             await client.query(
                 'INSERT INTO traveller(traveller_id) VALUES($1) RETURNING *',
                 [userId]
             );
-        } else if (role === 'travelagency') {
+        } else if (role === 'travel_agency') {
             const { phoneNumber, location, address, email, description, country } = req.body;
             // Validate travel agency specific fields
             if (!phoneNumber || !location || !address || !email || !description || !country) {
+                await client.query('ROLLBACK');
                 return res.status(400).json({
                     success: false,
                     error: 'Please provide all travel agency details',
@@ -263,7 +263,7 @@ exports.createUser = async (req, res) => {
     } catch (err) {
         // Rollback the transaction if there's an error
         await client.query('ROLLBACK');
-        res.status(500).json({ success: false, error: 'Error in creating user' });
+        res.status(500).json({ success: false, error: err });
     }
 };
 
@@ -281,6 +281,7 @@ exports.DeleteUser=async(req,res)=>{
         const rows=await client.query('DELETE FROM users WHERE user_id=$1', [user_id]);
         await client.query('COMMIT');
         if(rows.rowCount===0){
+            await client.query('ROLLBACK');
             return res.status(404).json({
                 success: false,
                 error: 'User not found',
@@ -307,6 +308,7 @@ exports.DeleteMe=async(req,res)=>{
         const rows=await client.query('DELETE FROM users WHERE user_id=$1', [req.params.user_id]);
         await client.query('COMMIT');
         if(rows.rowCount===0){
+            await client.query('ROLLBACK');
             return res.status(404).json({
                 success: false,
                 error: 'User not found',
@@ -323,120 +325,59 @@ exports.DeleteMe=async(req,res)=>{
     
 //will be edited in the future
 
-exports.UpdateMe=async(req,res)=>{
-    try{
-        const{profilephoto,profilename,username,previousPassword,newPassword,useremail}=req.body;
-        if(profilephoto)
-        {
-            try{
-            await client.query('UPDATE users SET profilephoto=$1 WHERE user_id=$2',[profilephoto,req.params.user_id]);
-            }
-            catch(err)
-            {
-                res.json({
-                    success:false,
-                    message:"Error in update profilephoto"
-                })
-            }
-        }
-        if(profilename)
-        {
-            try{
-            await client.query('UPDATE users SET profilename=$1 WHERE user_id=$2',[profilename,req.params.user_id]);
-            }
-            catch(err)
-            {
-                res.json({
-                    success:false,
-                    message:"Error in update profilename"
-                })
-            }
-        }
-        if(username)
-        {
-            try{
-            await client.query('UPDATE users SET username=$1 WHERE user_id=$2',[username,req.params.user_id]);
-            }
-            catch(err)
-            {
-                res.json({
-                    success:false,
-                    message:"user name is already taken"
-                })
-            }
-        }
-        if(newPassword)
-        {
-            if(!previousPassword)
-            {
-                res.json({
-                    success:false,
-                    message:"Please provide previous password"
-                })
-            }
-            else
-            {
-                try{
-                    await client.query('SELECT * FROM users WHERE user_id=$1',[req.params.user_id]);
-                    const user=await client.query('SELECT password FROM users WHERE user_id=$1',[req.params.user_id]);
-                    const isMatch=await bcrypt.compare(previousPassword,user.rows[0].password);
-                    if(isMatch)
-                    {
-                        try{
-                            const hashedPassword = await bcrypt.hash(newPassword, 12);
-                            await client.query('UPDATE users SET password=$1 WHERE user_id=$2',[hashedPassword,req.params.user_id]);
-                        }
-                        catch(err)
-                        {
-                            res.json({
-                                success:false,
-                                message:"Error in updating password"
-                            })
-                        }
+exports.UpdateMe = async (req, res) => {
+    const { profilephoto, profilename, username, previousPassword, newPassword, useremail } = req.body;
 
-                    }
-                    else{
-                        res.json({
-                            success:false,
-                            message:"Incorrect password"
-                        })
-                    }
-                }
-                catch(err)
-                {
-                    res.json({
-                        success:false,
-                        message:"Error in updating password"
-                    })
-                }
-            }
+    try {
+        await client.query('BEGIN');  // Start transaction
+
+        
+        if (username) {
+            await client.query('UPDATE users SET username=$1 WHERE user_id=$2', [username, req.params.user_id]);
         }
-        if(useremail)
+        
+        if (newPassword) {
+            if (!previousPassword) {
+                return res.json({ success: false, message: "Please provide previous password" });
+            }
+            
+            const user = await client.query('SELECT password FROM users WHERE user_id=$1', [req.params.user_id]);
+            const isMatch = await bcrypt.compare(previousPassword, user.rows[0].password);
+            
+            if (!isMatch) {
+                return res.json({ success: false, message: "Incorrect password" });
+            }
+            
+            const hashedPassword = await bcrypt.hash(newPassword, 12);
+            await client.query('UPDATE users SET password=$1 WHERE user_id=$2', [hashedPassword, req.params.user_id]);
+        }
+        
+        if (useremail) {
+            await client.query('UPDATE users SET email=$1 WHERE user_id=$2', [useremail, req.params.user_id]);
+        }
+
+        if(req.user.role!=='admin')
         {
-            try{
-                await client.query('UPDATE users SET email=$1 WHERE user_id=$2',[useremail,req.params.user_id]);
-            }
-            catch(err)
-            {
-                res.json({
-                    success:false,
-                    message:"email is already taken"
-                })
-            }
+        
+        if (profilephoto) {
+            await client.query('UPDATE users SET profilephoto=$1 WHERE user_id=$2', [profilephoto, req.params.user_id]);
         }
-        res.json({
-            success:true,
-            message:"User updated successfully"
-        });
+
+        if (profilename) {
+            await client.query('UPDATE users SET profilename=$1 WHERE user_id=$2', [profilename, req.params.user_id]);
+        }
     }
-    catch(err)
-    {
-        res.json({
-            success:false,
-            message:"Error in updating user"
-        })
-    }
-}
+        await client.query('COMMIT');  // Commit transaction
+        res.json({ success: true, message: "User updated successfully" });
+    } catch (err) {
+        await client.query('ROLLBACK');  // Rollback transaction on error
+        console.error('Error updating user:', err);
+        res.json({ success: false, message: err });
+    } 
+};
+
+
+
         
 
 

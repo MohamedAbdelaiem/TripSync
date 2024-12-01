@@ -1,36 +1,46 @@
-//import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
-import "./TourCard.css"; // Import the CSS file
+import "./TourCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 const TourCard = ({
+  type, 
   imageSrc,
-  title,
   description,
   days,
   originalPrice,
   salePrice,
+  destination,
+  startLocation,
   hasSale,
-  detailsLink,
+  onEdit, 
+  onBook,
 }) => {
+  const handleButtonClick = () => {
+    if (type === "traveller" && onBook) {
+      onBook();
+    } else if (type === "travel_agency" && onEdit) {
+      onEdit();
+    }
+  };
+
   return (
     <div className="tour-card">
       {hasSale ? (
-        <>
-          <div className="sale-image">
-            <img src={imageSrc} alt={title} />
-            <div className="sale-badge">Sale</div>
-          </div>
-        </>
+        <div className="sale-image">
+          <img src={imageSrc} alt={destination} />
+          <div className="sale-badge">Sale</div>
+        </div>
       ) : (
-        <img src={imageSrc} alt={title} />
+        <img src={imageSrc} alt={destination} />
       )}
 
       <div className="tour-details">
-        <h2>{title}</h2>
         <p>{description}</p>
-        <hr></hr>
+        <hr />
+        <h2>From: {startLocation}</h2>
+        <h2>To: {destination}</h2>
         <div className="details-row">
           <FontAwesomeIcon icon={faCalendar} />
           <span> No of Days: {days}</span>
@@ -44,23 +54,27 @@ const TourCard = ({
           ) : (
             <span className="price">${originalPrice}</span>
           )}
-          <a href={detailsLink} className="view-details">
-            <button>Book Now</button>
-          </a>
         </div>
+        <button className="action-button" onClick={handleButtonClick}>
+          {type === "traveller" ? "Book Now" : "Edit"}
+        </button>
       </div>
     </div>
   );
 };
+
 TourCard.propTypes = {
+  type: PropTypes.string,
   imageSrc: PropTypes.string,
-  title: PropTypes.string,
   description: PropTypes.string,
   days: PropTypes.number,
   originalPrice: PropTypes.number,
   salePrice: PropTypes.number,
   hasSale: PropTypes.bool,
-  detailsLink: PropTypes.string,
+  destination: PropTypes.string,
+  startLocation: PropTypes.string,
+  onEdit: PropTypes.func,
+  onBook: PropTypes.func,
 };
 
 export default TourCard;

@@ -2,8 +2,11 @@
 import './OurStory.css'
 import  SidNavBar from '../../Components/SideNavBar/SideNavBar';
 import  { useState, useEffect } from "react";
-
+import { useLocation } from "react-router-dom";
 const OurStory = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const userType = queryParams.get("type"); // Retrieve the 'type' value
   const [description, setDescription] = useState(""); 
   const [Name, setName] = useState(""); 
   const [loading, setLoading] = useState(true); 
@@ -35,7 +38,7 @@ const OurStory = () => {
   return (
     <>
     <div className='flex'>
-    <SidNavBar></SidNavBar>
+    <SidNavBar type={userType}></SidNavBar>
     <div className="about-us">
       <h1 className="header-title">{Name}</h1>
       <div className="header-underline"></div>

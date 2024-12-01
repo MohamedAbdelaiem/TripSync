@@ -1,6 +1,7 @@
 
 import "./QACards.css"; 
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
+import { useLocation } from "react-router-dom";
 const QACards = () => {
   const qaData = [
     {
@@ -33,11 +34,14 @@ const QACards = () => {
       },
     // Add more Q&A data as needed
   ];
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const userType = queryParams.get("type"); // Retrieve the 'type' value
 
   return (
     <>
    <div className="flexx">
-   <SideNavBar></SideNavBar>
+   <SideNavBar type={userType}></SideNavBar>
     <div className="qa-cards-container">
       <h2 className="qa-cards-title">Questions & Answers</h2>
       <div className="qa-cards">

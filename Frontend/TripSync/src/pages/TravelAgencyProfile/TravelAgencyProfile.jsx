@@ -8,10 +8,11 @@ import { FaStar, FaGlobe, FaMapMarkerAlt, FaInfoCircle, FaPhone, FaEnvelope } fr
 import "./TravelAgencyProfile.css";
 
 const TravelAgencyProfile = ({ agency }) => {
+
   return (
     <div className="travel-agency-container">
       {/* Side Navigation Bar */}
-      <SideNavBar />
+      <SideNavBar type={agency.role} />
 
       {/* Main Content */}
       <div className="main-content">
@@ -27,7 +28,7 @@ const TravelAgencyProfile = ({ agency }) => {
 
         <div className="agency-details">
           <h3>Travel Agency Details</h3>
-          {/* <p><strong>Travel Agency ID:</strong> {agency.TravelAgencyID}</p> */}
+          {agency.role=="admin"||agency.role=="travel_agency"?(<p><strong>Travel Agency ID:</strong> {agency.TravelAgencyID}</p>):(<></>)}
           <p><strong><FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} /> Address:</strong> {agency.Address}</p>
           <p><strong><FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} />Location:</strong> {agency.Location}</p>
           <p><strong><FaStar style={{ color: "gold", marginRight: "5px" }} />Rate:</strong> {agency.Rate}</p>

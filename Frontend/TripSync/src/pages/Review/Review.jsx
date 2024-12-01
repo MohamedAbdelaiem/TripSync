@@ -4,6 +4,7 @@ import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 import "./Review.css";
 import { useState } from "react";
 import StarProgress from "../../Components/StarProgress/StarProgress";
+import { useLocation } from "react-router-dom";
 function Review() {
   const [rating, setRating] = useState(3); // Example rating value (3 out of 5)
 
@@ -11,6 +12,9 @@ function Review() {
     const newRating = Math.min(Math.max(Number(event.target.value), 0), 5);
     setRating(newRating);
   };
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const userType = queryParams.get("type"); // Retrieve the 'type' valu
 
   return (
     <>

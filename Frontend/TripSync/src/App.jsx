@@ -16,6 +16,7 @@ import Blogs from "./pages/Blogs/Blogs";
 import Review from "./pages/Review/Review";
 import QACards from "./pages/QACards/QACards"; 
 import TravelAgencyProfile from "./pages/TravelAgencyProfile/TravelAgencyProfile";
+import AddNewTour from './Pages/AddNewTour/AddNewTour';
 export class App extends Component {
   render() {
     const agency = {
@@ -30,6 +31,7 @@ export class App extends Component {
       Mail: "contact@holidaytravel.com",
       Phone: "+20 123 456 7890",
       Country: "Egypt",
+      role:"travel_agency",
     };
     return (
       <BrowserRouter>
@@ -53,6 +55,7 @@ export class App extends Component {
             <Route path="/Story" element={<OurStory/>} />
             <Route path="/Q&A" element={<QACards/>} />
             <Route path="/TravelAgencyProfile" element={<TravelAgencyProfile agency={agency}/>} />
+            <Route path="/add-new-tour" element={<AddNewTour />} />
           </Routes>
         </main>
       </BrowserRouter>

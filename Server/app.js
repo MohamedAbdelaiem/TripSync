@@ -8,6 +8,7 @@ const xss=require('xss-clean');
 const UserRouter=require('./Routes/userRouter');
 const PoliciesRouter=require('./Routes/policesRouter');
 const rewardsRouter=require('./Routes/RewardsRouter');
+const BlogRouter=require('./Routes/BlogsRouter');
 
 
 const app=express();
@@ -29,6 +30,7 @@ app.use(express.urlencoded({extended:true}));//for form data
 app.use('/api/v1/users',UserRouter);
 app.use('/api/v1/policies',PoliciesRouter);
 app.use('/api/v1/rewards',rewardsRouter);
+app.use('/api/v1/blogs',BlogRouter);
 
 
 

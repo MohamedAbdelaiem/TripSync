@@ -1,6 +1,7 @@
 const express = require('express');
 const UserConroller = require('../Controllers/UserConroller');
 const AuthConroller = require('../Controllers/AuthorizationController');
+const ReviewController = require('../Controllers/ReviewController');
 
 const rewardController = require('../Controllers/RewardsConroller');
 
@@ -45,11 +46,15 @@ userRouter.route('/updateMe').patch(AuthConroller.protect,UserConroller.getMe,Us
 
 //Other routers to use apart from the userRouter
 userRouter.route('/myProfile/rewards').get(AuthConroller.protect,AuthConroller.restrictTo('traveller'),rewardController.getmyRewards);
+userRouter.use('/myProfile/reviews',AuthConroller.protect,AuthConroller.restrictTo('travel_agency'),ReviewController.getAllReviewsOfTravelAgency); 
 
 //Other routers dependent
 userRouter.use('/myProfile/QA',QARouter);
-userRouter.use('/myProfile/reviews',AuthConroller.protect,AuthConroller.restrictTo('travel_agency'),reviewRouter); 
-userRouter.use('/:user_id/reviews',AuthConroller.protect,reviewRouter);
+userRouter.use('/:user_id/reviews', (req, res, next) => {
+  reviewRouter(req, res, next); // Explicitly pass `req` and `res` to reviewRouter
+});
+
+
 
 
 // Export the router

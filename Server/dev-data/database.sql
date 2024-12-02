@@ -107,7 +107,6 @@ CREATE TABLE Policies
 CREATE TABLE Blogs
 (
     BLOG_ID SERIAL PRIMARY KEY ,
-    Title VARCHAR(200),-- plus of the Blog in ER
     Content VARCHAR(1000),
     Date DATE NOT NULL,
     Time TIME NOT NULL,

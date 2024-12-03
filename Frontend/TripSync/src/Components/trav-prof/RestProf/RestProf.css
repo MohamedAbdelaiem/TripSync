@@ -1,6 +1,61 @@
+/* Main container */
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #ffffff;
+  text-align: center;
+  border-radius: 20px;
+}
+
+/* Text styling */
+.welcome-text {
+  font-size: 2.5rem;
+  font-family: "Arial", sans-serif;
+  line-height: 1.5;
+  font-weight: 600;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+.highlighted-name {
+  color: #ffffff; 
+
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Waving emoji */
+.wave-emoji {
+  display: inline-block;
+  animation: wave 0.8s infinite;
+  font-size: 3rem;
+}
+
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(25deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-25deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 /* Basic sidebar styling */
 .RestProf-container {
-  height: 100%;
+  height: fit-content;
+  min-height: 100%;
   width: 75%;
 
 
@@ -45,8 +100,7 @@ h1.greeting-message {
 }
 
 .stat-box:hover {
-  width: 320px;
-  height: 170px;
+  transform: scale(1.1);
 }
 
 

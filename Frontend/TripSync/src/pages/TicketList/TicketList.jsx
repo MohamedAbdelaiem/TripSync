@@ -1,5 +1,5 @@
 import Ticket from "../../Components/trav-prof/Ticket/Ticket";
-import { all_tickets } from "../../Components/trav-prof/Ticket/tickets";
+import { all_tickets } from "../../Components/Data/tickets";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 const TicketsList = (props) => {

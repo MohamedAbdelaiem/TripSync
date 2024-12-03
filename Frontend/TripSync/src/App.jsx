@@ -12,6 +12,11 @@ import Blog from "./Components/Blog/Blog";
 import Preregister from "./pages/Preregister/Preregister";
 import TravelAgency from "./pages/TravelAgency/TravelAgency";
 import Tours from "./pages/Tours/Tours";
+
+import UserTripsList from "./pages/UserTripsList/UserTripsList";
+
+
+
 import Blogs from "./pages/Blogs/Blogs";
 import Review from "./pages/Review/Review";
 import QACards from "./pages/QACards/QACards"; 

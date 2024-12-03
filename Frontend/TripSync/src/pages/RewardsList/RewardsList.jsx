@@ -1,7 +1,7 @@
 import React from "react";
 import Reward from "../../Components/trav-prof/Reward/Reward";
 import "./RewardsList.css";
-import { all_rewards } from "../../Components/trav-prof/Reward/Rewards";
+import { all_rewards } from "../../Components/Data/Rewards";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 

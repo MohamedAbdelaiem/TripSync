@@ -9,7 +9,7 @@ const all_tickets = [
     price: 150,
     imageUrl:
       "https://t4.ftcdn.net/jpg/01/96/99/03/240_F_196990370_mIPZ4fBBdYjcJV5nk09unnaegf9WKxVx.jpg",
-    travellerId: "T12345",
+    travellerId: "123",
     tripId: "TR67890",
     travellerName: "Hazem Ahmed",
   },
@@ -39,6 +39,20 @@ const all_tickets = [
       "https://t4.ftcdn.net/jpg/02/80/82/81/240_F_280828158_ZZ2W8atYMHiSkLoDzxgDHNhdmXJ31jCR.jpg",
     travellerId: "123",
     tripId: "123",
+    travellerName: "hassan sayed",
+  },
+  {
+    id: 4,
+    tripName: "Hurgada",
+    bookingDate: "2024-11-15",
+    startDate: "2024-11-25",
+    hasStarted: false,
+    seatsBooked: 4,
+    price: 170,
+    imageUrl:
+      "https://t4.ftcdn.net/jpg/02/80/82/81/240_F_280828158_ZZ2W8atYMHiSkLoDzxgDHNhdmXJ31jCR.jpg",
+    travellerId: "123",
+    tripId: 123,
     travellerName: "hassan sayed",
   },
 ];

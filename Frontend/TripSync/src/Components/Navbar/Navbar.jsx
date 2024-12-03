@@ -32,15 +32,19 @@ const Navbar = () => {
             <li className="nav-item active mx-2">Activities</li>
             <li className="nav-item active mx-2">About</li>
             <li className="nav-item active mx-2">Content</li>
+            <NavLink to="Blog">
+              <li className="nav-item active mx-2">
+                Blogs
+              </li>
+            </NavLink>
           </ul>
         </div>
         <div className="collapse navbar-collapse d-flex justify-content-end">
           <NavLink to="Preregister">
-            <button className="register btn btn-primary mx-1">register</button>
+            <button className="registerHome btn btn-primary mx-1">register</button>
           </NavLink>
           <NavLink to="Sign_in ">
-            {" "}
-            <button className="sign_in btn btn-outline-light mx-1">
+            <button className="sign_inHome btn btn-outline-light mx-1">
               sign in
             </button>
           </NavLink>

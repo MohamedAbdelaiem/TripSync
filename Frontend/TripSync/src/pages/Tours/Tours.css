@@ -1,4 +1,11 @@
-.flex{
+/* .flex{
     display: flex;
-    flex-direction: column;
-}
+} */
+.flex {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  
+ 
+  

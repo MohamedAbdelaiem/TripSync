@@ -1,0 +1,18 @@
+/* Star Container */
+.star-container {
+    display: flex;
+    gap: 5px; /* Space between stars */
+  }
+  
+  /* Default Star */
+  .star {
+    font-size: 30px; /* Adjust size */
+    color: #ccc; /* Default empty star color */
+    transition: color 0.3s ease;
+  }
+  
+  /* Filled Star */
+  .star.filled {
+    color: #ffd700; /* Gold color for filled stars */
+  }
+  

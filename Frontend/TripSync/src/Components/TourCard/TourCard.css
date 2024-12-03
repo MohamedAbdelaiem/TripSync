@@ -1,101 +1,104 @@
 .tour-card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-    width: 20%;
-  
-   
-  }
-  
-  .tour-card img {
-    overflow: hidden;
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .tour-details {
-    padding: 20px;
-  }
-  
-  .tour-details h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .tour-details p {
-    color: #888;
-    margin-bottom: 10px;
-  }
-  
-   .price-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-
-  
-  .price-row span {
-    font-weight: bold;
-    font-size: 18px;
-    margin-right: 10px;
-  }
-  
-  .price-row button {
-    background-color: #888;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.6s;
-     font-size: 13px;
-  }
-  .price-row button:hover
-  {
-    background-color:blue;
-  }
-
-.original-price {
-  text-decoration: line-through;
-  color: #999;
-  margin-right: 10px;
-}
-
-.sale-price {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-}
-
-.price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-.sale-badge {
-  position: absolute;
- 
-  top: 0px;
-  left: 0px;
-  background-color: blue; /* Adjust color as needed */
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-.sale-image {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 220px; /* Smaller width */
+  background-color: #fff;
+  margin: 12px; /* Reduced margin */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
 }
 
-.sale-image::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
+.tour-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sale-image img,
+.tour-card img {
   width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(blue, 0, 0, 0.7), transparent); /* Adjust color and opacity */
+  height: 140px; /* Reduced image height */
+  object-fit: cover;
+}
+
+.sale-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: red;
+  color: white;
+  padding: 4px 8px; /* Smaller padding */
+  font-size: 10px; /* Smaller font size */
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.tour-details {
+  padding: 12px; /* Reduced padding */
+}
+
+.tour-details h2 {
+  font-size: 14px; /* Smaller font size */
+  margin: 6px 0;
+  color: #333;
+}
+
+.tour-details p {
+  font-size: 12px; /* Smaller font size */
+  color: #666;
+  margin: 6px 0;
+}
+
+.details-row {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  color: #555;
+  font-size: 12px; /* Adjusted font size */
+}
+
+.details-row svg {
+  margin-right: 6px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 12px; /* Smaller font size */
+}
+
+.sale-price {
+  color: red;
+  font-weight: bold;
+  font-size: 14px; /* Adjusted font size */
+}
+
+.price {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.action-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 12px; /* Smaller button size */
+  border: none;
+  border-radius: 4px;
+  font-size: 12px; /* Smaller font */
+  cursor: pointer;
+  margin-top: 8px;
+  width: 100%; /* Button spans full card width */
+}
+
+.action-button:hover {
+  background-color: #0056b3;
 }

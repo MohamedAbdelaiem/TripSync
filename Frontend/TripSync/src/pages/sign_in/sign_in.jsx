@@ -6,11 +6,10 @@ function Sign_in() {
   return (
     <>
       <Sub_Navbar />
-      <div className="sign_in container d-flex justify-content-center align-items-center vh-100">
+      <div className="sign_in containerSignin d-flex justify-content-center align-items-center vh-100">
         <div className="card p-4 shadow-sm w-100" style={{ maxWidth: "400px" }}>
           <h3 className="text-center mb-4">Sign In</h3>
           <form>
-            {/* Email Input */}
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
                 Email Address
@@ -24,7 +23,6 @@ function Sign_in() {
               />
             </div>
 
-            {/* Password Input */}
             <div className="mb-3">
               <label htmlFor="pass" className="form-label">
                 Password
@@ -38,7 +36,6 @@ function Sign_in() {
               />
             </div>
 
-            {/* Submit Button */}
             <div className="d-grid">
               <button type="submit" className="btn btn-primary">
                 Sign In

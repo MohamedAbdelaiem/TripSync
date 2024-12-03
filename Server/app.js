@@ -1,0 +1,62 @@
+const express=require('express');
+const path=require('path');
+const helmet=require('helmet');
+const xss=require('xss-clean');
+const socketio = require('socket.io');
+const http = require('http');
+
+//Intialize Routers
+const UserRouter=require('./Routes/userRouter');
+const PoliciesRouter=require('./Routes/policesRouter');
+const rewardsRouter=require('./Routes/RewardsRouter');
+const BlogRouter=require('./Routes/BlogsRouter');
+const ChatRouter=require('./Routes/CharRoutes');
+
+
+const app=express();
+
+//create an http server using the express app
+const server = http.createServer(app);
+
+//create a socket connection using the http server
+const io = socketio(server);
+
+//api security
+app.use(helmet());
+app.use(xss());
+
+
+//Body Parser
+app.use(express.json());//for json data
+app.use(express.urlencoded({extended:true}));//for form data
+
+//Serve Static Files
+// app.use(express.static(path.join(__dirname,'public')));
+
+
+//Mount Routers
+app.use('/api/v1/users',UserRouter);
+app.use('/api/v1/policies',PoliciesRouter);
+app.use('/api/v1/rewards',rewardsRouter);
+app.use('/api/v1/blogs',BlogRouter);
+app.use('/api/v1/chats',ChatRouter);
+
+
+
+//Error Handler
+app.use((req,res,next)=>{
+    res.status(404).send('Page Not Found');
+});
+
+const {handleSocketConnection}=require('./Controllers/CharController');
+
+//Error Handler
+io.on('connection', (socket) => {
+    console.log('A user connected');
+    handleSocketConnection(socket,io);
+});
+
+server.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
+});
+

@@ -1,9 +1,70 @@
-.tour-card-container {
+/* .tour-card-container {
     display: flex;
     justify-content:space-around; 
     flex-wrap:wrap;
     align-items:center; 
     gap: 5px;
-    margin-top: 150px;
+    margin-top: 50px;
   }
- 
+  .oouter{
+    display: flex;
+    flex-direction: column;
+  }
+  .add-tour-button-container {
+    /* display: flex;
+    justify-content: flex-end; */
+    /* margin-bottom: 16px; */
+    /* margin-top: 20px;
+    margin-left: 20px;
+  }
+  
+  .add-tour-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-tour-button:hover {
+    background-color: #0056b3;
+  }
+   */
+   .tour-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    gap: 16px;
+  }
+  
+  .add-tour-button-container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .add-tour-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-tour-button:hover {
+    background-color:  #0056b3;
+  }
+  .containr
+  {
+    display: flex;
+    flex-direction: column;
+  }
+  

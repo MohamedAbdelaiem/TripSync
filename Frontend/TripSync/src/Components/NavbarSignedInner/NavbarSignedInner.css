@@ -1,0 +1,10 @@
+.profilephoto{
+   position: fixed;
+   top: 8px;
+   right: 0;
+}
+.navbarSignedInner{
+   position: fixed;
+   top: 0;
+   right: 0;
+}

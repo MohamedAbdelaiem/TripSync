@@ -1,27 +1,29 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./AddNewTour.css";
 
-const AddNewTour = () => {
-  const location = useLocation();
+const AddNewTour = ({ addTour }) => {
   const navigate = useNavigate();
-  const { addTour } = location.state || {};
 
   const [newTour, setNewTour] = useState({
     description: "",
     price: "",
     maxSeats: "",
     destination: "",
-    rate: "",
     duration: "",
     startLocation: "",
     images: [],
+    hasSale: false,
+    salePrice: "",
   });
   const [imageInput, setImageInput] = useState("");
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewTour((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setNewTour((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleAddImage = () => {
@@ -36,8 +38,14 @@ const AddNewTour = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    addTour(newTour); // Call the addTour function to add the new tour
-    navigate(-1); // Navigate back to the Tours page
+    if (addTour) {
+      addTour({
+        ...newTour,
+        price: parseFloat(newTour.price),
+        salePrice: newTour.hasSale ? parseFloat(newTour.salePrice) : null,
+      }); // Add the new tour
+      navigate("/tours?type=travel_agency"); // Navigate back to Tours page
+    }
   };
 
   return (
@@ -51,6 +59,7 @@ const AddNewTour = () => {
             name="description"
             value={newTour.description}
             onChange={handleInputChange}
+            required
           />
         </label>
         <label>
@@ -60,6 +69,7 @@ const AddNewTour = () => {
             name="price"
             value={newTour.price}
             onChange={handleInputChange}
+            required
           />
         </label>
         <label>
@@ -69,6 +79,7 @@ const AddNewTour = () => {
             name="maxSeats"
             value={newTour.maxSeats}
             onChange={handleInputChange}
+            required
           />
         </label>
         <label>
@@ -78,10 +89,9 @@ const AddNewTour = () => {
             name="destination"
             value={newTour.destination}
             onChange={handleInputChange}
+            required
           />
         </label>
-    
-        
         <label>
           Duration (days):
           <input
@@ -89,6 +99,7 @@ const AddNewTour = () => {
             name="duration"
             value={newTour.duration}
             onChange={handleInputChange}
+            required
           />
         </label>
         <label>
@@ -98,8 +109,30 @@ const AddNewTour = () => {
             name="startLocation"
             value={newTour.startLocation}
             onChange={handleInputChange}
+            required
           />
         </label>
+        <label>
+          Has Sale:
+          <input
+            type="checkbox"
+            name="hasSale"
+            checked={newTour.hasSale}
+            onChange={handleInputChange}
+          />
+        </label>
+        {newTour.hasSale && (
+          <label>
+            Sale Price:
+            <input
+              type="number"
+              name="salePrice"
+              value={newTour.salePrice}
+              onChange={handleInputChange}
+              required={newTour.hasSale}
+            />
+          </label>
+        )}
         <label>
           Add Image URL:
           <div>

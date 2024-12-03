@@ -15,7 +15,9 @@ import RewardsList from "./pages/RewardsList/RewardsList";
 import Preregister from "./pages/Preregister/Preregister";
 import TicketSystem from "./pages/Ticket/Ticket";
 import TravelAgency from "./pages/TravelAgency/TravelAgency";
-import Tours from "./pages/Tours/Tours"
+import Tours from "./pages/Tours/Tours";
+import UserTripsList from "./pages/UserTripsList/UserTripsList";
+
 
 export class App extends Component {
   render() {
@@ -29,9 +31,10 @@ export class App extends Component {
             <Route path="/Sign_in" element={<Sign_in />} />
             <Route path="/Register" element={<Register />} />
 
-            <Route path="/Traveller-Profile" element={<TravellerProf />} />
+            <Route path="/Traveller-Profile/:id" element={<TravellerProf />} />
             <Route path="/Tickets/:id" element={<TicketsList/>} />
             <Route path="/Rewards/:id" element={<RewardsList/>} />
+            <Route path="/User_Trips/:id" element={<UserTripsList/>} />
 
             <Route path="/TravelAgency" element={<TravelAgency />} />
             <Route path="/TicketSystem" element={<TicketSystem />} />

@@ -1,0 +1,152 @@
+.trip-card {
+  display: flex;
+  /* flex-direction: row; */
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 300px;
+  min-height: 450px;
+  height: fit-content;
+}
+
+.trip-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.trip-image-section {
+  width: 100%; 
+  max-height: 200px;
+  min-height: 200px;
+}
+
+.trip-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.trip-info-section {
+  flex: 1;
+  padding: 15px;
+  background: linear-gradient(to right, #ffffff, #f7f9fc);
+  padding: 20px;
+}
+
+.trip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trip-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.trip-status {
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.trip-status.not-started {
+  background-color: #ffdd00;
+  color: #000;
+}
+
+.trip-status.finished {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.trip-organizer {
+  margin: 10px 0 5px;
+  color: #555;
+}
+
+.trip-locations,
+.trip-dates {
+  font-size: 0.9rem;
+  margin: 5px 0;
+  color: #666;
+}
+
+.icon {
+  margin-right: 5px;
+  color: #007bff;
+}
+
+.trip-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.trip-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%; 
+  margin-top: 15px;
+}
+
+.trip-button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Layout for Small Screens (Mobile) */
+@media (max-width: 768px) {
+  .trip-card {
+    flex-direction: column; /* Stack content vertically */
+  }
+
+  .trip-image-section {
+    width: 100%; /* Full width for image */
+    height: 250px; /* Set a fixed height for images */
+  }
+
+  .trip-info-section {
+    padding: 20px;
+  }
+
+  .trip-name {
+    font-size: 1.2rem; /* Slightly smaller font size */
+  }
+
+  .trip-status {
+    font-size: 0.8rem;
+  }
+
+  .trip-locations,
+  .trip-dates {
+    font-size: 0.8rem;
+  }
+
+  .trip-button {
+    width: 100%; /* Make button full width on small screens */
+    margin-top: 15px;
+  }
+}
+
+
+
+.user-trips-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}

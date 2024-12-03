@@ -1,0 +1,148 @@
+.eligible-rewards {
+  margin: 30px auto;
+  padding: 20px;
+  background: linear-gradient(145deg, #f3f4f6, #ffffff);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  text-align: center;
+}
+
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.header-container h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  position: relative;
+}
+
+.header-container h2::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  left: 0;
+  bottom: -8px;
+  border-radius: 3px;
+}
+
+.total-rewards-button {
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  color: white;
+  font-size: 16px;
+  padding: 10px 25px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.total-rewards-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* overflow: hidden; */
+}
+
+.rewards-carousel {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
+  padding: 10px;
+  overflow: hidden;
+}
+
+
+.arrow-rewards {
+  background:#3344ff;
+  color: white;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  transition: 0.3s ease,  0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-color: transparent;
+}
+
+.left-arrow {
+  left: 0px; 
+}
+
+.right-arrow {
+  right: 0px;
+}
+
+.arrow-rewards:hover {
+  background: #182ae9;
+  transform: scale(1.2);
+}
+
+.arrow-rewards:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.dots-indicator {
+  margin-top: 20px;
+}
+
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 6px;
+  background: #ddd;
+  border-radius: 50%;
+  transition: background 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: #2575fc;
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .rewards-carousel {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .reward-card {
+    flex: 0 0 90%;
+  }
+
+  .arrow {
+    display: none;
+  }
+}

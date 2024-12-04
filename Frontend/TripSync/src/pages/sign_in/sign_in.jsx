@@ -47,10 +47,9 @@ function Sign_in() {
               <button className="forgetPassword">Forget your password?</button>
             </navLink>
 
-            <navLink to="ResetPassword">
+            {/* <navLink to="ResetPassword">
               <button className="ResetPassword">Reset your password?</button>
-            </navLink>
-
+            </navLink> */}
           </form>
         </div>
       </div>

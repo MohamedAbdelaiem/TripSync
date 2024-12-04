@@ -1,0 +1,95 @@
+/* Register.css */
+
+/* Page Styling */
+.containerregform {
+    /* background: linear-gradient(to right, #6a11cb, #2575fc); */
+    color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  /* Card Styling */
+  .card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 15px;
+  }
+  
+  .card h3 {
+    font-family: "Arial", sans-serif;
+    font-weight: bold;
+    color: #4a4a4a;
+  }
+  
+  /* Input Fields */
+  .form-control {
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    transition: box-shadow 0.3s ease, border 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25);
+  }
+  
+  /* Labels */
+  .form-label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
+  
+  /* Buttons */
+  .btnReg {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    background:  #2575fc;
+    border: none;
+    font-weight: bold;
+    font-size: 17px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+  
+  .btnReg:hover {
+    scale: 1.01;
+    transition: 15ms;
+  }
+  
+  /* Profile Photo Input */
+  #profilephoto {
+    border: 1px solid #ced4da;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+  
+  /* Optional Label Styling */
+  label.mx-5 {
+    font-size: 12px;
+    font-style: italic;
+    color: #6c757d;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 576px) {
+    .card {
+      width: 90%;
+    }
+  
+    .containerreg {
+      padding: 10px;
+    }
+  }
+  
+
+  .optional{
+    margin-left: 220px;
+    font-size: 12px;
+    font-style: italic;
+    color: #6c757d;
+  }

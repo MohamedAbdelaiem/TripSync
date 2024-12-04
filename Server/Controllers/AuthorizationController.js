@@ -1,57 +1,55 @@
-const express=require('express');
-const client=require('../db');
-const jwt=require('jsonwebtoken');
-const bcrypt=require('bcrypt');
-const crypto=require('crypto');
-const { console } = require('inspector');
-
+const express = require("express");
+const client = require("../db");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+const { console } = require("inspector");
 
 function generateResetToken(email) {
-    const payload={
-        email,
-    }
-    return jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'5m'});
+  const payload = {
+    email,
+  };
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "5m" });
 }
 
-async function sendResetEmail(email,resetToken) {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        host:process.env.EMAIL_HOST,
-        port:process.env.EMAIL_PORT,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-    });
+async function sendResetEmail(email, resetToken) {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
-    const mailOptions = {
-        from: process.env.EMAIL_FROM,
-        to: email,
-        subject: 'Password Reset Token',
-        text:`You requested a password reset token. Please click on the following link to reset your password:${req.protocol}://${req.get("host")}/api/v1/users/resetPassword/${resetToken}`
-    };
+  const mailOptions = {
+    from: process.env.EMAIL_FROM,
+    to: email,
+    subject: "Password Reset Token",
+    text: `You requested a password reset token. Please click on the following link to reset your password:${
+      req.protocol
+    }://${req.get("host")}/api/v1/users/resetPassword/${resetToken}`,
+  };
 
-    try{
-        await transporter.sendMail(mailOptions);
-        console.log('Email sent');
-    }
-    catch(err)
-    {
-        console.log(err);
-    }
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent");
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 function verifyResetToken(token) {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(decoded);
-        });
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(decoded);
     });
+  });
 }
-
 
 exports.signup = async (req, res) => {
     const { username, email, password, profilePhoto, profileName, role, phoneNumber, location, address, description, country } = req.body;
@@ -194,170 +192,154 @@ exports.protect=async(req,res,next)=>{
         }
         // console.log(token);        
 
-        if (!token) {
-            return res.status(401).json({
-                status: 'fail',
-                message: 'You are not logged in! Please log in to get access.',
-            });
-        }
-
-        // 2) Verify token
-        const decoded=await new Promise((resolve,reject)=>{
-            jwt.verify(token,process.env.JWT_SECRET,(err,decoded)=>{
-                if(err)
-                {
-                    reject(err);
-                }
-                resolve(decoded);
-            }
-            );
-        });
-
-        // 3) Check if user still exists
-        const currentUser = await client.query('SELECT * FROM users WHERE user_id = $1', [decoded.id]);
-
-        if (!currentUser.rows[0]) {
-            return res.status(401).json({
-                status: 'fail',
-                message: 'The user belonging to this does no longer exist.',
-            });
-        }
-        
-        // GRANT ACCESS TO PROTECTED ROUTE
-        req.user = currentUser.rows[0];
-        next();
-    } catch (err) {
-        // console.error(err);
-        res.status(400).json({
-            status: 'fail',
-            message: 'Please log in again!',
-        });
-        next(err);
+    if (!token) {
+      return res.status(401).json({
+        status: "fail",
+        message: "You are not logged in! Please log in to get access.",
+      });
     }
+
+    // 2) Verify token
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(decoded);
+      });
+    });
+
+    // 3) Check if user still exists
+    const currentUser = await client.query(
+      "SELECT * FROM users WHERE user_id = $1",
+      [decoded.id]
+    );
+
+    if (!currentUser.rows[0]) {
+      return res.status(401).json({
+        status: "fail",
+        message: "The user belonging to this does no longer exist.",
+      });
+    }
+
+    // GRANT ACCESS TO PROTECTED ROUTE
+    req.user = currentUser.rows[0];
+    next();
+  } catch (err) {
+    // console.error(err);
+    res.status(400).json({
+      status: "fail",
+      message: "Please log in again!",
+    });
+    next(err);
+  }
 };
 
 exports.restrictTo = (...roles) => {
-    return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
-            return res.status(403).json({
-                status: 'fail',
-                message: 'You do not have permission to perform this action',
-            });
-        }
-        next();
-    };
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({
+        status: "fail",
+        message: "You do not have permission to perform this action",
+      });
+    }
+    next();
+  };
 };
 
-exports.LogOut=async(req,res)=>{
-    res.status(200).json({status:'success'});
+exports.LogOut = async (req, res) => {
+  res.status(200).json({ status: "success" });
 };
 
-exports.forgotPassword=async(req,res)=>{
-    try{
-        const {email}=req.body;
-        if(!email)
-        {
-            return res.status(400).json({
-                status:'fail',
-                message:'Please provide email'
-            });
-        }
-
-        // 1) Get user based on POSTed email
-        const user = await client.query('SELECT email FROM users WHERE email = $1', [email]);
-        if (!user.rows[0]) {
-            return res.status(404).json({
-                status: 'fail',
-                message: 'There is no user with email address.',
-            });
-        }
-
-        // 2) Generate the random reset token
-        const resetToken = generateResetToken(user.rows[0].email);
-
-        // 3) Send it to user's email
-        await sendResetEmail(user.rows[0].email, resetToken);
-
-        // 4) If everything's OK, send token to user's email
-        res.status(200).json({
-            status: 'success',
-            message: 'reset email have been sent to you sent to email!',
-        });
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Please provide email",
+      });
     }
-    catch(err)
-    {
-        console.error(err);
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error in sending email',
-        });
+
+    // 1) Get user based on POSTed email
+    const user = await client.query(
+      "SELECT email FROM users WHERE email = $1",
+      [email]
+    );
+    if (!user.rows[0]) {
+      return res.status(404).json({
+        status: "fail",
+        message: "There is no user with email address.",
+      });
     }
+
+    // 2) Generate the random reset token
+    const resetToken = generateResetToken(user.rows[0].email);
+
+    // 3) Send it to user's email
+    await sendResetEmail(user.rows[0].email, resetToken);
+
+    // 4) If everything's OK, send token to user's email
+    res.status(200).json({
+      status: "success",
+      message: "reset email have been sent to you sent to email!",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      status: "fail",
+      message: "Error in sending email",
+    });
+  }
 };
 
-exports.resetPassword=async(req,res)=>{
-    try{
-        const {resetToken}=req.body;
-        const {newPassword}=req.body;
-        if(!resetToken || !newPassword)
-            {
-                return res.status(400).json({
-                    status:'fail',
-                    message:'Please provide resetToken and newPassword'
-                });
-            }
-        // 1) Verify token
-        const decoded = await verifyResetToken(resetToken);
-        if(!decoded)
-            {
-                return res.status(400).json({
-                    status:'fail',
-                    message:'Invalid token'
-                });
-            }
-        const email=decoded.email;
-        //2)hash the new password    
-        const hashedPassword = await bcrypt.hash(newPassword, 12);
-        //3)update the password
-        const result=await client.query('UPDATE users SET password=$1 WHERE email=$2',[hashedPassword,email]);
-        if(result.rowCount>0)
-        {
-            res.status(200).json({
-                status: 'success',
-                message: 'Password reset successfully',
-            });
-        }
-        else if(result.rowCount===0)
-        {
-            res.status(404).json({
-                status: 'fail',
-                message: 'User not found',
-            });
-        }
-        else
-        {
-            res.status(400).json({
-                status: 'fail',
-                message: 'Invalid token',
-            });
-        }
+exports.resetPassword = async (req, res) => {
+  try {
+    const { resetToken } = req.body;
+    const { newPassword } = req.body;
+    if (!resetToken || !newPassword) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Please provide resetToken and newPassword",
+      });
     }
-    catch(err)
-    {
-        console.error(err);
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error in resetting password',
-        });
+    // 1) Verify token
+    const decoded = await verifyResetToken(resetToken);
+    if (!decoded) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid token",
+      });
     }
-}
-
-
-
-
-
-
-        
-
-
-
-
+    const email = decoded.email;
+    //2)hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    //3)update the password
+    const result = await client.query(
+      "UPDATE users SET password=$1 WHERE email=$2",
+      [hashedPassword, email]
+    );
+    if (result.rowCount > 0) {
+      res.status(200).json({
+        status: "success",
+        message: "Password reset successfully",
+      });
+    } else if (result.rowCount === 0) {
+      res.status(404).json({
+        status: "fail",
+        message: "User not found",
+      });
+    } else {
+      res.status(400).json({
+        status: "fail",
+        message: "Invalid token",
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      status: "fail",
+      message: "Error in resetting password",
+    });
+  }
+};

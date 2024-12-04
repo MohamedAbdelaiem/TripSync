@@ -36,6 +36,7 @@ export class App extends Component {
             <Route path="/Blog" element={<Blogs />} />
             <Route path="/Tours" element={<Tours/>} />
             <Route path="/Story" element={<OurStory/>} />
+            {/* <Route path="/Sign_in/ForgetPassword" element={<OurStory/>} /> */}
           </Routes>
         </main>
       </BrowserRouter>

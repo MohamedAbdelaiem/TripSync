@@ -1,8 +1,20 @@
 import React from "react";
 import Sub_Navbar from "../../Components/Sub_Navbar/Sub_Navbar";
 import "./Register.css";
-
+import {
+  useState
+  
+ } from "react";
 function Register() {
+      
+  const [photoPreview, setPhotoPreview] = useState(null);
+      
+  const handlePhotoChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
+    }
+  };
   return (
     <>
       <Sub_Navbar />
@@ -17,7 +29,7 @@ function Register() {
               <input
                 type="text"
                 className="form-control"
-                id="email"
+                id="userName"
                 placeholder="Enter your user name"
                 required
               />
@@ -61,18 +73,25 @@ function Register() {
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="userName" className="form-label">
-               Profile photo
+            <div className="photo mb-2">
+              <label htmlFor="profilephoto" className="form-label">
+                Profile Photo <span className="optional">(optional)</span>
               </label>
-              
-              <label className="optional">optional</label>
               <input
-                type="image"
-                className="form-control"
+                type="file"
+                className="form-controlPhoto"
                 id="profilephoto"
-                placeholder="Enter your user name"
+                accept="image/*"
+                onChange={handlePhotoChange}
               />
+              <label htmlFor="profilephoto">Upload Photo</label>
+              {photoPreview && (
+                <img
+                  src={photoPreview}
+                  alt="Profile Preview"
+                  id="profilephotoPreview"
+                />
+              )}
             </div>
 
             <div className="d-grid">

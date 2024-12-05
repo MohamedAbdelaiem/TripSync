@@ -9,9 +9,11 @@ reportRouter
   .route("/getAllReports")
   .get(
     AuthConroller.protect,
-    AuthConroller.restrictTo("travel_agency"),
+    AuthConroller.restrictTo("admin"),
     ReportController.getAllReports
-  );
+  );    
+
+
 
 reportRouter
   .route("/addReport")
@@ -25,7 +27,7 @@ reportRouter
   .route("/deleteReport")
   .delete(
     AuthConroller.protect,
-    AuthConroller.restrictTo("traveller", "admin"),
+    AuthConroller.restrictTo("admin"),
     ReportController.deleteReport
   );
 

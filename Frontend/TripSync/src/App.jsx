@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Home from "./pages/Home/Home";
-import Sign_in from "./pages/Sign_in/Sign_in";
+import Sign_in from "./pages/sign_in/sign_in";
 import Register from "./pages/Register/Register";
 import OurStory from "./pages/OurStory/OurStory";
 import TravellerProf from "./pages/Traveller_Prof/TravellerProf";

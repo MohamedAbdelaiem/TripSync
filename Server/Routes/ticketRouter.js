@@ -11,20 +11,20 @@ TicketRouter.route("/getAllTickets").get(
   TicketController.getAllTickets
 );
 
-// TicketRouter
-//   .route("/addTicket/:trip_id")
-//   .post(
-//     AuthConroller.protect,
-//     AuthConroller.restrictTo("travel_agency"),
-//     TicketController.addTicket
-// );
+TicketRouter
+  .route("/addTicket/:trip_id")
+  .post(
+    AuthConroller.protect,
+    AuthConroller.restrictTo("traveller"),
+    TicketController.addTicket
+);
 
-// TicketRouter
-//   .route("/deleteTicket")
-//   .delete(
-//     AuthConroller.protect,
-//     AuthConroller.restrictTo("travel_agency"),
-//     TicketController.deleteTicket
-// );
+TicketRouter
+  .route("/deleteTicket")
+  .delete(
+    AuthConroller.protect,
+    AuthConroller.restrictTo("traveller"),
+    TicketController.deleteTicket
+);
 
 module.exports = TicketRouter;

@@ -1,16 +1,53 @@
-import React from "react";
+import  { useState } from "react";
 import Sub_Navbar from "../../Components/Sub_Navbar/Sub_Navbar";
 import "./Sign_in.css";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 // import navLink from React
 
 function Sign_in() {
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const [error,setError]=useState("");
+  const [success,setSuccess]=useState("");
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+    setError("");
+    try{
+        const response=await axios.post("http://localhost:3000/api/v1/users/LogIn",{
+          email,
+          password
+        },
+        {
+          headers:{
+            "Content-Type":"application/json"
+          }
+        }
+      );
+      setSuccess(response.data.message);
+      console.log(response.data.message);
+      // Navigate("/");
+    
+  }
+  catch(error){
+    setError(error.message);
+    console.log(error.response.data.message);
+  }
+  }
+
+
+
+
+
+
   return (
     <>
       <Sub_Navbar />
       <div className="sign_in containerSignin d-flex justify-content-center align-items-center vh-100">
         <div className="card p-4 shadow-sm w-100" style={{ maxWidth: "400px" }}>
           <h3 className="text-center mb-4">Sign In</h3>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
                 Email Address
@@ -21,6 +58,7 @@ function Sign_in() {
                 id="email"
                 placeholder="Enter your email"
                 required
+                onChange={(e)=>setEmail(e.currentTarget.value)}
               />
             </div>
 
@@ -34,6 +72,7 @@ function Sign_in() {
                 id="pass"
                 placeholder="Enter your password"
                 required
+                onChange={(e)=>setPassword(e.currentTarget.value)}
               />
             </div>
 

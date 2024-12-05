@@ -4,6 +4,8 @@ const UserConroller = require('../Controllers/UserConroller');
 const AuthConroller = require('../Controllers/AuthorizationController');
 const ReviewController = require('../Controllers/ReviewController');
 const rewardController = require('../Controllers/RewardsConroller');
+const tripController = require('../Controllers/TripController');
+const ticketsController = require('../Controllers/TicketController');
 
 //Routes
 const QARouter=require('./QARouter');
@@ -16,7 +18,7 @@ const userRouter = express.Router();
 
 // Authentication Routes
 userRouter.route("/SignUp").post(AuthConroller.signup);
-userRouter.route("/Login").post(AuthConroller.LogIn);
+userRouter.route("/LogIn").post(AuthConroller.LogIn);
 userRouter.route("/Logout").post(AuthConroller.LogOut); // Changed to POST
 userRouter.route("/ForgotPassword").post(AuthConroller.forgotPassword);
 userRouter
@@ -76,20 +78,23 @@ userRouter
   .patch(AuthConroller.protect, UserConroller.getMe, UserConroller.UpdateMe);
 
 // Trip-Based routes
-userRouter.use("/myProfile/trips", tripRouter);
+userRouter.use("/myProfile/trips",AuthConroller.restrictTo("travel_agency") ,tripRouter);//->must be edited to handle if the user is traveller
 
 // Report-Based routes
-userRouter.use("/:user_id/reports", (req, res, next) => {
+userRouter.use("/:user_id/reports",AuthConroller.restrictTo("admin","traveller") ,(req, res, next) => {
   reportRouter(req, res, next);
 });
 
 //Ticket-Based routes
-userRouter.use("/myProfile/tickets", ticketRouter);
+userRouter.use("/myProfile/tickets",AuthConroller.restrictTo("traveller"),ticketsController.getAllTickets);
 
 
 //Other routers to use apart from the userRouter
 userRouter.route('/myProfile/rewards').get(AuthConroller.protect,AuthConroller.restrictTo('traveller'),rewardController.getmyRewards);
 userRouter.use('/myProfile/reviews',AuthConroller.protect,AuthConroller.restrictTo('travel_agency'),ReviewController.getAllReviewsOfTravelAgency); 
+userRouter.route('/myProfile/Trips',AuthConroller.protect,AuthConroller.restrictTo("traveller"),tripController.getHistory);
+userRouter.route('/payForTrip/:trip_id').post(AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.addTicket);
+userRouter.route('/deleteAticket/:trip_id').post(AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.deleteTicket);
 
 //Other routers dependent
 userRouter.use('/myProfile/QA',QARouter);

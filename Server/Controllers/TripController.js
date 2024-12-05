@@ -203,7 +203,7 @@ exports.getHistory = async (req, res) => {
     const TRAVELLER_ID = req.user.user_id;
 
     client.query(
-      `SELECT trp.TRIP_ID
+      `SELECT trp.TRIP_ID,trp.Description,trp.Price,trp.MaxSeats,trp.Destinition,trp.Duration,trp.StartLocation
           FROM traveller as trv, trip as trp, tickets as tick
           WHERE trv.TRAVELLER_ID=tick.TRAVELLER_ID AND trp.TRIP_ID=tick.TRIP_ID
           AND trv.TRAVELLER_ID=$1`,
@@ -256,7 +256,6 @@ exports.getAllPromotions = async (req, res) => {
     );
 
     await client.query("COMMIT");
-    console.log(promotionsRes.rows);
     return res.status(200).json({
       status: true,
       data: promotionsRes.rows,
@@ -317,17 +316,17 @@ exports.deletePromotion = async (req, res) => {
   const Trip_ID = req.params.Trip_ID;
 
   const Queryres = await client.query(
-    "SELECT * FROM promote WHERE trip_id=$1",
-    [Trip_ID]
+    "SELECT * FROM promote WHERE trip_id=$1 AND TravelAgency_ID=$2",
+    [Trip_ID,TravelAgency_ID]
   );
   if (Queryres.rowCount == 0)
     return res.status(404).json({
       status: false,
-      message: "There is no such promotion!",
+      message: "There is no such promotion for this travel_agency!",
     });
 
   try {
-    await client.query("delete from promote where trip_id=$1", [Trip_ID]);
+    await client.query("delete from promote where trip_id=$1 AND TravelAgency_ID=$2", [Trip_ID,TravelAgency_ID]);
     return res.status(500).json({
       status: false,
       message: "Promotion deleted Successfully!",

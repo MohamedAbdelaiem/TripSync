@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const socketio = require("socket.io");
 const http = require("http");
-
+const cors = require("cors");
 //Intialize Routers
 const UserRouter = require("./Routes/userRouter");
 const PoliciesRouter = require("./Routes/policesRouter");
@@ -15,13 +15,12 @@ const tripRouter = require("./Routes/tripRouter");
 const reportRouter = require("./Routes/reportRouter");
 
 const app = express();
-
 //create an http server using the express app
 const server = http.createServer(app);
 
 //create a socket connection using the http server
 const io = socketio(server);
-
+app.use(cors());
 //api security
 app.use(helmet());
 app.use(xss());
@@ -41,7 +40,7 @@ app.use("/api/v1/rewards", rewardsRouter);
 app.use("/api/v1/blogs", BlogRouter);
 app.use("/api/v1/chats", ChatRouter);
 app.use("/api/v1/trips", tripRouter);
-// app.use("/api/v1/reports", reportRouter);
+app.use("/api/v1/reports", reportRouter);
 
 //Error Handler
 app.use((req, res, next) => {

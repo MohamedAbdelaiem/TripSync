@@ -14,7 +14,8 @@ import TravelAgency from "./pages/TravelAgency/TravelAgency";
 import Tours from "./pages/Tours/Tours";
 import Register_TravelAgency from "./pages/Register_TravelAgency/Register_TravelAgency";
 import UserTripsList from "./pages/UserTripsList/UserTripsList";
-
+import BookPage from "./pages/BookPage/BookPage";
+import EditTour from "./pages/EditTour/EditTour";
 
 
 import Blogs from "./pages/Blogs/Blogs";
@@ -23,6 +24,10 @@ import QACards from "./pages/QACards/QACards";
 import TravelAgencyProfile from "./pages/TravelAgencyProfile/TravelAgencyProfile";
 import AddNewTour from './Pages/AddNewTour/AddNewTour';
 import image2 from "./assets/card.jpg";
+import image3 from "./assets/Rectangle 9.png";
+import image4 from "./assets/Rectangle 11.png";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const App = () => {
   const agency = {
@@ -37,7 +42,7 @@ const App = () => {
     Mail: "contact@holidaytravel.com",
     Phone: "+20 123 456 7890",
     Country: "Egypt",
-    role: "travel_agency",
+    role: "traveller",
   };
 
   const [tours, setTours] = useState([
@@ -48,7 +53,7 @@ const App = () => {
       destination: "White Desert",
       duration: 5,
       startLocation: "Cairo",
-      images: [image2],
+      images: [image2,image3,image4],
       hasSale: true,
       salePrice: 300,
     },
@@ -59,7 +64,7 @@ const App = () => {
       destination: "White Desert",
       duration: 5,
       startLocation: "Cairo",
-      images: [image2],
+      images: [image2,image3,image4],
       hasSale: false,
       // salePrice: 300,
     },
@@ -70,7 +75,7 @@ const App = () => {
       destination: "White Desert",
       duration: 5,
       startLocation: "Cairo",
-      images: [image2],
+      images: [image2,image3,image4],
       hasSale: true,
       salePrice: 300,
     },
@@ -90,7 +95,7 @@ const App = () => {
           <Route path="/Preregister/Register_TravelAgency" element={<Register_TravelAgency />} />
           <Route path="/Preregister" element={<Preregister />} />
           <Route path="/Blog/profile" element={<TravelAgency />} />
-          <Route path="/Traveller-Profile" element={<TravellerProf />} />
+          <Route path="/Traveller-Profile/:id" element={<TravellerProf />} />
           <Route path="/Tickets/:id" element={<TicketsList />} />
           <Route path="/Rewards/:id" element={<RewardsList />} />
           <Route path="/TravelAgency" element={<TravelAgency />} />
@@ -101,6 +106,9 @@ const App = () => {
           <Route path="/TravelAgencyProfile" element={<TravelAgencyProfile agency={agency} />} />
           <Route path="/tours" element={<Tours tours={tours} addTour={addTour} />} />
           <Route path="/add-new-tour" element={<AddNewTour addTour={addTour} />} />
+          <Route path="/book" element={<BookPage />} />
+          <Route path="/edit-tour" element={<EditTour/>} />
+
         </Routes>
       </main>
     </BrowserRouter>

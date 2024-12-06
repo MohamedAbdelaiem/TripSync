@@ -1,0 +1,161 @@
+.book-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+/* Slider Container */
+.book-page-slider {
+    width: 100%;
+    max-width: 600px;
+    height: 400px; /* Adjust based on your image aspect ratio */
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 15px; /* Rounded corners for a smoother look */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+  }
+  
+  /* Image Styling */
+  .book-page-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Keeps aspect ratio while covering container */
+    border-radius: 15px; /* Matches rounded corners of container */
+    transition: transform 0.3s ease-in-out; /* Smooth zoom effect on hover */
+  }
+  
+  /* Hover Zoom Effect for Images */
+  .book-page-slide img:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+  
+  /* Customize the Slick Dots */
+  .slick-dots {
+    position: absolute;
+    bottom: 10px; /* Position the dots at the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+  }
+  
+  .slick-dots li button {
+    background-color: rgba(255, 255, 255, 0.7); /* Light white dots */
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    transition: background-color 0.3s;
+  }
+  
+  /* Active dot */
+  .slick-dots li.slick-active button {
+    background-color: #007bff; /* Highlight active dot */
+  }
+  
+  /* Custom Arrow Buttons */
+  .slick-prev,
+  .slick-next {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent arrows */
+    border-radius: 50%;
+    padding: 10px;
+    z-index: 1;
+  }
+  
+  .slick-prev {
+    left: 10px;
+  }
+  
+  .slick-next {
+    right: 10px;
+  }
+  
+  /* Arrow Icon Styles */
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 30px;
+    color: white;
+    opacity: 1;
+  }
+  
+  /* Hover effect for arrows */
+  .slick-prev:hover,
+  .slick-next:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* Darker background on hover */
+  }
+  .slick-prev, .slick-next {
+    background-color: transparent; /* Remove background */
+    border: none; /* Remove borders */
+    color: transparent; /* Make sure text is not visible */
+    font-size: 0; /* Hide text */
+    width: 30px; /* Adjust width */
+    height: 30px; /* Adjust height */
+    background-size: contain; /* Fit the icon */
+    background-repeat: no-repeat; /* Ensure no repetition of the icon */
+  }
+  
+  
+  .book-page-details {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  .book-page-details h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .book-page-info {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .book-page-info p {
+    margin: 5px 0;
+  }
+  
+  .book-page-price {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .book-page-price .original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+  }
+  
+  .book-page-price .sale-price {
+    color: #ff4d4f;
+    font-weight: bold;
+  }
+  
+  .book-page-price .price {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .book-now-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .book-now-button:hover {
+    background-color: #0056b3;
+  }
+  

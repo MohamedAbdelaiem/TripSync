@@ -8,7 +8,6 @@ const Blog = ({ content, date, time, username, profilePic }) => {
   return (
       <>
 
-     
       <div className="flexContainer">
         <div className="cardbody">
           <img

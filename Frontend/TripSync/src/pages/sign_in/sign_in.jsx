@@ -25,13 +25,13 @@ function Sign_in() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">
+              <label htmlFor="passSign" className="form-label">
                 Password
               </label>
               <input
                 type="password"
                 className="form-control"
-                id="pass"
+                id="passSign"
                 placeholder="Enter your password"
                 required
               />

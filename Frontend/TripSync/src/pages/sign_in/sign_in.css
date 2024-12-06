@@ -102,4 +102,10 @@
       padding: 10px;
     }
   }
-  
+  #passSign{
+    border: 1px solid #ced4da;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: #e8f3fd;
+  }

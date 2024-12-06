@@ -39,6 +39,25 @@ exports.getTripById = async (req, res) => {
 };
 
 exports.deleteTrip = async (req, res) => {
+  const TravelAgency_ID = req.user.user_id;
+  const Trip_id = req.params.trip_id;
+  const user_id = req.user.user_id;
+  const Trip = await client.query("SELECT * FROM TRIP WHERE Trip_ID=$1", [
+    Trip_id,
+  ]);
+  if (Trip.rowCount == 0) {
+    return res.status(404).json({
+      status: "failed",
+      message: "Trip not found",
+    });
+  }
+  // console.log(Trip.rows[0].travelagency_id, user_id);
+  if (Trip.rows[0].travelagency_id != user_id) {
+    return res.status(401).json({
+      status: "failed",
+      message: "You are not allowed to delete this Trip",
+    });
+  }
   try {
     trip_id = req.params.trip_id;
     await client.query("BEGIN");
@@ -323,8 +342,19 @@ exports.deletePromotion = async (req, res) => {
   if (Queryres.rowCount == 0)
     return res.status(404).json({
       status: false,
-      message: "There is no such promotion!",
+      message: "There is no such trip to delete its promotion!",
     });
+  const Promote = await client.query("SELECT * FROM Promote WHERE Trip_ID=$1", [
+    Trip_ID,
+  ]);
+
+  if (Promote.rows[0].travelagency_id != TravelAgency_ID) {
+    return res.status(401).json({
+      status: "failed",
+      message: "You are not allowed to delete promotion to this Trip",
+    });
+  }
+
 
   try {
     await client.query("delete from promote where trip_id=$1", [Trip_ID]);

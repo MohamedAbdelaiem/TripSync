@@ -28,12 +28,11 @@ const Navbar = () => {
               <a href="#">Home</a>
             </li>
 
-            <li className="nav-item active mx-2">Discover</li>
-            <li className="nav-item active mx-2">Activities</li>
+          
             <li className="nav-item active mx-2">About</li>
-            <li className="nav-item active mx-2">Content</li>
+            
             <NavLink to="Blog">
-              <li className="nav-item active mx-2">
+              <li className="blogNav mx-2">
                 Blogs
               </li>
             </NavLink>

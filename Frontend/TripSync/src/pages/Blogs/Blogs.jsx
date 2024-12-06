@@ -47,6 +47,7 @@ function Blogs() {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
+          
         <>
 
           <div className="blogs-container">

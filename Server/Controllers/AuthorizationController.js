@@ -248,28 +248,31 @@ exports.protect=async(req,res,next)=>{
     }
 
     //check if user changed password after the token was issued
-    const changedPassword = await client.query(
-      "SELECT * FROM users WHERE user_id = $1 AND password_changed_at > $2",
-      [decoded.id, decoded.iat]
-    );
+    const decodedIatInMs = decoded.iat * 1000; // Convert `iat` from seconds to milliseconds
 
-    if (changedPassword.rows[0]) {
-      return res.status(401).json({
-        status: "fail",
-        message: "User recently changed password! Please log in again.",
-      });
-    }
+    // const changedPassword = await client.query(
+    //   "SELECT * FROM users WHERE user_id = $1 AND passwordchangedat > TO_TIMESTAMP($2 / 1000)",
+    //   [decoded.id, decodedIatInMs]
+    // );
+
+
+    // if (changedPassword.rows[0]) {
+    //   return res.status(401).json({
+    //     status: "fail",
+    //     message: "User recently changed password! Please log in again.",
+    //   });
+    // }
 
 
     // GRANT ACCESS TO PROTECTED ROUTE
     req.user = currentUser.rows[0];
-    req.locals.user=currentUser.rows[0];
+    // req.locals.user=currentUser.rows[0];
     next();
   } catch (err) {
     // console.error(err);
     res.status(400).json({
       status: "fail",
-      message: "Please log in again!",
+      message: err,
     });
     next(err);
   }

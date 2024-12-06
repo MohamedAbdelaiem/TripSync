@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import "./TripsCard.css";
+import "./AllTripsList.css"
+import "../../../pages/UserTripsList/UserTripsList.css"
 
 import { FaMapMarkerAlt, FaRegStar, FaClock } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 
-function TripCard({
+function AdminTripCard({
   tripId,
   image,
   name,
@@ -16,19 +17,20 @@ function TripCard({
   duration,
   status,
 }) {
+
   const viewTripDetails_clicked = () => {
     // go to trip details with trip id
-    console.log("clickexx")
-    Navigate(`/trip-details/:${tripId}`);
+    // Navigate(`/trip-details/:${tripId}`);
   };
+
   return (
-    <div className="trip-card">
-      <div className="trip-image-section">
-        <img src={image} alt={name} className="trip-image" />
+    <div className="admin-trip-card">
+      <div className="admin-trip-image-section">
+        <img src={image} alt={name} className="admin-trip-image" />
       </div>
-      <div className="trip-info-section">
-        <div className="trip-header">
-          <h2 className="trip-name">{name}</h2>
+      <div className="admin-trip-info-section">
+        <div className="admin-trip-header">
+          <h2 className="admin-trip-name">{name}</h2>
           {status === "not-started" && (
             <div className="trip-status not-started">Not started</div>
           )}
@@ -36,24 +38,24 @@ function TripCard({
             <div className="trip-status finished">finished</div>
           )}
         </div>
-        <p className="trip-organizer">Organized by: {organizer}</p>
-        <p className="trip-locations">
-          <FaMapMarkerAlt className="icon" /> From {startLocation} to{" "}
+        <p className="admin-trip-organizer">Organized by: {organizer}</p>
+        <p className="admin-trip-locations">
+          <FaMapMarkerAlt className="admin-icon" /> From {startLocation} to{" "}
           {endLocation}
         </p>
-        <p className="trip-dates">
-          <FaClock className="icon" />{" "}
+        <p className="admin-trip-dates">
+          <FaClock className="admin-icon" />{" "}
           {new Date(startDate).toLocaleDateString()} -{" "}
           {new Date(endDate).toLocaleDateString()} ({duration} days)
         </p>
-        <div className="trip-footer">
-          <button className="trip-button" onClick={viewTripDetails_clicked}>
+        <div className="admin-trip-footer">
+          <button className="admin-trip-button" onClick={viewTripDetails_clicked}>
             View Details
           </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default TripCard;
+export default AdminTripCard;

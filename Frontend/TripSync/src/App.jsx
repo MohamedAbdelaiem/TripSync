@@ -12,6 +12,7 @@ import Blog from "./Components/Blog/Blog";
 import Preregister from "./pages/Preregister/Preregister";
 import TravelAgency from "./pages/TravelAgency/TravelAgency";
 import Tours from "./pages/Tours/Tours";
+import AdminView from "./pages/AdminView/AdminView";
 
 import UserTripsList from "./pages/UserTripsList/UserTripsList";
 
@@ -50,24 +51,23 @@ export class App extends Component {
             <Route path="/Preregister" element={<Preregister />} />
             <Route path="/Blog/profile" element={<TravelAgency />} />
 
-
             <Route path="/Traveller-Profile/:id" element={<TravellerProf />} />
-            <Route path="/Tickets/:id" element={<TicketsList/>} />
+            <Route path="/Admin-view/:adminId" element={<AdminView />} />
+            <Route path="//trip-details/:tripId" element={<AdminView />} />
+            {/* <Route path="/Tickets/:id" element={<TicketsList/>} />
             <Route path="/Rewards/:id" element={<RewardsList/>} />
-            <Route path="/User_Trips/:id" element={<UserTripsList/>} />
-
-            <Route path="/Traveller-Profile" element={<TravellerProf />} />
-            <Route path="/Tickets/:id" element={<TicketsList />} />
-            <Route path="/Rewards/:id" element={<RewardsList />} />
-
+            <Route path="/User_Trips/:id" element={<UserTripsList/>} /> */}
 
             <Route path="/TravelAgency" element={<TravelAgency />} />
             <Route path="/Review" element={<Review />} />
             <Route path="/Blog" element={<Blogs />} />
-            <Route path="/Tours" element={<Tours/>} />
-            <Route path="/Story" element={<OurStory/>} />
-            <Route path="/Q&A" element={<QACards/>} />
-            <Route path="/TravelAgencyProfile" element={<TravelAgencyProfile agency={agency}/>} />
+            <Route path="/Tours" element={<Tours />} />
+            <Route path="/Story" element={<OurStory />} />
+            <Route path="/Q&A" element={<QACards />} />
+            <Route
+              path="/TravelAgencyProfile"
+              element={<TravelAgencyProfile agency={agency} />}
+            />
             <Route path="/add-new-tour" element={<AddNewTour />} />
           </Routes>
         </main>

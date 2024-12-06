@@ -1,0 +1,77 @@
+.ReportContent{
+    resize: both;
+    overflow: auto;
+    min-width: 100px;
+    max-width: 300px;
+    margin-left: 270px;
+}
+.policy{
+    text-decoration: none;
+}
+.ReportContent::placeholder{
+    color: rgb(98, 98, 98);
+    font-size: 16px;
+}
+.report {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    margin-top: 130px;
+    height: 100vh; 
+    text-align: center; 
+    /* background-color: #f9f9f9; / */
+}
+
+.ReportContent {
+    width: 300px; 
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    /* min-height: 200px; */
+}
+.ReportContent::placeholder{
+    top:10px;
+    position: fixed;
+}
+.policy {
+    font-size: 14px;
+    color: #555; 
+    margin-left: 240px;
+    margin-top: 15px;
+}
+
+.policyLink  {
+    color: #007bff; 
+    text-decoration: none;
+  }
+  
+  .policy a:hover {
+      text-decoration: underline; 
+    }
+    
+    .report{
+       margin-bottom: 0px;
+        
+    }
+    .Send{
+        color: rgb(255, 252, 252);
+        border: none;
+        margin-left: 250px;
+        background-color: #fe3737;
+        border-radius: 5px;
+        height: 40px;
+        width: 200px;
+    }
+    .TitleReport{
+        margin-top: 100px;
+        margin-left: 280px;
+    }
+    .flexxx{
+        /* display: flex; */
+    }
+    .flexx{
+        display: flex;
+    }

@@ -1,7 +1,8 @@
 import React from "react";
 import "./SideNavBar.css";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaInfoCircle, FaPlane, FaQuestionCircle, FaStar } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaPlane, FaQuestionCircle, FaStar,FaSun} from "react-icons/fa";
+import { FaExclamationTriangle } from 'react-icons/fa'; // Replace with the appropriate icon
 
 const SideNavBar = ({ type }) => {
   return (
@@ -36,6 +37,14 @@ const SideNavBar = ({ type }) => {
       >
         <FaStar style={{ marginRight: "8px" }} /> Review
       </NavLink>
+
+      <NavLink
+        to={`/Report?type=${type}`}
+        className={({ isActive }) => (isActive ? "active" : "")}
+      >
+        <FaExclamationTriangle style={{ marginRight: "8px" }} /> Report
+      </NavLink>
+
     </div>
   );
 };

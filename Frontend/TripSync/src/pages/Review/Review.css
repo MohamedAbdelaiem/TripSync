@@ -22,7 +22,8 @@
     width: 600px;
     height: 200px;
     /* background-color: lightblue; */
-
+margin-left: 200px;
+/* margin-left: 300px; */
   }
   .card-title{
     display: block;

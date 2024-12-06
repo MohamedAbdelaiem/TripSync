@@ -1,0 +1,115 @@
+/* .newBlogParent{
+    min-height: 200px;
+    box-shadow: none;
+    background-color: rgb(109, 187, 255);
+} */
+
+/* Blur overlay styles */
+.blur-overlay {
+    filter: blur(8px); /* Apply blur effect */
+    pointer-events: none; /* Disable interaction with blurred content */
+  }
+  
+  .centered-input-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; /* Ensure it appears above the blurred content */
+  }
+  
+  .centered-input {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    outline: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    min-height: 300px;
+  }
+  
+  .newBlogParent {
+    margin: 20px auto;
+    display: block;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  #profilephoto + label ,#post {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    background:  #94b7f4;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  #profilephoto + label:hover ,#post:hover {
+    background:  #2575fc;
+    transition: 10ms;
+  }
+  #post{
+    border: none;
+    margin-right: 10px;
+  }
+   .centered-input::placeholder{
+    color: rgb(136, 134, 134);
+    top:20px;
+    position: fixed;
+   }
+   .inputbox{
+    margin-bottom: 15px;
+   }
+   /* Centered input container styles */
+.centered-input-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  width: 80%; /* Optional: Limit the width of the container */
+  max-width: 500px;
+}
+
+.inputbox {
+  width: 100%;
+}
+
+.centered-input {
+  width: auto;
+  min-width: 100px; /* Minimum width of the input */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  resize: none; /* Prevent resizing if you want */
+  outline: none;
+  box-sizing: content-box; /* Ensures width is calculated based on content */
+  transition: width 0.2s ease; /* Smooth transition for resizing */
+}
+
+#post {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Optional: Styling for file input */
+.form-controlPhoto {
+  display: none;
+}
+ 
+
+#profilephotoPreview {
+  max-width: 100px;
+  margin-top: 10px;
+}

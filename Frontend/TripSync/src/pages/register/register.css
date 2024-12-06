@@ -88,7 +88,7 @@
     border-radius: 10px;
     background-color: #e8f3fd;
   }
-  input::placeholder {
+  #Address,#Description,#PhoneNumber,#Country,#profileName,#Location,#userName,#pass,#email ::placeholder {
     color: rgb(243, 239, 239);
     font-style: italic;
     font-size: 14px;

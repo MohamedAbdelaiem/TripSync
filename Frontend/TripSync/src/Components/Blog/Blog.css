@@ -39,6 +39,7 @@ justify-items: center;
 }
 .cardtitle{
   display: inline;
+  margin-left: 10px;
 }
 .blogerphoto{
   margin-left: -20px;

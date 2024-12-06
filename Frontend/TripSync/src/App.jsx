@@ -16,8 +16,8 @@ import Register_TravelAgency from "./pages/Register_TravelAgency/Register_Travel
 import UserTripsList from "./pages/UserTripsList/UserTripsList";
 import BookPage from "./pages/BookPage/BookPage";
 import EditTour from "./pages/EditTour/EditTour";
-
-
+import Report from './pages/Report/Report';
+import BlogWrite from "./pages/BlogWrite/BlogWrite";
 import Blogs from "./pages/Blogs/Blogs";
 import Review from "./pages/Review/Review";
 import QACards from "./pages/QACards/QACards"; 
@@ -100,6 +100,7 @@ const App = () => {
           <Route path="/Rewards/:id" element={<RewardsList />} />
           <Route path="/TravelAgency" element={<TravelAgency />} />
           <Route path="/Review" element={<Review />} />
+          <Route path="/Report" element={<Report/>} />
           <Route path="/Blog" element={<Blogs />} />
           <Route path="/Story" element={<OurStory />} />
           <Route path="/Q&A" element={<QACards />} />
@@ -107,7 +108,9 @@ const App = () => {
           <Route path="/tours" element={<Tours tours={tours} addTour={addTour} />} />
           <Route path="/add-new-tour" element={<AddNewTour addTour={addTour} />} />
           <Route path="/book" element={<BookPage />} />
-          <Route path="/edit-tour" element={<EditTour/>} />
+          <Route path="/edit-tour" element={<EditTour />} />
+          <Route path="/Blog/blogWrite" element={<BlogWrite />} />
+          
 
         </Routes>
       </main>

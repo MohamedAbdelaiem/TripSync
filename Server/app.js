@@ -15,7 +15,7 @@ const tripRouter = require("./Routes/tripRouter");
 const reportRouter = require("./Routes/reportRouter");
 
 const app = express();
-
+const cors = require("cors");
 //create an http server using the express app
 const server = http.createServer(app);
 
@@ -25,6 +25,14 @@ const io = socketio(server);
 //api security
 app.use(helmet());
 app.use(xss());
+
+
+// Alternatively, configure specific origins:
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow only your frontend
+  })
+);
 
 //Body Parser
 app.use(express.json()); //for json data
@@ -61,5 +69,5 @@ io.on("connection", (socket) => {
 // });
 
 
-server.listen(process.env.PORT,()=> {
+app.listen(process.env.PORT,()=> {
 })

@@ -17,7 +17,7 @@ function Blogs() {
       try {
         const response = await fetch(Base_Url);
         const data = await response.json();
-        
+
         setBlogs(data.data); // Assuming data is an array of blogs
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -28,10 +28,11 @@ function Blogs() {
 
     fetchBlogs();
   }, []);
-   {
+  {
     console.log("Expected an array but got:", blogs);
-    
   }
+
+
 
   return (
     <>
@@ -47,9 +48,7 @@ function Blogs() {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-          
         <>
-
           <div className="blogs-container">
             {blogs.map((blog) => (
               <Blog

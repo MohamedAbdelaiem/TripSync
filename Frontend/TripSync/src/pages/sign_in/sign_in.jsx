@@ -1,45 +1,40 @@
-import  { useState } from "react";
+import { useState } from "react";
 import Sub_Navbar from "../../Components/Sub_Navbar/Sub_Navbar";
 import "./Sign_in.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-// import navLink from React
+import { NavLink } from "react-router-dom";
 
 function Sign_in() {
-  const [email,setEmail]=useState("");
-  const [password,setPassword]=useState("");
-  const [error,setError]=useState("");
-  const [success,setSuccess]=useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSubmit=async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    try{
-        const response=await axios.post("http://localhost:3000/api/v1/users/LogIn",{
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/users/LogIn",
+        {
           email,
-          password
+          password,
         },
         {
-          headers:{
-            "Content-Type":"application/json"
-          }
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
       setSuccess(response.data.message);
       console.log(response.data.message);
       // Navigate("/");
-    
-  }
-  catch(error){
-    setError(error.message);
-    console.log(error.response.data.message);
-  }
-  }
-
-
-
-
-
+    } catch (error) {
+      setError(error.message);
+      console.log(error.response.data.message);
+    }
+  };
 
   return (
     <>
@@ -58,7 +53,7 @@ function Sign_in() {
                 id="email"
                 placeholder="Enter your email"
                 required
-                onChange={(e)=>setEmail(e.currentTarget.value)}
+                onChange={(e) => setEmail(e.currentTarget.value)}
               />
             </div>
 
@@ -72,15 +67,17 @@ function Sign_in() {
                 id="passSign"
                 placeholder="Enter your password"
                 required
-                onChange={(e)=>setPassword(e.currentTarget.value)}
+                onChange={(e) => setPassword(e.currentTarget.value)}
               />
             </div>
-
-            <div className="d-grid">
-              <button type="submit" className="btnSign">
-                Sign In
-              </button>
-            </div>
+            <navLink to="/">
+              {" "}
+              <div className="d-grid">
+                <button type="submit" className="btnSign">
+                  Sign In
+                </button>
+              </div>
+            </navLink>
 
             <navLink to="ForgetPassword">
               <button className="forgetPassword">Forget your password?</button>

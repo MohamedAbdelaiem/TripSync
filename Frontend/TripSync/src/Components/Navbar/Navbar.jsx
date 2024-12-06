@@ -4,7 +4,7 @@ import "./Navbar.css";
 import planeImage from "../../assets/plane.png";
 import { NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({id}) => {
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -24,23 +24,23 @@ const Navbar = () => {
         ></button>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav m-2">
-            <li className="nav-item active mx-2">
+            <li className="HomeNav active mx-2">
               <a href="#">Home</a>
             </li>
+            <a href={id}>
+              <li className="nav-item active mx-2">About</li>
+            </a>
 
-          
-            <li className="nav-item active mx-2">About</li>
-            
             <NavLink to="Blog">
-              <li className="blogNav mx-2">
-                Blogs
-              </li>
+              <li className="blogNav mx-2">Blogs</li>
             </NavLink>
           </ul>
         </div>
         <div className="collapse navbar-collapse d-flex justify-content-end">
           <NavLink to="Preregister">
-            <button className="registerHome btn btn-primary mx-1">register</button>
+            <button className="registerHome btn btn-primary mx-1">
+              register
+            </button>
           </NavLink>
           <NavLink to="Sign_in ">
             <button className="sign_inHome btn btn-outline-light mx-1">

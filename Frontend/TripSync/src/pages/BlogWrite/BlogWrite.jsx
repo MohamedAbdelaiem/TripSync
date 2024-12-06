@@ -5,6 +5,7 @@ import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedIn
 import "./BlogWrite.css";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 function BlogWrite() {
   const [photoPreview, setPhotoPreview] = useState(null);
@@ -13,6 +14,35 @@ function BlogWrite() {
     const file = event.target.files[0];
     if (file) {
       setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
+    }
+  };
+  const Base_URL = "http://localhost:3000/api/v1/blogs/CreateBlog";
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    try {
+      const response = await axios.post(
+         Base_URL ,
+        {
+          description,
+          
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setSuccess(response.data.message);
+      console.log(response.data.message);
+    } catch (error) {
+      setError(error.message);
+      console.log("error",error.response.data.message);
     }
   };
 
@@ -86,17 +116,17 @@ function BlogWrite() {
         </div>
       </div>
 
-      {/* Centered input box */}
       <div className="centered-input-container">
         <div className="inputbox">
           <input
             type="text"
             placeholder="What's in your mind?"
             className="centered-input"
+            onChange={(e) => setDescription(e.currentTarget.value)}
           />
         </div>
 
-        <button id="post">Post</button>
+        <button id="post" onClick={handleSubmit}>Post</button>
         <input
           type="file"
           className="form-controlPhoto"
@@ -104,7 +134,7 @@ function BlogWrite() {
           accept="image/*"
           onChange={handlePhotoChange}
         />
-        <label >Upload Photo</label>
+        <label>Upload Photo</label>
         {photoPreview && (
           <img
             src={photoPreview}

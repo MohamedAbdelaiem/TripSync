@@ -15,7 +15,6 @@ const tripRouter = require("./Routes/tripRouter");
 const reportRouter = require("./Routes/reportRouter");
 
 const app = express();
-const cors = require("cors");
 //create an http server using the express app
 const server = http.createServer(app);
 

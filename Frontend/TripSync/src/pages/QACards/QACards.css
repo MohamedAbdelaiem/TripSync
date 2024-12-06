@@ -1,63 +1,108 @@
-.flexx{
-    display: flex;
-    /* flex-direction: column; */
-}  
+.flexx {
+  display: flex;
+}
+
 .qa-cards-container {
-  
-    margin: 20px;
-  
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 2px solid blue; 
-    border-radius: 10px;
-  }
-  
-  .qa-cards-title {
-    text-align: center;
-    color: blue;
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .qa-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  .qa-card {
-    width: 300px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .qa-card-header {
-    margin-bottom: 10px;
-  }
-  
-  .qa-card-question {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .qa-card-body {
-    margin-bottom: 10px;
-  }
-  
-  .qa-card-answer {
-    font-size: 16px;
-    color: #555;
-  }
-  
-  .qa-card-footer {
-    font-size: 14px;
-    color: #888;
-    text-align: right;
-  }
-  
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 2px solid blue;
+  border-radius: 10px;
+}
+
+.qa-cards-title {
+  text-align: center;
+  color: blue;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.qa-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.qa-card {
+  width: 300px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.qa-card-header {
+  margin-bottom: 10px;
+}
+
+.qa-card-question {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.qa-card-body {
+  margin-bottom: 10px;
+}
+
+.qa-card-answer {
+  font-size: 16px;
+  color: #555;
+}
+
+.qa-card-footer {
+  font-size: 14px;
+  color: #888;
+  text-align: right;
+}
+
+.edit-textarea {
+  width: 100%;
+  height: 80px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 14px;
+  resize: none;
+}
+
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.edit-btn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  color: #fff;
+  margin-left: 10px;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+}

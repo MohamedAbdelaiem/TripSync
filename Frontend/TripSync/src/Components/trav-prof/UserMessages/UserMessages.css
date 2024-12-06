@@ -67,7 +67,6 @@ background-color: aliceblue;
   background: #737070;
 }
 
-
 /* Main Container */
 .userMessages-container {
   display: flex;
@@ -171,17 +170,14 @@ background-color: aliceblue;
 }
 
 /* Chat Content Placeholder */
-.chat-content::before {
+/* .chat-content::before {
   content: "Start chatting here!";
   display: block;
   text-align: center;
   color: #aaa;
   font-size: 16px;
   margin-top: 30px;
-}
-
-
-
+} */
 
 .message-list {
   flex: 1;
@@ -195,7 +191,14 @@ background-color: aliceblue;
   padding: 10px;
   border-radius: 8px;
   background-color: #d1e7dd;
-  align-self: flex-start;
+  max-width: 50%;
+  align-self: flex-end;
+  justify-self: end;
+}
+
+.received-message {
+  background-color: #e3e0e0;
+  justify-self: start;
 }
 
 .message-form {

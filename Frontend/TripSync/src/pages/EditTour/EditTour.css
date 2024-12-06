@@ -1,14 +1,118 @@
-.btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
+/* Container */
+.edit-tour-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: "Arial", sans-serif;
   }
   
-  .btn:hover {
-    background-color: #218838;
+  /* Title */
+  .edit-tour-title {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 25px;
+  }
+  
+  /* Form */
+  .edit-tour-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Form Group */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #495057;
+  }
+  
+  .form-input {
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 100%;
+    background-color: #f8f9fa;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  textarea.form-input {
+    resize: vertical;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+  }
+  
+  /* Images */
+  .image-upload {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .image-item {
+    position: relative;
+  }
+  
+  .image-item img {
+    max-width: 100px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .remove-image-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    font-size: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .remove-image-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* Buttons */
+  .btn {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .save-changes-btn {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .save-changes-btn:hover {
+    background-color:  #0056b3;
   }
   

@@ -1,0 +1,103 @@
+/* styling for agency card */
+.agency-card-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 70%;
+  max-width: 100%;
+  padding: 15px 20px;
+  border: 1px solid #34495e;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #2c3e50;
+  margin: 10px 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.agency-card-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.agnecy-card-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+  border: 2px solid #ecf0f1;
+}
+
+.agency-card-info {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.agency-card-name {
+  font-size: 18px;
+  color: #ecf0f1;
+  flex: 1;
+}
+
+.agency-card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.view-agency-card-profile-btn,
+.block-agency-card-user-btn {
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.view-agency-card-profile-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.view-agency-card-profile-btn:hover {
+  background-color: #2980b9;
+}
+
+.block-agency-card-user-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.block-agency-card-user-btn:hover {
+  background-color: #c0392b;
+}
+
+/* styling for Agencies list */
+
+.all-agencies-list-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #e0e0e0;
+  color: #ecf0f1;
+  width: 75%;
+  min-height: 100vh;
+  position: absolute;
+  right:0px;
+  box-sizing: border-box;
+}
+
+.agencies-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+

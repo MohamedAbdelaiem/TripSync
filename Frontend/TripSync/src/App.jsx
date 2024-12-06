@@ -12,6 +12,7 @@ import Blog from "./Components/Blog/Blog";
 import Preregister from "./pages/Preregister/Preregister";
 import TravelAgency from "./pages/TravelAgency/TravelAgency";
 import Tours from "./pages/Tours/Tours";
+import AdminView from "./pages/AdminView/AdminView";
 import Register_TravelAgency from "./pages/Register_TravelAgency/Register_TravelAgency";
 import UserTripsList from "./pages/UserTripsList/UserTripsList";
 import BookPage from "./pages/BookPage/BookPage";
@@ -28,6 +29,7 @@ import image3 from "./assets/Rectangle 9.png";
 import image4 from "./assets/Rectangle 11.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 
 const App = () => {
   const agency = {
@@ -97,6 +99,7 @@ const App = () => {
           <Route path="/Blog/profile" element={<TravelAgency />} />
           <Route path="/Traveller-Profile/:id" element={<TravellerProf />} />
           <Route path="/Tickets/:id" element={<TicketsList />} />
+          <Route path="/Admin-view/:adminId" element={<AdminView />} />
           <Route path="/Rewards/:id" element={<RewardsList />} />
           <Route path="/TravelAgency" element={<TravelAgency />} />
           <Route path="/Review" element={<Review />} />
@@ -115,5 +118,6 @@ const App = () => {
     
   );
 };
+
 
 export default App;

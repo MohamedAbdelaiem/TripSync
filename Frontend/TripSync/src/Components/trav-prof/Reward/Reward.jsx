@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../pages/RewardsList/RewardsList.css"
+import "./Reward.css"
 import { useState } from "react";
 
 const Reward = ({ id, photoLink, requiredPoints, description, reward_claimed }) => {

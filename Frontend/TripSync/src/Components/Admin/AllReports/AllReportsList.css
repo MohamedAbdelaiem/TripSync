@@ -1,0 +1,23 @@
+.all-reports-container {
+  padding: 20px;
+  background-color: #e0e0e0;
+  color: #ecf0f1;
+  border-radius: 10px;
+  width: 75%;
+  position: absolute;
+  right: 0px;
+  min-height: 100vh;
+}
+
+.all-reports-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #292c2d;
+}
+
+.reports-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

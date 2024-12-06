@@ -53,8 +53,8 @@
     background-color: #e8ebf3;
   }
   
-  button[type="submit"],
-  button[type="button"] {
+  .btn2,
+  .btn1 {
     padding: 0.8rem 1.5rem;
     font-size: 1.1rem;
     border: none;
@@ -64,20 +64,20 @@
     transition: all 0.3s ease;
   }
   
-  button[type="submit"] {
+  .btn2 {
     background-color: #007bff;
   }
   
-  button[type="submit"]:hover {
+  .btn2:hover {
     background-color: #0056b3;
     transform: translateY(-3px);
   }
   
-  button[type="button"] {
+  .btn1 {
     background-color: #28a745;
   }
   
-  button[type="button"]:hover {
+  .btn1:hover {
     background-color: #218838;
     transform: translateY(-3px);
   }
@@ -119,9 +119,9 @@
     margin-right: 1rem;
   }
   
-  div > button {
+  /* div > button {
     width: 100%;
-  }
+  } */
   
   h4 {
     font-size: 1.2rem;

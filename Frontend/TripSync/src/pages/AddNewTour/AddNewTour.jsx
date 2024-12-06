@@ -141,7 +141,7 @@ const AddNewTour = ({ addTour }) => {
               value={imageInput}
               onChange={(e) => setImageInput(e.target.value)}
             />
-            <button type="button" onClick={handleAddImage}>
+            <button className="btn1" type="button" onClick={handleAddImage}>
               Add Image
             </button>
           </div>
@@ -154,7 +154,7 @@ const AddNewTour = ({ addTour }) => {
             ))}
           </ul>
         </div>
-        <button type="submit">Save Tour</button>
+        <button className="btn2" type="submit">Save Tour</button>
       </form>
     </div>
   );

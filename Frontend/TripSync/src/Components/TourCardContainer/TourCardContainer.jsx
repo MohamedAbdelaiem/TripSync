@@ -4,6 +4,17 @@ import TourCard from "../TourCard/TourCard";
 import "./TourCardContainer.css";
 
 const TourCardContainer = ({ type, tours, onAddNewTour }) => {
+  const navigate = useNavigate();
+
+  const handleBook = (tour) => {
+    console.log("Navigating to Book Page with tour:", tour);
+    navigate("/book", { state: { tour } }); // Pass selected tour to Book page
+  };
+
+  const handleEdit = (tour) => {
+    navigate("/edit-tour", { state: { tour } }); // Pass selected tour to Edit page
+  };
+
   return (
     <div className="containr">
       <div className="add-tour-button-container">
@@ -26,6 +37,8 @@ const TourCardContainer = ({ type, tours, onAddNewTour }) => {
             startLocation={tour.startLocation}
             hasSale={tour.hasSale}
             salePrice={tour.salePrice}
+            onBook={() => handleBook(tour)} // Pass the entire tour object
+            onEdit={() => handleEdit(tour)}
           />
         ))}
       </div>

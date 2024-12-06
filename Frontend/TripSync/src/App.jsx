@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
+import { UserContext } from "./assets/userContext";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Home from "./pages/Home/Home";
 import Sign_in from "./pages/sign_in/sign_in";
@@ -86,6 +87,8 @@ const App = () => {
   const addTour = (newTour) => {
     setTours((prevTours) => [...prevTours, newTour]);
   };
+
+  const { user} = useContext(UserContext);
 
   return (
     <BrowserRouter>

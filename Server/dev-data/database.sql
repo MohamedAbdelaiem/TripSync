@@ -7,6 +7,7 @@ CREATE TABLE Users
     email VARCHAR(255) NOT NULL UNIQUE,
     ProfilePhoto VARCHAR(300),
     ProfileName VARCHAR(200),
+    passwordchangedat TIMESTAMP,
     role VARCHAR(200) NOT NULL CHECK (role IN ('admin', 'traveller', 'travel_agency'))
 );
 

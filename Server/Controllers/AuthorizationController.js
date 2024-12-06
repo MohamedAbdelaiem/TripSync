@@ -108,6 +108,17 @@ exports.signup = async (req, res) => {
         const user = { ...newUser.rows[0] };
         delete user.password;
 
+        const cookieOptions = {
+          expires: new Date(
+            Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+          ),
+          httpOnly: true,
+          secure: false,// Set to true in production
+          sameSite: 'none',
+        };
+
+        res.cookie("jwt", token, cookieOptions);
+
         // Send response
         res.status(201).json({
             status: 'success',
@@ -164,17 +175,28 @@ exports.LogIn=async(req,res,next)=>{
         // Remove sensitive data before sending response
         const userData = {...user.rows[0]};
         delete userData.password; // Do not send the password in the response
+
+        const cookieOptions = {
+          expires: new Date(
+            Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+          ),
+          httpOnly: true,
+          secure: false,// Set to true in production
+          sameSite: 'none',
+        };
+
+        res.cookie("jwt", token, cookieOptions);
         // Send the response
         res.status(200).json({
             status: 'success',
             message: 'User logged in successfully',
             token,
-            data: { user: userData },
+            data:userData,
         });
     }
     catch(e)
     {
-        console.error(err);
+        console.error(e);
         res.status(400).json({
             status: 'fail',
             message: 'Error logging in the user',
@@ -189,6 +211,9 @@ exports.protect=async(req,res,next)=>{
         // console.log(req);
         if (req.headers && req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
+        }
+        else if (req.cookies.jwt) {
+            token = req.cookies.jwt;
         }
         // console.log(token);        
 
@@ -222,8 +247,23 @@ exports.protect=async(req,res,next)=>{
       });
     }
 
+    //check if user changed password after the token was issued
+    const changedPassword = await client.query(
+      "SELECT * FROM users WHERE user_id = $1 AND password_changed_at > $2",
+      [decoded.id, decoded.iat]
+    );
+
+    if (changedPassword.rows[0]) {
+      return res.status(401).json({
+        status: "fail",
+        message: "User recently changed password! Please log in again.",
+      });
+    }
+
+
     // GRANT ACCESS TO PROTECTED ROUTE
     req.user = currentUser.rows[0];
+    req.locals.user=currentUser.rows[0];
     next();
   } catch (err) {
     // console.error(err);
@@ -248,6 +288,7 @@ exports.restrictTo = (...roles) => {
 };
 
 exports.LogOut = async (req, res) => {
+  res.clearCookie("jwt");
   res.status(200).json({ status: "success" });
 };
 

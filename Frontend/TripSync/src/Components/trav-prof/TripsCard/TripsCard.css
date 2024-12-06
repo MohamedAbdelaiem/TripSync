@@ -1,6 +1,5 @@
-/* .trip-card {
+.trip-card {
   display: flex;
-
   flex-direction: column;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -32,6 +31,9 @@
 
 .trip-info-section {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
   padding: 15px;
   background: linear-gradient(to right, #ffffff, #f7f9fc);
   padding: 20px;
@@ -40,11 +42,11 @@
 .trip-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  padding: 0px;
 }
 
 .trip-name {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   margin: 0;
   color: #333;
@@ -71,6 +73,7 @@
 .trip-organizer {
   margin: 10px 0 5px;
   color: #555;
+  text-align: start;
 }
 
 .trip-locations,
@@ -78,6 +81,7 @@
   font-size: 0.9rem;
   margin: 5px 0;
   color: #666;
+  text-align: start;
 }
 
 .icon {
@@ -87,8 +91,10 @@
 
 .trip-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   margin-top: 15px;
+  width: 100%;
 }
 
 .trip-button {
@@ -143,10 +149,3 @@
 
 
 
-.user-trips-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-} */

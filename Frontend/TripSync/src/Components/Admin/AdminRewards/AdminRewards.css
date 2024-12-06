@@ -1,0 +1,53 @@
+/* AdminRewards.css */
+
+.admin-rewards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #e0e0e0; 
+  min-height: 100vh;
+  color: #ecf0f1;
+  width: 75%;
+  position: absolute;
+  right: 0px;
+}
+
+.add-reward-container {
+  margin-bottom: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+.add-admin-reward-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #ecf0f1;
+  background-color: #596b7e;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-admin-reward-button:hover {
+  background-color: #233648;
+  transform: scale(1.05);
+}
+
+.all-rewards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.reward-item {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+

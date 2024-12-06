@@ -1,56 +1,57 @@
-/* .trip-card {
-  display: flex;
+/* 
+Trip card styling
+*/
 
-  flex-direction: column;
+.admin-trip-card {
+  display: flex;
+  flex-direction: row;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 20px 0;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 300px;
-  min-height: 450px;
-  height: fit-content;
+  width: 70%;
+  height: 250px;
 }
 
-.trip-card:hover {
+.admin-trip-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.trip-image-section {
-  width: 100%; 
-  max-height: 200px;
-  min-height: 200px;
+.admin-trip-image-section {
+  width: 50%; 
+  height: 100%;
 }
 
-.trip-image {
+.admin-trip-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.trip-info-section {
+.admin-trip-info-section {
   flex: 1;
   padding: 15px;
   background: linear-gradient(to right, #ffffff, #f7f9fc);
   padding: 20px;
 }
 
-.trip-header {
+.admin-trip-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.trip-name {
+.admin-trip-name {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0;
   color: #333;
 }
 
-.trip-status {
+.admin-trip-status {
   font-size: 0.9rem;
   font-weight: bold;
   padding: 5px 10px;
@@ -58,40 +59,40 @@
   text-align: center;
 }
 
-.trip-status.not-started {
+.admin-trip-status.not-started {
   background-color: #ffdd00;
   color: #000;
 }
 
-.trip-status.finished {
+.admin-trip-status.finished {
   background-color: #4caf50;
   color: #fff;
 }
 
-.trip-organizer {
+.admin-trip-organizer {
   margin: 10px 0 5px;
   color: #555;
 }
 
-.trip-locations,
-.trip-dates {
+.admin-trip-locations,
+.admin-trip-dates {
   font-size: 0.9rem;
   margin: 5px 0;
   color: #666;
 }
 
-.icon {
+.admin-icon {
   margin-right: 5px;
   color: #007bff;
 }
 
-.trip-footer {
+.admin-trip-footer {
   display: flex;
   justify-content: flex-end;
   margin-top: 15px;
 }
 
-.trip-button {
+.admin-trip-button {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -103,50 +104,76 @@
   margin-top: 15px;
 }
 
-.trip-button:hover {
+.admin-trip-button:hover {
   background-color: #0056b3;
 }
 
 
 @media (max-width: 768px) {
-  .trip-card {
-    flex-direction: column; 
+  .admin-trip-card {
+    flex-direction: column;
   }
 
-  .trip-image-section {
+  .admin-trip-image-section {
     width: 100%; 
     height: 250px; 
   }
 
-  .trip-info-section {
+  .admin-trip-info-section {
     padding: 20px;
   }
 
-  .trip-name {
+  .admin-trip-name {
     font-size: 1.2rem; 
   }
 
-  .trip-status {
+  .admin-trip-status {
     font-size: 0.8rem;
   }
 
-  .trip-locations,
-  .trip-dates {
+  .admin-trip-locations,
+  .admin-trip-dates {
     font-size: 0.8rem;
   }
 
-  .trip-button {
-    width: 100%;
+  .admin-trip-button {
+    width: 100%; 
     margin-top: 15px;
   }
 }
 
 
 
-.user-trips-list {
+.admin-user-trips-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
   padding: 20px;
-} */
+}
+
+
+/*
+trips list styling
+*/
+
+.all-trips-list-container {
+    width: 75%;
+    position: absolute;
+    right: 0px;
+    background-color: #e0e0e0;
+}
+.all-trips-menu-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+}
+.all-trips-menu-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}

@@ -1,0 +1,66 @@
+/* Sidebar Container */
+.admin-sidebar-caontainer {
+  width: 25%;
+  background-color: #2c3e50;
+  color: white;
+  height: 100vh;
+  display: flex;
+  position: fixed;
+  left: 0px;
+  Top: 0px;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar Title */
+.admin-sidebar-title {
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 2px solid #34495e;
+  padding-bottom: 10px;
+}
+
+/* Menu List */
+.admin-sidebar-menu-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Menu Item */
+.admin-menu-item {
+  margin-bottom: 15px;
+  align-items: center;
+  padding: 10px 15px;
+  width: 100%;
+  font-size: 1.1rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.admin-menu-item:hover {
+  background-color: #34495e;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  width: 100%;
+  font-size: 1em;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.menu-button:hover {
+  background-color: #34495e;
+}

@@ -1,35 +1,93 @@
-.about-us {
-    text-align: center;
-    margin: 50px auto;
-    max-width: 800px;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    margin-top: 50px;
-  }
-  
-  .about-us h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-  }
-  
-  
-  .description {
-    font-size: 1.1em;
-    line-height: 1.6;
-  }
-  .flex{
-    display: flex;
+.flex {
+  display: flex;
+}
 
-}  
+.about-us {
+  flex: 1;
+  padding: 20px;
+  margin-left: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
 .header-underline {
-    width: 100px;
-    height: 3px;
-    background-color:blue; /* Choose a color for the underline */
-    margin: 10px auto;
- }
- .header-title {
-    font-size: 2.5em;
-    color: #000;
-    margin: 0;
-  }
+  width: 100%;
+  height: 4px;
+  background-color: #007bff;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.edit-input {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 10px;
+  width: 100%;
+}
+
+.edit-textarea {
+  font-size: 16px;
+  color: #555;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  width: 100%;
+  height: 100px;
+  resize: none;
+}
+
+.edit-controls {
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  color: #fff;
+  margin-left: 10px;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+}

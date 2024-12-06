@@ -1,15 +1,22 @@
-import { useState } from "react";
+import  { useState,useContext } from "react";
 import Sub_Navbar from "../../Components/Sub_Navbar/Sub_Navbar";
 import "./Sign_in.css";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../assets/userContext";
+
+// import navLink from React
 
 function Sign_in() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const [error,setError]=useState("");
+  const [success,setSuccess]=useState("");
+  const {setUser}=useContext(UserContext);
+
+  const Navigate=useNavigate();
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,19 +29,28 @@ function Sign_in() {
           password,
         },
         {
-          headers: {
-            "Content-Type": "application/json",
+          headers:{
+            "Content-Type":"application/json"
           },
+          withCredentials:true
         }
       );
       setSuccess(response.data.message);
-      console.log(response.data.message);
-      // Navigate("/");
-    } catch (error) {
-      setError(error.message);
-      console.log(error.response.data.message);
-    }
-  };
+      console.log(response.data);
+      console.log(document.cookie);
+      setUser(response.data.data);
+      Navigate("/");    
+  }
+  catch(error){
+    setError(error?.message);
+    console.log(error?.response?.data?.message);
+  }
+  }
+
+
+
+
+
 
   return (
     <>

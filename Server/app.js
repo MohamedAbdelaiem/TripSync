@@ -5,6 +5,7 @@ const xss = require("xss-clean");
 const socketio = require("socket.io");
 const http = require("http");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 //Intialize Routers
 const UserRouter = require("./Routes/userRouter");
 const PoliciesRouter = require("./Routes/policesRouter");
@@ -14,24 +15,18 @@ const ChatRouter = require("./Routes/CharRoutes");
 const tripRouter = require("./Routes/tripRouter");
 const reportRouter = require("./Routes/reportRouter");
 
+
 const app = express();
 //create an http server using the express app
 const server = http.createServer(app);
 
 //create a socket connection using the http server
 const io = socketio(server);
-app.use(cors());
+app.use(cors({credentials: true,origin:"http://localhost:5173"}));
 //api security
 app.use(helmet());
 app.use(xss());
-
-
-// Alternatively, configure specific origins:
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Allow only your frontend
-  })
-);
+app.use(cookieParser());
 
 //Body Parser
 app.use(express.json()); //for json data

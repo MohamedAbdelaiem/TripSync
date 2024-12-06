@@ -336,6 +336,7 @@ exports.UpdateMe = async (req, res) => {
             
             const user = await client.query('SELECT password FROM users WHERE user_id=$1', [req.params.user_id]);
             const isMatch = await bcrypt.compare(previousPassword, user.rows[0].password);
+
             
             if (!isMatch) {
                 await client.query('ROLLBACK');  // Rollback transaction on error
@@ -344,6 +345,18 @@ exports.UpdateMe = async (req, res) => {
             
             const hashedPassword = await bcrypt.hash(newPassword, 12);
             await client.query('UPDATE users SET password=$1 WHERE user_id=$2', [hashedPassword, req.params.user_id]);
+
+            const token = jwt.sign({ user_id: req.params.user_id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
+            const cookieOptions = {
+              expires: new Date(
+                Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+              ),
+              httpOnly: true,
+              secure: false,// Set to true in production
+              sameSite: 'none',
+            };
+    
+            res.cookie("jwt", token, cookieOptions);
         }
         
         if (useremail) {

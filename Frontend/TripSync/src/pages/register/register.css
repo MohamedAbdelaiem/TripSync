@@ -87,9 +87,9 @@
     font-size: 14px;
     border-radius: 10px;
     background-color: #e8f3fd;
+    color: #4a4a4a;
   }
   #Address,#Description,#PhoneNumber,#Country,#profileName,#Location,#userName,#pass,#email ::placeholder {
-    color: rgb(243, 239, 239);
     font-style: italic;
     font-size: 14px;
   }

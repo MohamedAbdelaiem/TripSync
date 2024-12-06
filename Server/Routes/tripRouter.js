@@ -4,10 +4,6 @@ const tripRouter = express.Router();
 const AuthConroller = require("../Controllers/AuthorizationController");
 const UserConroller = require("../Controllers/UserConroller");
 
-console.log("[");
-console.log(TripController.getAllTrips); // Should not log `undefined`
-console.log("]");
-
 tripRouter
   .route("/getAllTrips")
   .get(AuthConroller.protect, TripController.getAllTrips);
@@ -20,7 +16,7 @@ tripRouter
   .route("/deleteTrip/:trip_id")
   .delete(
     AuthConroller.protect,
-    AuthConroller.restrictTo("travel_agency"),
+    AuthConroller.restrictTo("travel_agency","admin"),
     TripController.deleteTrip
   );
 // tripRouter.route('/addTrip').post(AuthConroller.protect,TripController.addTrip);

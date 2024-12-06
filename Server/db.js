@@ -20,7 +20,7 @@ client.connect()
 })
 .catch(e => {
     console.error('Database connection failed:', e);
-    if (err.code === '57P01') {
+    if (e.code === '57P01') {
       console.log('Connection was terminated due to administrative command.');
     }
     process.exit(1);  // Exit the app if database connection fails

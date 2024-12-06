@@ -44,101 +44,106 @@ exports.getAllTickets = async (req, res) => {
   }
 };
 
-// exports.addTicket = async (req, res) => {
-//   const { NumberOfSeats, Price } = req.body;
-//   const TRAVELLER_ID = req.user.user_id;
-//   const TRIP_ID = req.params.trip_id;
+exports.addTicket = async (req, res) => {
+  const { NumberOfSeats, Price } = req.body;
+  const TRAVELLER_ID = req.user.user_id;
+  const TRIP_ID = req.params.trip_id;
 
-//   console.log(TRIP_ID, TRAVELLER_ID);
+  console.log(TRIP_ID, TRAVELLER_ID);
 
-//   // Validate input
-//   if (!NumberOfSeats || !Price) {
-//     return res.status(400).json({
-//       success: false,
-//       error: "Please provide all details",
-//     });
-//   }
+  // Validate input
+  if (!NumberOfSeats || !Price) {
+    return res.status(400).json({
+      success: false,
+      error: "Please provide all details",
+    });
+  }
 
-//   const tickets = await client.query("SELECT * FROM trip WHERE TRIP_ID = $1", [
-//     TRIP_ID,
-//   ]);
+  const tickets = await client.query("SELECT * FROM trip WHERE TRIP_ID = $1", [
+    TRIP_ID,
+  ]);
 
-//   if (tickets.rows.length === 0) {
-//     return res.status(404).json({
-//       status: "false",
-//       message: "There is no such trip ",
-//     });
-//   }
-//   try {
-//     await client.query("BEGIN");
+  if (tickets.rows.length === 0) {
+    return res.status(404).json({
+      status: "false",
+      message: "There is no such trip ",
+    });
+  }
+  try {
+    await client.query("BEGIN");
 
-//     // // Insert into the tickets table
+    // // Insert into the tickets table
 
-//     const ticketsResult = await client.query(
-//       "INSERT INTO Tickets ( NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID) VALUES($1, $2, $3, $4)",
-//       [NumberOfSeats, Price, TRIP_ID, TRAVELLER_ID]
-//     );
+    const ticketsResult = await client.query(
+      "INSERT INTO Tickets ( NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID,DATE) VALUES($1, $2, $3, $4,CURRENT_DATE)",
+      [NumberOfSeats, Price, TRIP_ID, TRAVELLER_ID]
+    );
 
-//     await client.query("COMMIT");
+    await client.query("COMMIT");
 
-//     res.status(200).json({
-//       success: true,
-//       message: "tickets created successfully",
-//     });
-//   } catch (err) {
-//     // Rollback the transaction if there's an error
-//     await client.query("ROLLBACK");
-//     res
-//       .status(500)
-//       .json({ success: false, error: "Error in creating tickets" });
-//   }
-// };
+    res.status(200).json({
+      success: true,
+      message: "ticket created successfully",
+    });
+  } catch (err) {
+    // Rollback the transaction if there's an error
+    await client.query("ROLLBACK");
+    res
+      .status(500)
+      .json({ success: false, error: "Error in creating tickets" });
+  }
+};
 
-// exports.deleteTicket = async (req, res) => {
-//   const traveller_id = req.user.user_id;
-//     const travelAgency_id = req.params.user_id;
+exports.deleteTicket = async (req, res) => {
+  const TRAVELLER_ID = req.user.user_id;
+  const trip_id = req.params.trip_id;
 
-//   const travellAgency = await client.query(
-//     "SELECT * FROM travelAgency WHERE travelagency_id = $1",
-//     [travelAgency_id]
-//   );
+  if(!trip_id){
+    return res.status(400).json({
+      status: "failed",
+      message: "Please provide the trip id",
+    });
+  }
 
-//   if (travellAgency.rows.length === 0) {
-//     return res.status(404).json({
-//       status: "false",
-//       message: "There is no such travelAgency ",
-//     });
-//     }
+  if (isNaN(TRAVELLER_ID) || isNaN(trip_id)) {
+    return res.status(400).json({
+      status: "failed",
+      message: "TravelagencyID and trip_id should be a number",
+    });
+  }
 
-//   const tickets = await client.query(
-//     "SELECT * FROM tickets WHERE TRAVEL_AGENCY_ID=$1 AND TRAVELLER_ID=$2",
-//     [travelAgency_id, traveller_id]
-//   );
+  const tickets = await client.query(
+    "SELECT * FROM tickets WHERE TRAVELLER_ID = $1 AND TRIP_ID = $2",
+    [TRAVELLER_ID, trip_id]
+  );
 
-//   if (tickets.rows.length === 0) {
-//     return res.status(404).json({
-//       status: "false",
-//       message: "There is no such tickets to delete ",
-//     });
-//     }
+  if (tickets.rows.length === 0) {
+    return res.status(404).json({
+      status: "false",
+      message: "There is no such ticket with this trip id and traveller id",
+    });
+  }
 
-//   try {
-//     await client.query("BEGIN");
-//     await client.query(
-//       "DELETE FROM tickets WHERE TRAVEL_AGENCY_ID=$1 AND TRAVELLER_ID=$2",
-//       [travelAgency_id, traveller_id]
-//     );
-//     await client.query("COMMIT");
-//     res.status(200).json({
-//       status: "success",
-//       message: "tickets deleted successfully",
-//     });
-//   } catch (err) {
-//     await client.query("ROLLBACK");
-//     res.status(500).json({
-//       status: "failed",
-//       message: "Internal Server Error",
-//     });
-//     console.log(err);
-//   }
-// };
+  try {
+    await client.query("BEGIN");
+    const reportResult = await client.query(
+      "DELETE FROM tickets WHERE TRAVELLER_ID = $1 AND TRIP_ID = $2",
+      [TRAVELLER_ID, trip_id]
+    );
+
+    await client.query("COMMIT");
+
+    res.status(200).json({
+      success: true,
+      message: "ticket deleted successfully",
+    });
+  } catch (err) {
+    // Rollback the transaction if there's an error
+    await client.query("ROLLBACK");
+    res
+      .status(500)
+      .json({ success: false, error: "Error in deleting ticket" });
+  }
+
+
+};

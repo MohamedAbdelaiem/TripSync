@@ -1,8 +1,28 @@
 const express = require("express");
 const client = require("../db");
 
-exports.getAllReports = async (req, res) => {
-  const travel_agency_id = req.user.user_id;
+exports.getAllReports=async(req,res)=>{
+  try{
+    const reports=await client.query("SELECT * FROM reports");
+    if(reports.rows.length===0){
+      return res.status(404).json({
+        status:"false",
+        message:"There are no reports",
+      });
+    }
+    res.status(200).json({
+      status:"true",
+      data:reports.rows,
+    });
+  }
+  catch(e){
+    console.log(e);
+    res.status(400).send("Error in fetching data from report");
+  }
+}
+
+exports.getAllReportsForTravelAgency = async (req, res) => {
+  const travel_agency_id = req.params.user_id;
 
   if (isNaN(travel_agency_id)) {
     return res.status(400).json({
@@ -45,17 +65,22 @@ exports.getAllReports = async (req, res) => {
 };
 
 exports.addReport = async (req, res) => {
-  const { DESCRIPTION, DATE } = req.body;
+  const { DESCRIPTION} = req.body;
   const TRAVELLER_ID = req.user.user_id;
   const travelagency_id = req.params.user_id;
 
-  console.log(travelagency_id, TRAVELLER_ID);
+  if (isNaN(travelagency_id)) {
+    return res.status(400).json({
+      status: "failed",
+      message: "TravelagencyID should be a number",
+    });
+  }
 
   // Validate input
-  if (!DESCRIPTION || !DATE) {
+  if (!DESCRIPTION) {
     return res.status(400).json({
       success: false,
-      error: "Please provide all details",
+      error: "Please provide a description for the report",
     });
   }
 
@@ -67,17 +92,14 @@ exports.addReport = async (req, res) => {
   if (reports.rows.length === 0) {
     return res.status(404).json({
       status: "false",
-      message: "There is no such travelAgency ",
+      message: "There is no such travelAgency with this id",
     });
   }
   try {
     await client.query("BEGIN");
-
-    // // Insert into the report table
-
     const reportResult = await client.query(
-      "INSERT INTO Report (Description, DATE ,TRAVEL_AGENCY_ID,TRAVELLER_ID) VALUES($1, $2, $3, $4)",
-      [DESCRIPTION, DATE, travelagency_id, TRAVELLER_ID]
+      "INSERT INTO Report (Description, DATE ,TRAVEL_AGENCY_ID,TRAVELLER_ID) VALUES($1,CURRENT_DATE ,$2, $3)",
+      [DESCRIPTION, travelagency_id, TRAVELLER_ID]
     );
 
     await client.query("COMMIT");
@@ -85,6 +107,7 @@ exports.addReport = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "report created successfully",
+      data: reportResult.rows,
     });
   } catch (err) {
     // Rollback the transaction if there's an error
@@ -105,7 +128,7 @@ exports.deleteReport = async (req, res) => {
   if (travellAgency.rows.length === 0) {
     return res.status(404).json({
       status: "false",
-      message: "There is no such travelAgency ",
+      message: "There is no such travelAgency with this id",
     });
   }
 

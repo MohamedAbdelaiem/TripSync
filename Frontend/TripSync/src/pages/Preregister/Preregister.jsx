@@ -30,7 +30,7 @@ function Preregister() {
             <p className="card-text">
               <img src={travelAgency} height={300} width={300}></img>
             </p>
-            <NavLink to="Register">
+            <NavLink to="Register_TravelAgency">
               <button className="register btn btn-primary mx-1">
                 register
               </button>

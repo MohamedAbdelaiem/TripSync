@@ -1,0 +1,11 @@
+.newBlog{
+    margin-top: 100px;
+}
+/* Blogs.css */
+.blogs-container {
+    display: flex
+    ;
+    flex-direction: column;
+    /* gap: 20px; Adds vertical space between Blog components */
+  }
+  

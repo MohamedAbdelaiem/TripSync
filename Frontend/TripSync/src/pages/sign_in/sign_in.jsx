@@ -1,6 +1,7 @@
 import React from "react";
 import Sub_Navbar from "../../Components/Sub_Navbar/Sub_Navbar";
 import "./Sign_in.css";
+// import navLink from React
 
 function Sign_in() {
   return (
@@ -24,7 +25,7 @@ function Sign_in() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="pass" className="form-label">
+              <label htmlFor="password" className="form-label">
                 Password
               </label>
               <input
@@ -37,10 +38,18 @@ function Sign_in() {
             </div>
 
             <div className="d-grid">
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btnSign">
                 Sign In
               </button>
             </div>
+
+            <navLink to="ForgetPassword">
+              <button className="forgetPassword">Forget your password?</button>
+            </navLink>
+
+            {/* <navLink to="ResetPassword">
+              <button className="ResetPassword">Reset your password?</button>
+            </navLink> */}
           </form>
         </div>
       </div>

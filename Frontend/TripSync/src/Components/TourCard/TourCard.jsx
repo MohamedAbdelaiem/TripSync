@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 const TourCard = ({
-  type, 
+  type,
   imageSrc,
   description,
   days,
@@ -14,17 +14,9 @@ const TourCard = ({
   destination,
   startLocation,
   hasSale,
-  onEdit, 
+  onEdit,
   onBook,
 }) => {
-  const handleButtonClick = () => {
-    if (type === "traveller" && onBook) {
-      onBook();
-    } else if (type === "travel_agency" && onEdit) {
-      onEdit();
-    }
-  };
-
   return (
     <div className="tour-card">
       {hasSale ? (
@@ -55,7 +47,10 @@ const TourCard = ({
             <span className="price">${originalPrice}</span>
           )}
         </div>
-        <button className="action-button" onClick={handleButtonClick}>
+        <button
+          className="action-button"
+          onClick={type === "traveller" ? onBook : onEdit}
+        >
           {type === "traveller" ? "Book Now" : "Edit"}
         </button>
       </div>

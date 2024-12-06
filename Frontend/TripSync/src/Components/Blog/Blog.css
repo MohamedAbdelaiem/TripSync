@@ -1,11 +1,12 @@
 .flexContainer{
-    /* display: flexbox; */
-     min-height: 600px;
-    width: 300px;
-    /* justify-items: center;
+    display:flex;
+    margin-left: 410px;
+     /* min-height: 600px; */
+    width: 700px;
+    /* justify-items: center;*/
     justify-content: center;
-    align-items: center; */
-    margin: 50px;
+    align-items: center; 
+    /* margin: 50px; */
    /* max-width: 100px; */
 }
 
@@ -46,4 +47,10 @@ justify-items: center;
 .date{
   margin-left: 20px;
   font-size: 13.5px;
+}
+/* Blogs.css */
+
+/* Add margin to each Blog component */
+.Blog {
+  margin: 20px 0; /* Adjusts vertical and horizontal spacing */
 }

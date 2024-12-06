@@ -18,90 +18,85 @@ function checkRole(user_id)
     });
 }
 
-exports.getAllUsers=async(req,res)=>{
-    try{
-        client.query('SELECT user_id,email,profilephoto,profilename,role,username FROM users',(err,result)=>
-            {
-                if(err)
-                {
-                    console.log(err);
-                    res.status(400).send('Error in fetching data from users');
-                }
-                else{
-                    res.status(200).json(result.rows);
-                    console.log(result.rows);
-                }
-            }
-        );
-    }
-    catch(e){
-        console.log(e);
-    }
+exports.getAllUsers = async (req, res) => {
+  try {
+    client.query(
+      "SELECT user_id,email,profilephoto,profilename,role,username FROM users",
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data from users");
+        } else {
+          res.status(200).json(result.rows);
+          console.log(result.rows);
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-exports.getAllTravelAgencies=async(req,res)=>{
-    try{
-         client.query('SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id',(err,result)=>
-        {
-            if(err)
-            {
-                console.log(err);
-                res.status(400).json({
-                    success:false,
-                    error:err
-                });
-            }
-            else{
-                res.status(200).json(result.rows);
-                console.log(result.rows);
-            }
-        });
-    }
-    catch(e){
-        console.log(e);
-    }
+exports.getAllTravelAgencies = async (req, res) => {
+  try {
+    client.query(
+      "SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id",
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).json({
+            success: false,
+            error: err,
+          });
+        } else {
+          res.status(200).json(result.rows);
+          console.log(result.rows);
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-exports.getAllTravelers=async(req,res)=>{
-    try{
-         client.query('SELECT user_id,email,profilephoto,profilename,role,username,Points,NumberOfTrips FROM traveller,users WHERE traveller_id=user_id',(err,result)=>
-        {
-            if(err)
-            {
-                console.log(err);
-                res.status(400).send('Error in fetching data');
-            }
-            else{
-                res.status(200).json(result.rows);
-            }
-        });
-    }
-    catch(e){
-        console.log(e);
-    }
+exports.getAllTravelers = async (req, res) => {
+  try {
+    client.query(
+      "SELECT user_id,email,profilephoto,profilename,role,username,Points,NumberOfTrips FROM traveller,users WHERE traveller_id=user_id",
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data");
+        } else {
+          res.status(200).json(result.rows);
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-exports.getAllAdmins=async(req,res)=>{
-    try{
-        console.log("Admins");
-         client.query("SELECT admin_id,email,profilephoto,profilename,role,username FROM admins,users WHERE admin_id=user_id",(err,result)=>{
-            if(err)
-            {
-                // console.log(err);
-                res.status(400).json({
-                    success:false,
-                    error:'Error in fetching data'
-                });
-            }
-            else{
-                res.status(200).json(result.rows);
-            }
-        });
-    }
-    catch(e)
-    {
-        console.log(e);
-    }
+exports.getAllAdmins = async (req, res) => {
+  try {
+    console.log("Admins");
+    client.query(
+      "SELECT admin_id,email,profilephoto,profilename,role,username FROM admins,users WHERE admin_id=user_id",
+      (err, result) => {
+        if (err) {
+          // console.log(err);
+          res.status(400).json({
+            success: false,
+            error: "Error in fetching data",
+          });
+        } else {
+          res.status(200).json(result.rows);
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 exports.getUser=async(req,res)=>{
@@ -199,23 +194,21 @@ exports.getUser=async(req,res)=>{
     }
 };
 
-
 exports.createUser = async (req, res) => {
-        const { user_name, user_email, user_password,role} = req.body;
+  const { user_name, user_email, user_password, role } = req.body;
 
-        // Validate input
-        if (!user_name || !user_email || !user_password) {
-            return res.status(400).json({
-                success: false,
-                error: 'Please provide all details',
-            });
-        }
-    
+  // Validate input
+  if (!user_name || !user_email || !user_password) {
+    return res.status(400).json({
+      success: false,
+      error: "Please provide all details",
+    });
+  }
 
-    try {
-        await client.query('BEGIN');
-        const hashedPassword = await bcrypt.hash(user_password, 12);
-        delete req.body.user_password;
+  try {
+    await client.query("BEGIN");
+    const hashedPassword = await bcrypt.hash(user_password, 12);
+    delete req.body.user_password;
 
         // // Insert into the users table
         
@@ -241,21 +234,21 @@ exports.createUser = async (req, res) => {
                 });
             }
 
-            await client.query(
-                'INSERT INTO travelagency(travelagency_id, phonenumber, location, address, email, description, country) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-                [userId, phoneNumber, location, address, email, description, country]
-            );
-        } else if (role === 'admin') {
-            await client.query(
-                'INSERT INTO admins(admin_id) VALUES($1) RETURNING *',
-                [userId]
-            );
-        } else {
-            return res.status(400).json({
-                success: false,
-                error: 'Please provide correct role',
-            });
-        }
+      await client.query(
+        "INSERT INTO travelagency(travelagency_id, phonenumber, location, address, email, description, country) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        [userId, phoneNumber, location, address, email, description, country]
+      );
+    } else if (role === "admin") {
+      await client.query(
+        "INSERT INTO admins(admin_id) VALUES($1) RETURNING *",
+        [userId]
+      );
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: "Please provide correct role",
+      });
+    }
 
         // Commit the transaction if everything is fine
         await client.query('COMMIT');
@@ -296,11 +289,10 @@ exports.DeleteUser=async(req,res)=>{
     }
 }
 
-exports.getMe=async(req,res,next)=>
-{
-    req.params.user_id=req.user.user_id;
-    next();
-}
+exports.getMe = async (req, res, next) => {
+  req.params.user_id = req.user.user_id;
+  next();
+};
 
 exports.DeleteMe=async(req,res)=>{
     try {

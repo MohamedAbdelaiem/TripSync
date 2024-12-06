@@ -1,0 +1,105 @@
+ .forgetPassword{
+    margin-left: 200px;
+    margin-top: 20px;
+    border: none;
+    background-color:#fff;
+}
+.ResetPassword{
+    margin-left: 200px;
+    margin-top: 5px;
+    border: none;
+    background-color:#fff;
+
+}
+
+
+/* Sign_in.css */
+
+/* Container Styling */
+.containerSignin {
+    /* background: linear-gradient(to right, #007bff, #6610f2); */
+    color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  /* Card Styling */
+  .card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 15px;
+  }
+  
+  .card h3 {
+    font-family: "Arial", sans-serif;
+    font-weight: bold;
+    color: #4a4a4a;
+  }
+  
+  /* Input Fields */
+  .form-control {
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    transition: box-shadow 0.3s ease, border 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  /* Labels */
+  .form-label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
+  
+  /* Buttons */
+  .btnSign {
+    background:  #007bff;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+  
+  .btnSign:hover {
+    scale:1.02;
+  }
+  
+  /* Forget and Reset Password Links */
+  .forgetPassword,
+  .ResetPassword {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .forgetPassword:hover,
+  .ResetPassword:hover {
+    color: #0056b3;
+    text-decoration: none;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 576px) {
+    .card {
+      width: 90%;
+    }
+  
+    .containerSignin {
+      padding: 10px;
+    }
+  }
+  

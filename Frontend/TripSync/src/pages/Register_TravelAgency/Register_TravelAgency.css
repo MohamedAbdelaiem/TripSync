@@ -1,0 +1,126 @@
+.containerregformAgen{
+    margin-top: 270px;
+}
+.photo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .optional {
+    font-size: 12px;
+    color: #6c757d;
+    font-style: italic;
+    margin-left: 5px;
+  }
+  
+  .form-controlPhoto {
+    display: none; 
+  }
+  
+  #profilephoto + label {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    background:  #94b7f4;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  #profilephoto + label:hover {
+    background:  #2575fc;
+    transition: 10ms;
+  }
+  
+  #profilephotoPreview {
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    object-fit: cover;
+    display: none; 
+  }
+
+
+.containerregformAgen {
+    color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+
+  .card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 15px;
+  }
+  
+  .card h3 {
+    font-family: "Arial", sans-serif;
+    font-weight: bold;
+    color: #4a4a4a;
+  }
+  
+  .form-control,
+  .form-controlPhoto {
+    border-radius: 10px;         
+    font-size: 14px;            
+    padding: 10px 15px;       
+    border: 1px solid #ced4da;  
+    background-color: #f8f9fa;  
+    color: #495057;             
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .form-control:focus,
+  .form-controlPhoto:focus {
+    border-color: #3a18fb;
+    box-shadow: 0 0 0 0.2rem rgba(32, 172, 231, 0.25); 
+  }
+  
+  .form-label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
+  
+  .optional {
+    font-size: 12px;
+    font-style: italic;
+    color: #6c757d;
+    margin-left: 5px;
+  }
+  
+  /* Buttons */
+  .btnReg {
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .btnReg:hover {
+   scale: 1.03;
+   transition: 10ms;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 576px) {
+    .card {
+      width: 90%;
+    }
+  
+    .containerregformAgen {
+      padding: 10px;
+    }
+  }
+    

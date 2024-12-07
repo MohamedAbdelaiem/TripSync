@@ -52,6 +52,12 @@ const AgencyNav = () => {
             Review
           </NavLink>
           <NavLink
+            to="/Report"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Report
+          </NavLink>
+          <NavLink
             to="/contact"
             className={({ isActive }) => (isActive ? "active" : "")}
           >

@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import "./Report.css";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-
+import { useState } from "react";
 function Report() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -15,11 +15,12 @@ function Report() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         Base_URL,
         {
@@ -27,7 +28,7 @@ function Report() {
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -35,7 +36,7 @@ function Report() {
       console.log(response.data.message);
     } catch (error) {
       setError(error.message);
-      console.log("error", error.response.data.message);
+      console.log(description,"error", error.response.data.message);
     }
   };
 
@@ -54,7 +55,7 @@ function Report() {
               placeholder="Describe the issue ..."
               onChange={(e) => setdescription(e.currentTarget.value)}
             ></input>
-            <button className="Send" onClick={handleSubmit}>
+            <button className="Send" onClick={handleSend}>
               Send Report
             </button>
             <div className="policy">

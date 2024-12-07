@@ -87,18 +87,32 @@
   color: #333;
 }
 
-.action-button {
-  background-color: #007bff;
-  color: white;
-  padding: 8px 12px; /* Smaller button size */
-  border: none;
-  border-radius: 4px;
-  font-size: 12px; /* Smaller font */
-  cursor: pointer;
-  margin-top: 8px;
-  width: 100%; /* Button spans full card width */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-.action-button:hover {
-  background-color: #0056b3;
+.action-button,
+.delete-button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
 }
+
+.action-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+

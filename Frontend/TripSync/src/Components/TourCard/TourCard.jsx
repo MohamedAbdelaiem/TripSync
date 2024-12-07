@@ -16,6 +16,7 @@ const TourCard = ({
   hasSale,
   onEdit,
   onBook,
+  onDelete, // New prop for Delete functionality
 }) => {
   return (
     <div className="tour-card">
@@ -47,12 +48,22 @@ const TourCard = ({
             <span className="price">${originalPrice}</span>
           )}
         </div>
-        <button
-          className="action-button"
-          onClick={type === "traveller" ? onBook : onEdit}
-        >
-          {type === "traveller" ? "Book Now" : "Edit"}
-        </button>
+        <div className="action-buttons">
+          {type === "traveller" ? (
+            <button className="action-button" onClick={onBook}>
+              Book Now
+            </button>
+          ) : (
+            <>
+              <button className="action-button" onClick={onEdit}>
+                Edit
+              </button>
+              <button className="delete-button" onClick={onDelete}>
+                Delete
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -70,6 +81,7 @@ TourCard.propTypes = {
   startLocation: PropTypes.string,
   onEdit: PropTypes.func,
   onBook: PropTypes.func,
+  onDelete: PropTypes.func, // New prop for Delete functionality
 };
 
 export default TourCard;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TourCard from "../TourCard/TourCard";
 import "./TourCardContainer.css";
 
-const TourCardContainer = ({ type, tours, onAddNewTour }) => {
+const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour }) => {
   const navigate = useNavigate();
 
   const handleBook = (tour) => {
@@ -13,6 +13,10 @@ const TourCardContainer = ({ type, tours, onAddNewTour }) => {
 
   const handleEdit = (tour) => {
     navigate("/edit-tour", { state: { tour } }); // Pass selected tour to Edit page
+  };
+  const handleDelete = (tourId) => {
+    console.log("Deleting tour with ID:", tourId);
+    onDeleteTour(tourId); // Call the delete function passed as a prop
   };
 
   return (
@@ -39,6 +43,7 @@ const TourCardContainer = ({ type, tours, onAddNewTour }) => {
             salePrice={tour.salePrice}
             onBook={() => handleBook(tour)} // Pass the entire tour object
             onEdit={() => handleEdit(tour)}
+            onDelete={() => handleDelete(tour.id)}
           />
         ))}
       </div>

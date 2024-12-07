@@ -155,7 +155,7 @@ exports.signup = async (req, res) => {
       message: "Error signing up the user",
       error: err.message,
     });
-  } 
+  }
 };
 
 exports.LogIn = async (req, res, next) => {
@@ -408,3 +408,4 @@ exports.resetPassword = async (req, res) => {
     });
   }
 };
+

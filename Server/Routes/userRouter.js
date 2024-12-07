@@ -81,7 +81,7 @@ userRouter
 userRouter.use("/myProfile/trips",AuthConroller.restrictTo("travel_agency") ,tripRouter);//->must be edited to handle if the user is traveller
 
 // Report-Based routes
-userRouter.use("/:user_id/reports",AuthConroller.restrictTo("admin","traveller") ,(req, res, next) => {
+userRouter.use("/:user_id/reports",AuthConroller.protect,AuthConroller.restrictTo("admin","traveller") ,(req, res, next) => {
   reportRouter(req, res, next);
 });
 
@@ -101,6 +101,7 @@ userRouter.use('/myProfile/QA',QARouter);
 userRouter.use('/:user_id/reviews', (req, res, next) => {
   reviewRouter(req, res, next); // Explicitly pass `req` and `res` to reviewRouter
 });
+
 
 
 

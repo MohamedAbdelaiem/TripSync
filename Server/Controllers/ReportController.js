@@ -65,9 +65,11 @@ exports.getAllReportsForTravelAgency = async (req, res) => {
 };
 
 exports.addReport = async (req, res) => {
-  const { DESCRIPTION} = req.body;
+  const { description} = req.body;
   const TRAVELLER_ID = req.user.user_id;
   const travelagency_id = req.params.user_id;
+
+  console.log(travelagency_id, TRAVELLER_ID,req.user.role);
 
   if (isNaN(travelagency_id)) {
     return res.status(400).json({
@@ -77,7 +79,8 @@ exports.addReport = async (req, res) => {
   }
 
   // Validate input
-  if (!DESCRIPTION) {
+  if (!description) {
+    console.log(req.body.description);
     return res.status(400).json({
       success: false,
       error: "Please provide a description for the report",
@@ -99,7 +102,7 @@ exports.addReport = async (req, res) => {
     await client.query("BEGIN");
     const reportResult = await client.query(
       "INSERT INTO Report (Description, DATE ,TRAVEL_AGENCY_ID,TRAVELLER_ID) VALUES($1,CURRENT_DATE ,$2, $3)",
-      [DESCRIPTION, travelagency_id, TRAVELLER_ID]
+      [description, travelagency_id, TRAVELLER_ID]
     );
 
     await client.query("COMMIT");

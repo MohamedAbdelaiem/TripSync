@@ -4,6 +4,7 @@ import profilePic from "../../assets/profile.png";
 import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedInner";
 import "./Blogs.css";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const Base_Url = "http://localhost:3000/api/v1/blogs/AllBlogs";
 
@@ -11,26 +12,34 @@ function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+
+  const fetchBlogs = async () => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(Base_Url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      // setBlogs(response.data.data);
+      setBlogs(response.data.data);
+      setIsLoading(false);
+    }
+    catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+
   useEffect(() => {
-    const fetchBlogs = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(Base_Url);
-        const data = await response.json();
-
-        setBlogs(data.data); // Assuming data is an array of blogs
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchBlogs();
+
   }, []);
-  {
-    console.log("Expected an array but got:", blogs);
-  }
+   
 
 
 

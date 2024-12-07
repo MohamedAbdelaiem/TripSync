@@ -35,11 +35,19 @@ function Sign_in() {
           withCredentials:true
         }
       );
+      if(response.data.token){
+        localStorage.setItem("token",response.data.token);
+      }
+      if(response.data.status==="success"){
       setSuccess(response.data.message);
       console.log(response.data);
       console.log(document.cookie);
       setUser(response.data.data);
       Navigate("/");    
+      }
+      else{
+        setError(response.data.message);
+      }
   }
   catch(error){
     setError(error?.message);

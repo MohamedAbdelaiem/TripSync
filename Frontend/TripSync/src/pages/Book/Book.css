@@ -158,4 +158,68 @@
   .book-now-button:hover {
     background-color: #0056b3;
   }
-  
+  /* Booking Confirmation Section */
+.booking-confirmation {
+  margin-top: 20px;
+  padding: 15px;
+  background: linear-gradient(90deg, #4caf50, #81c784);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.booking-confirmation:hover {
+  transform: scale(1.05);
+}
+
+/* Ticket Details Card */
+.ticket-details {
+  margin-top: 25px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: linear-gradient(120deg, #ffffff, #f7f7f7);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  font-family: 'Arial', sans-serif;
+}
+
+.ticket-details h4 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #333;
+  border-bottom: 2px solid #4caf50;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.ticket-details p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.ticket-details p strong {
+  color: #4caf50;
+}
+
+/* Add subtle animations */
+.ticket-details,
+.booking-confirmation {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+    

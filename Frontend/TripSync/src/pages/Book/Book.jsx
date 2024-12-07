@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./Book.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,11 +7,24 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const Book = ({ tour, onEnsureBooking }) => {
+  const [ticket, setTicket] = useState(null); // State to hold ticket details
+  const [bookingConfirmed, setBookingConfirmed] = useState(false); // State for confirmation message
 
-const Book = ({ tour }) => {
-  if (!tour) {
-    return <div>No tour selected. Please go back and select a tour.</div>;
-  }
+  const handleBooking = () => {
+    const newTicket = {
+      TicketID: `TICKET-${Math.floor(Math.random() * 100000)}`, // Generate random ID
+      PurchaseDate: new Date().toISOString().split("T")[0], // Current date
+      Price: tour.hasSale ? tour.salePrice : tour.price, // Sale or original price
+      TripID: `TRIP-${Math.floor(Math.random() * 1000)}`, // Simulated TripID
+      TravellerID: "TRAVELLER-12345", // Simulated TravellerID (replace with real user data)
+    };
+
+    setTicket(newTicket); // Store the ticket details
+    setBookingConfirmed(true); // Show confirmation message
+    console.log("Ticket Created:", newTicket);
+    onEnsureBooking(); // Trigger booking confirmation from parent
+  };
 
   const settings = {
     dots: true,
@@ -27,8 +40,6 @@ const Book = ({ tour }) => {
     prevArrow: <button className="slick-prev" aria-label="Previous Slide" />,
     nextArrow: <button className="slick-next" aria-label="Next Slide" />,
   };
-  
-  
 
   return (
     <div className="book-page-container">
@@ -67,7 +78,36 @@ const Book = ({ tour }) => {
           )}
         </div>
 
-        <button className="book-now-button">Ensure Booking</button>
+        <button className="book-now-button" onClick={handleBooking}>
+          Ensure Booking
+        </button>
+
+        {/* {bookingConfirmed && (
+          <div className="booking-confirmation">
+            <h3>Booking Confirmed! Your ticket has been created successfully.</h3>
+
+            {ticket && (
+              <div className="ticket-details">
+                <h4>Ticket Details:</h4>
+                <p>
+                  <strong>Ticket ID:</strong> {ticket.TicketID}
+                </p>
+                <p>
+                  <strong>Purchase Date:</strong> {ticket.PurchaseDate}
+                </p>
+                <p>
+                  <strong>Price:</strong> ${ticket.Price}
+                </p>
+                <p>
+                  <strong>Trip ID:</strong> {ticket.TripID}
+                </p>
+                <p>
+                  <strong>Traveller ID:</strong> {ticket.TravellerID}
+                </p>
+              </div>
+            )}
+          </div>
+        )} */}
       </div>
     </div>
   );
@@ -84,7 +124,8 @@ Book.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string).isRequired,
     hasSale: PropTypes.bool,
     salePrice: PropTypes.number,
-  }),
+  }).isRequired,
+  onEnsureBooking: PropTypes.func.isRequired,
 };
 
 export default Book;

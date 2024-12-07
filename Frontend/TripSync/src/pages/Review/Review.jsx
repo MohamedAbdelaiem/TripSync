@@ -5,7 +5,7 @@ import "./Review.css";
 import { useState } from "react";
 import StarProgress from "../../Components/StarProgress/StarProgress";
 import { useLocation } from "react-router-dom";
-import axios  from "axios";
+import axios from "axios";
 function Review() {
   const [rating, setRating] = useState(3); // Example rating value (3 out of 5)
 
@@ -28,15 +28,16 @@ function Review() {
     setError("");
     setSuccess("");
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         Base_URL,
         {
           review,
-          rate,
+          rating,
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -44,7 +45,7 @@ function Review() {
       console.log(response.data.message);
     } catch (error) {
       setError(error.message);
-      console.log("error", error.response.data.message);
+      console.log(review,rate, "error", error.response.data.message);
     }
   };
   return (
@@ -68,8 +69,10 @@ function Review() {
                   className="stars"
                   type="number"
                   value={rating}
-                  onChange={handleInputChange}
-                  // onChange={(e)=>setRate(e.currentTarget.value)}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    setRate(e.currentTarget.value);
+                  }}
                   min="0"
                   max="5"
                 />
@@ -80,10 +83,12 @@ function Review() {
                 type="text"
                 placeholder="Your review"
                 className="input-review"
-                onChange={(e)=>setReview(e.currentTarget.value)}
+                onChange={(e) => setReview(e.currentTarget.value)}
               ></textarea>
             </div>
-            <button className="sendBtn" onClick={handleSubmit}>Submit</button>
+            <button className="sendBtn" onClick={handleSubmit}>
+              Submit
+            </button>
           </div>
         </div>
       </div>

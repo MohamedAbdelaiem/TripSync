@@ -21,11 +21,12 @@ function BlogWrite() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handlePost = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post(
          Base_URL ,
         {
@@ -34,15 +35,17 @@ function BlogWrite() {
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
       setSuccess(response.data.message);
-      console.log(response.data.message);
+      console.log(response.data.data[0].content);
     } catch (error) {
       setError(error.message);
       console.log("error",error.response.data.message);
+      console.log(description);
+      console.log(token);
     }
   };
 
@@ -56,6 +59,7 @@ function BlogWrite() {
             type="text"
             placeholder="What's in your mind?"
             className="newBlogParent"
+
           ></input>
         </NavLink>
         <div className="blogs-container">
@@ -126,7 +130,7 @@ function BlogWrite() {
           />
         </div>
 
-        <button id="post" onClick={handleSubmit}>Post</button>
+        <button id="post" onClick={handlePost}>Post</button>
         <input
           type="file"
           className="form-controlPhoto"

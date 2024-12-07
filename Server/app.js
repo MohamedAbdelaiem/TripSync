@@ -22,8 +22,15 @@ const server = http.createServer(app);
 
 //create a socket connection using the http server
 const io = socketio(server);
-app.use(cors({credentials: true,origin:"http://localhost:5173"}));
 //api security
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow cookies and authentication headers
+  })
+);
 app.use(helmet());
 app.use(xss());
 app.use(cookieParser());
@@ -59,9 +66,10 @@ io.on("connection", (socket) => {
 });
 
 // server.listen(process.env.PORT, () => {
-//   console.log(`Server is running on port ${process.env.PORT}`);
+//   console.log(Server is running on port ${process.env.PORT});
 // });
 
 
 app.listen(process.env.PORT,()=> {
 })
+

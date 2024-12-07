@@ -9,14 +9,15 @@
   }
   
   .text-overlay {
-
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 100vw;
     transform: translate(-60%, -500%);
     color: white;
+    opacity:.65;
     /* padding: 10px 20px; */
-    font-size: 50px;
+    font-size: 70px;
   }
   .text-overlay-sub {
     position: absolute;
@@ -48,7 +49,7 @@
 .AboutUs{
     margin-top: 50px;
     margin-left: 30px;
-    margin-bottom: 75px;
+    margin-bottom: 65px;
 
 }
 .txt1,.txt2{
@@ -57,5 +58,5 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .head2{
-margin-bottom: 50px;
+margin-bottom: 30px;
 }

@@ -18,13 +18,15 @@ function Sign_in() {
 
 
 
-  const handleSubmit=async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    try{
-        const response=await axios.post("http://localhost:3000/api/v1/users/LogIn",{
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/users/LogIn",
+        {
           email,
-          password
+          password,
         },
         {
           headers:{
@@ -33,11 +35,19 @@ function Sign_in() {
           withCredentials:true
         }
       );
+      if(response.data.token){
+        localStorage.setItem("token",response.data.token);
+      }
+      if(response.data.status==="success"){
       setSuccess(response.data.message);
       console.log(response.data);
       console.log(document.cookie);
       setUser(response.data.data);
       Navigate("/");    
+      }
+      else{
+        setError(response.data.message);
+      }
   }
   catch(error){
     setError(error?.message);
@@ -67,7 +77,7 @@ function Sign_in() {
                 id="email"
                 placeholder="Enter your email"
                 required
-                onChange={(e)=>setEmail(e.currentTarget.value)}
+                onChange={(e) => setEmail(e.currentTarget.value)}
               />
             </div>
 
@@ -81,15 +91,17 @@ function Sign_in() {
                 id="passSign"
                 placeholder="Enter your password"
                 required
-                onChange={(e)=>setPassword(e.currentTarget.value)}
+                onChange={(e) => setPassword(e.currentTarget.value)}
               />
             </div>
-
-            <div className="d-grid">
-              <button type="submit" className="btnSign">
-                Sign In
-              </button>
-            </div>
+            <navLink to="/">
+              {" "}
+              <div className="d-grid">
+                <button type="submit" className="btnSign">
+                  Sign In
+                </button>
+              </div>
+            </navLink>
 
             <navLink to="ForgetPassword">
               <button className="forgetPassword">Forget your password?</button>

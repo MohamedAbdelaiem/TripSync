@@ -1,13 +1,7 @@
-/* .newBlogParent{
-    min-height: 200px;
-    box-shadow: none;
-    background-color: rgb(109, 187, 255);
-} */
 
-/* Blur overlay styles */
 .blur-overlay {
-    filter: blur(8px); /* Apply blur effect */
-    pointer-events: none; /* Disable interaction with blurred content */
+    filter: blur(8px); 
+    pointer-events: none; 
   }
   
   .centered-input-container {
@@ -15,7 +9,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10; /* Ensure it appears above the blurred content */
+    z-index: 10; 
   }
   
   .centered-input {
@@ -66,7 +60,6 @@
    .inputbox{
     margin-bottom: 15px;
    }
-   /* Centered input container styles */
 .centered-input-container {
   position: fixed;
   top: 50%;
@@ -74,7 +67,7 @@
   transform: translate(-50%, -50%);
   z-index: 10;
   text-align: center;
-  width: 80%; /* Optional: Limit the width of the container */
+  width: 80%; 
   max-width: 500px;
 }
 
@@ -84,16 +77,16 @@
 
 .centered-input {
   width: auto;
-  min-width: 100px; /* Minimum width of the input */
+  min-width: 100px; 
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
   display: inline-block;
-  resize: none; /* Prevent resizing if you want */
+  resize: none; 
   outline: none;
-  box-sizing: content-box; /* Ensures width is calculated based on content */
-  transition: width 0.2s ease; /* Smooth transition for resizing */
+  box-sizing: content-box; 
+  transition: width 0.2s ease; 
 }
 
 #post {
@@ -103,7 +96,6 @@
   cursor: pointer;
 }
 
-/* Optional: Styling for file input */
 .form-controlPhoto {
   display: none;
 }

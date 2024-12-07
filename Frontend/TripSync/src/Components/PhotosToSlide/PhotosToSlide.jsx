@@ -1,6 +1,6 @@
 // src/PhotosToSlide.js
 import React from "react";
-import './PhotosToSlide.css'
+import "./PhotosToSlide.css";
 // import Photos_Slider from "./components/Photos_Slider";
 import Photos_Slider from "../Photos_Slider/Photos_Slider";
 import photo1 from "../../assets/Rectangle 2.png";
@@ -14,8 +14,8 @@ function PhotosToSlide() {
   return (
     <div className="PhotosToSlide">
       <h3 className="head">Get inspiration for your next trip</h3>
-          <Photos_Slider photos={photos} />
-          <div></div>
+      <Photos_Slider photos={photos} />
+      <div></div>
     </div>
   );
 }

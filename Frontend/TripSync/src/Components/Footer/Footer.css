@@ -3,8 +3,11 @@
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   text-align: center;
   font-size: 0.9rem;
-  color: #063e76;
+  background-color: #063e76;
   margin-top: 20px;
+  color: aliceblue;
+  font-weight: 500;
   border-top: 1px solid #063e76;
   padding-top: 10px;
+  margin-bottom: -100px;
 }

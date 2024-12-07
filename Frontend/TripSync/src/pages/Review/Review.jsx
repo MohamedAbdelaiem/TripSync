@@ -69,7 +69,7 @@ function Review() {
                   type="number"
                   value={rating}
                   onChange={handleInputChange}
-                  onChange={(e)=>setRate(e.currentTarget.value)}
+                  // onChange={(e)=>setRate(e.currentTarget.value)}
                   min="0"
                   max="5"
                 />

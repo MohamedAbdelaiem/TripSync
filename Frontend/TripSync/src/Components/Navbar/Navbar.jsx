@@ -24,14 +24,14 @@ const Navbar = ({id}) => {
         ></button>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav m-2">
-            <li className="HomeNav active mx-2">
-              <a href="#">Home</a>
+            <li className="HomeNav  mx-2">
+              <a href="#" className="HomeNav">Home</a>
             </li>
-            <a href={id}>
-              <li className="nav-item active mx-2">About</li>
+            <a href={id} className="aboutNav">
+              <li className="aboutNav nav-item  mx-2">About</li>
             </a>
 
-            <NavLink to="Blog">
+            <NavLink to="Blog" className={"blogNav"}>
               <li className="blogNav mx-2">Blogs</li>
             </NavLink>
           </ul>

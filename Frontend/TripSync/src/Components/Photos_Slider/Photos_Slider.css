@@ -22,6 +22,7 @@
     width: 100%;
     height: auto;
     object-fit: cover;
+    transition: transform 0.5s ease-in-out;
   }
   
   .prev-button,
@@ -44,7 +45,4 @@
   
   .next-button {
     right: 0;
-  }
-  .photo{
-    /* min-width: 10px; */
   }

@@ -36,7 +36,7 @@ function Report() {
       console.log(response.data.message);
     } catch (error) {
       setError(error.message);
-      console.log(description,"error", error.response.data.message);
+      console.log(description,"error", error.response.data);
     }
   };
 

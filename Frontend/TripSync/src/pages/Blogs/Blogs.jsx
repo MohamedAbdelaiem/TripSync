@@ -12,6 +12,7 @@ function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+
   const fetchBlogs = async () => {
     setIsLoading(true);
     try {
@@ -33,11 +34,14 @@ function Blogs() {
     }
   };
 
+
   useEffect(() => {
     fetchBlogs();
-  }
-  , []);
+
+  }, []);
    
+
+
 
   return (
     <>
@@ -53,9 +57,7 @@ function Blogs() {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-          
         <>
-
           <div className="blogs-container">
             {blogs.map((blog) => (
               <Blog

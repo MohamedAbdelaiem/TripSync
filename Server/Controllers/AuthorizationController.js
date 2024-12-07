@@ -52,48 +52,73 @@ function verifyResetToken(token) {
 }
 
 exports.signup = async (req, res) => {
-    const { username, email, password, profilePhoto, profileName, role, phoneNumber, location, address, description, country } = req.body;
+  const {
+    username,
+    email,
+    password,
+    profilePhoto,
+    profileName,
+    role,
+    phoneNumber,
+    location,
+    address,
+    description,
+    country,
+  } = req.body;
 
-    // Validate required fields
-    if (!username || !email || !password || !role) {
+  // Validate required fields
+  if (!username || !email || !password || !role) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Please provide all the required fields",
+    });
+  }
+
+  try {
+    await client.query("BEGIN"); // Start transaction
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    // Insert user into the database
+    const newUser = await client.query(
+      "INSERT INTO users (username, email, password, profilePhoto, profileName, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      [username, email, hashedPassword, profilePhoto, profileName, role]
+    );
+
+    // Insert role-specific details
+    if (role === "traveller") {
+      await client.query("INSERT INTO traveller(traveller_id) VALUES($1)", [
+        newUser.rows[0].user_id,
+      ]);
+    } else if (role === "travel_agency") {
+      if (!phoneNumber || !location || !address || !description || !country) {
+        await client.query("ROLLBACK"); // Rollback transaction
         return res.status(400).json({
-            status: 'fail',
-            message: 'Please provide all the required fields',
+          status: "fail",
+          message: "Please provide all travel agency details",
         });
+      }
+      await client.query(
+        "INSERT INTO travelagency(travelagency_id, phonenumber, location, address, email, description, country) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+        [
+          newUser.rows[0].user_id,
+          phoneNumber,
+          location,
+          address,
+          email,
+          description,
+          country,
+        ]
+      );
+    } else {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid role",
+      });
     }
 
-    try {
-        await client.query('BEGIN');  // Start transaction
+    await client.query("COMMIT"); // Commit transaction
 
-        const hashedPassword = await bcrypt.hash(password, 12);
-
-        // Insert user into the database
-        const newUser = await client.query(
-            'INSERT INTO users (username, email, password, profilePhoto, profileName, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            [username, email, hashedPassword, profilePhoto, profileName, role]
-        );
-
-        // Insert role-specific details
-        if (role === 'traveller') {
-            await client.query('INSERT INTO traveller(traveller_id) VALUES($1)', [newUser.rows[0].user_id]);
-        } else if (role === 'travel_agency') {
-            if (!phoneNumber || !location || !address || !description || !country) {
-                await client.query('ROLLBACK');  // Rollback transaction
-                return res.status(400).json({
-                    status: 'fail',
-                    message: 'Please provide all travel agency details',
-                });
-            }
-            await client.query(
-                'INSERT INTO travelagency(travelagency_id, phonenumber, location, address, email, description, country) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-                [newUser.rows[0].user_id, phoneNumber, location, address, email, description, country]
-            );
-        } else {
-            return res.status(400).json({
-                status: 'fail',
-                message: 'Invalid role',
-            });
-        }
 
         await client.query('COMMIT');  // Commit transaction
 
@@ -126,83 +151,56 @@ exports.signup = async (req, res) => {
             data: { user },
         });
 
-    } catch (err) {
-        await client.query('ROLLBACK');  // Rollback transaction on error
-        console.error(err);  // Log error for debugging
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error signing up the user',
-            error: err.message,
-        });
-    }
+
+    // Remove sensitive data
+    const user = { ...newUser.rows[0] };
+    delete user.password;
+
+    const cookieOptions = {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+      secure: false, // Set to true in production
+      sameSite: "none",
+    };
+
+    res.cookie("jwt", token, cookieOptions);
+
+    // Send response
+    res.status(201).json({
+      status: "success",
+      token,
+      data: { user },
+    });
+  } catch (err) {
+    await client.query("ROLLBACK"); // Rollback transaction on error
+    console.error(err); // Log error for debugging
+    res.status(400).json({
+      status: "fail",
+      message: "Error signing up the user",
+      error: err.message,
+    });
+  }
 };
 
-
-exports.LogIn=async(req,res,next)=>{
-    try{
-        const{email,password}=req.body;
-        if(!email)
-        {
-            return res.status(400).json({
-                status:'fail',
-                message:'Please provide email'
-            });
-        }
-        if(!password)
-        {
-            return res.status(400).json({
-                status:'fail',
-                message:'Please provide password'
-            });
-        }
-
-        //check if user exists
-        const user=await client.query('SELECT * FROM users WHERE email=$1',[email]);
-        if(!user.rows[0]||!(await bcrypt.compare(password,user.rows[0].password)))
-        {
-            return res.status(401).json({
-                status:'fail',
-                message:'Incorrect email or password'
-            });
-        }
-        // Generate JWT token
-        const token = jwt.sign(
-            { id: user.rows[0].user_id},
-            process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN }
-        );
-
-        // Remove sensitive data before sending response
-        const userData = {...user.rows[0]};
-        delete userData.password; // Do not send the password in the response
-
-        const cookieOptions = {
-          expires: new Date(
-            Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
-          ),
-          httpOnly: true,
-          secure: false,// Set to true in production
-          sameSite: 'none',
-        };
-
-        res.cookie("jwt", token, cookieOptions);
-        // Send the response
-        res.status(200).json({
-            status: 'success',
-            message: 'User logged in successfully',
-            token,
-            data:userData,
-        });
+exports.LogIn = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Please provide email",
+      });
     }
-    catch(e)
-    {
-        console.error(e);
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error logging in the user',
-        });
+    if (!password) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Please provide password",
+      });
     }
-}
+
+
 
 exports.protect=async(req,res,next)=>{
     try{

@@ -11,7 +11,7 @@
     border-color: #2F80ED;
     color: #2F80ED;
 } */
- .blogNav{
+ .blogNav, .HomeNav, .aboutNav {
     text-decoration:none;
     
     color: black;

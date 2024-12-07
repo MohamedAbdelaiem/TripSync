@@ -8,11 +8,13 @@ import Footer from "../../Components/Footer/Footer";
 import PhotoSlider from "../../Components/Photos_Slider/Photos_Slider";
 import PhotosToSlide from "../../Components/PhotosToSlide/PhotosToSlide";
 import "./Home.css";
+import { UserContext } from "../../assets/userContext";
 export class Home extends Component {
   render() {
     return (
       <>
-        <Navbar id={"#about_id"} />
+        {UserContext ? <NavbarSignedIn /> : <Navbar />}
+        {/* <Navbar id={"#about_id"} /> */}
         <video autoPlay muted loop className="video-player">
           <source src={video} type="video/mp4" />
         </video>

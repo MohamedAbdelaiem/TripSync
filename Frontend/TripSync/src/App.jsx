@@ -45,11 +45,12 @@ const App = () => {
     Mail: "contact@holidaytravel.com",
     Phone: "+20 123 456 7890",
     Country: "Egypt",
-    role: "traveller",
+    role: "travel_agency",
   };
 
   const [tours, setTours] = useState([
     {
+      id:1,
       description: "Explore the White Desert",
       price: 400,
       maxSeats: 50,
@@ -61,6 +62,7 @@ const App = () => {
       salePrice: 300,
     },
     {
+      id:2,
       description: "Explore the White Desert",
       price: 400,
       maxSeats: 50,
@@ -72,6 +74,7 @@ const App = () => {
       // salePrice: 300,
     },
     {
+      id:3,
       description: "Explore the White Desert",
       price: 400,
       maxSeats: 50,
@@ -87,7 +90,9 @@ const App = () => {
   const addTour = (newTour) => {
     setTours((prevTours) => [...prevTours, newTour]);
   };
-
+  const handleDeleteTour = (tourId) => {
+    setTours((prevTours) => prevTours.filter((tour) => tour.id !== tourId));
+  };
   const { user} = useContext(UserContext);
 
   return (
@@ -111,7 +116,7 @@ const App = () => {
           <Route path="/Story" element={<OurStory />} />
           <Route path="/Q&A" element={<QACards />} />
           <Route path="/TravelAgencyProfile" element={<TravelAgencyProfile agency={agency} />} />
-          <Route path="/tours" element={<Tours tours={tours} addTour={addTour} />} />
+          <Route path="/tours" element={<Tours tours={tours} addTour={addTour} onDeleteTour={handleDeleteTour}  />} />
           <Route path="/add-new-tour" element={<AddNewTour addTour={addTour} />} />
           <Route path="/book" element={<BookPage />} />
           <Route path="/edit-tour" element={<EditTour />} />

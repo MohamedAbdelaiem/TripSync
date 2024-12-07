@@ -114,7 +114,7 @@ exports.signup = async (req, res) => {
           ),
           httpOnly: true,
           secure: false,// Set to true in production
-          sameSite: 'none',
+          sameSite: 'None',
         };
 
         res.cookie("jwt", token, cookieOptions);
@@ -209,6 +209,7 @@ exports.protect=async(req,res,next)=>{
         // 1) Get token and check if it's there
         let token;
         // console.log(req);
+        
         if (req.headers && req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
         }
@@ -221,6 +222,8 @@ exports.protect=async(req,res,next)=>{
       return res.status(401).json({
         status: "fail",
         message: "You are not logged in! Please log in to get access.",
+        headers:req.headers,
+        cookies:req.cookies
       });
     }
 

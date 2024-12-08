@@ -92,7 +92,6 @@ const App = () => {
   const handleDeleteTour = (tourId) => {
     setTours((prevTours) => prevTours.filter((tour) => tour.id !== tourId));
   };
-  const { user} = useContext(UserContext);
 
   return (
     <BrowserRouter>

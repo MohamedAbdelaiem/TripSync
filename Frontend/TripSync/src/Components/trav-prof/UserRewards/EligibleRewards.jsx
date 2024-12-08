@@ -8,7 +8,7 @@ const EligibleRewards = ({ rewards, userPoints }) => {
   
   // Filter rewards based on user points
   const eligibleRewards = rewards.filter(
-    (reward) => reward.requiredPoints <= userPoints
+    (reward) => reward.pointsneeded <= userPoints
   );
 
   // Items per page (depends on screen size)
@@ -49,11 +49,11 @@ const EligibleRewards = ({ rewards, userPoints }) => {
             .slice(currentIndex, currentIndex + itemsPerPage)
             .map((reward) => (
               <Reward
-                key={reward.id}
-                photoLink={reward.photoLink}
-                requiredPoints={reward.requiredPoints}
+                key={reward.reward_id}
+                photoLink={reward.photo}
+                requiredPoints={reward.pointsneeded}
                 description={reward.description}
-                reward_claimed={reward.claimed}
+                reward_claimed={false}
               />
             ))}
         </div>

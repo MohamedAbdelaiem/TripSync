@@ -1,7 +1,8 @@
 import SideBar from "../../Components/trav-prof/SideBar/SideBar.jsx";
 import RestProf from "../../Components/trav-prof/RestProf/RestProf.jsx";
+import axios from "axios";
 import "./TravellerProf.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { useParams } from "react-router-dom";
 import { all_Travellers } from "../../Components/Data/all_Travellers.js";
 import { all_rewards } from "../../Components/Data/Rewards.js";
@@ -10,6 +11,9 @@ import { all_tickets } from "../../Components/Data/tickets.js";
 import { all_messages } from "../../Components/Data/all_messages.js";
 import EditTravProfModal from "../../Components/trav-prof/EditTravProfile/EditTravProfModal.jsx";
 import UserMessages from "../../Components/trav-prof/UserMessages/UserMessages.jsx";
+import { UserContext } from "../../assets/userContext";
+
+
 
 function TravellerProf(props) {
   const [travellerID, setTravellerID] = useState(null);
@@ -17,19 +21,72 @@ function TravellerProf(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [modalIsOpened, setModalIsOpened] = useState(false);
   const [messagesAreOpened, setMessagesAreOPened] = useState(false);
-  let { id } = useParams();
+  const [rewards,setRewards]=useState([]);
 
+  // let { id } = useParams();
+  const {user,setUser} = useContext(UserContext);
+  console.log(user);
+  // const user={
+  //       user_id: 74,
+  //       email: "user5@gmilsssss.com",
+  //       profilephoto: null,
+  //       profilename: null,
+  //       role: "traveller",
+  //       username: "user5",
+  //       points: 0,
+  //       numberoftrips: 0
+  // }
+  let id=user.user_id;
+  
+  
+  const getRewards=async()=>{
+    try{
+    const token = localStorage.getItem("token");
+    const response=await axios.get("http://localhost:3000/api/v1/users/myProfile/rewards",{
+      headers:{
+        "Authorization":`Bearer ${token}`
+      },
+      withCredentials:true
+    });
+    console.log(response.data);
+    setRewards(response.data);
+    
+  }
+  catch(error){
+    console.log(error);
+    }
+  };
+  
+  const get_traveller = async() => {
+    setIsLoading(true);
+    try{
+    const token = localStorage.getItem("token");
+    // const t = all_Travellers.filter((trav) => trav.userID == id)[0];
+    // setTraveller(t);
+    const response=await axios.get("http://localhost:3000/api/v1/users/myProfile",{
+      headers:{
+        Authorization:`Bearer ${token}`
+      },
+      withCredentials:true
+    });
+    setIsLoading(false);
+    setTraveller(response.data.data[0]);
+  }
+  catch(error){
+    console.log(error);
+    setIsLoading(false);
+  }
+  };
+  
+  
   useEffect(() => {
-    setTravellerID(id);
-    const get_traveller = () => {
-      setIsLoading(true);
-      const t = all_Travellers.filter((trav) => trav.userID == id)[0];
-      setTraveller(t);
-      setIsLoading(false);
-    };
-
+    // setTravellerID(id);
     get_traveller();
+    // setTraveller(user);
+    getRewards();
   }, []);
+
+
 
   const openModal = () => { setModalIsOpened(true) };
   const closeModal = () => { setModalIsOpened(false) };
@@ -43,23 +100,23 @@ function TravellerProf(props) {
       <>
         <div className="Profile-container">
           <SideBar
-            imgUrl={traveller.image_url}
-            profName={traveller.profile_name}
-            userID={traveller.userID}
+            profName={traveller.profilename}
+            imgUrl={traveller.profilephoto}
+            userID={traveller.user_id}
             openEditProfModal={openModal}
             openMessages = {openMessages}
           ></SideBar>
           <RestProf
-            profName={traveller.profile_name}
+            profName={traveller.profilename}
             points={traveller.points}
-            noOfTrips={traveller.noOfTrips}
-            all_rewards={all_rewards}
+            noOfTrips={traveller.numberoftrips}
+            all_rewards={rewards}
             all_trips={all_user_trips}
             all_tickets={all_tickets}
-            userID={traveller.userID}
+            userID={traveller.user_id}
           ></RestProf>
           {modalIsOpened && <EditTravProfModal closeEditprofModal={closeModal} />}
-          <UserMessages isOpen={messagesAreOpened} userID={traveller.userID} allMessages={all_messages} onClose={closeMessages} />
+          <UserMessages isOpen={messagesAreOpened} userID={traveller.user_id} allMessages={all_messages} onClose={closeMessages} />
         </div>
       </>
     );

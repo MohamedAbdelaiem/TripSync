@@ -42,7 +42,7 @@ function TravellerProf(props) {
   const getRewards=async()=>{
     try{
     const token = localStorage.getItem("token");
-    const response=await axios.get("http://localhost:3000/api/v1/users/myProfile/rewards",{
+    const response=await axios.get("http://localhost:3000/api/v1/rewards/getAllRewards",{
       headers:{
         "Authorization":`Bearer ${token}`
       },

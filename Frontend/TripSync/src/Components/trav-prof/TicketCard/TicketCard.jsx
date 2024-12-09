@@ -56,7 +56,7 @@ const TicketCard = ({ ticket }) => {
             <strong>Start Date:</strong> {startDate}
           </p>
           <p>
-            <strong>Status:</strong>{" "}
+            <strong>Status:</strong>{" "} &nbsp;
             <span
               className={`ticket-card-status ${
                 status ? "started" : "not-started"

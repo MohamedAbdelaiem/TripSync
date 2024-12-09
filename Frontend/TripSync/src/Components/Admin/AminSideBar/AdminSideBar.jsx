@@ -39,11 +39,11 @@ function AdminSideBar({ onMenuSelected }) {
         </li>
         <li
           onClick={() => {
-            onMenuSelected("all-reports");
+            onMenuSelected("all-policies");
           }}
           className="admin-menu-item"
         >
-          All Reports
+          All Policies
         </li>
       </ul>
     </div>

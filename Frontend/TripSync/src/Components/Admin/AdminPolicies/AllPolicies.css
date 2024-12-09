@@ -1,0 +1,39 @@
+.all-policies-container {
+  width: 75%;
+  margin: 0px;
+  position: absolute;
+  right: 0px;
+  padding: 20px;
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
+}
+
+
+
+.add-policy-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.add-policy-button {
+  padding: 10px 20px;
+  background-color: #607488;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-policy-button:hover {
+  background-color: #405468;
+}
+
+.policies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}

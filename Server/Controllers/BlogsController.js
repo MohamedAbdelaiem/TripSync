@@ -3,11 +3,11 @@ const client = require("../db");
 exports.getAllBlogs = async (req, res) => {
   try {
     const blogs = await client.query(
-      "SELECT Content,Date,Time,PHOTO,BLOG_ID,ProfileName,username FROM blogs as bg,users as u where bg.USER_ID = u.USER_ID"
+      "SELECT Content,Date,Time,PHOTO,BLOG_ID,ProfileName,username FROM blogs as bg,users as u where bg.USER_ID = u.USER_ID ORDER BY date desc, time desc"
     );
     if (blogs.rows.length === 0) {
-      return res.status(404).json({ 
-        status: "failed", 
+      return res.status(404).json({
+        status: "failed",
         message: "No blogs found",
       });
     }

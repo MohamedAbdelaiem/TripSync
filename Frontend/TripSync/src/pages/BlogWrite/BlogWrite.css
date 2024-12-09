@@ -105,3 +105,45 @@
   max-width: 100px;
   margin-top: 10px;
 }
+/* Close Icon Container */
+.close-icon {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  border: 2px solid red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease;
+  margin-left: 370px;
+  margin-top: 10px;
+}
+
+.close-icon::before,
+.close-icon::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background-color: red;
+  border-radius: 1px;
+  transform-origin: center;
+  transition: 0.3s ease;
+}
+
+.close-icon::before {
+  transform: rotate(45deg);
+}
+
+.close-icon::after {
+  transform: rotate(-45deg);
+}
+
+/* Hover Effect */
+.close-icon:hover {
+  transform: scale(1.1);
+  background: rgba(255, 0, 0, 0.1);
+}

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserContext } from "./assets/userContext";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Home from "./pages/Home/Home";
@@ -18,19 +18,18 @@ import Register_TravelAgency from "./pages/Register_TravelAgency/Register_Travel
 import UserTripsList from "./pages/UserTripsList/UserTripsList";
 import BookPage from "./pages/BookPage/BookPage";
 import EditTour from "./pages/EditTour/EditTour";
-import Report from './pages/Report/Report';
+import Report from "./pages/Report/Report";
 import BlogWrite from "./pages/BlogWrite/BlogWrite";
 import Blogs from "./pages/Blogs/Blogs";
 import Review from "./pages/Review/Review";
-import QACards from "./pages/QACards/QACards"; 
+import QACards from "./pages/QACards/QACards";
 import TravelAgencyProfile from "./pages/TravelAgencyProfile/TravelAgencyProfile";
-import AddNewTour from './Pages/AddNewTour/AddNewTour';
+import AddNewTour from "./Pages/AddNewTour/AddNewTour";
 import image2 from "./assets/card.jpg";
 import image3 from "./assets/Rectangle 9.png";
 import image4 from "./assets/Rectangle 11.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 
 const App = () => {
   const agency = {
@@ -41,7 +40,8 @@ const App = () => {
     Address: "123 Nile Avenue, Cairo",
     Location: "Cairo, Egypt",
     Rate: "4.8/5",
-    Description: "A leading travel agency specializing in premium travel services.",
+    Description:
+      "A leading travel agency specializing in premium travel services.",
     Mail: "contact@holidaytravel.com",
     Phone: "+20 123 456 7890",
     Country: "Egypt",
@@ -50,38 +50,38 @@ const App = () => {
 
   const [tours, setTours] = useState([
     {
-      id:1,
+      id: 1,
       description: "Explore the White Desert",
       price: 400,
       maxSeats: 50,
       destination: "White Desert",
       duration: 5,
       startLocation: "Cairo",
-      images: [image2,image3,image4],
+      images: [image2, image3, image4],
       hasSale: true,
       salePrice: 300,
     },
     {
-      id:2,
+      id: 2,
       description: "Explore the White Desert",
       price: 400,
       maxSeats: 50,
       destination: "White Desert",
       duration: 5,
       startLocation: "Cairo",
-      images: [image2,image3,image4],
+      images: [image2, image3, image4],
       hasSale: false,
       // salePrice: 300,
     },
     {
-      id:3,
+      id: 3,
       description: "Explore the White Desert",
       price: 400,
       maxSeats: 50,
       destination: "White Desert",
       duration: 5,
       startLocation: "Cairo",
-      images: [image2,image3,image4],
+      images: [image2, image3, image4],
       hasSale: true,
       salePrice: 300,
     },
@@ -93,7 +93,7 @@ const App = () => {
   const handleDeleteTour = (tourId) => {
     setTours((prevTours) => prevTours.filter((tour) => tour.id !== tourId));
   };
-  const { user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <BrowserRouter>
@@ -102,7 +102,10 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/Sign_in" element={<Sign_in />} />
           <Route path="/Preregister/Register" element={<Register />} />
-          <Route path="/Preregister/Register_TravelAgency" element={<Register_TravelAgency />} />
+          <Route
+            path="/Preregister/Register_TravelAgency"
+            element={<Register_TravelAgency />}
+          />
           <Route path="/Preregister" element={<Preregister />} />
           <Route path="/Blog/profile" element={<TravelAgency />} />
           <Route path="/Traveller-Profile/:id" element={<TravellerProf />} />
@@ -111,24 +114,36 @@ const App = () => {
           <Route path="/Rewards/:id" element={<RewardsList />} />
           <Route path="/TravelAgency" element={<TravelAgency />} />
           <Route path="/Review" element={<Review />} />
-          <Route path="/Report" element={<Report/>} />
+          <Route path="/Report" element={<Report />} />
           <Route path="/Blog" element={<Blogs />} />
+          <Route path="/Blog/blogWrite/Blog" element={<Blogs />} />
           <Route path="/Story" element={<OurStory />} />
           <Route path="/Q&A" element={<QACards />} />
-          <Route path="/TravelAgencyProfile" element={<TravelAgencyProfile agency={agency} />} />
-          <Route path="/tours" element={<Tours tours={tours} addTour={addTour} onDeleteTour={handleDeleteTour}  />} />
-          <Route path="/add-new-tour" element={<AddNewTour addTour={addTour} />} />
+          <Route
+            path="/TravelAgencyProfile"
+            element={<TravelAgencyProfile agency={agency} />}
+          />
+          <Route
+            path="/tours"
+            element={
+              <Tours
+                tours={tours}
+                addTour={addTour}
+                onDeleteTour={handleDeleteTour}
+              />
+            }
+          />
+          <Route
+            path="/add-new-tour"
+            element={<AddNewTour addTour={addTour} />}
+          />
           <Route path="/book" element={<BookPage />} />
           <Route path="/edit-tour" element={<EditTour />} />
           <Route path="/Blog/blogWrite" element={<BlogWrite />} />
-          
-
         </Routes>
       </main>
     </BrowserRouter>
-    
   );
 };
-
 
 export default App;

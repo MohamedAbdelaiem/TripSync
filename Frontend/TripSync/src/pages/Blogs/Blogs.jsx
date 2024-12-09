@@ -12,7 +12,6 @@ function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const fetchBlogs = async () => {
     setIsLoading(true);
     try {
@@ -27,21 +26,15 @@ function Blogs() {
       // setBlogs(response.data.data);
       setBlogs(response.data.data);
       setIsLoading(false);
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
       setIsLoading(false);
     }
   };
 
-
   useEffect(() => {
     fetchBlogs();
-
   }, []);
-   
-
-
 
   return (
     <>
@@ -55,13 +48,14 @@ function Blogs() {
       </NavLink>
 
       {isLoading ? (
-        <p>Loading...</p>
+        <h3 className="loading">Loading...</h3>
       ) : (
         <>
           <div className="blogs-container">
             {blogs.map((blog) => (
               <Blog
                 key={blog.blog_id}
+                blog_id={blog.blog_id}
                 content={blog.content}
                 profilePic={blog.photo || profilePic}
                 time={blog.time}

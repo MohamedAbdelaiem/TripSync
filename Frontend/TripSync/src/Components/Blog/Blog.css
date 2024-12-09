@@ -1,27 +1,26 @@
 .flexContainer{
     display:flex;
     margin-left: 410px;
-     /* min-height: 600px; */
+     
     width: 700px;
-    /* justify-items: center;*/
+  
     justify-content: center;
     align-items: center; 
-    /* margin: 50px; */
-   /* max-width: 100px; */
+
 }
 
 .cardbody {
-    background-color: #ffffff; /* White background */
-    border: 1px solid #e0e0e0; /* Light border */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06); /* Soft shadow */
-    padding: 20px; /* Spacing inside the card */
-    margin: 15px; /* Space between cards */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    background-color: #ffffff; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    padding: 20px; 
+    margin: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .cardbody:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
+    transform: translateY(-5px); 
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1); /* Deeper shadow on hover */
   }
   
@@ -29,12 +28,12 @@
   display: flexbox;
   width: 300px;
 justify-items: center;
-  background-color: #ffffff; /* White background */
-    border: 1px solid #e0e0e0; /* Light border */
-    border-radius: 10px; /* Rounded corners */
+  background-color: #ffffff; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06); /* Soft shadow */
-    padding: 20px; /* Spacing inside the card */
-    margin: 15px; /* Space between cards */
+    padding: 20px;
+    margin: 15px; 
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
 }
 .cardtitle{
@@ -49,9 +48,55 @@ justify-items: center;
   margin-left: 20px;
   font-size: 13.5px;
 }
-/* Blogs.css */
 
-/* Add margin to each Blog component */
 .Blog {
-  margin: 20px 0; /* Adjusts vertical and horizontal spacing */
+  margin: 20px 0; 
+}
+
+.close-icon2 {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  border: 2px solid red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease;
+}
+
+.close-icon2::before,
+.close-icon2::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 2px;
+  background-color: red;
+  border-radius: 1px;
+  transform-origin: center;
+  transition: 0.3s ease;
+}
+
+.close-icon2::before {
+  transform: rotate(45deg);
+}
+
+.close-icon2::after {
+  transform: rotate(-45deg);
+}
+
+
+.close-icon2:hover {
+  transform: scale(1.1);
+  background: rgba(255, 0, 0, 0.1);
+}
+
+.flex_{
+  display: flex;
+}
+.del{
+  margin-top: -5.3px;
+  margin-left: 140px;
 }

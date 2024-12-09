@@ -22,17 +22,21 @@ function NavbarSignedIn() {
         ></button>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav m-2">
-            <li className="nav-item active mx-2">
-              <a href="#">Home</a>
+            <li className="HomeNav  mx-2">
+              <a href="#" className="HomeNav">Home</a>
             </li>
+            <a  className="aboutNav">
+              <li className="aboutNav nav-item  mx-2">About</li>
+            </a>
 
-            <li className="nav-item active mx-2">Discover</li>
-            <li className="nav-item active mx-2">Activities</li>
-            <li className="nav-item active mx-2">About</li>
-            <li className="nav-item active mx-2">Content</li>
+            <NavLink to="Blog" className={"blogNav"}>
+              <li className="blogNav mx-2">Blogs</li>
+            </NavLink>
           </ul>
         </div>
-        <NavLink to="profile">
+      
+
+        <NavLink to="/TravelAgencyProfile">
           <img src={profile} height={50} width={50} className="mx-3" />
         </NavLink>
       </nav>

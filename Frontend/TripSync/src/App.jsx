@@ -15,7 +15,6 @@ import TravelAgency from "./pages/TravelAgency/TravelAgency";
 import Tours from "./pages/Tours/Tours";
 import AdminView from "./pages/AdminView/AdminView";
 import Register_TravelAgency from "./pages/Register_TravelAgency/Register_TravelAgency";
-import UserTripsList from "./pages/UserTripsList/UserTripsList";
 import BookPage from "./pages/BookPage/BookPage";
 import EditTour from "./pages/EditTour/EditTour";
 import Report from "./pages/Report/Report";

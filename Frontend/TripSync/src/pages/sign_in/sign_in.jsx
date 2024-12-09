@@ -12,7 +12,9 @@ function Sign_in() {
   const [password,setPassword]=useState("");
   const [error,setError]=useState("");
   const [success,setSuccess]=useState("");
-  const {setUser}=useContext(UserContext);
+  const {user,setUser}=useContext(UserContext);
+  // console.log(UserContext);
+  // const [user,setUser]=useState(useContext(UserContext));
 
   const Navigate=useNavigate();
 
@@ -40,10 +42,10 @@ function Sign_in() {
       }
       if(response.data.status==="success"){
       setSuccess(response.data.message);
-      console.log(response.data);
-      console.log(document.cookie);
+      console.log(response.data.data);
       setUser(response.data.data);
-      Navigate("/");    
+      console.log(user);
+      Navigate("/Traveller-Profile/123");    
       }
       else{
         setError(response.data.message);

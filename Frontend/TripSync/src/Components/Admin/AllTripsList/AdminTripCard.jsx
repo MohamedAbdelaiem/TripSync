@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./AllTripsList.css"
-import "../../../pages/UserTripsList/UserTripsList.css"
+// import "../../../pages/UserTripsList/UserTripsList.css"
 
 import { FaMapMarkerAlt, FaRegStar, FaClock } from "react-icons/fa";
 import { Navigate } from "react-router-dom";

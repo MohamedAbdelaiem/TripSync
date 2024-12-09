@@ -24,18 +24,21 @@
 
 .ticket-card-content {
   padding: 16px;
+  
 }
 
 .ticket-card-title {
   font-size: 1.25rem;
   color: #333;
   margin-bottom: 8px;
+  text-align: start;
 }
 
 .ticket-card-details p {
   margin: 4px 0;
   color: #555;
   font-size: 0.9rem;
+  text-align: start;
 }
 
 
@@ -68,6 +71,7 @@
   text-transform: uppercase;
   font-weight: bold;
   transition: background 0.3s ease;
+  width: 90%;
 }
 
 .ticket-card-button:hover {

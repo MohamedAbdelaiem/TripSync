@@ -26,7 +26,7 @@ function AddReward({ closeAddRewardModal, userId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Updated Profile Data: ", formData);
+    console.log("Reward added successfully: ", formData);
     closeAddRewardModal(); // Close the modal after submitting
   };
 

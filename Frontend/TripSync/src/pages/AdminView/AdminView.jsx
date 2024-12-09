@@ -5,11 +5,13 @@ import AllAgenciesList from "../../Components/Admin/AllAgenciesList/AllAgenciesL
 import AllTravellersList from "../../Components/Admin/AllTravellersList/AllTravellersList";
 import AllReportsList from "../../Components/Admin/AllReports/AllReportsList";
 import AdminRewards from "../../Components/Admin/AdminRewards/AdminRewards";
+import AllPolicies from "../../Components/Admin/AdminPolicies/AllPolicies";
 import { all_user_trips } from "../../Components/Data/all_user_trips";
 import { all_Travellers } from "../../Components/Data/all_Travellers";
 import { all_agencies } from "../../Components/Data/all_agencies";
 import { all_rewards } from "../../Components/Data/Rewards";
 import { all_reports } from "../../Components/Data/all_reports";
+import { all_policies } from "../../Components/Data/all_policies";
 import { useParams } from "react-router-dom";
 
 function AdminView() {
@@ -18,6 +20,7 @@ function AdminView() {
   const [dis_all_agencies, set_dis_all_agencies] = useState(false);
   const [dis_all_rewards, set_dis_all_rewards] = useState(false);
   const [dis_all_reports, set_dis_all_reports] = useState(false);
+  const [dis_all_policies, set_dis_all_policies] = useState(false);
 
   let { adminId } = useParams();
   const onMenuSelected = (selected_item_name) => {
@@ -28,6 +31,7 @@ function AdminView() {
     set_dis_all_trips(selected_item_name === "all-trips" ? true : false);
     set_dis_all_rewards(selected_item_name === "all-rewards" ? true : false);
     set_dis_all_reports(selected_item_name === "all-reports" ? true : false);
+    set_dis_all_policies(selected_item_name === "all-policies" ? true : false);
 
   };
   return (
@@ -45,6 +49,9 @@ function AdminView() {
       ) : null}
       {dis_all_reports ? (
         <AllReportsList all_reports={all_reports} userId={adminId} />
+      ) : null}
+      {dis_all_policies ? (
+        <AllPolicies all_policies={all_policies} is_admin = {true} admin_id={adminId} />
       ) : null}
     </div>
   );

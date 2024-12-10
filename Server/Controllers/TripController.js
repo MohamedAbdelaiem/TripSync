@@ -247,37 +247,43 @@ exports.getTripsForUser_id = async (req, res) => {
   try {
     const traveller_id = req.params.user_id;
     client.query(
-      `SELECT trp.TRIP_ID, trp.Description, trp.Price, trp.MaxSeats, trp.Destinition, trp.StartLocation, trp.TravelAgency_ID AS organizer, trp.StartDate AS start_date, trp.EndDate AS end_date, trp.Name
-       FROM traveller AS trv, trip AS trp, tickets AS tick
-       WHERE trv.TRAVELLER_ID = tick.TRAVELLER_ID AND trp.TRIP_ID = tick.TRIP_ID
-       AND trv.TRAVELLER_ID = $1`,
+      `SELECT 
+    trp.TRIP_ID, 
+    trp.Description, 
+    trp.Price, 
+    trp.MaxSeats, 
+    trp.Destinition, 
+    trp.StartLocation, 
+    trp.TravelAgency_ID AS organizer, 
+    trp.StartDate AS start_date, 
+    trp.EndDate AS end_date, 
+    trp.Name,
+    array_agg(TP.PHOTO) AS photos
+FROM 
+    traveller AS trv
+JOIN 
+    tickets AS tick ON trv.TRAVELLER_ID = tick.TRAVELLER_ID
+JOIN 
+    trip AS trp ON trp.TRIP_ID = tick.TRIP_ID
+LEFT JOIN 
+    TripPhotos AS TP ON trp.TRIP_ID = TP.TRIP_ID
+WHERE 
+    trv.TRAVELLER_ID = $1
+GROUP BY 
+    trp.TRIP_ID, trp.Description, trp.Price, trp.MaxSeats, trp.Destinition, 
+    trp.StartLocation, trp.TravelAgency_ID, trp.StartDate, trp.EndDate, trp.Name
+`,
       [traveller_id],
       (err, result) => {
         if (err) {
           console.log(err);
           res.status(400).send("Error in fetching data");
-        } else {
-          client.query(
-            `SELECT PHOTO FROM TripPhotos WHERE TRIP_ID IN (SELECT TRIP_ID FROM Tickets WHERE TRAVELLER_ID=$1)`,
-            [traveller_id],
-            (err, result2) => {
-              if (err) {
-                console.log(err);
-                res.status(400).send("Error in fetching data");
-              } else {
-                res.status(200).json({
-                  status: true,
-                  data: result.rows,
-                  photos: result2.rows,
-                });
-                console.log(result.rows);
-              }
+        }
+        res.status(200).json(result.rows);
             }
           );
         }
-      }
-    );
-  } catch (e) {
+      catch (e) {
     res.status(500).json({
       status: false,
       message: "Error in fetching data",

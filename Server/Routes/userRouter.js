@@ -24,7 +24,6 @@ userRouter.route("/ForgotPassword").post(AuthConroller.forgotPassword);
 userRouter
   .route("/ResetPassword/:resetToken")
   .patch(AuthConroller.resetPassword);
-
 // Admin-protected routes
 
 userRouter
@@ -75,7 +74,7 @@ userRouter
   .delete(AuthConroller.protect, UserConroller.getMe, UserConroller.DeleteMe);
 userRouter
   .route("/updateMe")
-  .patch(AuthConroller.protect, UserConroller.getMe, UserConroller.UpdateMe);
+  .patch(AuthConroller.protect,UserConroller.getMe,UserConroller.updateUserPhoto,UserConroller.resizeUserPhoto ,UserConroller.UpdateMe);
 
 // Trip-Based routes
 userRouter.use("/myProfile/trips",AuthConroller.restrictTo("travel_agency") ,tripRouter);//->must be edited to handle if the user is traveller

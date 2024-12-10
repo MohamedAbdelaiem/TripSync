@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const { console } = require("inspector");
+const UserConroller = require("./UserConroller");
 
 function generateResetToken(email) {
   const payload = {
@@ -56,7 +57,6 @@ exports.signup = async (req, res) => {
     username,
     email,
     password,
-    profilePhoto,
     profileName,
     role,
     phoneNumber,
@@ -65,6 +65,9 @@ exports.signup = async (req, res) => {
     description,
     country,
   } = req.body;
+
+  const profilePhoto = req.file.filename;
+
 
   // Validate required fields
   if (!username || !email || !password || !role) {
@@ -85,6 +88,9 @@ exports.signup = async (req, res) => {
       [username, email, hashedPassword, profilePhoto, profileName, role]
     );
 
+    UserConroller.uploadUserPhotoMulter();
+    req.body.user_id = newUser.rows[0].user_id;
+    UserConroller.resizeUserPhoto();
     // Insert role-specific details
     if (role === "traveller") {
       await client.query("INSERT INTO traveller(traveller_id) VALUES($1)", [
@@ -114,6 +120,7 @@ exports.signup = async (req, res) => {
       return res.status(400).json({
         status: "fail",
         message: "Invalid role",
+
       });
     }
 
@@ -153,7 +160,7 @@ exports.signup = async (req, res) => {
     res.status(400).json({
       status: "fail",
       message: "Error signing up the user",
-      error: err.message,
+      error: err,
     });
   }
 };

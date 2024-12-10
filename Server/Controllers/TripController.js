@@ -59,10 +59,10 @@ exports.deleteTrip = async (req, res) => {
     });
   }
   try {
-    trip_id = req.params.trip_id;
+    Trip_id = req.params.trip_id;
     await client.query("BEGIN");
     const rows = await client.query("DELETE FROM TRIP WHERE Trip_id=$1", [
-      trip_id,
+      Trip_id,
     ]);
     await client.query("COMMIT");
     if (rows.rowCount === 0) {
@@ -222,7 +222,7 @@ exports.getHistory = async (req, res) => {
     const TRAVELLER_ID = req.user.user_id;
 
     client.query(
-      `SELECT trp.TRIP_ID,trp.Description,trp.Price,trp.MaxSeats,trp.Destinition,trp.Duration,trp.StartLocation
+      `SELECT trp.TRIP_ID,trp.Description,trp.Price,trp.MaxSeats,trp.Destinition,trp.StartLocation
           FROM traveller as trv, trip as trp, tickets as tick
           WHERE trv.TRAVELLER_ID=tick.TRAVELLER_ID AND trp.TRIP_ID=tick.TRIP_ID
           AND trv.TRAVELLER_ID=$1`,
@@ -242,6 +242,50 @@ exports.getHistory = async (req, res) => {
     console.log(e);
   }
 };
+
+exports.getTripsForUser_id = async (req, res) => {
+  try {
+    const traveller_id = req.params.user_id;
+    client.query(
+      `SELECT trp.TRIP_ID, trp.Description, trp.Price, trp.MaxSeats, trp.Destinition, trp.StartLocation, trp.TravelAgency_ID AS organizer, trp.StartDate AS start_date, trp.EndDate AS end_date, trp.Name
+       FROM traveller AS trv, trip AS trp, tickets AS tick
+       WHERE trv.TRAVELLER_ID = tick.TRAVELLER_ID AND trp.TRIP_ID = tick.TRIP_ID
+       AND trv.TRAVELLER_ID = $1`,
+      [traveller_id],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data");
+        } else {
+          client.query(
+            `SELECT PHOTO FROM TripPhotos WHERE TRIP_ID IN (SELECT TRIP_ID FROM Tickets WHERE TRAVELLER_ID=$1)`,
+            [traveller_id],
+            (err, result2) => {
+              if (err) {
+                console.log(err);
+                res.status(400).send("Error in fetching data");
+              } else {
+                res.status(200).json({
+                  status: true,
+                  data: result.rows,
+                  photos: result2.rows,
+                });
+                console.log(result.rows);
+              }
+            }
+          );
+        }
+      }
+    );
+  } catch (e) {
+    res.status(500).json({
+      status: false,
+      message: "Error in fetching data",
+    });
+  }
+};
+
+          
 
 exports.getAllPromotions = async (req, res) => {
   const travelAgency_id = req.user.user_id;
@@ -368,3 +412,4 @@ exports.deletePromotion = async (req, res) => {
     });
   }
 };
+

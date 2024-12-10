@@ -35,7 +35,7 @@ function SideBar(props) {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <li>
-            My Rewards &nbsp; <i className="fa-solid fa-ticket"></i>
+            My Rewards &nbsp; <i class="fa-solid fa-award"></i>
           </li>
         </a>
 
@@ -44,7 +44,7 @@ function SideBar(props) {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <li>
-            Trips &nbsp; <i className="fa-solid fa-ticket"></i>
+            Trips &nbsp; <i class="fa-solid fa-plane"></i>
           </li>
         </a>
 

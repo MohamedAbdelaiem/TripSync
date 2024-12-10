@@ -50,8 +50,7 @@
 }
 
 .claim-btn {
-  background-color: #3344ff;
-  color: #fff;
+  background-color:#2F80ED;  color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 30px;
@@ -62,7 +61,7 @@
 }
 
 .claim-btn:hover {
-  background-color: #172bff;
+  background-color: #2969BF;
   transform: scale(1.05);
 }
 

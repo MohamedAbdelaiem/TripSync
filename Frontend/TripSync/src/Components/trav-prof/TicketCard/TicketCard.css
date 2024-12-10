@@ -60,7 +60,7 @@
 
 
 .ticket-card-button {
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  background-color:#2F80ED;
   color: white;
   border: none;
   border-radius: 6px;
@@ -75,5 +75,5 @@
 }
 
 .ticket-card-button:hover {
-  background: linear-gradient(to right, #feb47b, #ff7e5f);
+    background-color:#2969BF;
 }

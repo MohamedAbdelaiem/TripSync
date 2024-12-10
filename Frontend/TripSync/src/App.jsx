@@ -107,7 +107,7 @@ const App = () => {
           />
           <Route path="/Preregister" element={<Preregister />} />
           <Route path="/Blog/profile" element={<TravelAgency />} />
-          <Route path="/Traveller-Profile/:id" element={<TravellerProf />} />
+          <Route path="/Traveller-Profile/:profile_id" element={<TravellerProf />} />
           <Route path="/Tickets/:id" element={<TicketsList />} />
           <Route path="/Admin-view/:adminId" element={<AdminView />} />
           <Route path="/Rewards/:id" element={<RewardsList />} />

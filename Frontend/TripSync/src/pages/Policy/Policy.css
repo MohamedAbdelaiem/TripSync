@@ -8,4 +8,10 @@
 }
 .headerPolicy{
     margin-top: 50px;
+    margin-bottom: 20px;
+    margin-left: 300px;
+}
+.policy-container{
+    margin-left: 200px;
+    width: 600px;
 }

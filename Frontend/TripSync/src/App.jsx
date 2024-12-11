@@ -23,7 +23,9 @@ import Blogs from "./pages/Blogs/Blogs";
 import Review from "./pages/Review/Review";
 import QACards from "./pages/QACards/QACards";
 import TravelAgencyProfile from "./pages/TravelAgencyProfile/TravelAgencyProfile";
+import ReviewCard from "./Components/reviewCard/reviewCard";
 import AddNewTour from "./Pages/AddNewTour/AddNewTour";
+import NotFound from "./pages/NotFound/NotFound";
 import image2 from "./assets/card.jpg";
 import image3 from "./assets/Rectangle 9.png";
 import image4 from "./assets/Rectangle 11.png";
@@ -139,6 +141,13 @@ const App = () => {
           <Route path="/book" element={<BookPage />} />
           <Route path="/edit-tour" element={<EditTour />} />
           <Route path="/Blog/blogWrite" element={<BlogWrite />} />
+
+          {/* ReviewCard */}
+          <Route path="/ReviewCard" element={<ReviewCard />} />
+
+          {/* NotFound */}
+          <Route path="*" element={<NotFound />} />
+          
         </Routes>
       </main>
     </BrowserRouter>

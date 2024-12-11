@@ -33,14 +33,14 @@ function AdminRewards({ all_rewards, userId }) {
           </button>
         </div>
         <div className="all-rewards-container">
-          {all_rewards.map((reward) => (
-            <li className="reward-item" key={reward.id}>
+          {all_rewards.map((reward,idx) => (
+            <li className="reward-item" key={idx}>
               <AdminReward
-                id={reward.id}
-                photoLink={reward.photoLink}
-                requiredPoints={reward.requiredPoints}
+                id={reward.reward_id}
+                photoLink={reward.photo}
+                requiredPoints={reward.pointsneeded}
                 description={reward.description}
-                userId={userId}
+                userId={reward.admin_id}
                 DeleteReward={DeleteReward}
               />
             </li>

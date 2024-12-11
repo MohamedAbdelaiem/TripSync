@@ -7,12 +7,12 @@ function AllAgenciesList({ all_agencies }) {
     <div className="all-agencies-list-container">
       {all_agencies.length > 0 ? (
         <ul className="agencies-list">
-          {all_agencies.map((agen) => (
-            <li key={agen.TravelAgencyID} className="agencies-list-item">
+          {all_agencies.map((agen,idx) => (
+            <li key={idx} className="agencies-list-item">
               <AgencyCard
-                image_url={agen.ProfilePicture}
-                id={agen.TravelAgencyID}
-                prof_name={agen.ProfileName}
+                image_url={agen.profilephoto}
+                id={agen.travelagency_id}
+                prof_name={agen.profilename}
               />
             </li>
           ))}

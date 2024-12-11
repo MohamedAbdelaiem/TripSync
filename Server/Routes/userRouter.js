@@ -77,7 +77,7 @@ userRouter
   .patch(AuthConroller.protect,UserConroller.getMe,UserConroller.updateUserPhoto,UserConroller.resizeUserPhoto ,UserConroller.UpdateMe);
 
 // Trip-Based routes
-userRouter.use("/myProfile/trips",AuthConroller.restrictTo("travel_agency") ,tripRouter);//->must be edited to handle if the user is traveller
+userRouter.use("/myProfile/trips",AuthConroller.protect,AuthConroller.restrictTo("travel_agency") ,tripRouter);//->must be edited to handle if the user is traveller
 
 // Report-Based routes
 userRouter.use("/:user_id/reports",AuthConroller.protect,AuthConroller.restrictTo("admin","traveller") ,(req, res, next) => {
@@ -85,12 +85,8 @@ userRouter.use("/:user_id/reports",AuthConroller.protect,AuthConroller.restrictT
 });
 
 //Ticket-Based routes
-userRouter.use(
-  "/myProfile/tickets",
-  AuthConroller.protect,
-  AuthConroller.restrictTo("traveller"),
-  ticketsController.getAllTickets
-);
+
+userRouter.use("/myProfile/tickets",AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.getAllTickets);
 
 
 //Other routers to use apart from the userRouter

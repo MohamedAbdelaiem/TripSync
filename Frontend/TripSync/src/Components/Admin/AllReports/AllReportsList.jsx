@@ -11,9 +11,9 @@ function AllReportsList({ all_reports, userId }) {
     <div className="all-reports-container">
       <h2>All Reports</h2>
       <div className="reports-list">
-        {all_reports.map((report) => (
+        {all_reports.map((report,idx) => (
           <AdminReport
-            key={report.id}
+            key={idx}
             report={report}
             onDeleteReport={deleteReport}
             onBlockAgency={blockAgency}

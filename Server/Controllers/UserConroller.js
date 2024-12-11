@@ -35,7 +35,11 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadUserPhotoMulter = upload.single('profilephoto');
+exports.uploadUserPhotoMulter =async(req,res,next)=>
+{ 
+  upload.single('profilephoto');
+  next();
+}
 
 exports.resizeUserPhoto = async (req, res, next) => {
   if (!req.file) return next();

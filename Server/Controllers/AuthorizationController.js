@@ -64,15 +64,14 @@ exports.signup = async (req, res) => {
     address,
     description,
     country,
+    profilePhoto,
   } = req.body;
-
-  const profilePhoto = req.file.filename;
-
 
   // Validate required fields
   if (!username || !email || !password || !role) {
     return res.status(400).json({
       status: "fail",
+      user: req.body,
       message: "Please provide all the required fields",
     });
   }
@@ -88,9 +87,6 @@ exports.signup = async (req, res) => {
       [username, email, hashedPassword, profilePhoto, profileName, role]
     );
 
-    UserConroller.uploadUserPhotoMulter();
-    req.body.user_id = newUser.rows[0].user_id;
-    UserConroller.resizeUserPhoto();
     // Insert role-specific details
     if (role === "traveller") {
       await client.query("INSERT INTO traveller(traveller_id) VALUES($1)", [
@@ -111,7 +107,7 @@ exports.signup = async (req, res) => {
           phoneNumber,
           location,
           address,
-          email,
+          email,  // Email is stored in the travel agency table as well
           description,
           country,
         ]
@@ -120,7 +116,6 @@ exports.signup = async (req, res) => {
       return res.status(400).json({
         status: "fail",
         message: "Invalid role",
-
       });
     }
 
@@ -415,4 +410,3 @@ exports.resetPassword = async (req, res) => {
     });
   }
 };
-

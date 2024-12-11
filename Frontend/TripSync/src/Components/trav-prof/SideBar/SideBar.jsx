@@ -12,9 +12,15 @@ function SideBar(props) {
 
   let current_user_is_owner = props.isOwner;
 
+  const GoToHomePage = () => {
+    navigate("/");
+  }
   return (
     <div className="Side-Bar">
       <ul className="sidebar-menu">
+        <button className="return-home-from-trav-prof" onClick={GoToHomePage}>
+          <i className="fa-solid fa-arrow-left"></i> Home
+        </button>
         <li>
           <ProfPicture
             imgPath={props.imgUrl}
@@ -35,7 +41,7 @@ function SideBar(props) {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <li>
-            My Rewards &nbsp; <i class="fa-solid fa-award"></i>
+            My Rewards &nbsp; <i className="fa-solid fa-award"></i>
           </li>
         </a>
 
@@ -44,18 +50,20 @@ function SideBar(props) {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <li>
-            Trips &nbsp; <i class="fa-solid fa-plane"></i>
+            Trips &nbsp; <i className="fa-solid fa-plane"></i>
           </li>
         </a>
 
-        {current_user_is_owner && <a
-          href="#user-tickets"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <li>
-            Tickets &nbsp; <i className="fa-solid fa-ticket"></i>
-          </li>
-        </a>}
+        {current_user_is_owner && (
+          <a
+            href="#user-tickets"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <li>
+              Tickets &nbsp; <i className="fa-solid fa-ticket"></i>
+            </li>
+          </a>
+        )}
       </ul>
     </div>
   );

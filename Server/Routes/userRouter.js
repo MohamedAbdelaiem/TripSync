@@ -85,7 +85,12 @@ userRouter.use("/:user_id/reports",AuthConroller.protect,AuthConroller.restrictT
 });
 
 //Ticket-Based routes
-userRouter.use("/myProfile/tickets",AuthConroller.restrictTo("traveller"),ticketsController.getAllTickets);
+userRouter.use(
+  "/myProfile/tickets",
+  AuthConroller.protect,
+  AuthConroller.restrictTo("traveller"),
+  ticketsController.getAllTickets
+);
 
 
 //Other routers to use apart from the userRouter

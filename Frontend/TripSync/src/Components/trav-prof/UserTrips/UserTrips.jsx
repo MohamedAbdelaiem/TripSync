@@ -5,7 +5,7 @@ import "./userTrips.css";
 const UserTrips = ({ trips, userID }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const userTrips = trips.filter((trip) => trip.travellerId == userID);
+  const userTrips = trips;
 
   const itemsPerPage = window.innerWidth <= 768 ? 1 : 3;
 
@@ -39,10 +39,10 @@ const UserTrips = ({ trips, userID }) => {
         </button>
 
         <div className="trips-carousel">
-          {userTrips    
+          {userTrips
             .slice(currentIndex, currentIndex + itemsPerPage)
-            .map((trip) => (
-              <TripCard key={trip.id} {...trip} />
+            .map((trip,index) => (
+              <TripCard key={index} {...trip} />
             ))}
         </div>
         <button

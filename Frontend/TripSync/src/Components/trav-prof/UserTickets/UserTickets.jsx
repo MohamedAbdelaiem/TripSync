@@ -5,7 +5,7 @@ import "./UserTickets.css";
 const UserTickets = ({ tickets, userID }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const userTickets = tickets.filter((ticket) => ticket.travellerId == userID);
+  const userTickets = tickets;
 
   const itemsPerPage = window.innerWidth <= 768 ? 1 : 3;
 
@@ -39,9 +39,12 @@ const UserTickets = ({ tickets, userID }) => {
         </button>
 
         <div className="tickets-carousel">
-          {userTickets
-            .slice(currentIndex, currentIndex + itemsPerPage)
-            .map((ticket) => (<TicketCard key={ticket.id} ticket={ticket} />) )}
+          {userTickets.length > 1 &&
+            userTickets
+              .slice(currentIndex, currentIndex + itemsPerPage)
+              .map((ticket, index) => (
+                <TicketCard key={index} ticket={ticket} />
+              ))}
         </div>
         <button
           className="arrow-rewards right-arrow"

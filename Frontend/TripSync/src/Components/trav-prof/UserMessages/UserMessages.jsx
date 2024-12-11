@@ -2,16 +2,76 @@ import React from "react";
 import "./UserMessages.css";
 import { useState, useEffect, useRef } from "react";
 
-
-const UserMessages = ({ isOpen, onClose, allMessages, userID }) => {
+const UserMessages = ({
+  isOpen,
+  onClose,
+  allMessages,
+  profileId,
+  isOwner,
+  currentUser,
+}) => {
   if (!isOpen) return null;
+  let current_user_is_owner = isOwner;
 
+  const [newMessage, setNewMessage] = useState("");
   const [userMessages, setUserMessages] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [selectedChatMessages, setSelectedChatMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
   const [allChats, setAllCahts] = useState([]);
   const messUlRef = useRef(null);
+
+  const closeChats = () => {
+    onClose();
+  };
+
+  // send message to another user
+  if (!current_user_is_owner && currentUser !== null) {
+    const handleSendMessage = (e) => {
+      e.preventDefault();
+      if (newMessage.trim()) {
+        //   setMessages([...messages, { sender: "You", content: newMessage }]);
+        const currentDate = new Date();
+        // form new message
+        const message = {
+          id: null,
+          sender_id: currentUser.user_id,
+          receiver_id: profileId,
+          content: newMessage,
+          date: currentDate.toDateString(),
+          time: `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`,
+        };
+        setNewMessage("");
+        closeChats();
+      }
+    };
+
+    return (
+      <>
+        <div className="modal-overlay">
+          <button className="close-button" onClick={closeChats}>
+            ✖
+          </button>
+          <div className="userMessages-container">
+            <div className="chat-container">
+              <form className="message-form" onSubmit={handleSendMessage}>
+                <input
+                  type="text"
+                  placeholder="Type a message..."
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                />
+                <button type="submit">Send</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  } else if (currentUser === null) {
+    alert("please sign in first to send message");
+    return null;
+  }
+  //-----------------------------------------
 
   const scrollToLastElement = () => {
     const ulElement = messUlRef.current;
@@ -23,9 +83,8 @@ const UserMessages = ({ isOpen, onClose, allMessages, userID }) => {
     }
   };
   useEffect(() => {
-
     const messages = allMessages.filter((message) => {
-      return message.sender_id == userID || message.receiver_id == userID;
+      return message.sender_id == profileId || message.receiver_id == profileId;
     });
 
     setUserMessages(messages);
@@ -43,7 +102,7 @@ const UserMessages = ({ isOpen, onClose, allMessages, userID }) => {
         ) {
           let message_receiver_id = allMessages[i].receiver_id;
           let message_sender_id = allMessages[i].sender_id;
-          if (userID == message_sender_id) {
+          if (profileId == message_sender_id) {
             let obj = {
               senderName: message_receiver,
               senderId: message_receiver_id,
@@ -53,7 +112,7 @@ const UserMessages = ({ isOpen, onClose, allMessages, userID }) => {
             chatNames.push(message_receiver);
             chats.push(obj);
             id += 1;
-          } else if (userID == message_receiver_id) {
+          } else if (profileId == message_receiver_id) {
             let obj = {
               senderName: message_sender,
               senderId: message_sender_id,
@@ -70,8 +129,7 @@ const UserMessages = ({ isOpen, onClose, allMessages, userID }) => {
       setAllCahts(chats);
       scrollToLastElement();
     }
-  }, [userID, allMessages,selectedChat]);
-  
+  }, [profileId, allMessages, selectedChat]);
 
   const handleChatClick = (chatId) => {
     const chat = allChats.filter((chat) => chat.chatId == chatId)[0];
@@ -82,19 +140,6 @@ const UserMessages = ({ isOpen, onClose, allMessages, userID }) => {
         message.receiver_id == chat.senderId
     );
     setSelectedChatMessages(messages);
-
-  };
-
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (newMessage.trim()) {
-      //   setMessages([...messages, { sender: "You", content: newMessage }]);
-      setNewMessage("");
-    }
-  };
-
-  const closeChats = () => {
-    onClose();
   };
 
   return (
@@ -137,11 +182,11 @@ const UserMessages = ({ isOpen, onClose, allMessages, userID }) => {
               ></img>
               <h2 className="chat-header-name">{selectedChat.senderName}</h2>
             </div>
-            <div className="chat-content" >
+            <div className="chat-content">
               <ul className="message-list" ref={messUlRef}>
                 {selectedChatMessages.length > 0 &&
                   selectedChatMessages.map((message) => {
-                    const sent = message.sender_id == userID;
+                    const sent = message.sender_id == profileId;
                     return (
                       <div
                         key={message.id}

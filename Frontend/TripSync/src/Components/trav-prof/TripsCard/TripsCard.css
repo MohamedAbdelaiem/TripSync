@@ -8,8 +8,12 @@
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 300px;
+  /* width: fit-content; */
   min-height: 450px;
   height: fit-content;
+  /* height: 500px; */
+  margin-bottom: 20px;
+  align-items: stretch;
 }
 
 .trip-card:hover {
@@ -37,6 +41,7 @@
   padding: 15px;
   background: linear-gradient(to right, #ffffff, #f7f9fc);
   padding: 20px;
+  position: relative;
 }
 
 .trip-header {
@@ -58,6 +63,8 @@
   padding: 5px 10px;
   border-radius: 12px;
   text-align: center;
+  position: absolute;
+  right: 15px;
 }
 
 .trip-status.not-started {
@@ -98,7 +105,7 @@
 }
 
 .trip-button {
-  background-color: #007bff;
+  background-color:#2F80ED;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -110,8 +117,10 @@
 }
 
 .trip-button:hover {
-  background-color: #0056b3;
+  background-color:#2969BF;
 }
+
+
 
 
 @media (max-width: 768px) {
@@ -149,3 +158,4 @@
 
 
 
+insert into rewards values (4,5,'https://m.media-amazon.com/images/I/610bskwf-wL.__AC_SY300_SX300_QL70_ML2_.jpg','Flash memory',100,general)

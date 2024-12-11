@@ -1,0 +1,71 @@
+/* CSS for 404 Not Found Page */
+
+.NotFoundPage {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.cont-404 {
+    text-align: center;
+    color: #333;
+}
+
+.img-404 {
+    /* width: ; */
+    /* max-width: 300px; */
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.title-404 {
+    font-size: 4rem;
+    color: #5e5bff;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.subtitle-404 {
+    font-size: 1.5rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.btn-404 {
+    font-size: 1rem;
+    color: #fff;
+    background-color: #5e5bff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-404:hover {
+    background-color: #4b47d1;
+}
+
+@media screen and (max-width: 768px) {
+    .img-404 {
+        width: 70%;
+    }
+
+    .title-404 {
+        font-size: 3rem;
+    }
+
+    .subtitle-404 {
+        font-size: 1.2rem;
+    }
+
+    .btn-404 {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}

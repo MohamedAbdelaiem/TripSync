@@ -39,16 +39,20 @@ CREATE TABLE TravelAgency
 
 CREATE TABLE Trip
 (
-    Trip_ID SERIAL PRIMARY KEY ,
+    Trip_ID SERIAL PRIMARY KEY,
+    Name VARCHAR(200) NOT NULL,--initially was accepting null values (must be edited)
     Description VARCHAR(400),
     Price FLOAT NOT NULL,
     MaxSeats INT NOT NULL,
-    Destinition VARCHAR(200) NOT NULL,
-    Duration VARCHAR(400) NOT NULL, ---we can make it composite to date start and date end
+    Destinition VARCHAR(200) NOT NULL, 
+    startDate DATE NOT NULL,--initially was accepting null values (must be edited)
+    endDate DATE NOT NULL,--initially was accepting null values (must be edited)
     StartLocation VARCHAR(200) NOT NULL,
     TravelAgency_ID INT NOT NULL,
-    Foreign Key (TravelAgency_ID) REFERENCES TravelAgency(TravelAgency_ID) ON DELETE CASCADE
+    FOREIGN KEY (TravelAgency_ID) REFERENCES TravelAgency(TravelAgency_ID) ON DELETE CASCADE
 );
+
+
 -- CREATE TABLE NOtification
 -- (
 --     NOTIFICATION_ID SERIAL PRIMARY KEY ,

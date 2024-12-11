@@ -59,10 +59,10 @@ exports.deleteTrip = async (req, res) => {
     });
   }
   try {
-    trip_id = req.params.trip_id;
+    Trip_id = req.params.trip_id;
     await client.query("BEGIN");
     const rows = await client.query("DELETE FROM TRIP WHERE Trip_id=$1", [
-      trip_id,
+      Trip_id,
     ]);
     await client.query("COMMIT");
     if (rows.rowCount === 0) {
@@ -222,7 +222,7 @@ exports.getHistory = async (req, res) => {
     const TRAVELLER_ID = req.user.user_id;
 
     client.query(
-      `SELECT trp.TRIP_ID,trp.Description,trp.Price,trp.MaxSeats,trp.Destinition,trp.Duration,trp.StartLocation
+      `SELECT trp.TRIP_ID,trp.Description,trp.Price,trp.MaxSeats,trp.Destinition,trp.StartLocation
           FROM traveller as trv, trip as trp, tickets as tick
           WHERE trv.TRAVELLER_ID=tick.TRAVELLER_ID AND trp.TRIP_ID=tick.TRIP_ID
           AND trv.TRAVELLER_ID=$1`,
@@ -242,6 +242,58 @@ exports.getHistory = async (req, res) => {
     console.log(e);
   }
 };
+
+exports.getTripsForUser_id = async (req, res) => {
+  try {
+    const traveller_id = req.params.user_id;
+    client.query(
+      `SELECT 
+    trp.TRIP_ID, 
+    trp.Description, 
+    trp.Price, 
+    trp.MaxSeats, 
+    trp.Destinition, 
+    trp.StartLocation, 
+    trav_agency.ProfileName AS organizer, 
+    trp.StartDate AS start_date, 
+    trp.EndDate AS end_date, 
+    trp.Name,
+    array_agg(TP.PHOTO) AS photos
+FROM 
+    traveller AS trv
+
+JOIN 
+    tickets AS tick ON trv.TRAVELLER_ID = tick.TRAVELLER_ID
+JOIN 
+    trip AS trp ON trp.TRIP_ID = tick.TRIP_ID
+JOIN users as trav_agency on trp.TravelAgency_ID = trav_agency.USER_ID
+LEFT JOIN 
+    TripPhotos AS TP ON trp.TRIP_ID = TP.TRIP_ID
+WHERE 
+    trv.TRAVELLER_ID = $1
+GROUP BY 
+    trp.TRIP_ID, trp.Description, trp.Price, trp.MaxSeats, trp.Destinition, 
+    trp.StartLocation, trav_agency.ProfileName, trp.StartDate, trp.EndDate, trp.Name
+`,
+      [traveller_id],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data");
+        }
+        res.status(200).json(result.rows);
+      }
+    );
+        }
+      catch (e) {
+    res.status(500).json({
+      status: false,
+      message: "Error in fetching data",
+    });
+  }
+};
+
+          
 
 exports.getAllPromotions = async (req, res) => {
   const travelAgency_id = req.user.user_id;
@@ -368,3 +420,4 @@ exports.deletePromotion = async (req, res) => {
     });
   }
 };
+

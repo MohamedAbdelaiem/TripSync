@@ -4,10 +4,10 @@
   justify-content: center;
   align-items: center;
   height: 100px;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  background: linear-gradient(180deg,#2969BF,#144E9D);
   color: #ffffff;
   text-align: center;
-  border-radius: 20px;
+  /* border-radius: 20px; */
 }
 
 /* Text styling */
@@ -82,7 +82,7 @@ h1.greeting-message {
 }
 
 .stat-box {
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  background: linear-gradient(#2969BF,#144E9D);
   color: white;
   text-align: center;
   padding: 20px;

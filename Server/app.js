@@ -40,7 +40,7 @@ app.use(express.json()); //for json data
 app.use(express.urlencoded({ extended: true })); //for form data
 
 //Serve Static Files
-// app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'public')));
 
 //Mount Routers
 

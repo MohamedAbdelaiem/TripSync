@@ -14,18 +14,18 @@ const all_messages = [
     time: "18:23",
   },
   {
-    id: 2,
-    sender_name: "Ahmed Mohamed",
-    sender_id: 1234,
-    sender_photo:
-      "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&q=70&fm=webp",
-    receiver_name: "Hazem Emam",
-    receiver_id: 123,
-    receiver_photo:
-      "https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/50dab922-5d48-4c6b-8725-7fd0755d9334/3a3f2d35-8167-4708-9ef0-bdaa980989f9.png",
-    content: "Hi Hazem! I'm doing great, thanks for asking.",
-    date: "10-21-2021",
-    time: "18:25",
+      id: 2,
+      sender_name: "Ahmed Mohamed",
+      sender_id: 1234,
+      sender_photo:
+        "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&q=70&fm=webp",
+      receiver_name: "Hazem Emam",
+      receiver_id: 123,
+      receiver_photo:
+        "https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/50dab922-5d48-4c6b-8725-7fd0755d9334/3a3f2d35-8167-4708-9ef0-bdaa980989f9.png",
+      content: "Hi Hazem! I'm doing great, thanks for asking.",
+      date: "10-21-2021",
+      time: "18:25",
   },
   {
     id: 1000,

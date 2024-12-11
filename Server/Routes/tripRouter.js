@@ -22,6 +22,10 @@ tripRouter
 // tripRouter.route('/addTrip').post(AuthConroller.protect,TripController.addTrip);
 
 tripRouter
+  .route("/getTrips/:user_id")
+  .get(AuthConroller.protect, TripController.getTripsForUser_id);  
+
+tripRouter
   .route("/addTrip")
   .post(
     AuthConroller.protect,

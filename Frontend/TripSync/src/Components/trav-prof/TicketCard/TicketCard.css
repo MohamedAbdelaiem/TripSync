@@ -7,6 +7,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 300px;
 }
 
 .ticket-card:hover {
@@ -24,18 +25,21 @@
 
 .ticket-card-content {
   padding: 16px;
+  
 }
 
 .ticket-card-title {
   font-size: 1.25rem;
   color: #333;
   margin-bottom: 8px;
+  text-align: start;
 }
 
 .ticket-card-details p {
   margin: 4px 0;
   color: #555;
   font-size: 0.9rem;
+  text-align: start;
 }
 
 
@@ -57,7 +61,7 @@
 
 
 .ticket-card-button {
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  background-color:#2F80ED;
   color: white;
   border: none;
   border-radius: 6px;
@@ -68,8 +72,9 @@
   text-transform: uppercase;
   font-weight: bold;
   transition: background 0.3s ease;
+  width: 90%;
 }
 
 .ticket-card-button:hover {
-  background: linear-gradient(to right, #feb47b, #ff7e5f);
+    background-color:#2969BF;
 }

@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const { console } = require("inspector");
+const UserConroller = require("./UserConroller");
 
 function generateResetToken(email) {
   const payload = {
@@ -56,7 +57,6 @@ exports.signup = async (req, res) => {
     username,
     email,
     password,
-    profilePhoto,
     profileName,
     role,
     phoneNumber,
@@ -64,12 +64,14 @@ exports.signup = async (req, res) => {
     address,
     description,
     country,
+    profilePhoto,
   } = req.body;
 
   // Validate required fields
   if (!username || !email || !password || !role) {
     return res.status(400).json({
       status: "fail",
+      user: req.body,
       message: "Please provide all the required fields",
     });
   }
@@ -105,7 +107,7 @@ exports.signup = async (req, res) => {
           phoneNumber,
           location,
           address,
-          email,
+          email,  // Email is stored in the travel agency table as well
           description,
           country,
         ]
@@ -153,7 +155,7 @@ exports.signup = async (req, res) => {
     res.status(400).json({
       status: "fail",
       message: "Error signing up the user",
-      error: err.message,
+      error: err,
     });
   }
 };
@@ -408,4 +410,3 @@ exports.resetPassword = async (req, res) => {
     });
   }
 };
-

@@ -2,6 +2,9 @@ const express=require('express');
 const client=require('../db');
 const { console } = require('inspector/promises');
 const bcrypt=require('bcrypt');
+const multer=require('multer');
+const jwt=require('jsonwebtoken');
+const sharp=require('sharp');
 
 function checkRole(user_id)
 {
@@ -17,6 +20,56 @@ function checkRole(user_id)
         }
     });
 }
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Please upload an image'), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadUserPhotoMulter =async(req,res,next)=>
+{ 
+  upload.single('profilephoto');
+  next();
+}
+
+exports.resizeUserPhoto = async (req, res, next) => {
+  if (!req.file) return next();
+  req.file.filename = `user-${req.user.user_id}-${Date.now()}.jpeg`;
+  await sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/images/users/${req.file.filename}`);
+  next();
+};
+
+exports.updateUserPhoto = async (req, res) => {
+  try {
+    const user_id = req.user.user_id;
+    const profilephoto = req.file.filename;
+    await client.query('UPDATE users SET profilephoto=$1 WHERE user_id=$2', [profilephoto, user_id]);
+    res.status(200).json({
+      success: true,
+      message: 'Profile photo updated successfully',
+    });
+  } catch (err) {
+    console.error('Error updating user photo:', err);
+    res.status(500).json({
+      success: false,
+      error: 'Error updating user photo',
+    });
+  }
+}
+
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -40,7 +93,7 @@ exports.getAllUsers = async (req, res) => {
 exports.getAllTravelAgencies = async (req, res) => {
   try {
     client.query(
-      "SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id",
+      "SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename,t.TravelAgency_ID FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id",
       (err, result) => {
         if (err) {
           console.log(err);

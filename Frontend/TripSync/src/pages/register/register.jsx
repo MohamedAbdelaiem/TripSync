@@ -1,42 +1,123 @@
 import React from "react";
 import Sub_Navbar from "../../Components/Sub_Navbar/Sub_Navbar";
 import "./Register.css";
-import {
-  useState
-  
- } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { UserContext } from "../../assets/userContext";
+import { useState, useEffect, useContext } from "react";
 function Register() {
-      
   const [photoPreview, setPhotoPreview] = useState(null);
-      
-  const handlePhotoChange = (event) => {
-    const file = event.target.files[0];
+  const [userName, setUserName] = useState("");
+  const [profileName, setProfileName] = useState("");
+  const [email, setEmail] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState("");
+  const [password, setPassword] = useState("");
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleFileChange = (event) => {
+    console.log(event.target.files[0]);
+    setFile(event.target.files[0]);
+  };
+
+  async function handlesImage(filex) {
+    const file = filex;
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
     if (file) {
-      setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "TripSync"); // Cloudinary upload preset
+      data.append("cloud_name", "dxm7trzb5"); // Cloudinary cloud name
+
+      const response = await axios.post(CLOUDINARY_URL, data);
+      const urlimage = response.data;
+      console.log(urlimage.url);
+      setProfilePhoto(urlimage.url);
+      return urlimage.url;
+    } else {
+      return null;
+    }
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let role = "traveller";
+    try {
+      // console.log(profilePhoto);
+      const url=await handlesImage(file);
+      console.log(url);
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/users/SignUp",
+        {
+          username: userName,
+          profileName: profileName,
+          email: email,
+          password: password,
+          role: "traveller",
+          profilePhoto: url,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if(response.data.status==="success"){
+      localStorage.setItem("token", response.data.token);
+      setSuccess(response.data.message);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      }
+      else{
+        setError(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      setError(error.response.data.message);
     }
   };
+
+  // const handlePhotoChange = async(event) => {
+  //   const file = event.target.files[0];
+  //   // const photo=await handlesImage(file);
+  //   // setProfilePhoto(photo);
+  //   // console.log(photo);
+  //   if (file) {
+  //     setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
+  //   }
+  // };
+
+
   return (
     <>
       <Sub_Navbar />
       <div className="Register containerregform d-flex justify-content-center align-items-center vh-100">
         <div className="card p-4 shadow-sm w-100" style={{ maxWidth: "400px" }}>
           <h3 className="text-center mb-4">Register</h3>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="userName" className="form-label">
-               User Name
+                User Name
               </label>
               <input
                 type="text"
                 className="form-control"
                 id="userName"
                 placeholder="Enter your user name"
+                value={userName}
                 required
+                onChange={(e) => setUserName(e.target.value)}
               />
             </div>
             <div className="mb-3">
               <label htmlFor="profileName" className="form-label">
-              Profile Name
+                Profile Name
               </label>
               <input
                 type="text"
@@ -44,6 +125,7 @@ function Register() {
                 id="profileName"
                 placeholder="Enter your user profile name"
                 required
+                onChange={(e) => setProfileName(e.currentTarget.value)}
               />
             </div>
 
@@ -57,6 +139,7 @@ function Register() {
                 id="email"
                 placeholder="Enter your email"
                 required
+                onChange={(e) => setEmail(e.currentTarget.value)}
               />
             </div>
 
@@ -70,6 +153,7 @@ function Register() {
                 id="pass"
                 placeholder="Enter your password"
                 required
+                onChange={(e) => setPassword(e.currentTarget.value)}
               />
             </div>
 
@@ -82,7 +166,7 @@ function Register() {
                 className="form-controlPhoto"
                 id="profilephoto"
                 accept="image/*"
-                onChange={handlePhotoChange}
+                onChange={(e) => {handleFileChange(e)}}
               />
               <label htmlFor="profilephoto">Upload Photo</label>
               {photoPreview && (

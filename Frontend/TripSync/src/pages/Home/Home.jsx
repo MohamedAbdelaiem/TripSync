@@ -13,7 +13,8 @@ export class Home extends Component {
   render() {
     return (
       <>
-        {UserContext ? <NavbarSignedIn /> : <Navbar />}
+        {/* {UserContext ? <NavbarSignedIn /> : <Navbar />} */}
+        <Navbar />
         
         <video autoPlay muted loop className="video-player">
           <source src={video} type="video/mp4" />

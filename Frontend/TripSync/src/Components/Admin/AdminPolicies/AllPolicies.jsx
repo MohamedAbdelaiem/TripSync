@@ -3,7 +3,6 @@ import PolicyCard from "./PolicyCard";
 import AddPolicy from "./AddPolicy";
 import "./AllPolicies.css";
 
-
 const AllPolicies = ({ all_policies, is_admin, admin_id }) => {
   const [add_policy_opend, set_add_policy_opend] = useState(false);
   const handleDeletePolicy = (policyId) => {
@@ -16,7 +15,7 @@ const AllPolicies = ({ all_policies, is_admin, admin_id }) => {
   };
 
   const openAddPolicyModal = () => {
-      set_add_policy_opend(true);
+    set_add_policy_opend(true);
   };
   const closeAddPolicyModal = () => {
     set_add_policy_opend(false);
@@ -40,9 +39,9 @@ const AllPolicies = ({ all_policies, is_admin, admin_id }) => {
         </div>
       )}
       <div className="policies-list">
-        {all_policies.map((policy) => (
+        {all_policies.map((policy,idx) => (
           <PolicyCard
-            key={policy.id}
+            key={idx}
             title={policy.title}
             description={policy.description}
             isAdmin={is_admin}

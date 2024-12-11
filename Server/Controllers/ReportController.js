@@ -3,7 +3,7 @@ const client = require("../db");
 
 exports.getAllReports=async(req,res)=>{
   try{
-    const reports=await client.query("SELECT * FROM reports");
+    const reports=await client.query("SELECT * FROM Report");
     if(reports.rows.length===0){
       return res.status(404).json({
         status:"false",

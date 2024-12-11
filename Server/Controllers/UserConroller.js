@@ -93,7 +93,7 @@ exports.getAllUsers = async (req, res) => {
 exports.getAllTravelAgencies = async (req, res) => {
   try {
     client.query(
-      "SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id",
+      "SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename,t.TravelAgency_ID FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id",
       (err, result) => {
         if (err) {
           console.log(err);

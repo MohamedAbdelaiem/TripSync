@@ -58,11 +58,9 @@ function Register() {
       
   const handlePhotoChange = (event) => {
     const file = event.target.files[0];
-    console.log(file);
     setProfilePhoto(file); // Set the file to the state
     if (file) {
       setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
-      console.log(URL.createObjectURL(file));
     }
   };
   return (

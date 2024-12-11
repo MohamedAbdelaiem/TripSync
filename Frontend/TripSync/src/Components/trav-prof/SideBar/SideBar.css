@@ -31,6 +31,31 @@
   width: 100%;
 }
 
+.return-home-from-trav-prof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* المسافة بين الأيقونة والنص */
+  padding: 10px 15px; /* حجم الحواف الداخلية */
+  background-color: transparent; /* لون الخلفية */
+  color: white; /* لون النص */
+  border: none; /* إزالة الحدود */
+  border-radius: 5px; /* زوايا مستديرة */
+  font-size: 16px; /* حجم الخط */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out; /* تأثير السلاسة */
+  position: absolute;
+}
+
+.return-home-from-trav-prof:hover {
+  background-color: #004a99; /* لون الخلفية عند التمرير */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* تأثير الظل */
+}
+
+.return-home-from-trav-prof i {
+  font-size: 18px; /* حجم الأيقونة */
+}
+
 .sidebar-menu li {
   padding: 15px 20px;
   text-align: center;

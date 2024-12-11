@@ -254,24 +254,26 @@ exports.getTripsForUser_id = async (req, res) => {
     trp.MaxSeats, 
     trp.Destinition, 
     trp.StartLocation, 
-    trp.TravelAgency_ID AS organizer, 
+    trav_agency.ProfileName AS organizer, 
     trp.StartDate AS start_date, 
     trp.EndDate AS end_date, 
     trp.Name,
     array_agg(TP.PHOTO) AS photos
 FROM 
     traveller AS trv
+
 JOIN 
     tickets AS tick ON trv.TRAVELLER_ID = tick.TRAVELLER_ID
 JOIN 
     trip AS trp ON trp.TRIP_ID = tick.TRIP_ID
+JOIN users as trav_agency on trp.TravelAgency_ID = trav_agency.USER_ID
 LEFT JOIN 
     TripPhotos AS TP ON trp.TRIP_ID = TP.TRIP_ID
 WHERE 
     trv.TRAVELLER_ID = $1
 GROUP BY 
     trp.TRIP_ID, trp.Description, trp.Price, trp.MaxSeats, trp.Destinition, 
-    trp.StartLocation, trp.TravelAgency_ID, trp.StartDate, trp.EndDate, trp.Name
+    trp.StartLocation, trav_agency.ProfileName, trp.StartDate, trp.EndDate, trp.Name
 `,
       [traveller_id],
       (err, result) => {
@@ -280,8 +282,8 @@ GROUP BY
           res.status(400).send("Error in fetching data");
         }
         res.status(200).json(result.rows);
-            }
-          );
+      }
+    );
         }
       catch (e) {
     res.status(500).json({

@@ -13,7 +13,17 @@ exports.getAllTickets = async (req, res) => {
   await client.query("BEGIN");
 
   const tickets = await client.query(
-    "SELECT * FROM tickets WHERE TRAVELLER_ID = $1",
+    `
+      SELECT tick.* , trp.name as trip_name, trp.startdate as trip_startDate, users.profilename as traveller_name
+	    ,array_agg(TP.PHOTO) AS photos
+      FROM tickets tick
+      LEFT JOIN trip trp on trp.Trip_ID = tick.trip_id
+      LEFT JOIN users on tick.traveller_id = users.user_id
+      LEFT JOIN TripPhotos AS TP ON trp.TRIP_ID = TP.TRIP_ID
+      WHERE TRAVELLER_ID = $1
+      GROUP BY 
+      tick.ticket_id, trp.name,trp.startdate,users.profilename
+    `,
     [TRAVELLER_ID]
   );
   if (tickets.rows.length === 0) {
@@ -25,13 +35,23 @@ exports.getAllTickets = async (req, res) => {
 
   try {
     const ticketsRes = await client.query(
-      "SELECT * FROM tickets WHERE TRAVELLER_ID = $1",
+      `
+      SELECT tick.* , trp.name as trip_name, trp.startdate as trip_startDate, users.profilename as traveller_name
+	    ,array_agg(TP.PHOTO) AS photos
+      FROM tickets tick
+      LEFT JOIN trip trp on trp.Trip_ID = tick.trip_id
+      LEFT JOIN users on tick.traveller_id = users.user_id
+      LEFT JOIN TripPhotos AS TP ON trp.TRIP_ID = TP.TRIP_ID
+      WHERE TRAVELLER_ID = $1
+      GROUP BY 
+      tick.ticket_id, trp.name,trp.startdate,users.profilename
+    `,
       [TRAVELLER_ID]
     );
 
     await client.query("COMMIT");
     console.log(ticketsRes.rows);
-    return res.status(200).json({ 
+    return res.status(200).json({
       status: true,
       data: ticketsRes.rows,
     });
@@ -98,7 +118,7 @@ exports.deleteTicket = async (req, res) => {
   const TRAVELLER_ID = req.user.user_id;
   const trip_id = req.params.trip_id;
 
-  if(!trip_id){
+  if (!trip_id) {
     return res.status(400).json({
       status: "failed",
       message: "Please provide the trip id",
@@ -140,10 +160,6 @@ exports.deleteTicket = async (req, res) => {
   } catch (err) {
     // Rollback the transaction if there's an error
     await client.query("ROLLBACK");
-    res
-      .status(500)
-      .json({ success: false, error: "Error in deleting ticket" });
+    res.status(500).json({ success: false, error: "Error in deleting ticket" });
   }
-
-
 };

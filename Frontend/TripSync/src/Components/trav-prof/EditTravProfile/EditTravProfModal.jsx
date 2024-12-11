@@ -16,6 +16,7 @@ const EditTravProfModal = (props) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    console.log(file);
     if (file.type === "image/jpeg" || file.type === "image/jpg") {
       setFormData({ ...formData, profilePicture: e.target.files[0] });
     } else {

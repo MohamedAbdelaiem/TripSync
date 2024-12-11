@@ -20,6 +20,10 @@ const UserMessages = ({
   const [allChats, setAllCahts] = useState([]);
   const messUlRef = useRef(null);
 
+  const closeChats = () => {
+    onClose();
+  };
+
   // send message to another user
   if (!current_user_is_owner && currentUser !== null) {
     const handleSendMessage = (e) => {
@@ -41,9 +45,6 @@ const UserMessages = ({
       }
     };
 
-    const closeChats = () => {
-      onClose();
-    };
     return (
       <>
         <div className="modal-overlay">

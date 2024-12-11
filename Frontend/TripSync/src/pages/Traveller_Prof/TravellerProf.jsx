@@ -6,8 +6,7 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { all_Travellers } from "../../Components/Data/all_Travellers.js";
 import { all_rewards } from "../../Components/Data/Rewards.js";
-import { all_user_trips } from "../../Components/Data/all_user_trips.js";
-import { all_tickets } from "../../Components/Data/tickets.js";
+// import { all_tickets } from "../../Components/Data/tickets.js";
 import { all_messages } from "../../Components/Data/all_messages.js";
 import EditTravProfModal from "../../Components/trav-prof/EditTravProfile/EditTravProfModal.jsx";
 import UserMessages from "../../Components/trav-prof/UserMessages/UserMessages.jsx";
@@ -20,6 +19,8 @@ function TravellerProf(props) {
   const [modalIsOpened, setModalIsOpened] = useState(false);
   const [messagesAreOpened, setMessagesAreOPened] = useState(false);
   const [rewards, setRewards] = useState([]);
+  const [all_user_trips, set_all_user_trips] = useState([]);
+  const [all_user_tickets, set_all_user_tickets] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
 
   let { profile_id } = useParams();
@@ -27,18 +28,9 @@ function TravellerProf(props) {
   const { user, setUser } = useContext(UserContext);
   console.log(user);
   
-  // const user={
-  //       user_id: 74,
-  //       email: "user5@gmilsssss.com",
-  //       profilephoto: null,
-  //       profilename: null,
-  //       role: "traveller",
-  //       username: "user5",
-  //       points: 0,
-  //       numberoftrips: 0
-  // }
+  let id = null;
   if (user !== null) {
-    let id = user.user_id;
+    id = user.user_id;
   }
 
   const getRewards = async () => {
@@ -55,6 +47,44 @@ function TravellerProf(props) {
       );
       console.log(response.data);
       setRewards(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getTrips = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/trips/getTrips/${profile_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      set_all_user_trips(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getTickets = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/users/myProfile/tickets/getAllTickets`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+      // console.log(response.data.date);
+      set_all_user_tickets(response.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -84,14 +114,16 @@ function TravellerProf(props) {
   };
 
   useEffect(() => {
-    // setTravellerID(id);
     get_traveller();
-    // setTraveller(user);
     getRewards();
+    getTrips();
+    getTickets();
 
     if (user !== null && profile_id == id) setIsOwner(true);
-
   }, []);
+
+  console.log(all_user_trips);
+  console.log(all_user_tickets);
 
   const openModal = () => {
     setModalIsOpened(true);
@@ -127,7 +159,7 @@ function TravellerProf(props) {
             noOfTrips={traveller.numberoftrips}
             all_rewards={rewards}
             all_trips={all_user_trips}
-            all_tickets={all_tickets}
+            all_tickets={all_user_tickets}
             profileID={profile_id}
             isOwner = {isOwner}
           ></RestProf>

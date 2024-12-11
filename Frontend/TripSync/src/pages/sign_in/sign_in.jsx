@@ -45,7 +45,7 @@ function Sign_in() {
       console.log(response.data.data);
       setUser(response.data.data);
       console.log(user);
-      Navigate("/Traveller-Profile/123");    
+      Navigate(`/Traveller-Profile/${response.data.data.user_id}`);    
       }
       else{
         setError(response.data.message);

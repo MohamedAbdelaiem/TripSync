@@ -3,29 +3,7 @@ const client = require("../db");
 
 exports.getAllReports=async(req,res)=>{
   try{
-    const reports=await client.query(`SELECT DISTINCT
-    TravellerUser.USER_ID AS TravellerID,
-    TravellerUser.ProfileName AS TravellerProfileName,
-    TravellerUser.ProfilePhoto AS TravellerProfilePhoto,
-    TravelAgencyUser.USER_ID AS TravelAgencyID,
-    TravelAgencyUser.ProfileName AS TravelAgencyProfileName,
-    TravelAgencyUser.ProfilePhoto AS TravelAgencyProfilePhoto,
-    R.DESCRIPTION,
-    R.DATE
-FROM 
-    Report R
-JOIN 
-    Traveller T ON T.TRAVELLER_ID = R.TRAVELLER_ID
-JOIN 
-    TravelAgency TA ON TA.TravelAgency_ID = R.TRAVEL_AGENCY_ID
-JOIN 
-    Users TravellerUser ON TravellerUser.USER_ID = T.TRAVELLER_ID
-JOIN 
-    Users TravelAgencyUser ON TravelAgencyUser.USER_ID = TA.TravelAgency_ID
-ORDER BY 
-    R.DATE DESC;
-
-`);
+    const reports=await client.query("SELECT * FROM Report");
     if(reports.rows.length===0){
       return res.status(404).json({
         status:"false",

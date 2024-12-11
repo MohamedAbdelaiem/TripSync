@@ -12,45 +12,45 @@ function AdminReport({
     <div className="report-container">
       <div className="report-header">
         <img
-          src={report.travellerprofilephoto}
-          alt={`${report.travellerprofilename}'s profile`}
+          src={report.user_photo}
+          alt={`${report.user_name}'s profile`}
           className="report-profile-photo"
-          onClick={() => navigateToUserProfile(report.travellerid)}
+          onClick={() => navigateToUserProfile(report.user_id)}
         />
         <div className="report-user-info">
           <p
             className="report-user-name"
-            onClick={() => navigateToUserProfile(report.travellerid)}
+            onClick={() => navigateToUserProfile(report.user_id)}
           >
             {report.user_name}
           </p>
           <p
             className="report-agency-name"
-            onClick={() => navigateToAgencyProfile(report.travelagencyid)}
+            onClick={() => navigateToAgencyProfile(report.agency_id)}
           >
-            {report.travelagencyprofilename}
+            {report.agency_name}
           </p>
         </div>
         <img
-          src={report.travelagencyprofilephoto}
-          alt={`${report.travelagencyprofilename}'s logo`}
+          src={report.agency_photo}
+          alt={`${report.agency_name}'s logo`}
           className="report-agency-photo"
-          onClick={() => navigateToAgencyProfile(report.travelagencyid)}
+          onClick={() => navigateToAgencyProfile(report.agency_id)}
         />
       </div>
       <div className="report-content">
-        <p>{report.description}</p>
+        <p>{report.report_content}</p>
       </div>
       <div className="report-actions">
         <button
           className="delete-report-btn"
-          // onClick={() => onDeleteReport(report.id)}
+          onClick={() => onDeleteReport(report.id)}
         >
           Delete Report
         </button>
         <button
           className="block-agency-btn"
-          onClick={() => onBlockAgency(report.travelagencyid)}
+          onClick={() => onBlockAgency(report.agency_id)}
         >
           Block Agency
         </button>

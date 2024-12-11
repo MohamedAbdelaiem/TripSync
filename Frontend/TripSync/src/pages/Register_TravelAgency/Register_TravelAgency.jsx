@@ -4,15 +4,14 @@ import "./Register_TravelAgency.css";
 import { useState } from "react";
 
 function Register_TravelAgency() {
-    
-        const [photoPreview, setPhotoPreview] = useState(null);
-      
-        const handlePhotoChange = (event) => {
-          const file = event.target.files[0];
-          if (file) {
-            setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
-          }
-        };
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  const handlePhotoChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
+    }
+  };
   return (
     <>
       <Sub_Navbar />
@@ -70,7 +69,6 @@ function Register_TravelAgency() {
                 required
               />
             </div>
-
 
             <div className="mb-2">
               <label htmlFor="Address" className="form-label">
@@ -148,7 +146,7 @@ function Register_TravelAgency() {
                 <img
                   src={photoPreview}
                   alt="Profile Preview"
-                  id="profilephotoPreview"
+                  id="profilephoto"
                 />
               )}
             </div>

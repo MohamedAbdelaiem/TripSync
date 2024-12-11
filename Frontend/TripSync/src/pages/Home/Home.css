@@ -50,6 +50,7 @@
     margin-top: 50px;
     margin-left: 30px;
     margin-bottom: 65px;
+    display: flex;
 
 }
 .txt1,.txt2{
@@ -59,4 +60,15 @@
 }
 .head2{
 margin-bottom: 30px;
+margin-left: 40px;
+}
+
+.aboutUsPhoto{
+  width: 500px;
+  margin-top: -150px;
+  margin-right: 100px;
+}
+
+.containerAboutUs{
+  margin-top: 100px;
 }

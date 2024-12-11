@@ -11,3 +11,21 @@
   padding-top: 10px;
   margin-bottom: -100px;
 }
+.policyFooter {
+  font-size: 14px;
+  color: #ccd4e7; 
+  /* margin-left: 240px; */
+  margin-top: 7px;
+}
+
+.policyLinkFooter  {
+  color: #ffffff; 
+  text-decoration: none;
+  margin-left: 5px;
+  font-size: 15px;
+}
+
+.policyFooter a:hover {
+    text-decoration: underline; 
+  }
+  

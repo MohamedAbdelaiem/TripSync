@@ -1,14 +1,10 @@
 import React from "react";
 import Sub_Navbar from "../../Components/Sub_Navbar/Sub_Navbar";
 import "./Register.css";
-import {
-  useState
-  
- } from "react";
+import { useState } from "react";
 function Register() {
-      
   const [photoPreview, setPhotoPreview] = useState(null);
-      
+
   const handlePhotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -24,7 +20,7 @@ function Register() {
           <form>
             <div className="mb-3">
               <label htmlFor="userName" className="form-label">
-               User Name
+                User Name
               </label>
               <input
                 type="text"
@@ -36,7 +32,7 @@ function Register() {
             </div>
             <div className="mb-3">
               <label htmlFor="profileName" className="form-label">
-              Profile Name
+                Profile Name
               </label>
               <input
                 type="text"
@@ -89,7 +85,7 @@ function Register() {
                 <img
                   src={photoPreview}
                   alt="Profile Preview"
-                  id="profilephotoPreview"
+                  id="profilephoto"
                 />
               )}
             </div>

@@ -2,7 +2,9 @@ import React from "react";
 import planeImage from "../../assets/plane.png";
 import { NavLink } from "react-router-dom";
 import profile from "../../assets/profile.png";
-function NavbarSignedIn() {
+
+
+function NavbarSignedIn({ id }) {
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -23,18 +25,21 @@ function NavbarSignedIn() {
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav m-2">
             <li className="HomeNav  mx-2">
-              <a href="#" className="HomeNav">Home</a>
+              <a href="#" className="HomeNav">
+                Home
+              </a>
             </li>
-            <a  className="aboutNav">
-              <li className="aboutNav nav-item  mx-2">About</li>
-            </a>
-
+            <li className="aboutNav nav-item  mx-2">
+              <a className="aboutNav" href={id}>
+                About
+              </a>
+            </li>
             <NavLink to="Blog" className={"blogNav"}>
               <li className="blogNav mx-2">Blogs</li>
             </NavLink>
+            <li className="blogNav mx-2" >Log out</li>
           </ul>
         </div>
-      
 
         <NavLink to="/TravelAgencyProfile">
           <img src={profile} height={50} width={50} className="mx-3" />

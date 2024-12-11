@@ -22,6 +22,7 @@ import BlogWrite from "./pages/BlogWrite/BlogWrite";
 import Blogs from "./pages/Blogs/Blogs";
 import Review from "./pages/Review/Review";
 import QACards from "./pages/QACards/QACards";
+import Policy from "./pages/Policy/Policy";
 import TravelAgencyProfile from "./pages/TravelAgencyProfile/TravelAgencyProfile";
 import AddNewTour from "./Pages/AddNewTour/AddNewTour";
 import image2 from "./assets/card.jpg";
@@ -118,6 +119,7 @@ const App = () => {
           <Route path="/Blog/blogWrite/Blog" element={<Blogs />} />
           <Route path="/Story" element={<OurStory />} />
           <Route path="/Q&A" element={<QACards />} />
+          <Route path="/policy" element={<Policy />} />
           <Route
             path="/TravelAgencyProfile"
             element={<TravelAgencyProfile agency={agency} />}

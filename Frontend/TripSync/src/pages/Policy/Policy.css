@@ -1,0 +1,11 @@
+.policyPhoto{
+    width: 500px;
+    margin: 100px;
+}
+
+.flexPolicy{
+    display: flex;
+}
+.headerPolicy{
+    margin-top: 50px;
+}

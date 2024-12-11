@@ -85,6 +85,7 @@ userRouter.use("/:user_id/reports",AuthConroller.protect,AuthConroller.restrictT
 });
 
 //Ticket-Based routes
+
 userRouter.use("/myProfile/tickets",AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.getAllTickets);
 
 

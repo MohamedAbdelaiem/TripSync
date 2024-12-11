@@ -5,26 +5,40 @@ import { FaMapMarkerAlt, FaRegStar, FaClock } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 
 function TripCard({
-  tripId,
-  image,
   name,
+  trip_id,
+  description,
+  price,
+  maxseats,
+  destinition,
+  startlocation,
+  photos,
   organizer,
-  startLocation,
-  endLocation,
-  startDate,
-  endDate,
-  duration,
-  status,
+  start_date,
+  end_date,
 }) {
   const viewTripDetails_clicked = () => {
     // go to trip details with trip id
-    console.log("clickexx")
-    Navigate(`/trip-details/:${tripId}`);
+    Navigate(`/trip-details/:${trip_id}`);
   };
+
+  let current_date = new Date();
+
+  let startDate = new Date(start_date);
+  let endDate = new Date(end_date);
+
+  const status = startDate > current_date ? "not-started" : "finished";
+
+  let Difference_In_Time = endDate.getTime() - startDate.getTime();
+
+  let Difference_In_Days = Math.round(Difference_In_Time / (1000 * 3600 * 24));
+
+
+
   return (
     <div className="trip-card">
       <div className="trip-image-section">
-        <img src={image} alt={name} className="trip-image" />
+        <img src={photos[0]} alt={name} className="trip-image" />
       </div>
       <div className="trip-info-section">
         <div className="trip-header">
@@ -38,13 +52,13 @@ function TripCard({
         </div>
         <p className="trip-organizer">Organized by: {organizer}</p>
         <p className="trip-locations">
-          <FaMapMarkerAlt className="icon" /> From {startLocation} to{" "}
-          {endLocation}
+          <FaMapMarkerAlt className="icon" /> From {startlocation} to{" "}
+          {destinition}
         </p>
         <p className="trip-dates">
           <FaClock className="icon" />{" "}
-          {new Date(startDate).toLocaleDateString()} -{" "}
-          {new Date(endDate).toLocaleDateString()} ({duration} days)
+          {new Date(start_date).toLocaleDateString()} -{" "}
+          {new Date(end_date).toLocaleDateString()} ({Difference_In_Days} days)
         </p>
         <div className="trip-footer">
           <button className="trip-button" onClick={viewTripDetails_clicked}>
@@ -54,6 +68,11 @@ function TripCard({
       </div>
     </div>
   );
-};
+}
 
 export default TripCard;
+
+
+
+
+

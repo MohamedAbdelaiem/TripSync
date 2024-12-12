@@ -157,11 +157,8 @@ function AdminView() {
     getAllPolicies();
     getAllTrips();
   }, []);
+  console.log(all_user_trips);
 
-  const Rerender_admin_component = () => {
-    console.log("rerender");
-    getAllTravellers();
-  }
 
   return (
     <div className="amin-view-container">

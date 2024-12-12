@@ -44,8 +44,10 @@ function Sign_in() {
       setSuccess(response.data.message);
       console.log(response.data.data);
       setUser(response.data.data);
-      console.log(user);
-      Navigate(`/Admin-view/1222`);    
+        console.log(user);
+        if (user.role === 'admin') Navigate(`/Admin-view/${response.data.data.user_id}`);
+        else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);  
+        
       }
       else{
         setError(response.data.message);

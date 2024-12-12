@@ -3,7 +3,30 @@ const client = require("../db");
 
 exports.getAllTrips = async (req, res) => {
   try {
-    client.query("SELECT * FROM TRIP", (err, result) => {
+    client.query(`
+      SELECT 
+        T.Trip_ID,
+        T.Name,
+        T.Description,
+        T.Price,
+        T.MaxSeats,
+        T.Destinition,
+        T.StartDate,
+        T.EndDate,
+        T.StartLocation,
+        T.TravelAgency_ID,
+        COALESCE(
+          JSON_AGG(
+            TP.PHOTO
+          ) FILTER (WHERE TP.PHOTO IS NOT NULL), 
+          '[]'
+        ) AS Photos
+      FROM 
+        Trip T
+      LEFT JOIN 
+        TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
+      GROUP BY 
+        T.Trip_ID;`, (err, result) => {
       if (err) {
         console.log(err);
         res.status(400).send("Error in fetching data from trip");

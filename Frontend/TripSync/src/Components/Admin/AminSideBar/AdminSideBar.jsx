@@ -8,8 +8,8 @@ function AdminSideBar({ onMenuSelected }) {
         <li
           onClick={() => {
             onMenuSelected("all-travellers");
-          }}    
-          className="admin-menu-item"   
+          }}
+          className="admin-menu-item"
         >
           All Travellers
         </li>
@@ -36,6 +36,14 @@ function AdminSideBar({ onMenuSelected }) {
           className="admin-menu-item"
         >
           All Rewards
+        </li>
+        <li
+          onClick={() => {
+            onMenuSelected("all-reports");
+          }}
+          className="admin-menu-item"
+        >
+          All Reports
         </li>
         <li
           onClick={() => {

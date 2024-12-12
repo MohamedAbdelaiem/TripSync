@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./AddPolicy.css";
-function AddPolicy({ closeAddPolicyModal, adminId }) {
+function AddPolicy({ closeAddPolicyModal, adminId,rerender }) {
   const [formData, setFormData] = useState({
     policy_title: "",
     policy_description: "",

@@ -1,7 +1,7 @@
 import React from "react";
 import "./AllAgenciesList.css";
 import AgencyCard from "./AgencyCard";
-function AllAgenciesList({ all_agencies }) {
+function AllAgenciesList({ all_agencies,rerender }) {
   // console.log(all_travellers[0]);
   return (
     <div className="all-agencies-list-container">
@@ -13,6 +13,7 @@ function AllAgenciesList({ all_agencies }) {
                 image_url={agen.profilephoto}
                 id={agen.travelagency_id}
                 prof_name={agen.profilename}
+                rerender = {rerender}
               />
             </li>
           ))}

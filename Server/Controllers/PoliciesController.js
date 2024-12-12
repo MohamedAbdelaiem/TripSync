@@ -47,7 +47,7 @@ exports.createPolicy=async(req,res)=>{
 exports.deletePolicy=async(req,res)=>{
     try{
         const policy_id=req.params.policy_id;
-        const policy=await client.query('DELETE FROM policies WHERE policy_id=$1',[policy_id]);
+        const policy=await client.query('DELETE FROM policies WHERE POLICY_ID=$1',[policy_id]);
         if(policy.rowCount==0){
             return res.status(404).json({
                 status:'failed',
@@ -61,7 +61,10 @@ exports.deletePolicy=async(req,res)=>{
 
     }
     catch(e){
-        res.status(400).send('Error in deleting data');
+        res.status(400).json({
+            status:'failed',
+            message:'Error in deleting policy'
+        });
         console.log(e);
     }
 }

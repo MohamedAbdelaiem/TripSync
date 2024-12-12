@@ -1,9 +1,29 @@
 import React from "react";
+import axios from "axios";
 import "./AllAgenciesList.css";
 
 function AgencyCard({ image_url, id, prof_name, rerender }) {
   const onViewProfile = () => {};
-  const onBlockUser = () => {};
+  const token = localStorage.getItem("token");
+  const onBlockUser = async() => {
+    await axios
+      .delete(`http://localhost:3000/api/v1/users/deleteUser`, {
+        data: {
+          user_id: id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log("user deleted");
+        rerender();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="agency-card-container">
       <div className="agency-card-info">

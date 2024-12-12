@@ -3,12 +3,7 @@ import "./PolicyCard.css";
 
 const PolicyCard = ({ title, description, isAdmin, onDelete,rerender }) => {
   const handleDelete = () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this policy?"
-    );
-    if (confirmDelete) {
       onDelete();
-    }
   };
 
   return (

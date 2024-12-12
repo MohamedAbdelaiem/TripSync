@@ -1,12 +1,16 @@
 import { useState } from "react";
 import "./AddReward.css";
+import axios from "axios";
 function AddReward({ closeAddRewardModal, userId,rerender }) {
   const [formData, setFormData] = useState({
     reward_name: "",
     req_points: "",
     reward_photo: null,
     adminId: userId,
+    type: ""
   });
+
+  const [profilePhoto, setProfilePhoto] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,11 +28,52 @@ function AddReward({ closeAddRewardModal, userId,rerender }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  async function handlesImage(filex) {
+    const file = filex;
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
+    if (file) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "TripSync"); // Cloudinary upload preset
+      data.append("cloud_name", "dxm7trzb5"); // Cloudinary cloud name
+
+      const response = await axios.post(CLOUDINARY_URL, data);
+      const urlimage = response.data;
+      console.log(urlimage.url);
+      setProfilePhoto(urlimage.url);
+      return urlimage.url;
+    } else {
+      return null;
+    }
+  }
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Reward added successfully: ", formData);
-    closeAddRewardModal(); // Close the modal after submitting
-  };
+    try{
+      const image = await handlesImage(formData.reward_photo);
+      console.log(image);
+      const reward = await axios.post("http://localhost:3000/api/v1/rewards/addReward", {
+        reward_description: formData.reward_name,
+        reward_points: formData.req_points,
+        photo: image,
+        reward_type: formData.type,
+      },
+      {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      }
+    );
+      console.log(reward.data);
+    }
+    catch(err){
+      console.log(err);
+    }
+    closeAddRewardModal();
+    rerender();
+  }
+
 
   return (
     <div className="reward-modal-overlay">
@@ -58,6 +103,19 @@ function AddReward({ closeAddRewardModal, userId,rerender }) {
               required
             />
           </label>
+
+          <label>
+            Type:
+            <input
+              type="text"
+              name="type"
+              value={formData.type}
+              onChange={handleInputChange}
+              placeholder="Enter the type of reward"
+              required
+            />
+          </label>
+
           <label>
             Reward Photo:
             <input

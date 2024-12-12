@@ -1,12 +1,23 @@
 import React,{useState} from "react";
 import AddReward from "./AddReward";
 import AdminReward from "./AdminReward";
+import axios from "axios";
 import "./AdminRewards.css";
 
 function AdminRewards({ all_rewards, userId,rerender }) {
     const [add_reward_opend, set_add_reward_opened] = useState(false); 
-    const DeleteReward = (id) => {
-        console.log("delete reward with id" + id);
+    const DeleteReward = async(reward_id) => {
+        const reward = await axios.delete(`http://localhost:3000/api/v1/rewards/deleteReward/${reward_id}`,{
+            headers:{
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }
+        }).then((res)=>{
+            console.log(`Reward with ID ${reward_id} deleted!`);
+            rerender();
+        }).catch((err)=>{
+            console.log(err);
+        });
+        console.log("delete reward with id" + reward_id);
     }
     const closeAddRewardModal = () => {
         set_add_reward_opened(false);

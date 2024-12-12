@@ -15,46 +15,82 @@ function Register() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const [file, setFile] = useState(null);
+
   const navigate = useNavigate();
+
+  const handleFileChange = (event) => {
+    console.log(event.target.files[0]);
+    setFile(event.target.files[0]);
+  };
+
+  async function handlesImage(filex) {
+    const file = filex;
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
+    if (file) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "TripSync"); // Cloudinary upload preset
+      data.append("cloud_name", "dxm7trzb5"); // Cloudinary cloud name
+
+      const response = await axios.post(CLOUDINARY_URL, data);
+      const urlimage = response.data;
+      console.log(urlimage.url);
+      setProfilePhoto(urlimage.url);
+      return urlimage.url;
+    } else {
+      return null;
+    }
+  }
 
   const handleSubmit = async (event) => {
     let role = "traveller";
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("username", userName);
-    formData.append("profileName", profileName);
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("profilePhoto", profilePhoto);
-    formData.append("role", role);
     try {
+      const url = await handlesImage(file);
+
       const response = await axios.post(
-        "http://localhost:5000/api/v1/users/SignUp",
-        formData,
+        "http://localhost:3000/api/v1/users/SignUp",
+        {
+          username: userName,
+          profileName: profileName,
+          email: email,
+          password: password,
+          role: "traveller",
+          profilePhoto: url,
+        },
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
+          withCredentials: true,
         }
       );
-      console.log(response);
-      // setSuccess(response.data.message);
-      // setError("");
-      // navigate("/sign_in");
+      if(response.data.status==="success"){
+        localStorage.setItem("token", response.data.token);
+        setSuccess(response.data.message);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+        }
+        else{
+          setError(response.data.message);
+        }
     } catch (error) {
       console.error(error);
-      // setError(error.response.data.message);
+      setError(error.response.data.message);
       // setSuccess("");
     }
   };
 
-  const handlePhotoChange = (event) => {
-    const file = event.target.files[0];
-    setProfilePhoto(file); // Set the file to the state
-    if (file) {
-      setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
-    }
-  };
+  // const handlePhotoChange = (event) => {
+  //   const file = event.target.files[0];
+  //   setProfilePhoto(file); // Set the file to the state
+  //   if (file) {
+  //     setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
+  //   }
+  // };
   return (
     <>
       <Sub_Navbar />
@@ -72,7 +108,7 @@ function Register() {
                 id="userName"
                 placeholder="Enter your user name"
                 required
-                onChange={(e) => setUserName(e.currentTarget.value)}
+                onChange={(e) => setUserName(e.target.value)}
               />
             </div>
             <div className="mb-3">
@@ -126,7 +162,7 @@ function Register() {
                 className="form-controlPhoto"
                 id="profilephoto"
                 accept="image/*"
-                onChange={handlePhotoChange}
+                onChange={(e) => {handleFileChange(e)}}
               />
               <label htmlFor="profilephoto">Upload Photo</label>
               {photoPreview && (

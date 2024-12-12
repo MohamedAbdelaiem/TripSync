@@ -1,12 +1,12 @@
 import { useState } from "react";
 import "./AddPolicy.css";
 import axios from "axios";
-function AddPolicy({ closeAddPolicyModal, adminId }) {
+function AddPolicy({ closeAddPolicyModal, adminId,rerender }) {
+  
 
   const [formData, setFormData] = useState({
     policy_title: "",
-    policy_description: "",
-    adminId: adminId,
+    policy_description: ""
   });
 
   const handleInputChange = (e) => {
@@ -14,8 +14,26 @@ function AddPolicy({ closeAddPolicyModal, adminId }) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    try {
+      const res = await axios.post(
+        `http://localhost:3000/api/v1/policies/createPolicy`,
+        {
+          policy_title: formData.policy_title,
+          description: formData.policy_description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(res.data);
+      rerender();
+    } catch (err) {
+      console.log(err);
+    }
     console.log("Policy Added successfully: ", formData);
     closeAddPolicyModal(); // Close the modal after submitting
   };
@@ -40,10 +58,10 @@ function AddPolicy({ closeAddPolicyModal, adminId }) {
             Policy Description:
             <textarea
               name="policy_description"
-              value={formData.policy_description}
+              value={formData.description}
               onChange={handleInputChange}
               placeholder="Enter the policy Description"
-              maxLength={50}
+              maxLength={300}
               required
             />
           </label>

@@ -7,13 +7,14 @@ import "./AllPolicies.css";
 
 const AllPolicies = ({ all_policies, is_admin, admin_id,rerender }) => {
   const [add_policy_opend, set_add_policy_opend] = useState(false);
-  const handleDeletePolicy = (policy_id) => {
-    const policy=axios.delete(`http://localhost:3000/api/v1/policies/deletePolicy/${policy_id}`,{
+  const handleDeletePolicy = async(policy_id) => {
+    const policy=await axios.delete(`http://localhost:3000/api/v1/policies/deletePolicy/${policy_id}`,{
       headers:{
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       }
     }).then((res)=>{
       console.log(`Policy with ID ${policy_id} deleted!`);
+      rerender();
     }).catch((err)=>{
       console.log(err);
     });
@@ -59,7 +60,7 @@ const AllPolicies = ({ all_policies, is_admin, admin_id,rerender }) => {
             description={policy.description}
             isAdmin={is_admin}
 
-            onDelete={() => handleDeletePolicy(policy.id)}
+            onDelete={() => handleDeletePolicy(policy.policy_id)}
             rerender = {rerender}
           />
         ))}

@@ -5,8 +5,8 @@ import axios from "axios";
 function TravellerCard({ image_url, id, prof_name, rerender }) {
   const token = localStorage.getItem("token");
   const onViewProfile = () => {};
-  const deletrUser = () => {
-    axios
+  const deletrUser = async() => {
+   await axios
       .delete(`http://localhost:3000/api/v1/users/deleteUser`, {
         data: {
           user_id: id,

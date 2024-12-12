@@ -43,8 +43,8 @@ exports.getRewardById = async (req, res) => {
 exports.addReward = async (req, res) => {
     try {
 
-        const {reward_description, reward_points } = req.body;
-        if (!reward_description && !reward_points) 
+        const {reward_description, reward_points,photo,reward_type } = req.body;
+        if (!reward_description && !reward_points &&!reward_type) 
         {
             return res.status(400).json({
                 status: 'failed',
@@ -57,7 +57,7 @@ exports.addReward = async (req, res) => {
                 message: 'Points should be positive'
             });
         }
-        const reward = await client.query('INSERT INTO rewards(Description,PointsNeeded,ADMIN_ID,PHOTO) VALUES($1,$2,$3,$4) RETURNING *', [ reward_description, reward_points,req.user.user_id,req.body.photo]);
+        const reward = await client.query('INSERT INTO rewards(Description,PointsNeeded,ADMIN_ID,PHOTO,Type) VALUES($1,$2,$3,$4,$5) RETURNING *', [ reward_description, reward_points,req.user.user_id,photo,reward_type]);
         res.status(200).json({
             status: 'success',
             message: 'Reward added successfully',

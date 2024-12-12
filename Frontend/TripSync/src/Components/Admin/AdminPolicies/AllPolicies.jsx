@@ -5,7 +5,7 @@ import axios from "axios";
 
 import "./AllPolicies.css";
 
-const AllPolicies = ({ all_policies, is_admin, admin_id }) => {
+const AllPolicies = ({ all_policies, is_admin, admin_id,rerender }) => {
   const [add_policy_opend, set_add_policy_opend] = useState(false);
   const handleDeletePolicy = (policy_id) => {
     const policy=axios.delete(`http://localhost:3000/api/v1/policies/deletePolicy/${policy_id}`,{
@@ -40,6 +40,7 @@ const AllPolicies = ({ all_policies, is_admin, admin_id }) => {
           <AddPolicy
             closeAddPolicyModal={closeAddPolicyModal}
             adminId={admin_id}
+            rerender = {rerender}
           />
         </div>
       ) : null}
@@ -57,7 +58,9 @@ const AllPolicies = ({ all_policies, is_admin, admin_id }) => {
             title={policy.title}
             description={policy.description}
             isAdmin={is_admin}
-            onDelete={() => handleDeletePolicy(policy.policy_id)}
+
+            onDelete={() => handleDeletePolicy(policy.id)}
+            rerender = {rerender}
           />
         ))}
       </div>

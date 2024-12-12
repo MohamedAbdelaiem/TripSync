@@ -13,6 +13,7 @@ function AdminTripCard({
   endDate,
   duration,
   status,
+  rerender,
 }) {
   const viewTripDetails_clicked = () => {
     console.log(`View details for trip ID: ${trip_id}`);
@@ -22,7 +23,9 @@ function AdminTripCard({
     <div className="admin-trip-card">
       <div className="admin-trip-image-section">
         <img
-          src={photos && photos[0] ? photos[0] : "https://via.placeholder.com/150"}
+          src={
+            photos && photos[0] ? photos[0] : "https://via.placeholder.com/150"
+          }
           alt={name || "Trip Image"}
           className="admin-trip-image"
         />
@@ -41,8 +44,8 @@ function AdminTripCard({
           Organized by: {organizer || "Unknown"}
         </p>
         <p className="admin-trip-locations">
-          <FaMapMarkerAlt className="admin-icon" /> From {startLocation || "N/A"} to{" "}
-          {destinition || "N/A"}
+          <FaMapMarkerAlt className="admin-icon" /> From{" "}
+          {startLocation || "N/A"} to {destinition || "N/A"}
         </p>
         <p className="admin-trip-dates">
           <FaClock className="admin-icon" />{" "}
@@ -50,7 +53,10 @@ function AdminTripCard({
           {new Date(endDate).toLocaleDateString()} ({duration || "N/A"} days)
         </p>
         <div className="admin-trip-footer">
-          <button className="admin-trip-button" onClick={viewTripDetails_clicked}>
+          <button
+            className="admin-trip-button"
+            onClick={viewTripDetails_clicked}
+          >
             View Details
           </button>
         </div>

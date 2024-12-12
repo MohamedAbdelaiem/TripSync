@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./AddPolicy.css";
 import axios from "axios";
 function AddPolicy({ closeAddPolicyModal, adminId }) {
+
   const [formData, setFormData] = useState({
     policy_title: "",
     policy_description: "",

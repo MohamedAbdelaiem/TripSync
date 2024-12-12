@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./AllTravellersList.css";
 import axios from "axios";
 
-function TravellerCard({ image_url, id, prof_name }) {
+function TravellerCard({ image_url, id, prof_name, rerender }) {
   const token = localStorage.getItem("token");
   const onViewProfile = () => {};
   const deletrUser = () => {
@@ -18,10 +18,12 @@ function TravellerCard({ image_url, id, prof_name }) {
       })
       .then((res) => {
         console.log("user deleted");
+        rerender();
       })
       .catch((err) => {
         console.log(err);
       });
+
   };
 
   const refreshPage = () => {

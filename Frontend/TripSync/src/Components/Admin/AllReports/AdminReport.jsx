@@ -7,6 +7,7 @@ function AdminReport({
   onBlockAgency,
   navigateToUserProfile,
   navigateToAgencyProfile,
+  rerender
 }) {
   return (
     <div className="report-container">

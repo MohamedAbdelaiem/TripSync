@@ -9,6 +9,7 @@ const AdminReward = ({
   description,
     reward_claimed,
   DeleteReward,
+  rerender
 }) => {
   const [claimed, setClaimed] = useState(reward_claimed);
 

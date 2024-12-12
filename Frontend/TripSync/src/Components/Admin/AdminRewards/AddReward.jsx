@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./AddReward.css";
-function AddReward({ closeAddRewardModal, userId }) {
+function AddReward({ closeAddRewardModal, userId,rerender }) {
   const [formData, setFormData] = useState({
     reward_name: "",
     req_points: "",

@@ -3,7 +3,7 @@ import AddReward from "./AddReward";
 import AdminReward from "./AdminReward";
 import "./AdminRewards.css";
 
-function AdminRewards({ all_rewards, userId }) {
+function AdminRewards({ all_rewards, userId,rerender }) {
     const [add_reward_opend, set_add_reward_opened] = useState(false); 
     const DeleteReward = (id) => {
         console.log("delete reward with id" + id);
@@ -21,6 +21,7 @@ function AdminRewards({ all_rewards, userId }) {
             <AddReward
               closeAddRewardModal={closeAddRewardModal}
               userId={userId}
+              rerender = {rerender}
             />
           </div>
         ) : null}
@@ -42,6 +43,7 @@ function AdminRewards({ all_rewards, userId }) {
                 description={reward.description}
                 userId={reward.admin_id}
                 DeleteReward={DeleteReward}
+                rerender = {rerender}
               />
             </li>
           ))}

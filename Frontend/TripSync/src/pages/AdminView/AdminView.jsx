@@ -155,27 +155,52 @@ function AdminView() {
     getAllTrips();
   }, []);
 
+  const Rerender_admin_component = () => {
+    console.log("rerender");
+    getAllTravellers();
+  }
+
   return (
     <div className="amin-view-container">
       <AdminSideBar onMenuSelected={onMenuSelected} />
-      {dis_all_trips ? <AllTripsList all_trips={all_user_trips} /> : null}
+      {dis_all_trips ? (
+        <AllTripsList
+          all_trips={all_user_trips}
+          rerender={getAllTrips}
+        />
+      ) : null}
       {dis_all_agencies ? (
-        <AllAgenciesList all_agencies={all_Travelagencies} />
+        <AllAgenciesList
+          all_agencies={all_Travelagencies}
+          rerender={getAllTravelAgencies}
+        />
       ) : null}
       {dis_all_travellers ? (
-        <AllTravellersList all_travellers={all_Travellers} />
+        <AllTravellersList
+          all_travellers={all_Travellers}
+          rerender={getAllTravellers}
+        />
       ) : null}
       {dis_all_rewards ? (
-        <AdminRewards all_rewards={all_rewards} userId={adminId} />
+        <AdminRewards
+          all_rewards={all_rewards}
+          userId={adminId}
+          rerender={getAllRewards}
+        />
       ) : null}
       {dis_all_reports ? (
-        <AllReportsList all_reports={all_reports} userId={adminId} />
+        <AllReportsList
+          all_reports={all_reports}
+          userId={adminId}
+          rerender={getAllReports}
+        />
       ) : null}
       {dis_all_policies ? (
         <AllPolicies
           all_policies={all_policies}
           is_admin={true}
           admin_id={adminId}
+          rerender={getAllPolicies}
         />
       ) : null}
     </div>

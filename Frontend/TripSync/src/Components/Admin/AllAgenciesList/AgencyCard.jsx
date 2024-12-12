@@ -1,7 +1,7 @@
 import React from "react";
 import "./AllAgenciesList.css";
 
-function AgencyCard({ image_url, id, prof_name }) {
+function AgencyCard({ image_url, id, prof_name, rerender }) {
   const onViewProfile = () => {};
   const onBlockUser = () => {};
   return (

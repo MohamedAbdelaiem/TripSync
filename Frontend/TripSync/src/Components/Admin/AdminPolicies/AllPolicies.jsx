@@ -1,16 +1,28 @@
 import React, { useState } from "react";
 import PolicyCard from "./PolicyCard";
 import AddPolicy from "./AddPolicy";
+import axios from "axios";
+
 import "./AllPolicies.css";
 
 const AllPolicies = ({ all_policies, is_admin, admin_id }) => {
   const [add_policy_opend, set_add_policy_opend] = useState(false);
-  const handleDeletePolicy = (policyId) => {
-    console.log(`Policy with ID ${policyId} deleted!`);
+  const handleDeletePolicy = (policy_id) => {
+    const policy=axios.delete(`http://localhost:3000/api/v1/policies/deletePolicy/${policy_id}`,{
+      headers:{
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      }
+    }).then((res)=>{
+      console.log(`Policy with ID ${policy_id} deleted!`);
+    }).catch((err)=>{
+      console.log(err);
+    });
     // Add delete logic here, e.g., call an API or update the state
   };
 
   const onAddPolicy = (admin_id) => {
+    set_add_policy_opend(true);
+    // Add logic to open the add policy modal
     console.log(`Policy with admin ID ${admin_id} add`);
   };
 
@@ -45,7 +57,7 @@ const AllPolicies = ({ all_policies, is_admin, admin_id }) => {
             title={policy.title}
             description={policy.description}
             isAdmin={is_admin}
-            onDelete={() => handleDeletePolicy(policy.id)}
+            onDelete={() => handleDeletePolicy(policy.policy_id)}
           />
         ))}
       </div>

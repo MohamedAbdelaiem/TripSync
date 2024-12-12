@@ -13,6 +13,7 @@ Trip card styling
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 70%;
   height: 250px;
+  position: relative;
 }
 
 .admin-trip-card:hover {
@@ -160,6 +161,7 @@ trips list styling
 .all-trips-list-container {
     width: 75%;
     position: absolute;
+    min-height: 100vh;
     right: 0px;
     background-color: #e0e0e0;
 }

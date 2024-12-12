@@ -3,18 +3,36 @@ import "./AllTripsList.css";
 import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
 
 function AdminTripCard({
-  trip_id,
-  photos,
   name,
-  organizer,
-  startLocation,
+  trip_id,
+  description,
+  price,
+  maxseats,
   destinition,
-  startDate,
-  endDate,
-  duration,
-  status,
+  startlocation,
+  photos,
+  organizer,
+  startdate,
+  enddate,
   rerender,
 }) {
+
+
+    let current_date = new Date();
+
+    let startDate = new Date(startdate);
+    let endDate = new Date(enddate);
+
+    const status = startDate > current_date ? "not-started" : "finished";
+
+    let Difference_In_Time = endDate.getTime() - startDate.getTime();
+
+    let Difference_In_Days = Math.round(
+      Difference_In_Time / (1000 * 3600 * 24)
+    );
+
+
+
   const viewTripDetails_clicked = () => {
     console.log(`View details for trip ID: ${trip_id}`);
   };
@@ -45,12 +63,13 @@ function AdminTripCard({
         </p>
         <p className="admin-trip-locations">
           <FaMapMarkerAlt className="admin-icon" /> From{" "}
-          {startLocation || "N/A"} to {destinition || "N/A"}
+          {startlocation || "N/A"} to {destinition || "N/A"}
         </p>
         <p className="admin-trip-dates">
           <FaClock className="admin-icon" />{" "}
-          {new Date(startDate).toLocaleDateString()} -{" "}
-          {new Date(endDate).toLocaleDateString()} ({duration || "N/A"} days)
+          {new Date(startdate).toLocaleDateString()} -{" "}
+          {new Date(enddate).toLocaleDateString()} (
+          {Difference_In_Days || "N/A"} days)
         </p>
         <div className="admin-trip-footer">
           <button

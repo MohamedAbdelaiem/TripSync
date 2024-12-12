@@ -14,11 +14,12 @@ export class Home extends Component {
   render() {
     return (
       <>
-        {UserContext ? (
+        {/* {UserContext ? (
           <NavbarSignedIn id={"#about_id"} />
         ) : (
           <Navbar id={"#about_id"} />
-        )}
+        )} */}
+        <Navbar id={"#about_id"} />
 
         <video autoPlay muted loop className="video-player">
           <source src={video} type="video/mp4" />

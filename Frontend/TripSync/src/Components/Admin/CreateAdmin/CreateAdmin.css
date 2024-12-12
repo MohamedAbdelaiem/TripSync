@@ -1,0 +1,60 @@
+/* CreateAdmin.css */
+
+.create-admin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  width: 75%;
+  min-height: 100vh;
+  position: absolute;
+  right: 0px;
+
+}
+
+.create-admin-form {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  background-color: #eeecec;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+padding: 20px;
+
+}
+
+.create-admin-form label {
+    display: flex;
+    justify-content: space-around;
+}
+
+.create-admin-form span {
+    flex: 1;
+    position: relative;
+    top: 15px
+}
+
+.input-field {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.submit-button {
+  padding: 10px;
+  background-color: #516476;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #34495e;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}

@@ -6,6 +6,7 @@ import AllTravellersList from "../../Components/Admin/AllTravellersList/AllTrave
 import AllReportsList from "../../Components/Admin/AllReports/AllReportsList";
 import AdminRewards from "../../Components/Admin/AdminRewards/AdminRewards";
 import AllPolicies from "../../Components/Admin/AdminPolicies/AllPolicies";
+import CreateAdmin from "../../Components/Admin/CreateAdmin/CreateAdmin";
 import { all_user_trips } from "../../Components/Data/all_user_trips";
 // import { all_Travellers } from "../../Components/Data/all_Travellers";
 // import { all_agencies } from "../../Components/Data/all_agencies";
@@ -24,6 +25,7 @@ function AdminView() {
   const [dis_all_rewards, set_dis_all_rewards] = useState(false);
   const [dis_all_reports, set_dis_all_reports] = useState(false);
   const [dis_all_policies, set_dis_all_policies] = useState(false);
+  const [dis_create_admin, set_dis_create_admin] = useState(false);
 
   const [all_user_trips, set_all_user_trips] = useState([]);
   const [all_Travellers, set_all_Travellers] = useState([]);
@@ -42,6 +44,7 @@ function AdminView() {
     set_dis_all_rewards(selected_item_name === "all-rewards" ? true : false);
     set_dis_all_reports(selected_item_name === "all-reports" ? true : false);
     set_dis_all_policies(selected_item_name === "all-policies" ? true : false);
+    set_dis_create_admin(selected_item_name === "create-admin" ? true : false);
   };
   const getAllTravelAgencies = async () => {
     try {
@@ -164,10 +167,7 @@ function AdminView() {
     <div className="amin-view-container">
       <AdminSideBar onMenuSelected={onMenuSelected} />
       {dis_all_trips ? (
-        <AllTripsList
-          all_trips={all_user_trips}
-          rerender={getAllTrips}
-        />
+        <AllTripsList all_trips={all_user_trips} rerender={getAllTrips} />
       ) : null}
       {dis_all_agencies ? (
         <AllAgenciesList
@@ -201,6 +201,11 @@ function AdminView() {
           is_admin={true}
           admin_id={adminId}
           rerender={getAllPolicies}
+        />
+      ) : null}
+      {dis_create_admin ? (
+        <CreateAdmin
+          // rerender = {rerender}
         />
       ) : null}
     </div>

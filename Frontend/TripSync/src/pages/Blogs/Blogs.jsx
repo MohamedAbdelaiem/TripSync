@@ -5,7 +5,7 @@ import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedIn
 import "./Blogs.css";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-
+import NavbarSignedIn from "../../Components/NavbarSignedIn/NavbarSignedIn";
 const Base_Url = "http://localhost:3000/api/v1/blogs/AllBlogs";
 
 function Blogs() {
@@ -38,7 +38,8 @@ function Blogs() {
 
   return (
     <>
-      <NavbarSignedInner />
+      {/* <NavbarSignedInner /> */}
+      <NavbarSignedIn/>
       <NavLink to={"blogWrite"}>
         <input
           type="text"

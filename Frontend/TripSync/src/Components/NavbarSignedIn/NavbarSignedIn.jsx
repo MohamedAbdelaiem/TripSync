@@ -2,9 +2,9 @@ import React from "react";
 import planeImage from "../../assets/plane.png";
 import { NavLink } from "react-router-dom";
 import profile from "../../assets/profile.png";
+import './NavbarSignedIn.css'
 
-
-function NavbarSignedIn({ id }) {
+function NavbarSignedIn({ id ,about}) {
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -30,12 +30,15 @@ function NavbarSignedIn({ id }) {
               </a>
             </li>
             <li className="aboutNav nav-item  mx-2">
-              <a className="aboutNav" href={id}>
+              <a className="aboutNav" href={id} style={{visibility:about}}>
                 About
               </a>
             </li>
             <NavLink to="Blog" className={"blogNav"}>
               <li className="blogNav mx-2">Blogs</li>
+            </NavLink>
+            <NavLink to="AllAgencies" className={"AllAgencies"}>
+              <li className="AllAgencies mx-2">Explore the agencies</li>
             </NavLink>
             <li className="blogNav mx-2" >Log out</li>
           </ul>

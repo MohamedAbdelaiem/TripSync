@@ -32,7 +32,7 @@ import image3 from "./assets/Rectangle 9.png";
 import image4 from "./assets/Rectangle 11.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import AllAgencies from "./pages/AllAgencies/AllAgencies";
 const App = () => {
   const agency = {
     TravelAgencyID: "001",
@@ -110,6 +110,7 @@ const App = () => {
           />
           <Route path="/Preregister" element={<Preregister />} />
           <Route path="/Blog/profile" element={<TravelAgency />} />
+          <Route path="/ALLAgencies" element={<AllAgencies />} />
           <Route path="/Traveller-Profile/:profile_id" element={<TravellerProf />} />
           <Route path="/Tickets/:id" element={<TicketsList />} />
           <Route path="/Admin-view/:adminId" element={<AdminView />} />
@@ -119,6 +120,8 @@ const App = () => {
           <Route path="/Report" element={<Report />} />
           <Route path="/Report/policy" element={<Policy />} />
           <Route path="/Blog" element={<Blogs />} />
+          <Route path="/Blog/ALLAgencies" element={<AllAgencies />} />
+          <Route path="/ALLAgencies/Blog" element={<Blogs />} />
           <Route path="/Blog/blogWrite/Blog" element={<Blogs />} />
           <Route path="/Story" element={<OurStory />} />
           <Route path="/Q&A" element={<QACards />} />

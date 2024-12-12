@@ -1,0 +1,14 @@
+.search{
+    margin: 50px;
+    padding: 5px;
+    border-radius: 7px;
+    width: 250px;
+    margin-bottom: -50px;
+}
+
+.loading{
+    display: flex;
+    justify-content: center;
+    margin: 50px;
+    font-size: 25px; 
+}

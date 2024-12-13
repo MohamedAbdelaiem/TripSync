@@ -53,6 +53,14 @@ function AdminSideBar({ onMenuSelected }) {
         >
           All Policies
         </li>
+        <li 
+            onClick={() => {
+              onMenuSelected("all-admins");
+            }}
+            className="admin-menu-item"
+        >
+            All Admins
+        </li>
         <li
           onClick={() => {
             onMenuSelected("create-admin");

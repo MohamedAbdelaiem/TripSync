@@ -1,0 +1,100 @@
+/* styling for traveller card */
+.traveller-card-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 70%;
+    max-width: 100%;
+    padding: 15px 20px;
+    border: 1px solid #34495e;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #2c3e50;
+    margin: 10px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .traveller-card-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .traveller-card-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 2px solid #ecf0f1;
+  }
+  
+  .traveller-card-info {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .traveller-card-name {
+    font-size: 18px;
+    color: #ecf0f1;
+    flex: 1;
+  }
+  
+  .traveller-card-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .view-traveller-card-profile-btn,
+  .block-traveller-card-user-btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-traveller-card-profile-btn {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .view-traveller-card-profile-btn:hover {
+    background-color: #2980b9;
+  }
+  
+  .block-traveller-card-user-btn {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .block-traveller-card-user-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  /* styling for travellers list */
+  
+  .all-travellers-list-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #e4e5e6;
+    color: #ecf0f1;
+    width: 75%;
+    min-height: 100vh;
+    position: absolute;
+    right:0px;
+    box-sizing: border-box;
+  }
+  
+  .travellers-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  

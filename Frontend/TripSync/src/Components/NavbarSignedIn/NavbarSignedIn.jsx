@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import profile from "../../assets/profile.png";
 import './NavbarSignedIn.css'
 
-function NavbarSignedIn({ id ,about}) {
+function NavbarSignedIn({ id, about }) {
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -23,14 +23,14 @@ function NavbarSignedIn({ id ,about}) {
           data-toggle="collapse"
         ></button>
         <div className="collapse navbar-collapse">
-          <ul className="navbar-nav m-2">
-            <li className="HomeNav  mx-2">
+          <ul className="navbar-nav m-2 listOfNavBar">
+            <li className="HomeNav mx-2">
               <a href="#" className="HomeNav">
                 Home
               </a>
             </li>
-            <li className="aboutNav nav-item  mx-2">
-              <a className="aboutNav" href={id} style={{visibility:about}}>
+            <li className="aboutNav nav-item mx-2">
+              <a className="aboutNav" href={id} style={{ visibility: about }}>
                 About
               </a>
             </li>
@@ -40,13 +40,29 @@ function NavbarSignedIn({ id ,about}) {
             <NavLink to="AllAgencies" className={"AllAgencies"}>
               <li className="AllAgencies mx-2">Explore the agencies</li>
             </NavLink>
-            <li className="blogNav mx-2" >Log out</li>
+            {/* Profile and logout button at the end */}
+            <div className="profile-logout-container ml-auto">
+              <NavLink to="/TravelAgencyProfile">
+                <img
+                  src={profile}
+                  height={50}
+                  width={50}
+                  className="profile-img"
+                  alt="Profile"
+                />
+              </NavLink>
+              <button
+                className="logoutButton"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  window.location.href = "/";
+                }}
+              >
+                Log out
+              </button>
+            </div>
           </ul>
         </div>
-
-        <NavLink to="/TravelAgencyProfile">
-          <img src={profile} height={50} width={50} className="mx-3" />
-        </NavLink>
       </nav>
     </>
   );

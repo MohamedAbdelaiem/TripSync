@@ -1,60 +1,150 @@
 /* CreateAdmin.css */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #34495e;
+  --background-color: #f4f4f4;
+  --input-border-color: #bdc3c7;
+  --error-color: #e74c3c;
+  --white-color: #ffffff;
+}
 
 .create-admin-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 50px;
-  width: 75%;
   min-height: 100vh;
-  position: absolute;
-  right: 0px;
-
+  background-color: var(--background-color);
+  padding: 20px;
+  box-sizing: border-box;
+}
+.create-admin-container h2 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+.create-admin-form {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--white-color);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
-.create-admin-form {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-  background-color: #eeecec;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-padding: 20px;
+.create-admin-container .error-message {
+  color: var(--error-color);
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
 
+.create-admin-form h2 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 25px;
+  font-size: 24px;
 }
 
 .create-admin-form label {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
 }
 
 .create-admin-form span {
-    flex: 1;
-    position: relative;
-    top: 15px
+  margin-bottom: 5px;
+  color: var(--primary-color);
+  font-weight: 600;
 }
 
 .input-field {
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 6px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
 }
 
 .submit-button {
-  padding: 10px;
-  background-color: #516476;
-  color: #fff;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: var(--white-color);
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  margin-top: 15px;
 }
 
 .submit-button:hover {
-  background-color: #34495e;
+  background-color: var(--secondary-color);
+}
+
+.submit-button:active {
+  transform: scale(0.98);
 }
 
 .error-message {
-  color: red;
-  margin-bottom: 10px;
+  color: var(--error-color);
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 600px) {
+  .create-admin-container {
+    padding: 10px;
+  }
+
+  .create-admin-form {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .input-field {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .submit-button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Accessibility and Focus States */
+.input-field:focus,
+.submit-button:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Subtle Animations */
+.create-admin-form {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

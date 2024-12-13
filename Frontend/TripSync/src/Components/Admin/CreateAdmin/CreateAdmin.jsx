@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./CreateAdmin.css"; // Import the CSS file
 
 function CreateAdmin() {
@@ -16,10 +17,29 @@ function CreateAdmin() {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const createAdmin = async () => {
+    try{
+      const response = await axios.post("http://localhost:3000/api/v1/users/createUser",{
+        user_name: formData.username,
+        user_email: formData.email,
+        user_password: formData.password,
+        role: "admin"
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+    }
+    catch(err){
+      console.log(err);
+    }
+  };
 
+  // Handle form submission
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try{
     const { username, password, email } = formData;
 
     // Basic form validation
@@ -32,12 +52,13 @@ function CreateAdmin() {
       setError("Please enter a valid email address.");
       return;
     }
-
+    await createAdmin();
     setError(""); // Clear any previous error
     console.log("Admin Created:", formData);
-
-    // Simulate form submission success
-    alert("Admin created successfully!");
+  }
+  catch(err){
+    console.log(err);
+  }
   };
 
   return (

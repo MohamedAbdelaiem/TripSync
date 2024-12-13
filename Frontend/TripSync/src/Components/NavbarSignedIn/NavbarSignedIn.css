@@ -1,4 +1,108 @@
-.AllAgencies{
+.AllAgencies {
     text-decoration: none;
     color: black;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
+
+.profile-logout-container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.AllAgencies:hover {
+    color: #007bff;
+}
+
+.logoutButton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.logoutButton:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}
+
+.navbar {
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+}
+
+.navbar-brand {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.navbar-brand img {
+    margin-right: 8px;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar-nav li {
+    list-style: none;
+}
+
+.navbar-nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav a:hover {
+    color: #007bff;
+}
+
+.navbar-toggler {
+    border: none;
+    font-size: 18px;
+}
+
+.navbar-toggler:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.profile-img {
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    height: 50px;
+    width: 50px;
+}
+
+.profile-img:hover {
+    transform: scale(1.1);
+}
+
+.profile-logout-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto; /* Align this container to the end of the navbar */
+  }
+
+  .listOfNavBar
+  {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }

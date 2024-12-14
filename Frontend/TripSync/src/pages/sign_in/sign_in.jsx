@@ -45,6 +45,7 @@ function Sign_in() {
       console.log(response.data.data);
       setUser(response.data.data);
         console.log(user);
+      localStorage.setItem("user",JSON.stringify(response.data.data));  
         if (user.role === 'admin')
           { Navigate(`/Admin-view/${response.data.data.user_id}`);
       }

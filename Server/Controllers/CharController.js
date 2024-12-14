@@ -26,7 +26,7 @@ exports.handleSocketConnection = (socket,io) => {
         }
         try{
             const query = `
-                SELECT SENDER_ID, RECEIVER_ID, CONTENT, DATE, TIME
+                SELECT SENDER_ID, RECEIVER_ID, CONTENT, MESSAGE_DATE, MESSAGE_TIME
                 FROM Messages
                 WHERE (SENDER_ID = $1 OR RECEIVER_ID = $1)
                 ORDER BY DATE, TIME;
@@ -65,7 +65,7 @@ exports.handleSocketConnection = (socket,io) => {
 
         try{
             const query = `
-                INSERT INTO Messages (SENDER_ID, RECEIVER_ID, CONTENT, DATE, TIME)
+                INSERT INTO Messages (SENDER_ID, RECEIVER_ID, CONTENT, MESSAGE_DATE, MESSAGE_TIME)
                 VALUES ($1, $2, $3, CURRENT_DATE, CURRENT_TIME);
             `;
             roomMessages[room].push(newMessage);
@@ -83,6 +83,50 @@ exports.handleSocketConnection = (socket,io) => {
     }
     );
 }
+
+exports.getMessagesByid = async(req, res) => {
+    const id=req.user.user_id;
+    try{
+        const query = `
+            SELECT 
+    m.SENDER_ID AS sender_id,
+    sender.ProfileName AS sender_name,
+    sender.ProfilePhoto AS sender_photo,
+    m.RECEIVER_ID AS receiver_id,
+    receiver.ProfileName AS receiver_name,
+    receiver.ProfilePhoto AS receiver_photo,
+    m.CONTENT AS content,
+    m.MESSAGE_DATE AS date,
+    m.MESSAGE_TIME AS time
+FROM 
+    Messages m
+JOIN 
+    Users sender ON m.SENDER_ID = sender.USER_ID
+JOIN 
+    Users receiver ON m.RECEIVER_ID = receiver.USER_ID
+WHERE 
+    (m.SENDER_ID = $1 OR m.RECEIVER_ID = $1)
+ORDER BY 
+    m.MESSAGE_DATE, m.MESSAGE_TIME;
+        `;
+        const messages = await client.query(query, [id]);
+        res.json({
+            status: 'success',
+            data: {
+                messages: messages.rows,
+            },
+        });
+    }
+    catch(err){
+        console.error('ERROR in getting messages:',err);
+        res.status(500).json({
+            status: 'error',
+            message: 'Internal Server Error',
+        });
+    }
+};
+
+
 
 
 

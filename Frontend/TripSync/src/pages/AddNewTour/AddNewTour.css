@@ -1,131 +1,73 @@
-/* AddNewTour.css */
+/* Add general form container styling */
+.add-new-tour-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2.5rem;
+  background: linear-gradient(145deg, #f5f7fa, #e4e9f2);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
 
- .add-new-tour-container {
-    width: 100%;
-    max-width: 700px;
-    margin: 3rem auto;
-    padding: 2.5rem;
-    background: linear-gradient(145deg, #f5f7fa, #e4e9f2);
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .add-new-tour-container:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  }
-  
-  .add-new-tour-container h2 {
-    text-align: center;
-    font-size: 2.2rem;
-    margin-bottom: 1.5rem;
-    color: #4a4a4a;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  label {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-  
-  input[type="text"],
-  input[type="number"] {
-    padding: 0.9rem 1.2rem;
-    font-size: 1.1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f1f1f1;
-    transition: all 0.3s ease;
-  }
-  
-  input[type="text"]:focus,
-  input[type="number"]:focus {
-    border-color: #5c6bc0;
-    outline: none;
-    background-color: #e8ebf3;
-  }
-  
-  .btn2,
-  .btn1 {
-    padding: 0.8rem 1.5rem;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    color: white;
-    transition: all 0.3s ease;
-  }
-  
-  .btn2 {
-    background-color: #007bff;
-  }
-  
-  .btn2:hover {
-    background-color: #0056b3;
-    transform: translateY(-3px);
-  }
-  
-  .btn1 {
-    background-color: #28a745;
-  }
-  
-  .btn1:hover {
-    background-color: #218838;
-    transform: translateY(-3px);
-  }
-  
-  .image-preview {
-    margin-top: 1.5rem;
-  }
-  
-  .image-preview h4 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .image-preview ul {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 0.8rem;
-  }
-  
-  .image-preview li {
-    font-size: 1.1rem;
-    color: #555;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 0.7rem;
-    border-radius: 5px;
-    margin-bottom: 0.8rem;
-    transition: all 0.3s ease;
-  }
-  
-  .image-preview li:hover {
-    background-color: #f1f1f1;
-    border-color: #ccc;
-  }
-  
-  div > input {
-    width: calc(100% - 22px);
-    margin-right: 1rem;
-  } 
-  
-  div > button {
-    width: 100%;
-  }
-  
-  h4 {
-    font-size: 1.2rem;
-    font-weight: normal;
-    color: #333;
-  }
- 
+.add-new-tour-container:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+.add-new-tour-container h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: #4a4a4a;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  font-family: 'Arial', sans-serif; /* Ensure consistent font for form */
+}
+
+/* Label styling */
+.input-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  text-align: left; /* Align the label text to the left */
+  display: block; /* Ensure labels are displayed as block-level elements */
+  margin-top: 1rem; /* Add spacing between label and input */
+}
+
+/* Input fields styling */
+.input-field {
+  padding: 0.9rem 1.2rem;
+  font-size: 1.1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f1f1f1;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #5c6bc0;
+  outline: none;
+  background-color: #e8ebf3;
+}
+
+/* Button styling */
+.btn2, .btn1 {
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color:white;
+  background-color: blue;
+  transition: all 0.3s ease;
+}
+

@@ -129,11 +129,12 @@ const App = () => {
           {/* <Route path="/Story/:role/:id" element={<OurStory />} /> */}
           <Route path="/Q&A" element={<QACards />} />
           <Route path="/policy" element={<Policy />} />
-          <Route
+          {/* <Route
             path="/TravelAgencyProfile"
             element={<TravelAgencyProfile agency={agency} />}
-          />
-          <Route path="/travel-agency/:id/:role" element={<TravelAgencyProfile />} />
+          /> */}
+          <Route path="/travel-agency/:role/:id" element={<TravelAgencyProfile />} />
+          <Route path="/travel-agency" element={<TravelAgencyProfile />} />
           <Route
             path="/tours"
             element={

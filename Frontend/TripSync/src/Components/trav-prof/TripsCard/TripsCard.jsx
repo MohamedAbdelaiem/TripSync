@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./TripsCard.css";
+import TripDetailsPage from "./TripDetailsPage/TripDetailsPage";
 
 import { FaMapMarkerAlt, FaRegStar, FaClock } from "react-icons/fa";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function TripCard({
   name,
@@ -17,9 +18,10 @@ function TripCard({
   start_date,
   end_date,
 }) {
+  const navigate = useNavigate();
   const viewTripDetails_clicked = () => {
     // go to trip details with trip id
-    Navigate(`/trip-details/:${trip_id}`);
+    navigate(`/trip-details/${trip_id}`);
   };
 
   let current_date = new Date();

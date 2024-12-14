@@ -54,30 +54,41 @@ exports.getTripById = async (req, res) => {
     trip_id = req.params.trip_id;
     client.query(
       `SELECT 
-    T.Trip_ID,
-    T.Name,
-    T.Description,
-    T.Price,
-    T.MaxSeats,
-    T.Destinition,
-    T.startDate,
-    T.endDate,
-    T.StartLocation,
-    T.TravelAgency_ID,
+    T.Trip_ID AS trip_id,
+    T.Name AS name,
+    T.Description AS description,
+    T.Price AS price,
+    T.MaxSeats AS maxseats,
+    T.Destinition AS destinition,
+    T.startDate AS start_date,
+    T.endDate AS end_date,
+    T.StartLocation AS startlocation,
+    T.TravelAgency_ID AS organizer_id,
     T.Sale,
     T.SalePrice,
-    COALESCE(ARRAY_AGG(TP.PHOTO), ARRAY[]::VARCHAR[]) AS Photos
+    COALESCE(ARRAY_AGG(TP.PHOTO), ARRAY[]::VARCHAR[]) AS photos,
+    U.ProfileName AS organizer_name
 FROM 
     Trip T
 LEFT JOIN 
     TripPhotos TP
 ON 
     T.Trip_ID = TP.TRIP_ID
+LEFT JOIN 
+    TravelAgency TA
+ON 
+    T.TravelAgency_ID = TA.TravelAgency_ID
+LEFT JOIN 
+    Users U
+ON 
+    TA.TravelAgency_ID = U.USER_ID
 WHERE 
     T.Trip_ID = $1
 GROUP BY 
     T.Trip_ID, T.Name, T.Description, T.Price, T.MaxSeats, 
-    T.Destinition, T.startDate, T.endDate, T.StartLocation, T.TravelAgency_ID;
+    T.Destinition, T.startDate, T.endDate, T.StartLocation, 
+    T.TravelAgency_ID, U.ProfileName;
+
 `,
       [trip_id],
       (err, result) => {

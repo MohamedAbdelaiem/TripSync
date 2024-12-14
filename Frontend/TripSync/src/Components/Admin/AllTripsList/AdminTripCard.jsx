@@ -1,6 +1,7 @@
 import React from "react";
 import "./AllTripsList.css";
 import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function AdminTripCard({
   name,
@@ -17,6 +18,10 @@ function AdminTripCard({
   rerender,
 }) {
 
+  const navigate = useNavigate();
+  const go_to_trip_details = () => {
+    navigate(`trip-details/${trip_id}`)
+  }
 
     let current_date = new Date();
 
@@ -74,7 +79,7 @@ function AdminTripCard({
         <div className="admin-trip-footer">
           <button
             className="admin-trip-button"
-            onClick={viewTripDetails_clicked}
+            onClick={go_to_trip_details}
           >
             View Details
           </button>

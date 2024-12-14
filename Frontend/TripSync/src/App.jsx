@@ -48,7 +48,7 @@ const App = () => {
     Mail: "contact@holidaytravel.com",
     Phone: "+20 123 456 7890",
     Country: "Egypt",
-    role: "travel_agency",
+    role: "traveller",
   };
 
   const [tours, setTours] = useState([

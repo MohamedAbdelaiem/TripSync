@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import "./AdminView.css"
+
 import AdminSideBar from "../../Components/Admin/AminSideBar/AdminSideBar";
 import AllTripsList from "../../Components/Admin/AllTripsList/AllTripsList";
 import AllAgenciesList from "../../Components/Admin/AllAgenciesList/AllAgenciesList";
@@ -8,16 +9,14 @@ import AdminRewards from "../../Components/Admin/AdminRewards/AdminRewards";
 import AllPolicies from "../../Components/Admin/AdminPolicies/AllPolicies";
 import CreateAdmin from "../../Components/Admin/CreateAdmin/CreateAdmin";
 import AllAdminsList from "../../Components/Admin/AllAdminsList/AllAdmins";
-import { all_user_trips } from "../../Components/Data/all_user_trips";
-// import { all_Travellers } from "../../Components/Data/all_Travellers";
-// import { all_agencies } from "../../Components/Data/all_agencies";
-// import { all_rewards } from "../../Components/Data/Rewards";
-// import { all_reports } from "../../Components/Data/all_reports";
-// import { all_policies } from "../../Components/Data/all_policies";
+
+
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../assets/userContext";
 import { useParams } from "react-router-dom";
 import { func } from "prop-types";
 import axios from "axios";
-// import { getAllReports } from "../../../../../Server/Controllers/ReportController";
+
 
 function AdminView() {
   const [dis_all_trips, set_dis_all_trips] = useState(false);
@@ -36,8 +35,37 @@ function AdminView() {
   const [all_reports, set_all_reports] = useState([]);
   const [all_policies, set_all_policies] = useState([]);
   const [all_admins, set_all_admins] = useState([]);
-
+  
+  const { user, setUser } = useContext(UserContext);
   let { adminId } = useParams();
+
+  if (user === null || user.role !== 'admin') {
+    return (
+      <div className="not-admin-container">
+        <div className="not-admin-card">
+          <h1 className="not-admin-title">Access Denied</h1>
+          <p className="not-admin-message">
+            You do not have the necessary permissions to access this page. This
+            section is for administrators only.
+          </p>
+          <a href="/" className="back-to-home-button">
+            Go Back to Home
+          </a>
+        </div>
+      </div>
+    );
+  }
+  if (user.user_id != adminId) 
+  {
+    return (
+      <>
+        <div className="error-in-id">
+          <h1> not found </h1>
+        </div>
+      </>
+    );
+  }
+
   const onMenuSelected = (selected_item_name) => {
     set_dis_all_agencies(selected_item_name === "all-agencies" ? true : false);
     set_dis_all_travellers(
@@ -62,7 +90,7 @@ function AdminView() {
       );
       // set_dis_all_agencies(true);
       set_all_agencies(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -78,7 +106,7 @@ function AdminView() {
           },
         }
       );
-      console.log(res.data);
+      // console.log(res.data);
       set_all_user_trips(res.data);
     } catch (err) {
       console.log(err);
@@ -95,7 +123,7 @@ function AdminView() {
           },
         }
       );
-      console.log(res.data);
+      // console.log(res.data);
       set_all_rewards(res.data);
     } catch (err) {
       console.log(err);
@@ -112,7 +140,7 @@ function AdminView() {
           },
         }
       );
-      console.log(res.data.data);
+      // console.log(res.data.data);
       set_all_reports(res.data.data);
     } catch (err) {
       console.log(err);
@@ -129,7 +157,7 @@ function AdminView() {
           },
         }
       );
-      console.log(res.data);
+      // console.log(res.data);
       set_all_policies(res.data);
     } catch (err) {
       console.log(err);
@@ -146,7 +174,7 @@ function AdminView() {
           },
         }
       );
-      console.log(res.data);
+      // console.log(res.data);
       set_all_Travellers(res.data);
     } catch (err) {
       console.log(err);
@@ -163,7 +191,7 @@ function AdminView() {
           },
           }
       );
-      console.log(res.data);
+      // console.log(res.data);
       set_all_admins(res.data);
       } catch (err) {
         console.log(err);
@@ -180,7 +208,7 @@ function AdminView() {
     getAllTrips();
     getAllAdmins();
   }, []);
-  console.log(all_user_trips);
+  // console.log(all_user_trips);
 
 
   return (
@@ -231,7 +259,7 @@ function AdminView() {
       ) : null}
       {dis_create_admin ? (
         <CreateAdmin
-          // rerender = {rerender}
+          rerender = {getAllAdmins}
         />
       ) : null}
     </div>

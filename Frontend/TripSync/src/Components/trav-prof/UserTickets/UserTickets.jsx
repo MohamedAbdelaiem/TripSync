@@ -3,9 +3,12 @@ import TicketCard from "../TicketCard/TicketCard";
 import "./UserTickets.css";
 
 const UserTickets = ({ tickets, userID }) => {
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const userTickets = tickets;
+
+  console.log(userTickets);
 
   const itemsPerPage = window.innerWidth <= 768 ? 1 : 3;
 
@@ -39,7 +42,7 @@ const UserTickets = ({ tickets, userID }) => {
         </button>
 
         <div className="tickets-carousel">
-          {userTickets.length > 1 &&
+          {userTickets.length >= 1 &&
             userTickets
               .slice(currentIndex, currentIndex + itemsPerPage)
               .map((ticket, index) => (

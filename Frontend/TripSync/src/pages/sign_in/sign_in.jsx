@@ -43,14 +43,15 @@ function Sign_in() {
         console.log(response.data.data);
         setUser(response.data.data);
         console.log(user);
-        if (user.role === "admin")
-          Navigate(`/Admin-view/${response.data.data.user_id}`);
-        else if (user.role === "travel_agency")
-          Navigate(
-            `/travel-agency/${response.data.data.user_id}/${response.data.data.role}`
-          );
-        else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);
-      } else {
+      localStorage.setItem("user",JSON.stringify(response.data.data));  
+        if (user.role === 'admin')
+          { Navigate(`/Admin-view/${response.data.data.user_id}`);
+      }
+        else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);  
+        // Navigate("/");
+        
+      }
+      else{
         setError(response.data.message);
       }
     } catch (error) {

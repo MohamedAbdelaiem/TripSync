@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./EditTravProfModal.css";
 
 const EditTravProfModal = (props) => {
@@ -7,12 +8,37 @@ const EditTravProfModal = (props) => {
     email: "",
     password: "",
     profilePicture: null,
+    previousPassword: "",
   });
+
+  const [profilePhoto, setProfilePhoto] = useState(null);
+
+  async function handlesImage(filex) {
+    const file = filex;
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
+    if (file) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "TripSync"); // Cloudinary upload preset
+      data.append("cloud_name", "dxm7trzb5"); // Cloudinary cloud name
+
+      const response = await axios.post(CLOUDINARY_URL, data);
+      const urlimage = response.data;
+      console.log(urlimage.url);
+      setProfilePhoto(urlimage.url);
+      return urlimage.url;
+    } else {
+      return null;
+    }
+  }
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -26,10 +52,30 @@ const EditTravProfModal = (props) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Updated Profile Data: ", formData);
-    props.closeEditprofModal(); // Close the modal after submitting
+      try{
+        const token = localStorage.getItem("token");
+        const url=await handlesImage(formData.profilePicture);
+        console.log(url);
+        await  axios.patch("http://localhost:3000/api/v1/users/updateMe",{
+          profilephoto: url,
+          useremail: formData.email,
+          newPassword: formData.password,
+          previousPassword: formData.previousPassword,
+          profilename: formData.profile_name
+        },{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        }); 
+        props.rerender();
+      console.log("Updated Profile Data: ", formData);
+      }
+    catch(err){
+      console.log(err);
+    }
+  props.closeEditprofModal(); // Close the modal after submitting
   };
 
   return (
@@ -56,6 +102,17 @@ const EditTravProfModal = (props) => {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="Enter new email"
+            />
+          </label>
+
+          <label>
+            previous Password:
+            <input
+              type="password"
+              name="previousPassword"
+              value={formData.previousPassword}
+              onChange={handleInputChange}
+              placeholder="Enter previous password"
             />
           </label>
 

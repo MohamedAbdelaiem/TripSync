@@ -83,6 +83,11 @@ exports.addTicket = async (req, res) => {
     TRIP_ID,
   ]);
 
+  // const traveller = await client.query(
+  //   "UPDATE Traveller SET NumberOfTrips=NumberOfTrips+1 WHERE Traveller_ID = $1",
+  //   [TRAVELLER_ID]
+  // );
+
   if (tickets.rows.length === 0) {
     return res.status(404).json({
       status: "false",
@@ -95,9 +100,22 @@ exports.addTicket = async (req, res) => {
     // // Insert into the tickets table
 
     const ticketsResult = await client.query(
-      "INSERT INTO Tickets ( NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID,DATE) VALUES($1, $2, $3, $4,CURRENT_DATE)",
-      [NumberOfSeats, Price, TRIP_ID, TRAVELLER_ID]
+      'INSERT INTO Tickets ( NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID,DATE) VALUES($1, $2, $3, $4,CURRENT_DATE)',
+      [NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID]
     );
+
+    // // Update the number of trips of the traveller
+    const traveller = await client.query(
+      "UPDATE Traveller SET NumberOfTrips=NumberOfTrips+1 WHERE Traveller_ID = $1",
+      [TRAVELLER_ID]
+    );
+
+    //update points of the traveller
+    const traveller_points = await client.query(
+      "UPDATE Traveller SET Points=Points+$1 WHERE Traveller_ID = $2",
+      [NumberOfSeats*10, TRAVELLER_ID]
+    );
+
 
     await client.query("COMMIT");
 
@@ -111,6 +129,7 @@ exports.addTicket = async (req, res) => {
     res
       .status(500)
       .json({ success: false, error: "Error in creating tickets" });
+    console.log(err);  
   }
 };
 
@@ -147,8 +166,18 @@ exports.deleteTicket = async (req, res) => {
   try {
     await client.query("BEGIN");
     const reportResult = await client.query(
-      "DELETE FROM tickets WHERE TRAVELLER_ID = $1 AND TRIP_ID = $2",
+      "DELETE FROM tickets WHERE TRAVELLER_ID = $1 AND TRIP_ID = $2;",
       [TRAVELLER_ID, trip_id]
+    );
+
+    const traveller = await client.query(
+      "UPDATE Traveller SET NumberOfTrips=NumberOfTrips-1 WHERE Traveller_ID = $1",
+      [TRAVELLER_ID]
+    );
+
+    const traveller_points = await client.query(
+      "UPDATE Traveller SET Points=Points-$1 WHERE Traveller_ID = $2",
+      [tickets.rows[0].numberofseats*10, TRAVELLER_ID]
     );
 
     await client.query("COMMIT");

@@ -25,7 +25,7 @@ function TravellerProf(props) {
 
   let { profile_id } = useParams();
   console.log(profile_id);
-  const { user, setUser } = useContext(UserContext);
+  const { user} = useContext(UserContext);
   console.log(user);
   
   let id = null;
@@ -64,7 +64,7 @@ function TravellerProf(props) {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+      console.log(response.data); 
       set_all_user_trips(response.data);
     } catch (error) {
       console.log(error);
@@ -85,6 +85,7 @@ function TravellerProf(props) {
       );
       // console.log(response.data.date);
       set_all_user_tickets(response.data.data);
+      console.log(response.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +98,7 @@ function TravellerProf(props) {
       // const t = all_Travellers.filter((trav) => trav.userID == id)[0];
       // setTraveller(t);
       const response = await axios.get(
-        "http://localhost:3000/api/v1/users/myProfile",
+        `http://localhost:3000/api/v1/users/${profile_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -138,6 +139,10 @@ function TravellerProf(props) {
     setMessagesAreOPened(true);
   };
 
+  const reRender = () => {
+    get_traveller();
+  };
+
   if (isLoading) {
     return <div>Loading...</div>; // Show a loading indicator
   } else if (user === null) return <div className="user-not-found-message">User not founded</div>;
@@ -152,6 +157,7 @@ function TravellerProf(props) {
             openEditProfModal={openModal}
             openMessages={openMessages}
             isOwner = {isOwner}
+            
           ></SideBar>
           <RestProf
             profName={traveller.profilename}
@@ -162,9 +168,10 @@ function TravellerProf(props) {
             all_tickets={all_user_tickets}
             profileID={profile_id}
             isOwner = {isOwner}
+      
           ></RestProf>
           {modalIsOpened && (
-            <EditTravProfModal closeEditprofModal={closeModal} />
+            <EditTravProfModal closeEditprofModal={closeModal} rerender={reRender} />
           )}
           <UserMessages
             isOpen={messagesAreOpened}

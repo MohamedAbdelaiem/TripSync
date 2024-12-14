@@ -17,7 +17,7 @@ const SideNavBar = ({ type, userId }) => {
   return (
     <div className="side-nav">
       <NavLink
-        to={getNavLink("/TravelAgencyProfile")}
+        to={getNavLink("/travel-agency")}
         aria-label="Navigate to Home"
         className={({ isActive }) => (isActive ? "active" : "")}
       >

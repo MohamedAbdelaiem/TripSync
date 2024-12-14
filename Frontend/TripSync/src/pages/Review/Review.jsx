@@ -16,8 +16,9 @@ function Review() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const userType = queryParams.get("type"); // Retrieve the 'type' value
+  const userId = queryParams.get("id"); // Retrieve the 'id' value
 
-  const Base_URL = "http://localhost:3000/api/v1/users/73/reviews";
+  const Base_URL = `http://localhost:3000/api/v1/users/${userId}/reviews`; // Dynamically use the userId in the URL
 
   const handleInputChange = (event) => {
     const newRating = Math.min(Math.max(Number(event.target.value), 0), 5);
@@ -66,15 +67,15 @@ function Review() {
       }
     };
 
-    if (userType === "travel_agency") {
+    if (userType === "travel_agency" && userId) {
       fetchReviews();
     }
-  }, [userType]);
+  }, [userType, userId]);
 
   return (
     <>
       <div className="flexx">
-        <SideNavBar type={userType}></SideNavBar>
+        <SideNavBar type={userType} userId={userId}></SideNavBar>
 
         {userType === "traveller" && (
           <div className="cardReview">

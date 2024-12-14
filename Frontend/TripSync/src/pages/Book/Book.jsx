@@ -4,26 +4,39 @@ import "./Book.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faCalendar, faUser } from "@fortawesome/free-solid-svg-icons";
 import Slider from "react-slick";
+import axios from "axios"; // Import Axios
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Book = ({ tour, onEnsureBooking }) => {
-  const [ticket, setTicket] = useState(null); // State to hold ticket details
-  const [bookingConfirmed, setBookingConfirmed] = useState(false); // State for confirmation message
+  const [ticket, setTicket] = useState(null);
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state for the button
+  const [error, setError] = useState(null); // Error state
 
-  const handleBooking = () => {
-    const newTicket = {
-      TicketID: `TICKET-${Math.floor(Math.random() * 100000)}`, // Generate random ID
-      PurchaseDate: new Date().toISOString().split("T")[0], // Current date
-      Price: tour.hasSale ? tour.salePrice : tour.price, // Sale or original price
-      TripID: `TRIP-${Math.floor(Math.random() * 1000)}`, // Simulated TripID
-      TravellerID: "TRAVELLER-12345", // Simulated TravellerID (replace with real user data)
-    };
+  const handleBooking = async () => {
+    setLoading(true); // Start loading
+    setError(null); // Reset error
 
-    setTicket(newTicket); // Store the ticket details
-    setBookingConfirmed(true); // Show confirmation message
-    console.log("Ticket Created:", newTicket);
-    onEnsureBooking(); // Trigger booking confirmation from parent
+    try {
+      const travellerID = localStorage.getItem("travellerID"); // Fetch TravellerID from storage or backend
+      const response = await axios.post("http://localhost:3000/api/tickets", {
+        tourID: tour.id, // Assuming tour has an ID field
+        travellerID,
+        price: tour.hasSale ? tour.salePrice : tour.price,
+        purchaseDate: new Date().toISOString().split("T")[0],
+      });
+
+      setTicket(response.data); // Store the ticket details from the response
+      setBookingConfirmed(true); // Confirm booking
+      console.log("Ticket Created:", response.data);
+      onEnsureBooking(); // Trigger parent callback if necessary
+    } catch (err) {
+      console.error("Error creating ticket:", err);
+      setError("Failed to create ticket. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading
+    }
   };
 
   const settings = {
@@ -78,11 +91,17 @@ const Book = ({ tour, onEnsureBooking }) => {
           )}
         </div>
 
-        <button className="book-now-button" onClick={handleBooking}>
-          Ensure Booking
+        <button
+          className="book-now-button"
+          onClick={handleBooking}
+          disabled={loading}
+        >
+          {loading ? "Processing..." : "Ensure Booking"}
         </button>
 
-        {/* {bookingConfirmed && (
+        {error && <p className="error">{error}</p>}
+
+        {bookingConfirmed && (
           <div className="booking-confirmation">
             <h3>Booking Confirmed! Your ticket has been created successfully.</h3>
 
@@ -107,7 +126,7 @@ const Book = ({ tour, onEnsureBooking }) => {
               </div>
             )}
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );
@@ -115,6 +134,7 @@ const Book = ({ tour, onEnsureBooking }) => {
 
 Book.propTypes = {
   tour: PropTypes.shape({
+    id: PropTypes.string.isRequired, // Assuming tour has an ID
     description: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     maxSeats: PropTypes.number.isRequired,

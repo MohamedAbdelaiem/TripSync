@@ -1,17 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"; // Import useParams
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 import { FaStar, FaGlobe, FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
+import axios from "axios"; // Import axios
 import "./TravelAgencyProfile.css";
 
-const TravelAgencyProfile = ({ agency }) => {
-  const [isEditing, setIsEditing] = useState(false); // To toggle edit mode
-  const [profileName, setProfileName] = useState(agency.ProfileName); // Local state for the profile name
-  const [profilePicture, setProfilePicture] = useState(agency.ProfilePicture); // Local state for the profile picture
+const TravelAgencyProfile = () => {
+  const { id, role } = useParams(); // Extract TravelAgencyID and role from the URL
+  const [agency, setAgency] = useState(null); // State for agency data
+  const [isEditing, setIsEditing] = useState(false); // Edit mode toggle
+  const [profileName, setProfileName] = useState(""); // Local state for the profile name
+  const [profilePicture, setProfilePicture] = useState(""); // Local state for the profile picture
 
-  const handleSave = () => {
-    // Logic to save the updated profile details (e.g., send to backend)
-    console.log("Saved profile:", { profileName, profilePicture });
-    setIsEditing(false); // Exit edit mode
+  // Fetch agency data on component mount or when the ID changes
+  useEffect(() => {
+    const fetchAgencyData = async () => {
+      try {
+        const response = await axios.get(`/api/v1/users/${id}`); // Use axios to fetch agency data
+        setAgency(response.data);
+        setProfileName(response.data.ProfileName); // Initialize profileName
+        setProfilePicture(response.data.ProfilePicture); // Initialize profilePicture
+      } catch (error) {
+        console.error("Error fetching travel agency data:", error);
+      }
+    };
+
+    fetchAgencyData();
+  }, [id]);
+
+  const handleSave = async () => {
+    try {
+      // Update backend with edited data using axios
+      const response = await axios.put(`/api/travel-agency/${id}`, {
+        ProfileName: profileName,
+        ProfilePicture: profilePicture,
+      });
+
+      // Update agency state with the new data
+      setAgency((prev) => ({ ...prev, ProfileName: profileName, ProfilePicture: profilePicture }));
+      setIsEditing(false); // Exit edit mode
+    } catch (error) {
+      console.error("Error saving profile changes:", error);
+    }
   };
 
   const handleFileChange = (e) => {
@@ -23,32 +53,32 @@ const TravelAgencyProfile = ({ agency }) => {
     }
   };
 
+  if (!agency) return <div>Loading...</div>; // Show loading state while fetching data
+
   return (
     <div className="travel-agency-container">
       {/* Side Navigation Bar */}
-      <SideNavBar type={agency.role} />
+      <SideNavBar type={role} userId={id} />
 
       {/* Main Content */}
       <div className="main-content">
         <div className="profile-header">
           {/* Profile Picture */}
-          {isEditing && agency.role === "travel_agency" ? (
-            <>
-              <label htmlFor="profile-picture-input" className="profile-picture-label">
-                <img
-                  src={profilePicture || "placeholder.jpg"}
-                  alt="Profile"
-                  className="profile-picture"
-                />
-                <input
-                  id="profile-picture-input"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  style={{ display: "none" }}
-                />
-              </label>
-            </>
+          {isEditing && role === "travel_agency" ? (
+            <label htmlFor="profile-picture-input" className="profile-picture-label">
+              <img
+                src={profilePicture || "placeholder.jpg"}
+                alt="Profile"
+                className="profile-picture"
+              />
+              <input
+                id="profile-picture-input"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+              />
+            </label>
           ) : (
             <img
               src={profilePicture || "placeholder.jpg"}
@@ -58,7 +88,7 @@ const TravelAgencyProfile = ({ agency }) => {
           )}
 
           {/* Profile Name */}
-          {isEditing && agency.role === "travel_agency" ? (
+          {isEditing && role === "travel_agency" ? (
             <input
               type="text"
               value={profileName}
@@ -76,11 +106,6 @@ const TravelAgencyProfile = ({ agency }) => {
 
         <div className="agency-details">
           <h3>Travel Agency Details</h3>
-          {agency.role === "admin" || agency.role === "travel_agency" ? (
-            <p>
-              <strong>Travel Agency ID:</strong> {agency.TravelAgencyID}
-            </p>
-          ) : null}
           <p>
             <strong>
               <FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} /> Address:
@@ -120,7 +145,7 @@ const TravelAgencyProfile = ({ agency }) => {
         </div>
 
         {/* Edit and Save Buttons */}
-        {agency.role === "travel_agency" && (
+        {role === "travel_agency" && (
           <div className="edit-save-buttons">
             {isEditing ? (
               <button onClick={handleSave} className="save-button">
@@ -139,4 +164,3 @@ const TravelAgencyProfile = ({ agency }) => {
 };
 
 export default TravelAgencyProfile;
-

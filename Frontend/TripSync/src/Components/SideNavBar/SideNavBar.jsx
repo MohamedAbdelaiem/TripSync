@@ -1,50 +1,63 @@
 import React from "react";
 import "./SideNavBar.css";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaInfoCircle, FaPlane, FaQuestionCircle, FaStar,FaSun} from "react-icons/fa";
-import { FaExclamationTriangle } from 'react-icons/fa'; // Replace with the appropriate icon
+import {
+  FaHome,
+  FaInfoCircle,
+  FaPlane,
+  FaQuestionCircle,
+  FaStar,
+  FaExclamationTriangle,
+} from "react-icons/fa";
 
-const SideNavBar = ({ type }) => {
+const SideNavBar = ({ type, userId }) => {
+  // Helper function for constructing URLs
+  const getNavLink = (path) => `${path}?type=${type}&userId=${userId}`;
+
   return (
     <div className="side-nav">
       <NavLink
-        to={`/TravelAgencyProfile?type=${type}`}
+        to={getNavLink("/TravelAgencyProfile")}
+        aria-label="Navigate to Home"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FaHome style={{ marginRight: "8px" }} /> Home
       </NavLink>
       <NavLink
-        to={`/story?type=${type}`}
+        to={getNavLink("/story")}
+        aria-label="Navigate to Our Story"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FaInfoCircle style={{ marginRight: "8px" }} /> Our Story
       </NavLink>
       <NavLink
-        to={`/tours?type=${type}`}
+        to={getNavLink("/tours")}
+        aria-label="Navigate to Tours"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FaPlane style={{ marginRight: "8px" }} /> Tours
       </NavLink>
       <NavLink
-        to={`/Q&A?type=${type}`}
+        to={getNavLink("/Q&A")}
+        aria-label="Navigate to Q&A"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FaQuestionCircle style={{ marginRight: "8px" }} /> Q&A
       </NavLink>
       <NavLink
-        to={`/Review?type=${type}`}
+        to={getNavLink("/Review")}
+        aria-label="Navigate to Review"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FaStar style={{ marginRight: "8px" }} /> Review
       </NavLink>
-
       <NavLink
-        to={`/Report?type=${type}`}
+        to={getNavLink("/Report")}
+        aria-label="Navigate to Report"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FaExclamationTriangle style={{ marginRight: "8px" }} /> Report
       </NavLink>
-
     </div>
   );
 };

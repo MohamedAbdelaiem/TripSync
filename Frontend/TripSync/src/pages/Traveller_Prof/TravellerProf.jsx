@@ -64,7 +64,7 @@ function TravellerProf(props) {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+      console.log(response.data); 
       set_all_user_trips(response.data);
     } catch (error) {
       console.log(error);

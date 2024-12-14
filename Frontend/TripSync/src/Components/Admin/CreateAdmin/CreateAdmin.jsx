@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./CreateAdmin.css"; // Import the CSS file
 
-function CreateAdmin() {
+function CreateAdmin({rerender}) {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -54,7 +54,11 @@ function CreateAdmin() {
     }
     await createAdmin();
     setError(""); // Clear any previous error
-    console.log("Admin Created:", formData);
+      console.log("Admin Created:", formData);
+      formData.username = "";
+      formData.password = "";
+      formData.email = "";
+      rerender();
   }
   catch(err){
     console.log(err);

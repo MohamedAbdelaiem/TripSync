@@ -41,6 +41,7 @@ const UserMessages = ({
           time: `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`,
         };
         setNewMessage("");
+        console.log(message);
         closeChats();
       }
     };
@@ -48,12 +49,12 @@ const UserMessages = ({
     return (
       <>
         <div className="modal-overlay">
-          <button className="close-button" onClick={closeChats}>
+          <button className="send-close-button" onClick={closeChats}>
             ✖
           </button>
-          <div className="userMessages-container">
-            <div className="chat-container">
-              <form className="message-form" onSubmit={handleSendMessage}>
+          <div className="send-userMessages-container">
+            <div className="send-chat-container">
+              <form className="send-message-form" onSubmit={handleSendMessage}>
                 <input
                   type="text"
                   placeholder="Type a message..."

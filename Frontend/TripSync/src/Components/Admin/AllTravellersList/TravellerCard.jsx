@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import "./AllTravellersList.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function TravellerCard({ image_url, id, prof_name, rerender }) {
   const token = localStorage.getItem("token");
-  const onViewProfile = () => {};
+  const navigate = new useNavigate();
+  const onViewProfile = () => {
+    navigate(`/Traveller-Profile/${id}`);
+  };
   const deletrUser = async() => {
    await axios
       .delete(`http://localhost:3000/api/v1/users/deleteUser`, {

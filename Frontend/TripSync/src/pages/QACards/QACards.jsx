@@ -1,15 +1,17 @@
 import "./QACards.css";
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
+import { UserContext } from "../../assets/userContext";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const QACards = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  const userType = queryParams.get("type");
-  const userId = queryParams.get("userId"); // Extract the userId from URL query parameters
+  const { user } = useContext(UserContext);
+  const { user_id } = useParams();
 
   const [qaData, setQaData] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
@@ -91,14 +93,14 @@ const QACards = () => {
   return (
     <div className="flexx">
       {/* Pass userId to SideNavBar as a prop */}
-      <SideNavBar type={userType} userId={userId}></SideNavBar>
+      <SideNavBar type={user.role} userId={user_id}></SideNavBar>
 
       <div className="qa-cards-container">
         <h2 className="qa-cards-title">Questions & Answers</h2>
         <div className="qa-cards">
           {qaData.map((item, index) => (
             <div className="qa-card" key={item.question_id}>
-              {editIndex === index && userType === "travel_agency" ? (
+              {editIndex === index && user.role === "travel_agency" ? (
                 <>
                   <div className="qa-card-header">
                     <textarea
@@ -139,7 +141,7 @@ const QACards = () => {
                   <div className="qa-card-footer">
                     <span>{item.Date}</span> | <span>{item.time}</span>
                   </div>
-                  {userType === "travel_agency" && (
+                  {user.role === "travel_agency" && (
                     <button
                       className="btn edit-btn"
                      onClick={() => handleEdit(index)}

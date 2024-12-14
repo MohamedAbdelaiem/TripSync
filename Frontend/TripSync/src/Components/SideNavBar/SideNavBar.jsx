@@ -10,9 +10,9 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 
-const SideNavBar = ({ type, userId }) => {
+const SideNavBar = ({ userId }) => {
   // Helper function for constructing URLs
-  const getNavLink = (path) => `${path}?type=${type}&userId=${userId}`;
+  const getNavLink = (path) => `${path}/${userId}`;
 
   return (
     <div className="side-nav">

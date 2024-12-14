@@ -29,23 +29,28 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour }) => {
         )}
       </div>
       <div className="tour-card-container">
-        {tours.map((tour, index) => (
-          <TourCard
-            key={index}
-            type={type}
-            imageSrc={tour.images[0]}
-            description={tour.description}
-            days={tour.duration}
-            originalPrice={tour.price}
-            destination={tour.destination}
-            startLocation={tour.startLocation}
-            hasSale={tour.hasSale}
-            salePrice={tour.salePrice}
-            onBook={() => handleBook(tour)} // Pass the entire tour object
-            onEdit={() => handleEdit(tour)}
-            onDelete={() => handleDelete(tour.id)}
-          />
-        ))}
+          {(tours.length > 0) ? (
+      tours.map((tour, index) => (
+        <TourCard
+          key={tour.id || index}  // Use unique id if possible, else fallback to index
+          type={type}
+          imageSrc={tour.images && tour.images.length > 0 ? tour.images[0] : 'defaultImage.jpg'}  // Check if images exists
+          description={tour.description}
+          days={tour.duration}
+          originalPrice={tour.price}
+          destination={tour.destination}
+          startLocation={tour.startLocation}
+          hasSale={tour.hasSale}
+          salePrice={tour.salePrice}
+          onBook={() => handleBook(tour)} // Pass the entire tour object
+          onEdit={() => handleEdit(tour)}
+          onDelete={() => handleDelete(tour.id)}
+        />
+      ))
+    ) : (
+      <h1>No Tours Available</h1>
+    )}
+
       </div>
     </div>
   );

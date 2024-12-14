@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { useParams } from "react-router-dom"; // Import useParams
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
+import { UserContext } from "../../assets/userContext";
 import {
   FaStar,
   FaGlobe,
@@ -12,12 +13,14 @@ import axios from "axios"; // Import axios
 import "./TravelAgencyProfile.css";
 
 const TravelAgencyProfile = () => {
-  const { id, role } = useParams(); // Extract TravelAgencyID and role from the URL
+  const { id } = useParams(); // Extract TravelAgencyID and user.role from the URL
   const [agency, setAgency] = useState(null); // State for agency data
   const [isEditing, setIsEditing] = useState(false); // Edit mode toggle
   const [profileName, setProfileName] = useState(""); // Local state for the profile name
   const [profilePicture, setProfilePicture] = useState(""); // Local state for the profile picture
   // Fetch agency data on component mount or when the ID changes
+
+  const { user } = useContext(UserContext);
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchAgencyData = async () => {
@@ -83,13 +86,13 @@ const TravelAgencyProfile = () => {
   return (
     <div className="travel-agency-container">
       {/* Side Navigation Bar */}
-      <SideNavBar type={role} userId={id} />
+      <SideNavBar userId={id} />
 
       {/* Main Content */}
       <div className="main-content">
         <div className="profile-header">
           {/* Profile Picture */}
-          {isEditing && role === "travel_agency" ? (
+          {isEditing && user.role === "travel_agency" ? (
             <label
               htmlFor="profile-picture-input"
               className="profile-picture-label"
@@ -116,7 +119,7 @@ const TravelAgencyProfile = () => {
           )}
 
           {/* Profile Name */}
-          {isEditing && role === "travel_agency" ? (
+          {isEditing && user.role === "travel_agency" ? (
             <input
               type="text"
               value={profileName}
@@ -177,7 +180,7 @@ const TravelAgencyProfile = () => {
         </div>
 
         {/* Edit and Save Buttons */}
-        {role === "travel_agency" && (
+        {user.role === "travel_agency" && (
           <div className="edit-save-buttons">
             {isEditing ? (
               <button onClick={handleSave} className="save-button">

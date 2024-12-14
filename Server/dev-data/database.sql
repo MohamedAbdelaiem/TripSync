@@ -49,6 +49,8 @@ CREATE TABLE Trip
     endDate DATE NOT NULL,--initially was accepting null values (must be edited)
     StartLocation VARCHAR(200) NOT NULL,
     TravelAgency_ID INT NOT NULL,
+    sale BOOLEAN DEFAULT FALSE NOT NULL,
+    saleprice INT ,
     FOREIGN KEY (TravelAgency_ID) REFERENCES TravelAgency(TravelAgency_ID) ON DELETE CASCADE
 );
 

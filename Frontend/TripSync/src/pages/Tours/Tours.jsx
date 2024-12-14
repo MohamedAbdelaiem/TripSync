@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 import TourCardContainer from "../../Components/TourCardContainer/TourCardContainer";
+import { UserContext } from "../../assets/userContext";
+import { useParams } from "react-router-dom";
 import "./Tours.css";
+
 
 const Tours = () => {
   const [tours, setTours] = useState([]); // State to store tours data
   const [error, setError] = useState(""); // State to handle errors
   const location = useLocation();
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(location.search);
-  const userType = queryParams.get("type");
-  const userId = queryParams.get("id"); // Assuming you pass the user ID as a query parameter
+  const { user } = useContext(UserContext);
+  const {user_id}= useParams();
   const Base_Url = "http://localhost:3000/api/v1/users/myProfile/trips/getAllTrips";
 
   // Fetch trips by ID
@@ -54,10 +56,10 @@ const Tours = () => {
 
   return (
     <div className="flex">
-      <SideNavBar type={userType} userId={userId} />
+      <SideNavBar  userId={user_id} />
       {error && <div className="error-message">{error}</div>}
       <TourCardContainer
-        type={userType}
+        type={user.role} // Pass the user role
         tours={tours}
         onAddNewTour={() => navigate("/add-new-tour")}
         onDeleteTour={handleDeleteTour} // Pass the delete handler

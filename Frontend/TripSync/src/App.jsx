@@ -118,25 +118,25 @@ const App = () => {
           <Route path="/Admin-view/:adminId" element={<AdminView />} />
           {/* <Route path="/Rewards/:id" element={<RewardsList />} /> */}
           <Route path="/TravelAgency" element={<TravelAgency />} />
-          <Route path="/Review" element={<Review />} />
+          <Route path="/Review/:user_id" element={<Review />} />
           <Route path="/Report" element={<Report />} />
           <Route path="/Report/policy" element={<Policy />} />
           <Route path="/Blog" element={<Blogs />} />
           <Route path="/Blog/ALLAgencies" element={<AllAgencies />} />
           <Route path="/ALLAgencies/Blog" element={<Blogs />} />
           <Route path="/Blog/blogWrite/Blog" element={<Blogs />} />
-          <Route path="/Story" element={<OurStory />} />
+          <Route path="/Story/:user_id" element={<OurStory />} />
           {/* <Route path="/Story/:role/:id" element={<OurStory />} /> */}
-          <Route path="/Q&A" element={<QACards />} />
+          <Route path="/Q&A/:user_id" element={<QACards />} />
           <Route path="/policy" element={<Policy />} />
           {/* <Route
             path="/TravelAgencyProfile"
             element={<TravelAgencyProfile agency={agency} />}
           /> */}
-          <Route path="/travel-agency/:role/:id" element={<TravelAgencyProfile />} />
+          <Route path="/travel-agency/:id" element={<TravelAgencyProfile />} />
           <Route path="/travel-agency" element={<TravelAgencyProfile />} />
           <Route
-            path="/tours"
+            path="/tours/:user_id"
             element={
               <Tours
                 tours={tours}

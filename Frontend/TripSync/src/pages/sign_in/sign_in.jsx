@@ -38,15 +38,20 @@ function Sign_in() {
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
       }
-      if (response.data.status === "success") {
-        setSuccess(response.data.message);
-        console.log(response.data.data);
-        setUser(response.data.data);
-        console.log(user);
-      localStorage.setItem("user",JSON.stringify(response.data.data));  
+      if(response.data.status==="success"){
+      setSuccess(response.data.message);
+      console.log(response.data.data);
+      setUser(response.data.data);
+      console.log(user);
+      // localStorage.setItem("user",JSON.stringify(response.data.data));  
         if (user.role === 'admin')
-          { Navigate(`/Admin-view/${response.data.data.user_id}`);
-      }
+          { 
+            Navigate(`/Admin-view/${response.data.data.user_id}`);
+          }
+          else if(user.role === 'travel_agency')
+          { 
+            Navigate(`/travel-agency/${response.data.data.user_id}`)
+          }
         else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);  
         // Navigate("/");
         

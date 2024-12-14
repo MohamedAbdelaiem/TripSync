@@ -2,6 +2,7 @@ const express = require("express");
 const client = require("../db");
 
 exports.getAllTrips = async (req, res) => {
+  const TRAVELAGENCY_ID = req.user.user_id;
   try {
     client.query(
       `
@@ -26,8 +27,10 @@ exports.getAllTrips = async (req, res) => {
         Trip T
       LEFT JOIN 
         TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
+        WHERE  T.TravelAgency_ID=$1
       GROUP BY 
         T.Trip_ID;`,
+      [TRAVELAGENCY_ID],
       (err, result) => {
         if (err) {
           console.log(err);
@@ -116,6 +119,7 @@ exports.addTrip = async (req, res) => {
     startDate,
     endDate,
     StartLocation,
+    sale,
   } = req.body;
   const TravelAgency_ID = req.user.user_id;
 
@@ -143,11 +147,12 @@ exports.addTrip = async (req, res) => {
 
   try {
     await client.query("BEGIN");
-
+    let tripResult;
     // // Insert into the trip table
+    if (!sale) sale = false;
 
-    const tripResult = await client.query(
-      "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate ,endDate , StartLocation ,TravelAgency_ID) VALUES($1, $2, $3, $4, $5, $6, $7,$8) RETURNING Trip_ID",
+    tripResult = await client.query(
+      "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate ,endDate , StartLocation ,TravelAgency_ID,sale) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9) RETURNING Trip_ID",
       [
         Description,
         Price,
@@ -157,6 +162,7 @@ exports.addTrip = async (req, res) => {
         endDate,
         StartLocation,
         TravelAgency_ID,
+        sale,
       ]
     );
 

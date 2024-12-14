@@ -78,8 +78,6 @@ userRouter
   .patch(
     AuthConroller.protect,
     UserConroller.getMe,
-    UserConroller.updateUserPhoto,
-    UserConroller.resizeUserPhoto,
     UserConroller.UpdateMe
   );
 

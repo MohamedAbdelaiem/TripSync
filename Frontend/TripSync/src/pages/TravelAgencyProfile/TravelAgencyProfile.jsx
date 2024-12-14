@@ -17,12 +17,12 @@ const TravelAgencyProfile = () => {
   const [isEditing, setIsEditing] = useState(false); // Edit mode toggle
   const [profileName, setProfileName] = useState(""); // Local state for the profile name
   const [profilePicture, setProfilePicture] = useState(""); // Local state for the profile picture
-
   // Fetch agency data on component mount or when the ID changes
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchAgencyData = async () => {
       try {
+        console.log(id);
         const response = await axios.get(
           `http://localhost:3000/api/v1/users/${id}`,
           {
@@ -31,13 +31,12 @@ const TravelAgencyProfile = () => {
             },
           }
         ); // Use axios to fetch agency data
-        setAgency(response.data.data[0],);
+        setAgency(response.data.data[0]);
 
         if (response.data.data[0].profilename === null)
           setProfileName(response.data.data[0].username);
-        else
-          setProfileName(response.data.data[0].profilename); // Initialize profileName
-        
+        else setProfileName(response.data.data[0].profilename); // Initialize profileName
+
         setProfilePicture(response.data.data[0].profilephoto); // Initialize profilePicture
         console.log(response.data);
       } catch (error) {

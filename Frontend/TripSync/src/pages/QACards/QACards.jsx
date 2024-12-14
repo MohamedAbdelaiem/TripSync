@@ -9,7 +9,7 @@ const QACards = () => {
   const queryParams = new URLSearchParams(location.search);
 
   const userType = queryParams.get("type");
-  const userId = queryParams.get("userId");  // Extract the userId from URL query parameters
+  const userId = queryParams.get("userId"); // Extract the userId from URL query parameters
 
   const [qaData, setQaData] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
@@ -49,7 +49,7 @@ const QACards = () => {
     try {
       setLoading(true);
       const response = await axios.patch(
-        `http://localhost:3000/api/v1/users/myProfile/QA/${qaData[index].QuestionID}`,
+        `http://localhost:3000/api/v1/users/myProfile/QA/updateQA/${qaData[index].question_id}`,
         editedData,
         {
           headers: {
@@ -97,14 +97,14 @@ const QACards = () => {
         <h2 className="qa-cards-title">Questions & Answers</h2>
         <div className="qa-cards">
           {qaData.map((item, index) => (
-            <div className="qa-card" key={item.QuestionID}>
+            <div className="qa-card" key={item.question_id}>
               {editIndex === index && userType === "travel_agency" ? (
                 <>
                   <div className="qa-card-header">
                     <textarea
                       className="edit-textarea"
                       name="Question"
-                      value={editedData.Question}
+                      value={editedData.question}
                       onChange={handleChange}
                     />
                   </div>
@@ -112,7 +112,7 @@ const QACards = () => {
                     <textarea
                       className="edit-textarea"
                       name="Answer"
-                      value={editedData.Answer}
+                      value={editedData.answer}
                       onChange={handleChange}
                     />
                   </div>
@@ -131,18 +131,18 @@ const QACards = () => {
               ) : (
                 <>
                   <div className="qa-card-header">
-                    <h3 className="qa-card-question">{item.Question}</h3>
+                    <h3 className="qa-card-question">{item.question}</h3>
                   </div>
                   <div className="qa-card-body">
-                    <p className="qa-card-answer">{item.Answer}</p>
+                    <p className="qa-card-answer">{item.answer}</p>
                   </div>
                   <div className="qa-card-footer">
-                    <span>{item.Date}</span> | <span>{item.Time}</span>
+                    <span>{item.Date}</span> | <span>{item.time}</span>
                   </div>
                   {userType === "travel_agency" && (
                     <button
                       className="btn edit-btn"
-                      onClick={() => handleEdit(index)}
+                     onClick={() => handleEdit(index)}
                     >
                       Edit
                     </button>

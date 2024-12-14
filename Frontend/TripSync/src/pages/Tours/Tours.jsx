@@ -13,26 +13,33 @@ const Tours = () => {
   const queryParams = new URLSearchParams(location.search);
   const userType = queryParams.get("type");
   const userId = queryParams.get("id"); // Assuming you pass the user ID as a query parameter
+  const Base_Url = "http://localhost:3000/api/v1/users/myProfile/trips/getAllTrips";
 
   // Fetch trips by ID
-  useEffect(() => {
-    const fetchTripsById = async () => {
-      try {
-        // Replace with your API endpoint for fetching trips by ID
-        const response = await axios.get(
-          `https://your-api-endpoint/trips?userId=${userId}`
-        );
-        setTours(response.data); // Assuming the API returns an array of trips
-      } catch (error) {
-        console.error("Error fetching trips:", error);
-        setError("Failed to load trips. Please try again later.");
-      }
-    };
+  const fetchTrips = async () => {
+    // setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
 
-    if (userId) {
-      fetchTripsById();
+      const response = await axios.get(Base_Url, {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      // setTrips(response.data.data);
+      setTours(response.data);
+      // setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      // setIsLoading(false);
     }
-  }, [userId]); // Re-fetch trips when userId changes
+  };
+
+  useEffect(() => {
+    fetchTrips();
+  }, []);
+
 
   // Handle delete tour
   const handleDeleteTour = async (id) => {

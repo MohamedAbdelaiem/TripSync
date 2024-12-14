@@ -25,7 +25,7 @@ function TravellerProf(props) {
 
   let { profile_id } = useParams();
   console.log(profile_id);
-  const { user, setUser } = useContext(UserContext);
+  const { user} = useContext(UserContext);
   console.log(user);
   
   let id = null;
@@ -97,7 +97,7 @@ function TravellerProf(props) {
       // const t = all_Travellers.filter((trav) => trav.userID == id)[0];
       // setTraveller(t);
       const response = await axios.get(
-        "http://localhost:3000/api/v1/users/myProfile",
+        `http://localhost:3000/api/v1/users/${profile_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

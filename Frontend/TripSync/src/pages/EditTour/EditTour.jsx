@@ -1,20 +1,44 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios"; // Import axios
 import "./EditTour.css";
 
 const EditTourPage = () => {
   const location = useLocation();
-  const { tour } = location.state || {};
+  const { tourId } = location.state || {}; // Assuming you pass the tour ID through state
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    ...tour,
-    sale: tour?.sale || false,
-    originalPrice: tour?.originalPrice || "",
-    salePrice: tour?.salePrice || "",
-    from: tour?.from || "",
-    to: tour?.to || "",
-    images: tour?.images || [],
+    from: "",
+    to: "",
+    description: "",
+    originalPrice: "",
+    salePrice: "",
+    sale: false,
+    images: [],
   });
+
+  useEffect(() => {
+    const fetchTourData = async () => {
+      try {
+        const response = await axios.get(`/api/tours/${tourId}`); // API endpoint for fetching tour data
+        const tourData = response.data;
+        setFormData({
+          ...tourData,
+          sale: tourData.sale || false,
+          salePrice: tourData.salePrice || "",
+          originalPrice: tourData.originalPrice || "",
+          from: tourData.from || "",
+          to: tourData.to || "",
+          images: tourData.images || [],
+        });
+      } catch (error) {
+        console.error("Error fetching tour data:", error);
+      }
+    };
+
+    if (tourId) fetchTourData(); // Fetch tour data if tourId is available
+  }, [tourId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,13 +70,19 @@ const EditTourPage = () => {
     }));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("Updated Tour:", formData);
-    // Save changes logic here
+    try {
+      // Send the updated data to the server using axios
+      const response = await axios.put(`/api/tours/${tourId}`, formData); // Update API endpoint
+      console.log("Updated Tour:", response.data);
+      navigate(`/tour/${tourId}`); // Redirect to the tour page after update
+    } catch (error) {
+      console.error("Error updating tour data:", error);
+    }
   };
 
-  if (!tour) {
+  if (!tourId) {
     return <p>No tour selected for editing.</p>;
   }
 
@@ -149,19 +179,6 @@ const EditTourPage = () => {
             </label>
           </div>
         )}
-
-        <div className="form-group">
-          <label className="form-label" htmlFor="price">Current Price:</label>
-          <input
-            className="form-input"
-            type="number"
-            id="price"
-            name="price"
-            value={formData.price || ""}
-            onChange={handleInputChange}
-            placeholder="Enter current tour price"
-          />
-        </div>
 
         {/* Images */}
         <div className="form-group">

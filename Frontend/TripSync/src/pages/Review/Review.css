@@ -147,4 +147,30 @@ margin-left: 200px;
     outline: none; /* Remove the default focus outline */
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3); /* Green shadow for focus */
   }
+  .reviews-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .review-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .review-item p {
+    margin: 5px 0;
+  }
+  
+  .success-message {
+    color: green;
+    margin-top: 10px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
   

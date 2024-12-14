@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./AddNewTour.css";
 
 const AddNewTour = ({ addTour }) => {
@@ -8,15 +9,18 @@ const AddNewTour = ({ addTour }) => {
   const [newTour, setNewTour] = useState({
     description: "",
     price: "",
-    maxSeats: "",
+    maxseats: "",
     destination: "",
-    duration: "",
-    startLocation: "",
+    startlocation: "",
+    startdate: "",
+    enddate: "",
     images: [],
-    hasSale: false,
-    salePrice: "",
+    sale: false,
+    saleprice: "",
   });
+
   const [imageInput, setImageInput] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,24 +31,68 @@ const AddNewTour = ({ addTour }) => {
   };
 
   const handleAddImage = () => {
-    if (imageInput.trim()) {
-      setNewTour((prev) => ({
-        ...prev,
-        images: [...prev.images, imageInput.trim()],
-      }));
-      setImageInput("");
+    const isValidURL = (url) => {
+      try {
+        new URL(url);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    if (imageInput.trim() && isValidURL(imageInput)) {
+      if (newTour.images.includes(imageInput)) {
+        setErrorMessage("This image URL is already added.");
+      } else {
+        setNewTour((prev) => ({
+          ...prev,
+          images: [...prev.images, imageInput.trim()],
+        }));
+        setErrorMessage("");
+        setImageInput("");
+      }
+    } else {
+      setErrorMessage("Please enter a valid image URL.");
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (addTour) {
-      addTour({
-        ...newTour,
-        price: parseFloat(newTour.price),
-        salePrice: newTour.hasSale ? parseFloat(newTour.salePrice) : null,
-      }); // Add the new tour
-      navigate("/tours?type=travel_agency"); // Navigate back to Tours page
+
+    if (newTour.sale && parseFloat(newTour.saleprice) >= parseFloat(newTour.price)) {
+      alert("Sale price must be less than the original price.");
+      return;
+    }
+
+    const tourData = {
+      ...newTour,
+      price: parseFloat(newTour.price),
+      saleprice: newTour.sale ? parseFloat(newTour.saleprice) : null,
+    };
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/users/myProfile/trips/addTrip",
+        tourData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 201 || response.status === 200) {
+        console.log("Tour added successfully:", response.data);
+        navigate("/tours?type=travel_agency");
+      } else {
+        console.error("Unexpected response:", response);
+        setErrorMessage("Failed to add the tour. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error adding tour:", error);
+      setErrorMessage("Failed to add the tour. Please check your input and try again.");
     }
   };
 
@@ -52,7 +100,9 @@ const AddNewTour = ({ addTour }) => {
     <div className="add-new-tour-container">
       <h2>Add New Tour</h2>
       <form onSubmit={handleFormSubmit}>
-        <label>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+        <label className="input-label">
           Description:
           <input
             type="text"
@@ -60,9 +110,12 @@ const AddNewTour = ({ addTour }) => {
             value={newTour.description}
             onChange={handleInputChange}
             required
+            className="input-field"
+            aria-label="Description"
           />
         </label>
-        <label>
+
+        <label className="input-label">
           Price:
           <input
             type="number"
@@ -70,19 +123,27 @@ const AddNewTour = ({ addTour }) => {
             value={newTour.price}
             onChange={handleInputChange}
             required
+            min="0"
+            className="input-field"
+            aria-label="Price"
           />
         </label>
-        <label>
+
+        <label className="input-label">
           Max Seats:
           <input
             type="number"
-            name="maxSeats"
-            value={newTour.maxSeats}
+            name="maxseats"
+            value={newTour.maxseats}
             onChange={handleInputChange}
             required
+            min="1"
+            className="input-field"
+            aria-label="Max Seats"
           />
         </label>
-        <label>
+
+        <label className="input-label">
           Destination:
           <input
             type="text"
@@ -90,62 +151,94 @@ const AddNewTour = ({ addTour }) => {
             value={newTour.destination}
             onChange={handleInputChange}
             required
+            className="input-field"
+            aria-label="Destination"
           />
         </label>
-        <label>
-          Duration (days):
+
+        <label className="input-label">
+          Start Date:
           <input
-            type="number"
-            name="duration"
-            value={newTour.duration}
+            type="date"
+            name="startDate"
+            value={newTour.startdate}
             onChange={handleInputChange}
             required
+            className="input-field"
+            aria-label="Start Date"
           />
         </label>
-        <label>
+
+        <label className="input-label">
+          End Date:
+          <input
+            type="date"
+            name="endDate"
+            value={newTour.enddate}
+            onChange={handleInputChange}
+            required
+            className="input-field"
+            aria-label="End Date"
+          />
+        </label>
+
+        <label className="input-label">
           Start Location:
           <input
             type="text"
             name="startLocation"
-            value={newTour.startLocation}
+            value={newTour.startlocation}
             onChange={handleInputChange}
             required
+            className="input-field"
+            aria-label="Start Location"
           />
         </label>
-        <label>
+
+        <label className="input-label">
           Has Sale:
           <input
             type="checkbox"
-            name="hasSale"
-            checked={newTour.hasSale}
+            name="sale"
+            checked={newTour.sale}
             onChange={handleInputChange}
+            className="input-field-checkbox"
+            aria-label="Has Sale"
           />
         </label>
-        {newTour.hasSale && (
-          <label>
+
+        {newTour.sale && (
+          <label className="input-label">
             Sale Price:
             <input
               type="number"
               name="salePrice"
-              value={newTour.salePrice}
+              value={newTour.saleprice}
               onChange={handleInputChange}
-              required={newTour.hasSale}
+              required
+              min="0"
+              className="input-field"
+              aria-label="Sale Price"
             />
           </label>
         )}
-        <label>
+
+        <label className="input-label">
           Add Image URL:
           <div>
             <input
               type="text"
               value={imageInput}
               onChange={(e) => setImageInput(e.target.value)}
+              className="input-field"
+              aria-label="Image URL"
             />
             <button className="btn1" type="button" onClick={handleAddImage}>
               Add Image
             </button>
           </div>
         </label>
+
         <div className="image-preview">
           <h4>Images:</h4>
           <ul>
@@ -154,7 +247,10 @@ const AddNewTour = ({ addTour }) => {
             ))}
           </ul>
         </div>
-        <button className="btn2" type="submit">Save Tour</button>
+
+        <button className="btn2" type="submit">
+          Save Tour
+        </button>
       </form>
     </div>
   );

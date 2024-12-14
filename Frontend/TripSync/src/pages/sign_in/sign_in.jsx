@@ -1,4 +1,4 @@
-import  { useState,useContext } from "react";
+import { useState, useContext } from "react";
 import Sub_Navbar from "../../Components/Sub_Navbar/Sub_Navbar";
 import "./Sign_in.css";
 import axios from "axios";
@@ -8,17 +8,15 @@ import { UserContext } from "../../assets/userContext";
 // import navLink from React
 
 function Sign_in() {
-  const [email,setEmail]=useState("");
-  const [password,setPassword]=useState("");
-  const [error,setError]=useState("");
-  const [success,setSuccess]=useState("");
-  const {user,setUser}=useContext(UserContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const { user, setUser } = useContext(UserContext);
   // console.log(UserContext);
   // const [user,setUser]=useState(useContext(UserContext));
 
-  const Navigate=useNavigate();
-
-
+  const Navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,41 +29,35 @@ function Sign_in() {
           password,
         },
         {
-          headers:{
-            "Content-Type":"application/json"
+          headers: {
+            "Content-Type": "application/json",
           },
-          withCredentials:true
+          withCredentials: true,
         }
       );
-      if(response.data.token){
-        localStorage.setItem("token",response.data.token);
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
       }
-      if(response.data.status==="success"){
-      setSuccess(response.data.message);
-      console.log(response.data.data);
-      setUser(response.data.data);
+      if (response.data.status === "success") {
+        setSuccess(response.data.message);
+        console.log(response.data.data);
+        setUser(response.data.data);
         console.log(user);
-        if (user.role === 'admin')
-          { Navigate(`/Admin-view/${response.data.data.user_id}`);
-      }
-        else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);  
-        // Navigate("/");
-        
-      }
-      else{
+        if (user.role === "admin")
+          Navigate(`/Admin-view/${response.data.data.user_id}`);
+        else if (user.role === "travel_agency")
+          Navigate(
+            `/travel-agency/${response.data.data.user_id}/${response.data.data.role}`
+          );
+        else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);
+      } else {
         setError(response.data.message);
       }
-  }
-  catch(error){
-    setError(error?.message);
-    console.log(error?.response?.data?.message);
-  }
-  }
-
-
-
-
-
+    } catch (error) {
+      setError(error?.message);
+      console.log(error?.response?.data?.message);
+    }
+  };
 
   return (
     <>

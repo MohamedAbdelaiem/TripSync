@@ -45,9 +45,11 @@ function Sign_in() {
       console.log(response.data.data);
       setUser(response.data.data);
         console.log(user);
-        // if (user.role === 'admin') Navigate(`/Admin-view/${response.data.data.user_id}`);
-        // else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);  
-        Navigate("/");
+        if (user.role === 'admin')
+          { Navigate(`/Admin-view/${response.data.data.user_id}`);
+      }
+        else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);  
+        // Navigate("/");
         
       }
       else{

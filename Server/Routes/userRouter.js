@@ -74,7 +74,7 @@ userRouter
   .delete(AuthConroller.protect, UserConroller.getMe, UserConroller.DeleteMe);
 userRouter
   .route("/updateMe")
-  .patch(AuthConroller.protect,UserConroller.getMe,UserConroller.updateUserPhoto,UserConroller.resizeUserPhoto ,UserConroller.UpdateMe);
+  .patch(AuthConroller.protect,UserConroller.getMe,UserConroller.UpdateMe);
 
 // Trip-Based routes
 userRouter.use("/myProfile/trips",AuthConroller.protect,AuthConroller.restrictTo("travel_agency") ,tripRouter);//->must be edited to handle if the user is traveller
@@ -94,7 +94,7 @@ userRouter.route('/myProfile/rewards').get(AuthConroller.protect,AuthConroller.r
 userRouter.use('/myProfile/reviews',AuthConroller.protect,AuthConroller.restrictTo('travel_agency'),ReviewController.getAllReviewsOfTravelAgency); 
 userRouter.route('/myProfile/Trips',AuthConroller.protect,AuthConroller.restrictTo("traveller"),tripController.getHistory);
 userRouter.route('/payForTrip/:trip_id').post(AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.addTicket);
-userRouter.route('/deleteAticket/:trip_id').post(AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.deleteTicket);
+userRouter.route('/deleteAticket/:trip_id').delete(AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.deleteTicket);
 
 //Other routers dependent
 userRouter.use('/myProfile/QA',QARouter);

@@ -106,3 +106,8 @@
     gap: 10px;
     width: 100%;
   }
+
+  .profile-logout-container img{
+    border-radius: 50%;
+    cursor: pointer;
+  }

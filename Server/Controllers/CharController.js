@@ -28,11 +28,10 @@ exports.handleSocketConnection = (socket,io) => {
             const query = `
                 SELECT SENDER_ID, RECEIVER_ID, CONTENT, DATE, TIME
                 FROM Messages
-                WHERE (SENDER_ID = $1 AND RECEIVER_ID = $2)
-                   OR (SENDER_ID = $2 AND RECEIVER_ID = $1)
+                WHERE (SENDER_ID = $1 OR RECEIVER_ID = $1)
                 ORDER BY DATE, TIME;
             `;
-        const result=await client.query(query,[senderId,receiverId]);
+        const result=await client.query(query,[senderId]);
         roomMessages[room]=result.rows;
         }
         catch(err)

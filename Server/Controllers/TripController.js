@@ -284,7 +284,6 @@ exports.getTripsForUser_id = async (req, res) => {
     array_agg(TP.PHOTO) AS photos
 FROM 
     traveller AS trv
-
 JOIN 
     tickets AS tick ON trv.TRAVELLER_ID = tick.TRAVELLER_ID
 JOIN 

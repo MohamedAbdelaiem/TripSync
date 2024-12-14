@@ -48,7 +48,7 @@ const QACards = () => {
   const handleSave = async (index) => {
     try {
       setLoading(true);
-      const response = await axios.put(
+      const response = await axios.patch(
         `http://localhost:3000/api/v1/users/myProfile/QA/${qaData[index].QuestionID}`,
         editedData,
         {

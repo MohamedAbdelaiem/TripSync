@@ -4,7 +4,7 @@ import "./AddNewTour.css";
 
 const AddNewTour = ({ addTour }) => {
   const navigate = useNavigate();
-
+// http://localhost:3000/api/v1/users/myProfile/trips/addTrip
   const [newTour, setNewTour] = useState({
     description: "",
     price: "",

@@ -3,7 +3,8 @@ const client = require("../db");
 
 exports.getAllTrips = async (req, res) => {
   try {
-    client.query(`
+    client.query(
+      `
       SELECT 
         T.Trip_ID,
         T.Name,
@@ -26,15 +27,17 @@ exports.getAllTrips = async (req, res) => {
       LEFT JOIN 
         TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
       GROUP BY 
-        T.Trip_ID;`, (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send("Error in fetching data from trip");
-      } else {
-        res.status(200).json(result.rows);
-        console.log(result.rows);
+        T.Trip_ID;`,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data from trip");
+        } else {
+          res.status(200).json(result.rows);
+          console.log(result.rows);
+        }
       }
-    });
+    );
   } catch (e) {
     console.log(e);
   }
@@ -105,8 +108,15 @@ exports.deleteTrip = async (req, res) => {
 };
 
 exports.addTrip = async (req, res) => {
-  const { Description, Price, MaxSeats, Destinition, Duration, StartLocation } =
-    req.body;
+  const {
+    Description,
+    Price,
+    MaxSeats,
+    Destinition,
+    startDate,
+    endDate,
+    StartLocation,
+  } = req.body;
   const TravelAgency_ID = req.user.user_id;
 
   // Validate input
@@ -115,7 +125,8 @@ exports.addTrip = async (req, res) => {
     !Price ||
     !MaxSeats ||
     !Destinition ||
-    !Duration ||
+    !startDate ||
+    !endDate ||
     !StartLocation
   ) {
     return res.status(400).json({
@@ -136,13 +147,14 @@ exports.addTrip = async (req, res) => {
     // // Insert into the trip table
 
     const tripResult = await client.query(
-      "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, Duration, StartLocation ,TravelAgency_ID) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING Trip_ID",
+      "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate ,endDate , StartLocation ,TravelAgency_ID) VALUES($1, $2, $3, $4, $5, $6, $7,$8) RETURNING Trip_ID",
       [
         Description,
         Price,
         MaxSeats,
         Destinition,
-        Duration,
+        startDate,
+        endDate,
         StartLocation,
         TravelAgency_ID,
       ]
@@ -158,13 +170,21 @@ exports.addTrip = async (req, res) => {
   } catch (err) {
     // Rollback the transaction if there's an error
     await client.query("ROLLBACK");
+    console.log(err);
     res.status(500).json({ success: false, error: "Error in creating Trip" });
   }
 };
 
 exports.updateTrip = async (req, res) => {
-  const { Description, Price, MaxSeats, Destinition, Duration, StartLocation } =
-    req.body;
+  const {
+    Description,
+    Price,
+    MaxSeats,
+    Destinition,
+    startdate,
+    enddate,
+    StartLocation,
+  } = req.body;
   const TravelAgency_ID = req.user.user_id;
   const Trip_id = req.params.Trip_id;
   const user_id = req.user.user_id;
@@ -175,7 +195,8 @@ exports.updateTrip = async (req, res) => {
     !Price ||
     !MaxSeats ||
     !Destinition ||
-    !Duration ||
+    !startdate ||
+    !enddate ||
     !StartLocation
   ) {
     return res.status(400).json({
@@ -212,13 +233,14 @@ exports.updateTrip = async (req, res) => {
     }
 
     const tripResult = await client.query(
-      "UPDATE TRIP SET Description = $1, Price = $2, MaxSeats= $3, Destinition= $4, Duration = $5, StartLocation =$6 ,TravelAgency_ID= $7 WHERE Trip_id= $8 Returning Trip_ID",
+      "UPDATE TRIP SET Description = $1, Price = $2, MaxSeats= $3, Destinition= $4, startdate = $5 , enddate=$6, StartLocation =$7 ,TravelAgency_ID= $8 WHERE Trip_id= $9 Returning Trip_ID",
       [
         Description,
         Price,
         MaxSeats,
         Destinition,
-        Duration,
+        startdate,
+        enddate,
         StartLocation,
         TravelAgency_ID,
         Trip_id,
@@ -307,16 +329,13 @@ GROUP BY
         res.status(200).json(result.rows);
       }
     );
-        }
-      catch (e) {
+  } catch (e) {
     res.status(500).json({
       status: false,
       message: "Error in fetching data",
     });
   }
 };
-
-          
 
 exports.getAllPromotions = async (req, res) => {
   const travelAgency_id = req.user.user_id;
@@ -411,7 +430,7 @@ exports.deletePromotion = async (req, res) => {
 
   const Queryres = await client.query(
     "SELECT * FROM promote WHERE trip_id=$1 AND TravelAgency_ID=$2",
-    [Trip_ID,TravelAgency_ID]
+    [Trip_ID, TravelAgency_ID]
   );
   if (Queryres.rowCount == 0)
     return res.status(404).json({
@@ -429,9 +448,11 @@ exports.deletePromotion = async (req, res) => {
     });
   }
 
-
   try {
-    await client.query("delete from promote where trip_id=$1 AND TravelAgency_ID=$2", [Trip_ID,TravelAgency_ID]);
+    await client.query(
+      "delete from promote where trip_id=$1 AND TravelAgency_ID=$2",
+      [Trip_ID, TravelAgency_ID]
+    );
     return res.status(500).json({
       status: false,
       message: "Promotion deleted Successfully!",
@@ -443,4 +464,3 @@ exports.deletePromotion = async (req, res) => {
     });
   }
 };
-

@@ -11,7 +11,7 @@ const OurStory = () => {
   const userType = queryParams.get("type"); // Retrieve the 'type' value
   const travelAgencyID = queryParams.get("id"); // Retrieve the travel agency ID
   const userId = queryParams.get("userId"); // Extract the userId from the URL (similar to your other component)
-  
+
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
@@ -19,10 +19,19 @@ const OurStory = () => {
 
   useEffect(() => {
     // Fetch travel agency details from the API using axios
+    const token = localStorage.getItem("token");
     const fetchTravelAgencyDetails = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/travel-agency/${travelAgencyID}`);
+
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/users/${travelAgencyID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = response.data;
 
         console.log(data);
@@ -46,7 +55,7 @@ const OurStory = () => {
       const updatedData = { name, description };
 
       // Send the updated data to the API using axios
-      await axios.put(`/api/travel-agency/${travelAgencyID}`, updatedData);
+      await axios.patch(`/api/travel-agency/${travelAgencyID}`, updatedData);
 
       console.log("Updated data:", updatedData);
       setIsEditing(false);

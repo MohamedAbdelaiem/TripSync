@@ -1,15 +1,14 @@
-
-const express = require('express');
-const UserConroller = require('../Controllers/UserConroller');
-const AuthConroller = require('../Controllers/AuthorizationController');
-const ReviewController = require('../Controllers/ReviewController');
-const rewardController = require('../Controllers/RewardsConroller');
-const tripController = require('../Controllers/TripController');
-const ticketsController = require('../Controllers/TicketController');
+const express = require("express");
+const UserConroller = require("../Controllers/UserConroller");
+const AuthConroller = require("../Controllers/AuthorizationController");
+const ReviewController = require("../Controllers/ReviewController");
+const rewardController = require("../Controllers/RewardsConroller");
+const tripController = require("../Controllers/TripController");
+const ticketsController = require("../Controllers/TicketController");
 
 //Routes
-const QARouter=require('./QARouter');
-const reviewRouter=require('./ReviewRouter');
+const QARouter = require("./QARouter");
+const reviewRouter = require("./ReviewRouter");
 const tripRouter = require("./tripRouter");
 const reportRouter = require("./reportRouter");
 const ticketRouter = require("./ticketRouter");
@@ -68,43 +67,89 @@ userRouter
 userRouter
   .route("/getAllTravelers")
   .get(AuthConroller.protect, UserConroller.getAllTravelers);
+
 userRouter.route("/:user_id").get(AuthConroller.protect, UserConroller.getUser);
+
 userRouter
   .route("/DeleteME")
   .delete(AuthConroller.protect, UserConroller.getMe, UserConroller.DeleteMe);
 userRouter
   .route("/updateMe")
-  .patch(AuthConroller.protect,UserConroller.getMe,UserConroller.updateUserPhoto,UserConroller.resizeUserPhoto ,UserConroller.UpdateMe);
+  .patch(
+    AuthConroller.protect,
+    UserConroller.getMe,
+    UserConroller.updateUserPhoto,
+    UserConroller.resizeUserPhoto,
+    UserConroller.UpdateMe
+  );
 
 // Trip-Based routes
-userRouter.use("/myProfile/trips",AuthConroller.protect,AuthConroller.restrictTo("travel_agency") ,tripRouter);//->must be edited to handle if the user is traveller
+userRouter.use(
+  "/myProfile/trips",
+  AuthConroller.protect,
+  AuthConroller.restrictTo("travel_agency"),
+  tripRouter
+); //->must be edited to handle if the user is traveller
 
 // Report-Based routes
-userRouter.use("/:user_id/reports",AuthConroller.protect,AuthConroller.restrictTo("admin","traveller") ,(req, res, next) => {
-  reportRouter(req, res, next);
-});
+userRouter.use(
+  "/:user_id/reports",
+  AuthConroller.protect,
+  AuthConroller.restrictTo("admin", "traveller"),
+  (req, res, next) => {
+    reportRouter(req, res, next);
+  }
+);
 
 //Ticket-Based routes
 
-userRouter.use("/myProfile/tickets",AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.getAllTickets);
-
+userRouter.use(
+  "/myProfile/tickets",
+  AuthConroller.protect,
+  AuthConroller.restrictTo("traveller"),
+  ticketsController.getAllTickets
+);
 
 //Other routers to use apart from the userRouter
-userRouter.route('/myProfile/rewards').get(AuthConroller.protect,AuthConroller.restrictTo('traveller'),rewardController.getmyRewards);
-userRouter.use('/myProfile/reviews',AuthConroller.protect,AuthConroller.restrictTo('travel_agency'),ReviewController.getAllReviewsOfTravelAgency); 
-userRouter.route('/myProfile/Trips',AuthConroller.protect,AuthConroller.restrictTo("traveller"),tripController.getHistory);
-userRouter.route('/payForTrip/:trip_id').post(AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.addTicket);
-userRouter.route('/deleteAticket/:trip_id').post(AuthConroller.protect,AuthConroller.restrictTo("traveller"),ticketsController.deleteTicket);
+userRouter
+  .route("/myProfile/rewards")
+  .get(
+    AuthConroller.protect,
+    AuthConroller.restrictTo("traveller"),
+    rewardController.getmyRewards
+  );
+userRouter.use(
+  "/myProfile/reviews",
+  AuthConroller.protect,
+  AuthConroller.restrictTo("travel_agency"),
+  ReviewController.getAllReviewsOfTravelAgency
+);
+userRouter.route(
+  "/myProfile/Trips",
+  AuthConroller.protect,
+  AuthConroller.restrictTo("traveller"),
+  tripController.getHistory
+);
+userRouter
+  .route("/payForTrip/:trip_id")
+  .post(
+    AuthConroller.protect,
+    AuthConroller.restrictTo("traveller"),
+    ticketsController.addTicket
+  );
+userRouter
+  .route("/deleteAticket/:trip_id")
+  .post(
+    AuthConroller.protect,
+    AuthConroller.restrictTo("traveller"),
+    ticketsController.deleteTicket
+  );
 
 //Other routers dependent
-userRouter.use('/myProfile/QA',QARouter);
-userRouter.use('/:user_id/reviews', (req, res, next) => {
+userRouter.use("/myProfile/QA", QARouter);
+userRouter.use("/:user_id/reviews", (req, res, next) => {
   reviewRouter(req, res, next); // Explicitly pass `req` and `res` to reviewRouter
 });
-
-
-
-
 
 // Export the router
 module.exports = userRouter;

@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; // Import useParams
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
-import { FaStar, FaGlobe, FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
+import {
+  FaStar,
+  FaGlobe,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
+} from "react-icons/fa";
 import axios from "axios"; // Import axios
 import "./TravelAgencyProfile.css";
 
@@ -14,13 +20,29 @@ const TravelAgencyProfile = () => {
 
   // Fetch agency data on component mount or when the ID changes
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const fetchAgencyData = async () => {
       try {
-        const response = await axios.get(`/api/v1/users/${id}`); // Use axios to fetch agency data
-        setAgency(response.data);
-        setProfileName(response.data.ProfileName); // Initialize profileName
-        setProfilePicture(response.data.ProfilePicture); // Initialize profilePicture
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/users/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ); // Use axios to fetch agency data
+        setAgency(response.data.data[0],);
+
+        if (response.data.data[0].profilename === null)
+          setProfileName(response.data.data[0].username);
+        else
+          setProfileName(response.data.data[0].profilename); // Initialize profileName
+        
+        setProfilePicture(response.data.data[0].profilephoto); // Initialize profilePicture
+        console.log(response.data);
       } catch (error) {
+        console.log(id);
+        // console
         console.error("Error fetching travel agency data:", error);
       }
     };
@@ -37,7 +59,11 @@ const TravelAgencyProfile = () => {
       });
 
       // Update agency state with the new data
-      setAgency((prev) => ({ ...prev, ProfileName: profileName, ProfilePicture: profilePicture }));
+      setAgency((prev) => ({
+        ...prev,
+        ProfileName: profileName,
+        ProfilePicture: profilePicture,
+      }));
       setIsEditing(false); // Exit edit mode
     } catch (error) {
       console.error("Error saving profile changes:", error);
@@ -65,7 +91,10 @@ const TravelAgencyProfile = () => {
         <div className="profile-header">
           {/* Profile Picture */}
           {isEditing && role === "travel_agency" ? (
-            <label htmlFor="profile-picture-input" className="profile-picture-label">
+            <label
+              htmlFor="profile-picture-input"
+              className="profile-picture-label"
+            >
               <img
                 src={profilePicture || "placeholder.jpg"}
                 alt="Profile"
@@ -100,7 +129,7 @@ const TravelAgencyProfile = () => {
           )}
 
           <p>
-            <strong>Username:</strong> {agency.Username}
+            <strong>Username:</strong> {agency.username}
           </p>
         </div>
 
@@ -108,39 +137,43 @@ const TravelAgencyProfile = () => {
           <h3>Travel Agency Details</h3>
           <p>
             <strong>
-              <FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} /> Address:
+              <FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} />{" "}
+              Address:
             </strong>{" "}
-            {agency.Address}
+            {agency.address}
           </p>
           <p>
             <strong>
-              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} /> Location:
+              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} />{" "}
+              Location:
             </strong>{" "}
-            {agency.Location}
+            {agency.location}
           </p>
           <p>
             <strong>
               <FaStar style={{ color: "gold", marginRight: "5px" }} /> Rate:
             </strong>{" "}
-            {agency.Rate}
+            {agency.rate}
           </p>
           <p>
             <strong>
-              <FaEnvelope style={{ color: "green", marginRight: "5px" }} /> Email:
+              <FaEnvelope style={{ color: "green", marginRight: "5px" }} />{" "}
+              Email:
             </strong>{" "}
-            {agency.Mail}
+            {agency.email}
           </p>
           <p>
             <strong>
               <FaPhone style={{ color: "purple", marginRight: "5px" }} /> Phone:
             </strong>{" "}
-            {agency.Phone}
+            {agency.phonenumber}
           </p>
           <p>
             <strong>
-              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} /> Country:
+              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} />{" "}
+              Country:
             </strong>{" "}
-            {agency.Country}
+            {agency.country}
           </p>
         </div>
 
@@ -152,7 +185,10 @@ const TravelAgencyProfile = () => {
                 Save Changes
               </button>
             ) : (
-              <button onClick={() => setIsEditing(true)} className="edit-button">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="edit-button"
+              >
                 Edit Profile
               </button>
             )}

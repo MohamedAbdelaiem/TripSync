@@ -1,11 +1,11 @@
 import React from "react";
 import "./UserMessages.css";
+import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 
 const UserMessages = ({
   isOpen,
   onClose,
-  allMessages,
   profileId,
   isOwner,
   currentUser,
@@ -21,9 +21,77 @@ const UserMessages = ({
   const messUlRef = useRef(null);
   
 
+  useEffect(() => {
+    get_user_messages(); // Fetch messages
+  }, [profileId]);
+
+  useEffect(() => {
+    if (userMessages.length > 0) {
+      console.log(1);
+      const chatNames = [];
+      const chats = [];
+      let id = 1;
+      for (let i = 0; i < userMessages.length; i++) {
+        let message_sender = userMessages[i].sender_name;
+        let message_receiver = userMessages[i].receiver_name;
+        if (
+          !chatNames.includes(message_receiver) &&
+          !chatNames.includes(message_sender)
+        ) {
+          let message_receiver_id = userMessages[i].receiver_id;
+          let message_sender_id = userMessages[i].sender_id;
+          if (profileId == message_sender_id) {
+            let obj = {
+              senderName: message_receiver,
+              senderId: message_receiver_id,
+              senderPhoto: userMessages[i].receiver_photo,
+              chatId: id,
+            };
+            chatNames.push(message_receiver);
+            chats.push(obj);
+            id += 1;
+          } else if (profileId == message_receiver_id) {
+            let obj = {
+              senderName: message_sender,
+              senderId: message_sender_id,
+              senderPhoto: userMessages[i].sender_photo,
+              chatId: id,
+            };
+            chatNames.push(message_sender);
+            chats.push(obj);
+            id += 1;
+          }
+        }
+      }
+      setAllCahts(chats);
+      scrollToLastElement();
+    }
+  }, [userMessages]);
+
   const closeChats = () => {
     onClose();
   };
+
+  const get_user_messages = async () => {
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/chats/myChats`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data.data.messages);
+      setUserMessages(response.data.data.messages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   // send message to another user
   if (!current_user_is_owner && currentUser !== null) {
@@ -84,54 +152,7 @@ const UserMessages = ({
       }
     }
   };
-  useEffect(() => {
-    const messages = allMessages.filter((message) => {
-      return message.sender_id == profileId || message.receiver_id == profileId;
-    });
-
-    setUserMessages(messages);
-
-    if (allMessages.length > 0) {
-      const chatNames = [];
-      const chats = [];
-      let id = 1;
-      for (let i = 0; i < allMessages.length; i++) {
-        let message_sender = allMessages[i].sender_name;
-        let message_receiver = allMessages[i].receiver_name;
-        if (
-          !chatNames.includes(message_receiver) &&
-          !chatNames.includes(message_sender)
-        ) {
-          let message_receiver_id = allMessages[i].receiver_id;
-          let message_sender_id = allMessages[i].sender_id;
-          if (profileId == message_sender_id) {
-            let obj = {
-              senderName: message_receiver,
-              senderId: message_receiver_id,
-              senderPhoto: allMessages[i].receiver_photo,
-              chatId: id,
-            };
-            chatNames.push(message_receiver);
-            chats.push(obj);
-            id += 1;
-          } else if (profileId == message_receiver_id) {
-            let obj = {
-              senderName: message_sender,
-              senderId: message_sender_id,
-              senderPhoto: allMessages[i].sender_photo,
-              chatId: id,
-            };
-            chatNames.push(message_sender);
-            chats.push(obj);
-            id += 1;
-          }
-        }
-      }
-
-      setAllCahts(chats);
-      scrollToLastElement();
-    }
-  }, [profileId, allMessages, selectedChat]);
+  
 
   const handleChatClick = (chatId) => {
     const chat = allChats.filter((chat) => chat.chatId == chatId)[0];
@@ -143,6 +164,10 @@ const UserMessages = ({
     );
     setSelectedChatMessages(messages);
   };
+
+    const handleSendMessage = (e) => {
+
+    };
 
   return (
     <div className="modal-overlay">

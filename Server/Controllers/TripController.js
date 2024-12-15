@@ -2,7 +2,7 @@ const express = require("express");
 const client = require("../db");
 const { start } = require("repl");
 
-exports.getAllTrips = async (req, res) => {
+exports.getAllTripsOfAgency = async (req, res) => {
   const TRAVELAGENCY_ID = req.user.user_id;
   try {
     client.query(
@@ -34,6 +34,49 @@ exports.getAllTrips = async (req, res) => {
       GROUP BY 
         T.Trip_ID;`,
       [TRAVELAGENCY_ID],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data from trip");
+        } else {
+          res.status(200).json(result.rows);
+          console.log(result.rows);
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+exports.getAllTripsForAdmin = async (req, res) => {
+  try {
+    client.query(
+      `
+      SELECT 
+        T.Trip_ID,
+        T.Name,
+        T.Description,
+        T.Price,
+        T.MaxSeats,
+        T.Destinition,
+        T.StartDate,
+        T.EndDate,
+        T.StartLocation,
+        T.TravelAgency_ID,
+        T.Sale,
+        T.SalePrice,
+        COALESCE(
+          JSON_AGG(
+            TP.PHOTO
+          ) FILTER (WHERE TP.PHOTO IS NOT NULL), 
+          '[]'
+        ) AS Photos
+      FROM 
+        Trip T
+      LEFT JOIN 
+        TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
+      GROUP BY 
+        T.Trip_ID;`,
       (err, result) => {
         if (err) {
           console.log(err);

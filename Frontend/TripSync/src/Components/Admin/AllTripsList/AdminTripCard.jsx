@@ -20,7 +20,7 @@ function AdminTripCard({
 
   const navigate = useNavigate();
   const go_to_trip_details = () => {
-    navigate(`trip-details/${trip_id}`)
+    navigate(`/trip-details/${trip_id}`)
   }
 
     let current_date = new Date();

@@ -1,12 +1,33 @@
 import React from "react";
 import "./Reward.css"
+import axios from "axios";
 import { useState } from "react";
 
-const Reward = ({ id, photoLink, requiredPoints, description, reward_claimed }) => {
+const Reward = ({ id, photoLink, requiredPoints, description, reward_claimed,rerender }) => {
   const [claimed, setClaimed] = useState(reward_claimed); 
+  const token=localStorage.getItem('token');
+  const RedeemReward = async () => {
+    console.log(token);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/v1/rewards/RedeemReward/${id}`, 
+        {},  // Assuming no request body is needed. If there is, pass it here
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      console.log(response.data);
+      setClaimed(true);
+      rerender();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleClaim = () => {
-    setClaimed(true); 
+    RedeemReward(); 
   };
 
   return (

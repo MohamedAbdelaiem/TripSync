@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Reward from "../Reward/Reward";
 import "./EligibleRewards.css";
 
-const EligibleRewards = ({ rewards, userPoints }) => {
+const EligibleRewards = ({ rewards, userPoints,rerender }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   
@@ -50,10 +50,12 @@ const EligibleRewards = ({ rewards, userPoints }) => {
             .map((reward) => (
               <Reward
                 key={reward.reward_id}
+                id={reward.reward_id}
                 photoLink={reward.photo}
                 requiredPoints={reward.pointsneeded}
                 description={reward.description}
                 reward_claimed={false}
+                rerender={rerender}
               />
             ))}
         </div>

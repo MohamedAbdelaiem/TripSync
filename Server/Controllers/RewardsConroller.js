@@ -251,5 +251,29 @@ exports.getmyRewards = async (req, res) => {
         });
     }
 }
+
+exports.getRewardThatiCanGet=async(req,res)=>{
+    try{
+        const user_id=req.user.user_id;
+        const rewards=await client.query(`SELECT * 
+                FROM rewards 
+                WHERE reward_id NOT IN (
+                    SELECT reward_id
+                    FROM GetReward
+                    WHERE TRAVELLER_ID = $1
+					);`
+                ,[user_id]);
+        res.status(200).json(rewards.rows);
+
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.status(500).json({
+            status:'failed',
+            message:'Error in fetching data'
+        });
+    }
+}
         
 

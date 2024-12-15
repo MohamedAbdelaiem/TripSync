@@ -53,30 +53,34 @@ exports.getAllTripsForAdmin = async (req, res) => {
     client.query(
       `
       SELECT 
-        T.Trip_ID,
-        T.Name,
-        T.Description,
-        T.Price,
-        T.MaxSeats,
-        T.Destinition,
-        T.StartDate,
-        T.EndDate,
-        T.StartLocation,
-        T.TravelAgency_ID,
-        T.Sale,
-        T.SalePrice,
-        COALESCE(
-          JSON_AGG(
+    T.Trip_ID,
+    T.Name,
+    T.Description,
+    T.Price,
+    T.MaxSeats,
+    T.Destinition,
+    T.StartDate,
+    T.EndDate,
+    T.StartLocation,
+    T.TravelAgency_ID,
+    T.Sale,
+    T.SalePrice,
+    COALESCE(
+        JSON_AGG(
             TP.PHOTO
-          ) FILTER (WHERE TP.PHOTO IS NOT NULL), 
-          '[]'
-        ) AS Photos
-      FROM 
-        Trip T
-      LEFT JOIN 
-        TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
-      GROUP BY 
-        T.Trip_ID;`,
+        ) FILTER (WHERE TP.PHOTO IS NOT NULL), 
+        '[]'
+    ) AS Photos,
+    U.username AS Organizer
+FROM 
+    Trip T
+LEFT JOIN 
+    TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
+LEFT JOIN 
+    Users U ON T.TravelAgency_ID = U.USER_ID -- Join with Users to get the username of the travel agency
+GROUP BY 
+    T.Trip_ID, U.username;
+`,
       (err, result) => {
         if (err) {
           console.log(err);

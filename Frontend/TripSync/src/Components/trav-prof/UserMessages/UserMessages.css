@@ -285,10 +285,11 @@ background-color: aliceblue;
   border-top: 1px solid #ccc;
   padding: 10px;
   background-color: #fff;
+  flex-direction: row;
 }
 
 .send-message-form input {
-  flex: 1;
+  flex: 4;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -296,14 +297,16 @@ background-color: aliceblue;
 }
 
 .send-message-form button {
+  flex: 1;
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  background-color: #0056b3;
 }
 
 .send-message-form button:hover {
-  background-color: #0056b3;
+  background-color: #0c3d72;
 }

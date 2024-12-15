@@ -2,7 +2,7 @@ const express = require("express");
 const client = require("../db");
 const { start } = require("repl");
 
-exports.getAllTrips = async (req, res) => {
+exports.getAllTripsOfAgency = async (req, res) => {
   const TRAVELAGENCY_ID = req.user.user_id;
   try {
     client.query(
@@ -48,36 +48,90 @@ exports.getAllTrips = async (req, res) => {
     console.log(e);
   }
 };
+exports.getAllTripsForAdmin = async (req, res) => {
+  try {
+    client.query(
+      `
+      SELECT 
+        T.Trip_ID,
+        T.Name,
+        T.Description,
+        T.Price,
+        T.MaxSeats,
+        T.Destinition,
+        T.StartDate,
+        T.EndDate,
+        T.StartLocation,
+        T.TravelAgency_ID,
+        T.Sale,
+        T.SalePrice,
+        COALESCE(
+          JSON_AGG(
+            TP.PHOTO
+          ) FILTER (WHERE TP.PHOTO IS NOT NULL), 
+          '[]'
+        ) AS Photos
+      FROM 
+        Trip T
+      LEFT JOIN 
+        TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
+      GROUP BY 
+        T.Trip_ID;`,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data from trip");
+        } else {
+          res.status(200).json(result.rows);
+          console.log(result.rows);
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 exports.getTripById = async (req, res) => {
   try {
     trip_id = req.params.trip_id;
     client.query(
       `SELECT 
-    T.Trip_ID,
-    T.Name,
-    T.Description,
-    T.Price,
-    T.MaxSeats,
-    T.Destinition,
-    T.startDate,
-    T.endDate,
-    T.StartLocation,
-    T.TravelAgency_ID,
+    T.Trip_ID AS trip_id,
+    T.Name AS name,
+    T.Description AS description,
+    T.Price AS price,
+    T.MaxSeats AS maxseats,
+    T.Destinition AS destinition,
+    T.startDate AS start_date,
+    T.endDate AS end_date,
+    T.StartLocation AS startlocation,
+    T.TravelAgency_ID AS organizer_id,
     T.Sale,
     T.SalePrice,
-    COALESCE(ARRAY_AGG(TP.PHOTO), ARRAY[]::VARCHAR[]) AS Photos
+    COALESCE(ARRAY_AGG(TP.PHOTO), ARRAY[]::VARCHAR[]) AS photos,
+    U.ProfileName AS organizer_name
 FROM 
     Trip T
 LEFT JOIN 
     TripPhotos TP
 ON 
     T.Trip_ID = TP.TRIP_ID
+LEFT JOIN 
+    TravelAgency TA
+ON 
+    T.TravelAgency_ID = TA.TravelAgency_ID
+LEFT JOIN 
+    Users U
+ON 
+    TA.TravelAgency_ID = U.USER_ID
 WHERE 
     T.Trip_ID = $1
 GROUP BY 
     T.Trip_ID, T.Name, T.Description, T.Price, T.MaxSeats, 
-    T.Destinition, T.startDate, T.endDate, T.StartLocation, T.TravelAgency_ID;
+    T.Destinition, T.startDate, T.endDate, T.StartLocation, 
+    T.TravelAgency_ID, U.ProfileName;
+
 `,
       [trip_id],
       (err, result) => {

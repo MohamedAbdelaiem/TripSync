@@ -34,6 +34,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import AllAgencies from "./pages/AllAgencies/AllAgencies";
 import AgencyToursPage from "./pages/AgencyToursPage/AgencyToursPage "; // Import your AgencyToursPage
+import TripDetailsPage from "./Components/trav-prof/TripsCard/TripDetailsPage/TripDetailsPage";
 const App = () => {
   const agency = {
     TravelAgencyID: "001",
@@ -135,6 +136,7 @@ const App = () => {
           /> */}
           <Route path="/travel-agency/:id" element={<TravelAgencyProfile />} />
           <Route path="/travel-agency" element={<TravelAgencyProfile />} />
+          <Route path="/trip-details/:trip_id" element={<TripDetailsPage />} />
           <Route
             path="/tours/:user_id"
             element={

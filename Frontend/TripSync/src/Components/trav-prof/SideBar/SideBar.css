@@ -35,25 +35,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* المسافة بين الأيقونة والنص */
-  padding: 10px 15px; /* حجم الحواف الداخلية */
-  background-color: transparent; /* لون الخلفية */
-  color: white; /* لون النص */
-  border: none; /* إزالة الحدود */
-  border-radius: 5px; /* زوايا مستديرة */
-  font-size: 16px; /* حجم الخط */
+  gap: 8px; 
+  padding: 10px 15px;
+  background-color: transparent;
+  color: white;
+  border: none; 
+  border-radius: 5px; 
+  font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s ease-in-out; /* تأثير السلاسة */
+  transition: all 0.3s ease-in-out;
   position: absolute;
 }
 
 .return-home-from-trav-prof:hover {
-  background-color: #004a99; /* لون الخلفية عند التمرير */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* تأثير الظل */
+  background-color: #004a99; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
 .return-home-from-trav-prof i {
-  font-size: 18px; /* حجم الأيقونة */
+  font-size: 18px;
 }
 
 .sidebar-menu li {

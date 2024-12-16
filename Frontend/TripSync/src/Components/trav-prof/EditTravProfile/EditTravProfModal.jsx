@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import axios from "axios";
+import { UserContext } from "../../../assets/userContext";
 import "./EditTravProfModal.css";
 
 const EditTravProfModal = (props) => {
@@ -12,6 +13,7 @@ const EditTravProfModal = (props) => {
   });
 
   const [profilePhoto, setProfilePhoto] = useState(null);
+  const {user,setUser} = useContext(UserContext);
 
   async function handlesImage(filex) {
     const file = filex;
@@ -69,7 +71,14 @@ const EditTravProfModal = (props) => {
           Authorization: `Bearer ${token}`,
         },
         }); 
-        props.rerender();
+      props.rerender();
+      setUser({
+        ...user,
+        email: formData.email,
+        profilename: formData.profile_name,
+        profilephoto: url,
+      });
+
       console.log("Updated Profile Data: ", formData);
       }
     catch(err){

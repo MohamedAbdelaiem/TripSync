@@ -16,6 +16,7 @@ function BlogWrite() {
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [file, setFile] = useState(null);
 
   const handleClick = () => {
     navigate("/Blog"); 
@@ -28,16 +29,43 @@ function BlogWrite() {
     }
   };
 
+  const handleFileChange = (event) => {
+    console.log(event.target.files[0]);
+    setFile(event.target.files[0]);
+  };
+
+  async function handlesImage(filex) {
+    const file = filex;
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
+    if (file) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "TripSync"); // Cloudinary upload preset
+      data.append("cloud_name", "dxm7trzb5"); // Cloudinary cloud name
+
+      const response = await axios.post(CLOUDINARY_URL, data);
+      const urlimage = response.data;
+      console.log(urlimage.url);
+      return urlimage.url;
+    } else {
+      return null;
+    }
+  }
+
+
   const handlePost = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
     try {
       const token = localStorage.getItem("token");
+      const url = await handlesImage(file);
       const response = await axios.post(
         Base_URL,
         {
           description,
+          photo: url,
         },
         {
           headers: {
@@ -148,7 +176,7 @@ function BlogWrite() {
           className="form-controlPhoto"
           id="profilephoto"
           accept="image/*"
-          onChange={handlePhotoChange}
+          onChange={(e) => {handleFileChange(e)}}
         />
         <label htmlFor="profilephoto">Upload Photo</label>
         {photoPreview && (

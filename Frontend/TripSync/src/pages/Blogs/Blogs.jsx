@@ -36,10 +36,12 @@ function Blogs() {
     fetchBlogs();
   }, []);
 
+  
+
   return (
     <>
       {/* <NavbarSignedInner /> */}
-      <NavbarSignedIn/>
+      <NavbarSignedIn />
       <NavLink to={"blogWrite"}>
         <input
           type="text"
@@ -47,28 +49,36 @@ function Blogs() {
           className="newBlog"
         />
       </NavLink>
-
+  
       {isLoading ? (
         <h3 className="loading">Loading...</h3>
       ) : (
-        <>
-          <div className="blogs-container">
-            {blogs.map((blog) => (
-              <Blog
-                key={blog.blog_id}
-                blog_id={blog.blog_id}
-                content={blog.content}
-                profilePic={blog.photo || profilePic}
-                time={blog.time}
-                date={blog.date}
-                username={blog.profilename || blog.username}
-              />
-            ))}
-          </div>
-        </>
+        <div className="blogs-container">
+          {(() => {
+            const blogElements = [];
+            blogs.forEach((blog) => {
+              // Convert the blog.time to a readable format (e.g., HH:mm:ss)
+              const time = new Date(`1970-01-01T${blog.time}Z`).toLocaleTimeString();
+  
+              blogElements.push(
+                <Blog
+                  key={blog.blog_id}
+                  blog_id={blog.blog_id}
+                  content={blog.content}
+                  profilePic={blog.photo || profilePic}
+                  time={time} // Formatted time
+                  date={new Date(blog.date).toLocaleDateString()} // Formatted date
+                  username={blog.profilename || blog.username}
+                />
+              );
+            });
+            return blogElements;
+          })()}
+        </div>
       )}
     </>
   );
+  
 }
 
 export default Blogs;

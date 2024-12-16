@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedInner";
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 import "./Review.css";
 import StarProgress from "../../Components/StarProgress/StarProgress";
 import { useLocation } from "react-router-dom";
+import { UserContext } from "../../assets/userContext";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 function Review() {
@@ -14,11 +16,11 @@ function Review() {
   const [success, setSuccess] = useState("");
   const [reviews, setReviews] = useState([]); // State to hold fetched reviews
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const userType = queryParams.get("type"); // Retrieve the 'type' value
-  const userId = queryParams.get("id"); // Retrieve the 'id' value
 
-  const Base_URL = `http://localhost:3000/api/v1/users/${userId}/reviews`; // Dynamically use the userId in the URL
+  const { user } = useContext(UserContext);
+  const {user_id} = useParams();
+
+  const Base_URL = `http://localhost:3000/api/v1/users/${user_id}/reviews`; // Dynamically use the userId in the URL
 
   const handleInputChange = (event) => {
     const newRating = Math.min(Math.max(Number(event.target.value), 0), 5);
@@ -67,17 +69,17 @@ function Review() {
       }
     };
 
-    if (userType === "travel_agency" && userId) {
+    if (user.role === "travel_agency" && user_id) {
       fetchReviews();
     }
-  }, [userType, userId]);
+  }, [user.role, user_id]);
 
   return (
     <>
       <div className="flexx">
-        <SideNavBar type={userType} userId={userId}></SideNavBar>
+        <SideNavBar userId={user_id}></SideNavBar>
 
-        {userType === "traveller" && (
+        {user.role === "traveller" && (
           <div className="cardReview">
             <div className="card-body">
               <div className="titleReview h4">Let us Know about what you think</div>
@@ -118,7 +120,7 @@ function Review() {
           </div>
         )}
 
-        {userType === "travel_agency" && (
+        {user.role === "travel_agency" && (
           <div className="reviews-container">
             <h3>Your Reviews</h3>
             {reviews.length > 0 ? (

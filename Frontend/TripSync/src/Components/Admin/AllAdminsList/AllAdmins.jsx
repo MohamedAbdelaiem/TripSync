@@ -2,7 +2,6 @@ import React from "react";
 import "../AllAdminsList/AllAdmins.css";
 import AdminCard from "./AdminCard";
 function AllAdminsList({ all_admins, rerender_admin, rerender }) {
-  console.log(all_admins[0]);
   return (
     <div className="all-travellers-list-container">
       <ul className="travellers-list">

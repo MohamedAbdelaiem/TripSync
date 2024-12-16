@@ -69,7 +69,6 @@ function Register() {
       );
       if(response.data.status==="success"){
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.data));
         setSuccess(response.data.message);
         setTimeout(() => {
           navigate("/");

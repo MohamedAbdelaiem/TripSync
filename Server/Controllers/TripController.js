@@ -2,7 +2,7 @@ const express = require("express");
 const client = require("../db");
 const { start } = require("repl");
 
-exports. getAllTrips = async (req, res) => {
+exports.getAllTripsOfAgency = async (req, res) => {
   const TRAVELAGENCY_ID = req.user.user_id;
   try {
     client.query(
@@ -18,6 +18,8 @@ exports. getAllTrips = async (req, res) => {
         T.EndDate,
         T.StartLocation,
         T.TravelAgency_ID,
+        T.Sale,
+        T.SalePrice,
         COALESCE(
           JSON_AGG(
             TP.PHOTO
@@ -46,34 +48,94 @@ exports. getAllTrips = async (req, res) => {
     console.log(e);
   }
 };
-
-exports.getTripById = async (req, res) => {
+exports.getAllTripsForAdmin = async (req, res) => {
   try {
-    trip_id = req.params.trip_id;
     client.query(
-      `SELECT 
+      `
+      SELECT 
     T.Trip_ID,
     T.Name,
     T.Description,
     T.Price,
     T.MaxSeats,
     T.Destinition,
-    T.startDate,
-    T.endDate,
+    T.StartDate,
+    T.EndDate,
     T.StartLocation,
     T.TravelAgency_ID,
-    COALESCE(ARRAY_AGG(TP.PHOTO), ARRAY[]::VARCHAR[]) AS Photos
+    T.Sale,
+    T.SalePrice,
+    COALESCE(
+        JSON_AGG(
+            TP.PHOTO
+        ) FILTER (WHERE TP.PHOTO IS NOT NULL), 
+        '[]'
+    ) AS Photos,
+    U.username AS Organizer
+FROM 
+    Trip T
+LEFT JOIN 
+    TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
+LEFT JOIN 
+    Users U ON T.TravelAgency_ID = U.USER_ID -- Join with Users to get the username of the travel agency
+GROUP BY 
+    T.Trip_ID, U.username;
+`,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data from trip");
+        } else {
+          res.status(200).json(result.rows);
+          console.log(result.rows);
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+exports.getTripById = async (req, res) => {
+  try {
+    trip_id = req.params.trip_id;
+    client.query(
+      `SELECT 
+    T.Trip_ID AS trip_id,
+    T.Name AS name,
+    T.Description AS description,
+    T.Price AS price,
+    T.MaxSeats AS maxseats,
+    T.Destinition AS destinition,
+    T.startDate AS start_date,
+    T.endDate AS end_date,
+    T.StartLocation AS startlocation,
+    T.TravelAgency_ID AS organizer_id,
+    T.Sale,
+    T.SalePrice,
+    COALESCE(ARRAY_AGG(TP.PHOTO), ARRAY[]::VARCHAR[]) AS photos,
+    U.ProfileName AS organizer_name
 FROM 
     Trip T
 LEFT JOIN 
     TripPhotos TP
 ON 
     T.Trip_ID = TP.TRIP_ID
+LEFT JOIN 
+    TravelAgency TA
+ON 
+    T.TravelAgency_ID = TA.TravelAgency_ID
+LEFT JOIN 
+    Users U
+ON 
+    TA.TravelAgency_ID = U.USER_ID
 WHERE 
     T.Trip_ID = $1
 GROUP BY 
     T.Trip_ID, T.Name, T.Description, T.Price, T.MaxSeats, 
-    T.Destinition, T.startDate, T.endDate, T.StartLocation, T.TravelAgency_ID;
+    T.Destinition, T.startDate, T.endDate, T.StartLocation, 
+    T.TravelAgency_ID, U.ProfileName;
+
 `,
       [trip_id],
       (err, result) => {
@@ -135,7 +197,7 @@ exports.deleteTrip = async (req, res) => {
 };
 
 exports.addTrip = async (req, res) => {
-  const { Description, Price, MaxSeats, Destinition, endDate,startDate, StartLocation,photos, sale } =
+  const { Description, Price, MaxSeats, Destinition, endDate,startDate, StartLocation,photos,sale,saleprice } =
     req.body;
   const TravelAgency_ID = req.user.user_id;
 
@@ -164,12 +226,11 @@ exports.addTrip = async (req, res) => {
 
   try {
     await client.query("BEGIN");
-    let tripResult;
     // // Insert into the trip table
     if (!sale) sale = false;
 
-    tripResult = await client.query(
-      "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate ,endDate , StartLocation ,TravelAgency_ID,sale) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9) RETURNING Trip_ID",
+    const tripResult = await client.query(
+      "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate,endDate, StartLocation ,TravelAgency_ID,sale,saleprice) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9,$10) RETURNING Trip_ID",
       [
         Description,
         Price,
@@ -180,6 +241,7 @@ exports.addTrip = async (req, res) => {
         StartLocation,
         TravelAgency_ID,
         sale,
+        saleprice
       ]
     );
 
@@ -205,7 +267,7 @@ exports.addTrip = async (req, res) => {
 };
 
 exports.updateTrip = async (req, res) => {
-  const { Description, Price, MaxSeats, Destinition, endDate,startDate, StartLocation,photos } =
+  const { Description, Price, MaxSeats, Destinition, endDate,startDate, StartLocation,photos,sale,saleprice } =
     req.body;
   const TravelAgency_ID = req.user.user_id;
   const Trip_id = req.params.Trip_id;
@@ -256,18 +318,19 @@ exports.updateTrip = async (req, res) => {
     }
 
     const tripResult = await client.query(
-      "UPDATE TRIP SET Description = $1, Price = $2, MaxSeats= $3, Destinition= $4, startdate = $5 , enddate=$6, StartLocation =$7 ,TravelAgency_ID= $8 WHERE Trip_id= $9 Returning Trip_ID",
+      "UPDATE TRIP SET Description = $1, Price = $2, MaxSeats= $3, Destinition= $4, startDate = $5, endDate=$9,StartLocation =$6 ,TravelAgency_ID= $7,sale=$10,pricesale=$11 WHERE Trip_id= $8 Returning Trip_ID",
       [
         Description,
         Price,
         MaxSeats,
         Destinition,
         startDate,
-        endDate,
         StartLocation,
         TravelAgency_ID,
         Trip_id,
-        
+        endDate,
+        sale,
+        saleprice
       ]
     );
 

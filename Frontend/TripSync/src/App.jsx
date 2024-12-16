@@ -34,6 +34,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import AllAgencies from "./pages/AllAgencies/AllAgencies";
 import AgencyToursPage from "./pages/AgencyToursPage/AgencyToursPage "; // Import your AgencyToursPage
+import TripDetailsPage from "./Components/trav-prof/TripsCard/TripDetailsPage/TripDetailsPage";
 const App = () => {
   const agency = {
     TravelAgencyID: "001",
@@ -118,25 +119,26 @@ const App = () => {
           <Route path="/Admin-view/:adminId" element={<AdminView />} />
           {/* <Route path="/Rewards/:id" element={<RewardsList />} /> */}
           <Route path="/TravelAgency" element={<TravelAgency />} />
-          <Route path="/Review" element={<Review />} />
+          <Route path="/Review/:user_id" element={<Review />} />
           <Route path="/Report" element={<Report />} />
           <Route path="/Report/policy" element={<Policy />} />
           <Route path="/Blog" element={<Blogs />} />
           <Route path="/Blog/ALLAgencies" element={<AllAgencies />} />
           <Route path="/ALLAgencies/Blog" element={<Blogs />} />
           <Route path="/Blog/blogWrite/Blog" element={<Blogs />} />
-          <Route path="/Story" element={<OurStory />} />
+          <Route path="/Story/:user_id" element={<OurStory />} />
           {/* <Route path="/Story/:role/:id" element={<OurStory />} /> */}
-          <Route path="/Q&A" element={<QACards />} />
+          <Route path="/Q&A/:user_id" element={<QACards />} />
           <Route path="/policy" element={<Policy />} />
           {/* <Route
             path="/TravelAgencyProfile"
             element={<TravelAgencyProfile agency={agency} />}
           /> */}
-          <Route path="/travel-agency/:role/:id" element={<TravelAgencyProfile />} />
+          <Route path="/travel-agency/:id" element={<TravelAgencyProfile />} />
           <Route path="/travel-agency" element={<TravelAgencyProfile />} />
+          <Route path="/trip-details/:trip_id" element={<TripDetailsPage />} />
           <Route
-            path="/tours"
+            path="/tours/:user_id"
             element={
               <Tours
                 tours={tours}

@@ -14,8 +14,8 @@ function NavbarSignedIn({ id, about }) {
     {
       if (user.role === "traveller") {
         navigate(`/Traveller-Profile/${user.user_id}`);
-      } else if (user.role === "travelAgency") {
-        // navigate(`/TravelAgency-Profile/${user.user_id}`);
+      } else if (user.role === "travel_agency") {
+        navigate(`/travel-agency/${user.user_id}`);
       } else if (user.role === "admin") {
         navigate(`/Admin-view/${user.user_id}`);
       }

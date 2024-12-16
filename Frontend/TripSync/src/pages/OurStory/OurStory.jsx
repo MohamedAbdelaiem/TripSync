@@ -4,13 +4,18 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../assets/userContext";
 
 const OurStory = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  const role = queryParams.get("type"); // "travel_agency"
-  const userId = queryParams.get("userId"); // "103"
+  const { user } = useContext(UserContext);
+  const { user_id } = useParams();
+  console.log(user_id);
+
+
 
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
@@ -23,7 +28,7 @@ const OurStory = () => {
 
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:3000/api/v1/users/${userId}`,
+        `http://localhost:3000/api/v1/users/${user_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -42,7 +47,7 @@ const OurStory = () => {
 
   useEffect(() => {
     fetchTravelAgencyDetails();
-  }, [userId]);
+  }, [user_id]);
 
   const updatedData = { name, description };
 
@@ -78,12 +83,12 @@ const OurStory = () => {
 
   return (
     <div className="flex">
-      {/* Pass userId and role to SidNavBar */}
-      <SidNavBar type={role} userId={userId}></SidNavBar>
+      {/* Pass userId and user.role to SidNavBar */}
+      <SidNavBar type={user.role} userId={user_id}></SidNavBar>
 
       <div className="about-us">
         <h1 className="header-title">
-          {isEditing && role === "travel_agency" ? (
+          {isEditing && user.role === "travel_agency" ? (
             <input
               type="text"
               className="edit-input"
@@ -96,7 +101,7 @@ const OurStory = () => {
         </h1>
         <div className="header-underline"></div>
         <div className="description">
-          {isEditing && role === "travel_agency" ? (
+          {isEditing && user.role === "travel_agency" ? (
             <textarea
               className="edit-textarea"
               value={description}
@@ -106,7 +111,7 @@ const OurStory = () => {
             description
           )}
         </div>
-        {role === "travel_agency" && (
+        {user.role === "travel_agency" && (
           <div className="edit-controls">
             {isEditing ? (
               <>

@@ -70,6 +70,7 @@ function NavbarSignedIn({ id, about }) {
                 className="logoutButton"
                 onClick={() => {
                   localStorage.removeItem("token");
+                  localStorage.removeItem("user");
                   window.location.href = "/";
                 }}
               >

@@ -229,44 +229,54 @@ exports.addTrip = async (req, res) => {
       error: "Please provide all details",
     });
   }
+  console.log(saleprice);
+
   if (isNaN(Price) || isNaN(MaxSeats) || isNaN(TravelAgency_ID)) {
     return res.status(400).json({
       success: false,
       error: "Price, MaxSeats, and TravelAgency_ID must be valid numbers",
     });
   }
-
+  
+  let tripResult;
   try {
     await client.query("BEGIN");
     // // Insert into the trip table
-    if (!sale) sale = false;
-    let tripResult;
+    // if (!sale) sale = false;
+    console.log(sale);
+    try {
+      tripResult = await client.query(
+        "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate,endDate, StartLocation ,TravelAgency_ID,sale,saleprice) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9,$10) RETURNING Trip_ID",
+        [
+          Description,
+          Price,
+          MaxSeats,
+          Destinition,
+          startDate, 
+          endDate,
+          StartLocation,
+          TravelAgency_ID,
+          sale,
+          saleprice,
+        ]
+      );
+      console.log("y1");
+    } catch (sqlError) { console.log(sqlError); }
 
-    tripResult = await client.query(
-      "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate,endDate, StartLocation ,TravelAgency_ID,sale,saleprice) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9,$10) RETURNING Trip_ID",
-      [
-        Description,
-        Price,
-        MaxSeats,
-        Destinition,
-        startDate,
-        endDate,
-        StartLocation,
-        TravelAgency_ID,
-        sale,
-        saleprice,
-      ]
-    );
 
-    photos.forEach((photo) => {
-      client.query("INSERT INTO TripPhotos (Trip_ID, PHOTO) VALUES($1, $2)", [
-        tripResult.rows[0].trip_id,
-        photo,
-      ]);
-    });
+    try {
+      photos.forEach((photo) => {
+        client.query("INSERT INTO TripPhotos (Trip_ID, PHOTO) VALUES($1, $2)", [
+          tripResult.rows[0].trip_id,
+          photo,
+        ]);
+        console.log(photo);
+      });
+    } catch (sqlError) { console.log(sqlError); }
+
+
 
     await client.query("COMMIT");
-
     res.status(200).json({
       success: true,
       message: "Trip created successfully",

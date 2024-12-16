@@ -27,7 +27,9 @@ const Reward = ({ id, photoLink, requiredPoints, description, reward_claimed,rer
   };
 
   const handleClaim = () => {
+    // setTimeout(() => { RedeemReward() }, 1000);
     RedeemReward(); 
+    setClaimed(!claimed);
   };
 
   return (

@@ -167,14 +167,16 @@ exports.deleteTrip = async (req, res) => {
     });
   }
   // console.log(Trip.rows[0].travelagency_id, user_id);
+  console.log(Trip.rows[0].travelagency_id, user_id);
   if (Trip.rows[0].travelagency_id != user_id) {
     return res.status(401).json({
       status: "failed",
       message: "You are not allowed to delete this Trip",
     });
   }
+
   try {
-    Trip_id = req.params.trip_id;
+    // Trip_id = req.params.trip_id;
     await client.query("BEGIN");
     const rows = await client.query("DELETE FROM TRIP WHERE Trip_id=$1", [
       Trip_id,
@@ -237,7 +239,7 @@ exports.addTrip = async (req, res) => {
       error: "Price, MaxSeats, and TravelAgency_ID must be valid numbers",
     });
   }
-  
+
   let tripResult;
   try {
     await client.query("BEGIN");
@@ -252,7 +254,7 @@ exports.addTrip = async (req, res) => {
           Price,
           MaxSeats,
           Destinition,
-          startDate, 
+          startDate,
           endDate,
           StartLocation,
           TravelAgency_ID,

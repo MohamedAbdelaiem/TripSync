@@ -50,7 +50,7 @@ function NavbarSignedIn({ id, about }) {
                 About
               </a>
             </li>
-            <NavLink to="Blog" className={"blogNav"}>
+            <NavLink to="/Blog" className={"blogNav"}>
               <li className="blogNav mx-2">Blogs</li>
             </NavLink>
             <NavLink to="AllAgencies" className={"AllAgencies"}>
@@ -58,6 +58,7 @@ function NavbarSignedIn({ id, about }) {
             </NavLink>
             <NavLink to="AllTripsList" className={"AllTripsList"}>
               <li className="AllTripsList mx-2">Trips</li>
+
             </NavLink>
             {/* Profile and logout button at the end */}
             <div className="profile-logout-container ml-auto">

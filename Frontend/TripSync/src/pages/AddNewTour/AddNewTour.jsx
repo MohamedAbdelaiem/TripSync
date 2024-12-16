@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AddNewTour.css";
+import { useContext } from "react";
+import { UserContext } from "../../assets/userContext";
 
 const AddNewTour = ({ addTour }) => {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [newTour, setNewTour] = useState({
@@ -14,9 +17,10 @@ const AddNewTour = ({ addTour }) => {
     startlocation: "",
     startdate: "",
     enddate: "",
-    images: [],
+    photos: [],
     sale: false,
     saleprice: 0,
+    travelagency_id: user.user_id,
   });
 
   const [imageInput, setImageInput] = useState("");
@@ -42,12 +46,12 @@ const AddNewTour = ({ addTour }) => {
     };
 
     if (imageInput.trim() && isValidURL(imageInput)) {
-      if (newTour.images.includes(imageInput)) {
+      if (newTour.photos.includes(imageInput)) {
         setErrorMessage("This image URL is already added.");
       } else {
         setNewTour((prev) => ({
           ...prev,
-          images: [...prev.images, imageInput.trim()],
+          photos: [...prev.photos, imageInput.trim()],
         }));
         setErrorMessage("");
         setImageInput("");
@@ -72,6 +76,7 @@ const AddNewTour = ({ addTour }) => {
     };
 
     try {
+      console.log(tourData);  
       const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:3000/api/v1/users/myProfile/trips/addTrip",
@@ -112,7 +117,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="description"
+            aria-label="Description"
           />
         </label>
 
@@ -126,7 +131,7 @@ const AddNewTour = ({ addTour }) => {
             required
             min="0"
             className="input-field"
-            aria-label="price"
+            aria-label="Price"
           />
         </label>
 
@@ -140,7 +145,7 @@ const AddNewTour = ({ addTour }) => {
             required
             min="1"
             className="input-field"
-            aria-label="max seats"
+            aria-label="maxSeats"
           />
         </label>
 
@@ -153,7 +158,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="destination"
+            aria-label="Destination"
           />
         </label>
 
@@ -166,7 +171,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="start date"
+            aria-label="startDate"
           />
         </label>
 
@@ -179,7 +184,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="end date"
+            aria-label="endDate"
           />
         </label>
 
@@ -192,7 +197,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="start location"
+            aria-label="StartLocation"
           />
         </label>
 
@@ -243,7 +248,7 @@ const AddNewTour = ({ addTour }) => {
         <div className="image-preview">
           <h4>Images:</h4>
           <ul>
-            {newTour.images.map((image, index) => (
+            {newTour.photos.map((image, index) => (
               <li key={index}>{image}</li>
             ))}
           </ul>

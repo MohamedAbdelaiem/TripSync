@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import "./Blog.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import placeholder from '../../assets/OIP.jpg'
 import axios from "axios";
 
 const Blog = ({ blog_id, content, date, time, username, profilePic }) => {
@@ -41,8 +42,8 @@ const Blog = ({ blog_id, content, date, time, username, profilePic }) => {
               className="blogerphoto"
               src={profilePic}
               alt="Profile"
-              height={50}
-              width={50}
+              // height={50}
+              // width={50}
             />
             <h5 className="cardtitle">{username}</h5>
           </div>
@@ -56,6 +57,7 @@ const Blog = ({ blog_id, content, date, time, username, profilePic }) => {
           {date} {time}
         </h6>
         <p className="card-text">{content}</p>
+        <img src={placeholder} className="photoContent"></img>
       </div>
     </div>
   );

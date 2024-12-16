@@ -53,11 +53,16 @@ const TravelAgencyProfile = () => {
   }, [id]);
 
   const handleSave = async () => {
+    const token = localStorage.getItem("token");
     try {
       // Update backend with edited data using axios
-      const response = await axios.put(`/api/travel-agency/${id}`, {
+      const response = await axios.patch(`http://localhost:3000/api/v1/users/updateMe`, {
         ProfileName: profileName,
         ProfilePicture: profilePicture,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       // Update agency state with the new data

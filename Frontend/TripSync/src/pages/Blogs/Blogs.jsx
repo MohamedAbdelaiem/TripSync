@@ -41,8 +41,9 @@ function Blogs() {
   return (
     <>
       {/* <NavbarSignedInner /> */}
-      <NavbarSignedIn />
-      <NavLink to={"blogWrite"}>
+
+      <NavbarSignedIn/>
+      <NavLink to={"/blogWrite"}>
         <input
           type="text"
           placeholder="What's in your mind?"

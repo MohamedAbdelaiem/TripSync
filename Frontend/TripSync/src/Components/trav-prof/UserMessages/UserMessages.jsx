@@ -19,6 +19,38 @@ const UserMessages = ({
   const [selectedChatMessages, setSelectedChatMessages] = useState([]);
   const [allChats, setAllCahts] = useState([]);
   const messUlRef = useRef(null);
+
+  const sendMessage=async()=>
+  {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `http://localhost:3000/api/v1/chats/sendMessage`,
+        { 
+          sender_id: currentUser.user_id,
+          receiver_id: (!current_user_is_owner && currentUser !== null)
+          ? profileId
+          : selectedChat.senderId,
+          content: newMessage,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
+
+const reRender = () => {
+  get_user_messages();
+};
+
   
 
   useEffect(() => {
@@ -73,7 +105,6 @@ const UserMessages = ({
   };
 
   const get_user_messages = async () => {
-
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
@@ -111,6 +142,7 @@ const UserMessages = ({
         };
         setNewMessage("");
         console.log(message);
+        sendMessage();
         closeChats();
       }
     };
@@ -181,6 +213,9 @@ const UserMessages = ({
           time: currentDate.toLocaleTimeString().slice(0,8),
         };
         setNewMessage("");
+        sendMessage();
+        get_user_messages();
+        handleChatClick(selectedChat.chatId);
         console.log(message);
       }
     };

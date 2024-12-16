@@ -1,0 +1,181 @@
+/* 
+Trip card styling
+*/
+
+.public-trip-card {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 70%;
+    height: 250px;
+    position: relative;
+  }
+  
+  .public-trip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .public-trip-image-section {
+    width: 50%; 
+    height: 100%;
+  }
+  
+  .public-trip-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .public-trip-info-section {
+    flex: 1;
+    padding: 15px;
+    background: linear-gradient(to right, #ffffff, #f7f9fc);
+    padding: 20px;
+  }
+  
+  .public-trip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .public-trip-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+  }
+  
+  .public-trip-status {
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  
+  .public-trip-status.not-started {
+    background-color: #ffdd00;
+    color: #000;
+  }
+  
+  .public-trip-status.finished {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  
+  .public-trip-organizer {
+    margin: 10px 0 5px;
+    color: #555;
+  }
+  
+  .public-trip-locations,
+  .public-trip-dates {
+    font-size: 0.9rem;
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .public-icon {
+    margin-right: 5px;
+    color: #007bff;
+  }
+  
+  .public-trip-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+  }
+  
+  .public-trip-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; 
+    margin-top: 15px;
+  }
+  
+  .public-trip-button:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .public-trip-card {
+      flex-direction: column;
+    }
+  
+    .public-trip-image-section {
+      width: 100%; 
+      height: 250px; 
+    }
+  
+    .public-trip-info-section {
+      padding: 20px;
+    }
+  
+    .public-trip-name {
+      font-size: 1.2rem; 
+    }
+  
+    .public-trip-status {
+      font-size: 0.8rem;
+    }
+  
+    .public-trip-locations,
+    .public-trip-dates {
+      font-size: 0.8rem;
+    }
+  
+    .public-trip-button {
+      width: 100%; 
+      margin-top: 15px;
+    }
+  }
+  
+  
+  
+  .public-user-trips-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  
+  /*
+  trips list styling
+  */
+  
+  .all-trips-list-container-public {
+      width: 100%;
+      position: absolute;
+      min-height: 100vh;
+      right: 0px;
+      background-color: #e0e0e0;
+  }
+  .all-trips-menu-list-public {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0px;
+  }
+  .all-trips-menu-item-public {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+  }

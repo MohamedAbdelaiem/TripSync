@@ -11,6 +11,7 @@ rewardsRouter.route('/deleteReward/:reward_id').delete(AuthController.protect,Au
 rewardsRouter.route('/updateReward/:reward_id').patch(AuthController.protect,AuthController.restrictTo("admin"),RewardsController.updateReward);
 rewardsRouter.route('/RedeemReward/:reward_id').post(AuthController.protect,AuthController.restrictTo("traveller"),RewardsController.RedeemReward);
 rewardsRouter.route('/getRewardIcanGet').get(AuthController.protect,AuthController.restrictTo('traveller'),RewardsController.getRewardThatiCanGet);
+rewardsRouter.route('/myRewards').get(AuthController.protect,AuthController.restrictTo('traveller'),RewardsController.getmyRewards);
 
 
 

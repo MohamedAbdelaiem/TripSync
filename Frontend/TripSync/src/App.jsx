@@ -13,6 +13,7 @@ import Blog from "./Components/Blog/Blog";
 import Preregister from "./pages/Preregister/Preregister";
 import TravelAgency from "./pages/TravelAgency/TravelAgency";
 import Tours from "./pages/Tours/Tours";
+import AllTribsListPublic from "./Components/AllTribsList(public)/AllTribsPublic";
 import AdminView from "./pages/AdminView/AdminView";
 import Register_TravelAgency from "./pages/Register_TravelAgency/Register_TravelAgency";
 import BookPage from "./pages/BookPage/BookPage";
@@ -161,6 +162,9 @@ const App = () => {
 
           {/* NotFound */}
           <Route path="*" element={<NotFound />} />
+
+          {/*Trips*/}
+          <Route path="/AllTripsList" element={<AllTribsListPublic />} />
           
         </Routes>
       </main>

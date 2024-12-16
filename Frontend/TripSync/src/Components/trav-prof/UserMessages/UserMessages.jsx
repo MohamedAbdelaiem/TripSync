@@ -166,7 +166,23 @@ const UserMessages = ({
   };
 
     const handleSendMessage = (e) => {
-
+        e.preventDefault();
+      if (newMessage.trim()) {
+        //   setMessages([...messages, { sender: "You", content: newMessage }]);
+        const currentDate = new Date();
+        // form new message
+        const message = {
+          id: null,
+          sender_id: currentUser.user_id,
+          receiver_id: selectedChat.senderId,
+          content: newMessage,
+          date: currentDate.toLocaleDateString(),
+          // time: `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`,
+          time: currentDate.toLocaleTimeString().slice(0,8),
+        };
+        setNewMessage("");
+        console.log(message);
+      }
     };
 
   return (
@@ -180,10 +196,10 @@ const UserMessages = ({
           <div className="chats">
             <ul className="chats-list">
               {allChats.length > 0 &&
-                allChats.map((chat) => (
+                allChats.map((chat,idx) => (
                   <li
                     className="chat-item"
-                    key={chat.chatId}
+                    key={idx}
                     onClick={() => {
                       handleChatClick(chat.chatId);
                     }}
@@ -212,11 +228,11 @@ const UserMessages = ({
             <div className="chat-content">
               <ul className="message-list" ref={messUlRef}>
                 {selectedChatMessages.length > 0 &&
-                  selectedChatMessages.map((message) => {
+                  selectedChatMessages.map((message,idx) => {
                     const sent = message.sender_id == profileId;
                     return (
                       <div
-                        key={message.id}
+                        key={idx}
                         className={`message ${
                           sent ? "sent-message" : "received-message"
                         }`}

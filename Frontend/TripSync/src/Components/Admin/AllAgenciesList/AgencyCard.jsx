@@ -1,9 +1,13 @@
 import React from "react";
 import axios from "axios";
 import "./AllAgenciesList.css";
+import { useNavigate } from "react-router-dom";
 
 function AgencyCard({ image_url, id, prof_name, rerender }) {
-  const onViewProfile = () => {};
+  const navigete = useNavigate();
+  const onViewProfile = () => {
+    navigete(`/travel-agency/${id}`);
+  };
   const token = localStorage.getItem("token");
   const onBlockUser = async() => {
     await axios

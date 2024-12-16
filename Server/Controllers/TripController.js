@@ -197,9 +197,20 @@ exports.deleteTrip = async (req, res) => {
 };
 
 exports.addTrip = async (req, res) => {
-  const { Description, Price, MaxSeats, Destinition, endDate,startDate, StartLocation,photos,sale,saleprice } =
-    req.body;
-  const TravelAgency_ID = req.user.user_id;
+  const {
+    Description,
+    Price,
+    MaxSeats,
+    Destinition,
+    endDate,
+    startDate,
+    StartLocation,
+    photos,
+    sale,
+    saleprice,
+    TravelAgency_ID,
+  } = req.body;
+  // const TravelAgency_ID = req.user.user_id;
 
   // Validate input
   if (
@@ -209,8 +220,9 @@ exports.addTrip = async (req, res) => {
     !Destinition ||
     !startDate ||
     !endDate ||
-    !StartLocation||
-    !photos
+    !StartLocation ||
+    !photos ||
+    !TravelAgency_ID
   ) {
     return res.status(400).json({
       success: false,
@@ -228,8 +240,9 @@ exports.addTrip = async (req, res) => {
     await client.query("BEGIN");
     // // Insert into the trip table
     if (!sale) sale = false;
+    let tripResult;
 
-    const tripResult = await client.query(
+    tripResult = await client.query(
       "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate,endDate, StartLocation ,TravelAgency_ID,sale,saleprice) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9,$10) RETURNING Trip_ID",
       [
         Description,
@@ -241,11 +254,11 @@ exports.addTrip = async (req, res) => {
         StartLocation,
         TravelAgency_ID,
         sale,
-        saleprice
+        saleprice,
       ]
     );
 
-    photos.forEach(photo => {
+    photos.forEach((photo) => {
       client.query("INSERT INTO TripPhotos (Trip_ID, PHOTO) VALUES($1, $2)", [
         tripResult.rows[0].trip_id,
         photo,
@@ -267,8 +280,18 @@ exports.addTrip = async (req, res) => {
 };
 
 exports.updateTrip = async (req, res) => {
-  const { Description, Price, MaxSeats, Destinition, endDate,startDate, StartLocation,photos,sale,saleprice } =
-    req.body;
+  const {
+    Description,
+    Price,
+    MaxSeats,
+    Destinition,
+    endDate,
+    startDate,
+    StartLocation,
+    photos,
+    sale,
+    saleprice,
+  } = req.body;
   const TravelAgency_ID = req.user.user_id;
   const Trip_id = req.params.Trip_id;
   const user_id = req.user.user_id;
@@ -302,7 +325,6 @@ exports.updateTrip = async (req, res) => {
       Trip_id,
     ]);
 
-
     if (Trip.rowCount == 0) {
       return res.status(404).json({
         status: "failed",
@@ -330,22 +352,21 @@ exports.updateTrip = async (req, res) => {
         Trip_id,
         endDate,
         sale,
-        saleprice
+        saleprice,
       ]
     );
 
-    const deletePhotos = await client.query("DELETE FROM TripPhotos WHERE Trip_ID=$1", [
-      Trip_id,
-    ]);
+    const deletePhotos = await client.query(
+      "DELETE FROM TripPhotos WHERE Trip_ID=$1",
+      [Trip_id]
+    );
 
-    photos.forEach(photo => {
+    photos.forEach((photo) => {
       client.query("INSERT INTO TripPhotos (Trip_ID, PHOTO) VALUES($1, $2)", [
         tripResult.rows[0].trip_id,
         photo,
       ]);
     });
-
-
 
     await client.query("COMMIT");
 

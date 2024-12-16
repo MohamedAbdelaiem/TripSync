@@ -1,56 +1,66 @@
-.flexContainer{
-    display:flex;
-    margin-left: 410px;
-     
-    width: 700px;
-  
-    justify-content: center;
-    align-items: center; 
+.flexContainer {
+  display: flex;
+  margin-left: 410px;
+
+  width: 700px;
+
+  justify-content: center;
+  align-items: center;
 
 }
 
 .cardbody {
-    background-color: #ffffff; 
-    border: 1px solid #e0e0e0; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-    padding: 20px; 
-    margin: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .cardbody:hover {
-    transform: translateY(-5px); 
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1); /* Deeper shadow on hover */
-  }
-  
-.newBlog{
+  width: 600px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  margin: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardbody:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Deeper shadow on hover */
+}
+
+.newBlog {
   display: flexbox;
   width: 300px;
-justify-items: center;
-  background-color: #ffffff; 
-    border: 1px solid #e0e0e0; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06); /* Soft shadow */
-    padding: 20px;
-    margin: 15px; 
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  justify-items: center;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  /* Soft shadow */
+  padding: 20px;
+  margin: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Smooth hover effect */
 }
-.cardtitle{
+
+.cardtitle {
   display: inline;
-  margin-left: 10px;
+  /* margin-left: 50px; */
+  /* margin-left: ; */
 }
-.blogerphoto{
-  margin-left: -20px;
-  margin-top: -10px;
+
+.blogerphoto {
+  /* margin-left: -10px; */
+  /* margin-top: -10px; */
+  width: 105px;
+  height: 100px;
 }
-.date{
+
+.date {
   margin-left: 20px;
   font-size: 13.5px;
 }
 
 .Blog {
-  margin: 20px 0; 
+  margin: 20px 0;
 }
 
 .close-icon2 {
@@ -65,6 +75,7 @@ justify-items: center;
   align-items: center;
   justify-content: center;
   transition: 0.3s ease;
+  margin-left: 260px;
 }
 
 .close-icon2::before,
@@ -93,10 +104,16 @@ justify-items: center;
   background: rgba(255, 0, 0, 0.1);
 }
 
-.flex_{
+.flex_ {
   display: flex;
 }
-.del{
+
+.del {
   margin-top: -5.3px;
   margin-left: 140px;
+}
+
+.photoContent {
+  width: max-content;
+  margin-left: 45px;
 }

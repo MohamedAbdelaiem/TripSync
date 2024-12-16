@@ -126,6 +126,32 @@ ORDER BY
     }
 };
 
+exports.sendMessage = async(req, res) => {
+    const { sender_id, receiver_id, content } = req.body;
+    try{
+        const query = `
+            INSERT INTO Messages (SENDER_ID, RECEIVER_ID, CONTENT, MESSAGE_DATE, MESSAGE_TIME)
+            VALUES ($1, $2, $3, CURRENT_DATE, CURRENT_TIME);
+        `;
+        await client.query(query, [sender_id, receiver_id, content]);
+        res.json({
+            status: 'success',
+            message: 'Message sent successfully',
+        });
+    }
+    catch(err){
+        console.error('ERROR in inserting message in the data base:',err);
+        res.status(500).json({
+            status: 'error',
+            message: 'Internal Server Error',
+        });
+    }
+};
+
+
+
+
+
 
 
 

@@ -71,7 +71,6 @@ exports.signup = async (req, res) => {
   if (!username || !email || !password || !role) {
     return res.status(400).json({
       status: "fail",
-      user: req.body,
       message: "Please provide all the required fields",
     });
   }

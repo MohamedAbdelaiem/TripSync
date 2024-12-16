@@ -138,6 +138,7 @@ function TravellerProf(props) {
   };
 
   const reRender = () => {
+    getRewards();
     get_traveller();
   };
 

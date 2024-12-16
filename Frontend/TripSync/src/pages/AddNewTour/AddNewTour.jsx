@@ -8,15 +8,15 @@ const AddNewTour = ({ addTour }) => {
 
   const [newTour, setNewTour] = useState({
     description: "",
-    price: "",
-    maxseats: "",
+    price: 0,
+    maxseats: 0,
     destination: "",
     startlocation: "",
     startdate: "",
     enddate: "",
     images: [],
     sale: false,
-    saleprice: "",
+    saleprice: 0,
   });
 
   const [imageInput, setImageInput] = useState("");
@@ -24,6 +24,7 @@ const AddNewTour = ({ addTour }) => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    console.log(`Input changed: ${name} = ${type === "checkbox" ? checked : value}`); // Debug log
     setNewTour((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -111,7 +112,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="Description"
+            aria-label="description"
           />
         </label>
 
@@ -125,7 +126,7 @@ const AddNewTour = ({ addTour }) => {
             required
             min="0"
             className="input-field"
-            aria-label="Price"
+            aria-label="price"
           />
         </label>
 
@@ -139,7 +140,7 @@ const AddNewTour = ({ addTour }) => {
             required
             min="1"
             className="input-field"
-            aria-label="Max Seats"
+            aria-label="max seats"
           />
         </label>
 
@@ -152,7 +153,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="Destination"
+            aria-label="destination"
           />
         </label>
 
@@ -160,12 +161,12 @@ const AddNewTour = ({ addTour }) => {
           Start Date:
           <input
             type="date"
-            name="startDate"
+            name="startdate"
             value={newTour.startdate}
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="Start Date"
+            aria-label="start date"
           />
         </label>
 
@@ -173,12 +174,12 @@ const AddNewTour = ({ addTour }) => {
           End Date:
           <input
             type="date"
-            name="endDate"
+            name="enddate"
             value={newTour.enddate}
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="End Date"
+            aria-label="end date"
           />
         </label>
 
@@ -186,12 +187,12 @@ const AddNewTour = ({ addTour }) => {
           Start Location:
           <input
             type="text"
-            name="startLocation"
+            name="startlocation"
             value={newTour.startlocation}
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="Start Location"
+            aria-label="start location"
           />
         </label>
 
@@ -203,7 +204,7 @@ const AddNewTour = ({ addTour }) => {
             checked={newTour.sale}
             onChange={handleInputChange}
             className="input-field-checkbox"
-            aria-label="Has Sale"
+            aria-label="has sale"
           />
         </label>
 
@@ -212,13 +213,13 @@ const AddNewTour = ({ addTour }) => {
             Sale Price:
             <input
               type="number"
-              name="salePrice"
+              name="saleprice"
               value={newTour.saleprice}
               onChange={handleInputChange}
               required
               min="0"
               className="input-field"
-              aria-label="Sale Price"
+              aria-label="sale price"
             />
           </label>
         )}
@@ -231,7 +232,7 @@ const AddNewTour = ({ addTour }) => {
               value={imageInput}
               onChange={(e) => setImageInput(e.target.value)}
               className="input-field"
-              aria-label="Image URL"
+              aria-label="image url"
             />
             <button className="btn1" type="button" onClick={handleAddImage}>
               Add Image

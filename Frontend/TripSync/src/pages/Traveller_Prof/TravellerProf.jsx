@@ -143,7 +143,7 @@ function TravellerProf(props) {
 
   if (isLoading) {
     return <div>Loading...</div>; // Show a loading indicator
-  } else if (user === null) return <div className="user-not-found-message">User not founded</div>;
+  } else if (user === null || traveller === null) return <div className="user-not-found-message">User not founded</div>;
   else
     return (
       <>

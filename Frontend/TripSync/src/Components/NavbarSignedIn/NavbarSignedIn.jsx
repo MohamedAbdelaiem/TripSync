@@ -50,10 +50,10 @@ function NavbarSignedIn({ id, about }) {
                 About
               </a>
             </li>
-            <NavLink to="Blog" className={"blogNav"}>
+            <NavLink to="/Blog" className={"blogNav"}>
               <li className="blogNav mx-2">Blogs</li>
             </NavLink>
-            <NavLink to="AllAgencies" className={"AllAgencies"}>
+            <NavLink to="/AllAgencies" className={"AllAgencies"}>
               <li className="AllAgencies mx-2">Explore the agencies</li>
             </NavLink>
             {/* Profile and logout button at the end */}

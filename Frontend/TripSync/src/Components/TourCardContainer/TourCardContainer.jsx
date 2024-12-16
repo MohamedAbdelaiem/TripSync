@@ -32,19 +32,19 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour }) => {
           {(tours.length > 0) ? (
       tours.map((tour, index) => (
         <TourCard
-          key={tour.id || index}  // Use unique id if possible, else fallback to index
+          key={tour.trip_id || index}  // Use unique id if possible, else fallback to index
           type={type}
-          imageSrc={tour.images && tour.images.length > 0 ? tour.images[0] : 'defaultImage.jpg'}  // Check if images exists
+          imageSrc={tour.photos && tour.photos.length > 0 ? tour.photos[0] : 'defaultImage.jpg'}  // Check if images exists
           description={tour.description}
           days={tour.duration}
           originalPrice={tour.price}
           destination={tour.destination}
-          startLocation={tour.startLocation}
-          hasSale={tour.hasSale}
+          startLocation={tour.startlocation}
+          hasSale={tour.sale}
           salePrice={tour.salePrice}
           onBook={() => handleBook(tour)} // Pass the entire tour object
           onEdit={() => handleEdit(tour)}
-          onDelete={() => handleDelete(tour.id)}
+          onDelete={() => handleDelete(tour.trip_id)}
         />
       ))
     ) : (

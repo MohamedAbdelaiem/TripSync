@@ -10,17 +10,17 @@ const AddNewTour = ({ addTour }) => {
   const navigate = useNavigate();
 
   const [newTour, setNewTour] = useState({
-    description: "",
-    price: 0,
-    maxseats: 0,
-    destination: "",
-    startlocation: "",
-    startdate: "",
-    enddate: "",
-    photos: [],
-    sale: false,
-    saleprice: 0,
-    travelagency_id: user.user_id,
+    Description:"",
+    Price:0,
+    MaxSeats:0,
+    Destinition:"",
+    endDate:"",
+    startDate:"",
+    StartLocation:"",
+    photos:[],
+    sale:false,
+    saleprice:0,
+    TravelAgency_ID: user.user_id,
   });
 
   const [imageInput, setImageInput] = useState("");
@@ -31,9 +31,11 @@ const AddNewTour = ({ addTour }) => {
     console.log(`Input changed: ${name} = ${type === "checkbox" ? checked : value}`); // Debug log
     setNewTour((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "checkbox" ? checked : type === "number" ? Number(value) : value,
     }));
   };
+
+
 
   const handleAddImage = () => {
     const isValidURL = (url) => {
@@ -64,19 +66,22 @@ const AddNewTour = ({ addTour }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    if (newTour.sale && parseFloat(newTour.saleprice) >= parseFloat(newTour.price)) {
+    if (newTour.sale && parseFloat(newTour.saleprice) >= parseFloat(newTour.Price)) {
       alert("Sale price must be less than the original price.");
       return;
     }
 
     const tourData = {
       ...newTour,
-      price: parseFloat(newTour.price),
+      Price: parseFloat(newTour.Price),
+      
       saleprice: newTour.sale ? parseFloat(newTour.saleprice) : null,
+      MaxSeats:parseInt(newTour.MaxSeats),
     };
 
     try {
-      console.log(tourData);  
+      console.log(tourData); 
+      //console.log(newTour.maxseats.type); 
       const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:3000/api/v1/users/myProfile/trips/addTrip",
@@ -112,8 +117,8 @@ const AddNewTour = ({ addTour }) => {
           Description:
           <input
             type="text"
-            name="description"
-            value={newTour.description}
+            name="Description"
+            value={newTour.Description}
             onChange={handleInputChange}
             required
             className="input-field"
@@ -125,8 +130,8 @@ const AddNewTour = ({ addTour }) => {
           Price:
           <input
             type="number"
-            name="price"
-            value={newTour.price}
+            name="Price"
+            value={newTour.Price}
             onChange={handleInputChange}
             required
             min="0"
@@ -139,8 +144,8 @@ const AddNewTour = ({ addTour }) => {
           Max Seats:
           <input
             type="number"
-            name="maxseats"
-            value={newTour.maxseats}
+            name="MaxSeats"
+            value={newTour.MaxSeats}
             onChange={handleInputChange}
             required
             min="1"
@@ -153,8 +158,8 @@ const AddNewTour = ({ addTour }) => {
           Destination:
           <input
             type="text"
-            name="destination"
-            value={newTour.destination}
+            name="Destinition"
+            value={newTour.Destinition}
             onChange={handleInputChange}
             required
             className="input-field"
@@ -166,8 +171,8 @@ const AddNewTour = ({ addTour }) => {
           Start Date:
           <input
             type="date"
-            name="startdate"
-            value={newTour.startdate}
+            name="startDate"
+            value={newTour.startDate}
             onChange={handleInputChange}
             required
             className="input-field"
@@ -179,8 +184,8 @@ const AddNewTour = ({ addTour }) => {
           End Date:
           <input
             type="date"
-            name="enddate"
-            value={newTour.enddate}
+            name="endDate"
+            value={newTour.endDate}
             onChange={handleInputChange}
             required
             className="input-field"
@@ -192,8 +197,8 @@ const AddNewTour = ({ addTour }) => {
           Start Location:
           <input
             type="text"
-            name="startlocation"
-            value={newTour.startlocation}
+            name="StartLocation"
+            value={newTour.StartLocation}
             onChange={handleInputChange}
             required
             className="input-field"

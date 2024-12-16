@@ -46,8 +46,12 @@ const Tours = () => {
   // Handle delete tour
   const handleDeleteTour = async (id) => {
     try {
-      await axios.delete(`https://your-api-endpoint/trips/${id}`); // Replace with your API endpoint
-      setTours(tours.filter((tour) => tour.id !== id)); // Update state after deletion
+      const token = localStorage.getItem("token");
+      console.log(id);  
+      await axios.delete(`http://localhost:3000/api/v1/users/myProfile/trips/deleteTrip/${id}`,{ headers: { 
+        Authorization: `Bearer ${token}`,
+      },}); // Replace with your API endpoint
+      setTours(tours.filter((tour) => tour.trip_id !== id)); // Update state after deletion
     } catch (error) {
       console.error("Error deleting trip:", error);
       setError("Failed to delete trip. Please try again later.");

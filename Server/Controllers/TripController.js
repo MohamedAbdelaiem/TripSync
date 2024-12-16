@@ -2,7 +2,7 @@ const express = require("express");
 const client = require("../db");
 const { start } = require("repl");
 
-exports.getAllTrips = async (req, res) => {
+exports. getAllTrips = async (req, res) => {
   const TRAVELAGENCY_ID = req.user.user_id;
   try {
     client.query(

@@ -99,14 +99,14 @@ function AdminView() {
   const getAllTrips = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/trips/getAllTrips`,
+        `http://localhost:3000/api/v1/trips/getAllTripsForAdmin`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      // console.log(res.data);
+      console.log(res.data);
       set_all_user_trips(res.data);
     } catch (err) {
       console.log(err);

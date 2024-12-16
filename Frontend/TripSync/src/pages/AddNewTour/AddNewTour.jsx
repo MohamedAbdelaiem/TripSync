@@ -100,7 +100,7 @@ const AddNewTour = ({ addTour }) => {
   return (
     <div className="add-new-tour-container">
       <h2>Add New Tour</h2>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit} className="form1111">
         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
         <label className="input-label">

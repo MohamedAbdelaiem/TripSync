@@ -11,8 +11,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background: #2c3e50;
     margin: 10px 0;
-    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
-    transition: opacity 0.5s ease-in, transform 0.5s ease-in; /* Smooth transition */ 
+    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
   }
   
   .traveller-card-container:hover {

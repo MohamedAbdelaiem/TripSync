@@ -37,7 +37,7 @@ function TravellerProf(props) {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:3000/api/v1/rewards/getAllRewards",
+        "http://localhost:3000/api/v1/rewards/getRewardIcanGet",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -123,8 +123,6 @@ function TravellerProf(props) {
     if (user !== null && profile_id == id) setIsOwner(true);
   }, []);
 
-  console.log(all_user_trips);
-  console.log(all_user_tickets);
 
   const openModal = () => {
     setModalIsOpened(true);
@@ -168,6 +166,7 @@ function TravellerProf(props) {
             all_tickets={all_user_tickets}
             profileID={profile_id}
             isOwner = {isOwner}
+            rerender={reRender}
       
           ></RestProf>
           {modalIsOpened && (

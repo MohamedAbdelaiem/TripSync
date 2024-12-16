@@ -6,7 +6,11 @@ const UserConroller = require("../Controllers/UserConroller");
 
 tripRouter
   .route("/getAllTrips")
-  .get(AuthConroller.protect, TripController.getAllTrips);
+  .get(AuthConroller.protect, TripController.getAllTripsOfAgency);
+
+tripRouter
+  .route("/getAllTripsForAdmin")
+  .get(AuthConroller.protect, TripController.getAllTripsForAdmin);
 
 tripRouter
   .route("/getTripByID/:trip_id")
@@ -16,14 +20,14 @@ tripRouter
   .route("/deleteTrip/:trip_id")
   .delete(
     AuthConroller.protect,
-    AuthConroller.restrictTo("travel_agency","admin"),
+    AuthConroller.restrictTo("travel_agency", "admin"),
     TripController.deleteTrip
   );
 // tripRouter.route('/addTrip').post(AuthConroller.protect,TripController.addTrip);
 
 tripRouter
   .route("/getTrips/:user_id")
-  .get(AuthConroller.protect, TripController.getTripsForUser_id);  
+  .get(AuthConroller.protect, TripController.getTripsForUser_id);
 
 tripRouter
   .route("/addTrip")

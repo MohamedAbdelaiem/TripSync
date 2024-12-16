@@ -38,6 +38,7 @@ function RestProf(props) {
           <EligibleRewards
             rewards={props.all_rewards}
             userPoints={props.points}
+            rerender={props.rerender}
           />
         )}
         <UserTrips userID={props.profileID} trips={props.all_trips} />

@@ -13,7 +13,8 @@ const OurStory = () => {
 
   const { user } = useContext(UserContext);
   const { user_id } = useParams();
-  console.log(user_id);
+  console.log(typeof user_id);
+  console.log(typeof user.user_id);
 
 
 
@@ -88,7 +89,7 @@ const OurStory = () => {
 
       <div className="about-us">
         <h1 className="header-title">
-          {isEditing && user.role === "travel_agency"&&user_id===user.user_id ? (
+          {isEditing && user.role === "travel_agency"&&Number(user_id)==user.user_id ? (
             <input
               type="text"
               className="edit-input"
@@ -101,7 +102,7 @@ const OurStory = () => {
         </h1>
         <div className="header-underline"></div>
         <div className="description">
-          {isEditing && user.role === "travel_agency"&&user_id===user.user_id ? (
+          {isEditing && user.role === "travel_agency"&Number(user_id)==user.user_id ? (
             <textarea
               className="edit-textarea"
               value={description}
@@ -111,7 +112,7 @@ const OurStory = () => {
             description
           )}
         </div>
-        {user.role === "travel_agency" &&user_id===user.user_id&& (
+        {user.role === "travel_agency" &&Number(user_id)==user.user_id&& (
           <div className="edit-controls">
             {isEditing ? (
               <>

@@ -100,7 +100,7 @@ const QACards = () => {
         <div className="qa-cards">
           {qaData.map((item, index) => (
             <div className="qa-card" key={item.question_id}>
-              {editIndex === index && user.role === "travel_agency" &&user_id===user.user_id? (
+              {editIndex === index && user.role === "travel_agency" &&Number(user_id)==user.user_id? (
                 <>
                   <div className="qa-card-header">
                     <textarea
@@ -141,7 +141,7 @@ const QACards = () => {
                   <div className="qa-card-footer">
                     <span>{item.Date}</span> | <span>{item.time}</span>
                   </div>
-                  {user.role === "travel_agency" && (
+                  {user.role === "travel_agency" &&Number(user_id)==user.user_id&& (
                     <button
                       className="btn edit-btn"
                      onClick={() => handleEdit(index)}

@@ -53,7 +53,7 @@ const TourCard = ({
           )}
         </div>
         <div className="action-buttons">
-          {type === "traveller"&&id===user.user_id ? (
+          {type === "travel_agency"&&Number(id)==user.user_id ? (
               <>
               <button className="action-button" onClick={onEdit}>
                 Edit

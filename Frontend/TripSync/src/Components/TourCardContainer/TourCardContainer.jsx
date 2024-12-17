@@ -24,7 +24,7 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
   return (
     <div className="containr">
       <div className="add-tour-button-container">
-        {type === "travel_agency" &&ID===user.user_id&& (
+        {type === "travel_agency" &&Number(ID)==user.user_id&& (
           <button className="add-tour-button" onClick={onAddNewTour}>
             Add New Tour
           </button>

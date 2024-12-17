@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from "react";
-import Blog from "../../Components/Blog/Blog";
-import profilePic from "../../assets/profile.png";
-import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedInner";
-import "./Blogs.css";
-import { NavLink } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Loader2 } from "lucide-react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import BlogPost from "../../Components/Blog/Blog";
+import "./Blogs.css";
 import NavbarSignedIn from "../../Components/NavbarSignedIn/NavbarSignedIn";
-const Base_Url = "http://localhost:3000/api/v1/blogs/AllBlogs";
+import { NavLink } from "react-router-dom";
+const BASE_URL = "http://localhost:3000/api/v1/blogs/AllBlogs";
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchBlogs = async () => {
-    setIsLoading(true);
     try {
       const token = localStorage.getItem("token");
-
-      const response = await axios.get(Base_Url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await axios.get(BASE_URL, {
+        headers: { Authorization: `Bearer ${token}` }
       });
-      console.log(response.data);
-      // setBlogs(response.data.data);
       setBlogs(response.data.data);
       setIsLoading(false);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      setError("Failed to load blogs");
       setIsLoading(false);
     }
   };
@@ -36,13 +32,11 @@ function Blogs() {
     fetchBlogs();
   }, []);
 
-  
-
   return (
     <>
       {/* <NavbarSignedInner /> */}
 
-      <NavbarSignedIn/>
+      <NavbarSignedIn />
       <NavLink to={"/blogWrite"}>
         <input
           type="text"
@@ -51,36 +45,60 @@ function Blogs() {
         />
       </NavLink>
   
-      {isLoading ? (
-        <h3 className="loading">Loading...</h3>
-      ) : (
-        <div className="blogs-container">
-          {(() => {
-            const blogElements = [];
-            blogs.forEach((blog) => {
-              // Convert the blog.time to a readable format (e.g., HH:mm:ss)
-              const time = new Date(`1970-01-01T${blog.time}Z`).toLocaleTimeString();
-  
-              blogElements.push(
-                <Blog
-                  key={blog.blog_id}
-                  blog_id={blog.blog_id}
-                  content={blog.content}
-                  profilePic={blog.profilephoto || profilePic}
-                  time={time} // Formatted time
-                  date={new Date(blog.date).toLocaleDateString()} // Formatted date
-                  username={blog.profilename || blog.username}
-                  photo={blog.photo}
-                />
-              );
-            });
-            return blogElements;
-          })()}
+    
+            
+      <div className="blogs-page">
+        <div className="blogs-header">
+          <div className="header-content">
+            <h1>Community Blogs</h1>
+            <Link to="/blogWrite" className="create-blog-btn">
+              <Plus strokeWidth={2.5} />
+              <span>Create New Blog</span>
+            </Link>
+          </div>
         </div>
-      )}
+
+        <div className="blogs-container">
+          {isLoading ? (
+            <div className="loading-container">
+              <Loader2 className="spinner" size={48} />
+              <p>Loading blogs...</p>
+            </div>
+          ) : error ? (
+            <div className="error-container">
+              <p>{error}</p>
+            </div>
+          ) : (
+            <AnimatePresence>
+              {blogs.map((blog, index) => (
+                <motion.div
+                  key={blog.blog_id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: index * 0.1
+                  }}
+                >
+                  <BlogPost
+                    blog={{
+                      id: blog.blog_id,
+                      username: blog.profilename || blog.username,
+                      profilePic: blog.profilephoto,
+                      content: blog.content,
+                      image: blog.photo,
+                      date: new Date(blog.date).toLocaleDateString(),
+                      time: new Date(`1970-01-01T${blog.time}Z`).toLocaleTimeString()
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          )}
+        </div>
+      </div>
     </>
   );
-  
 }
-
 export default Blogs;

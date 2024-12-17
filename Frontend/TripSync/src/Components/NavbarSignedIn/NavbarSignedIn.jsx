@@ -6,7 +6,7 @@ import { UserContext } from "../../assets/userContext";
 import "./NavbarSignedIn.css";
 
 function NavbarSignedIn({ id, about }) {
-  const { user } = useContext(UserContext);
+  const { user,setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const goToProfile = () => {
@@ -77,6 +77,7 @@ function NavbarSignedIn({ id, about }) {
                 onClick={() => {
                   localStorage.removeItem("token");
                   localStorage.removeItem("user");
+                  setUser(null);
                   window.location.href = "/";
                 }}
               >

@@ -5,7 +5,8 @@ import "./EditTour.css";
 
 const EditTourPage = () => {
   const location = useLocation();
-  const { tourId } = location.state || {}; // Assuming you pass the tour ID through state
+  const { tourId } = location.state.trip_id || {}; // Assuming you pass the tour ID through state
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -21,16 +22,16 @@ const EditTourPage = () => {
   useEffect(() => {
     const fetchTourData = async () => {
       try {
-        const response = await axios.get(`/api/tours/${tourId}`); // API endpoint for fetching tour data
+        const response = await axios.get(`http://localhost:3000/api/v1/trips/getTripByID/${tourId}`); // API endpoint for fetching tour data
         const tourData = response.data;
         setFormData({
           ...tourData,
           sale: tourData.sale || false,
-          salePrice: tourData.salePrice || "",
-          originalPrice: tourData.originalPrice || "",
-          from: tourData.from || "",
-          to: tourData.to || "",
-          images: tourData.images || [],
+          salePrice: tourData.saleprice || "",
+          originalPrice: tourData.price || "",
+          from: tourData.startlocation || "",
+          to: tourData.destinition|| "",
+          images: tourData.photos || [],
         });
       } catch (error) {
         console.error("Error fetching tour data:", error);
@@ -50,7 +51,7 @@ const EditTourPage = () => {
     if (file) {
       setFormData((prev) => ({
         ...prev,
-        images: [...prev.images, URL.createObjectURL(file)],
+        photos: [...prev.photos, URL.createObjectURL(file)],
       }));
     }
   };
@@ -58,7 +59,7 @@ const EditTourPage = () => {
   const handleImageRemove = (index) => {
     setFormData((prev) => ({
       ...prev,
-      images: prev.images.filter((_, i) => i !== index),
+      photos: prev.photos.filter((_, i) => i !== index),
     }));
   };
 
@@ -74,9 +75,9 @@ const EditTourPage = () => {
     e.preventDefault();
     try {
       // Send the updated data to the server using axios
-      const response = await axios.put(`/api/tours/${tourId}`, formData); // Update API endpoint
+      const response = await axios.put(`http://localhost:3000/api/v1/users/myProfile/trips/updateTrip/1${tourId}`, formData); // Update API endpoint
       console.log("Updated Tour:", response.data);
-      navigate(`/tour/${tourId}`); // Redirect to the tour page after update
+      navigate(`/tours`); // Redirect to the tour page after update
     } catch (error) {
       console.error("Error updating tour data:", error);
     }

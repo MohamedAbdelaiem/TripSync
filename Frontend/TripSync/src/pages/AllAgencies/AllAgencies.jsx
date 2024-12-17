@@ -40,6 +40,7 @@ function AllAgencies() {
   // Filtering logic
   const filteredAgencies = Agencies.filter((Agency) => {
     const matchesSearch = Agency.username
+    
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 

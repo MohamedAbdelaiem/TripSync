@@ -1,126 +1,150 @@
-.containerregformAgen{
-    margin-top: 270px;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+.travel-agency-register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+  font-family: 'Inter', sans-serif;
+  padding: 20px;
 }
-.photo {
-    display: flex;
+
+.travel-agency-register-card {
+  width: 100%;
+  max-width: 900px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.travel-agency-register-card:hover {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+.travel-agency-register-header {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  text-align: center;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 15px;
+  stroke-width: 1.5;
+}
+
+.travel-agency-register-header h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.travel-agency-register-form {
+  padding: 30px;
+}
+
+.form-columns {
+  display: flex;
+  gap: 30px;
+}
+
+.form-column {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group.full-width {
+  width: 100%;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 500;
+}
+
+.input-icon {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  color: #2575fc;
+  stroke-width: 2;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #2575fc;
+  box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.2);
+}
+
+.optional {
+  color: #888;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.server-error {
+  background-color: #fff2f0;
+  color: #ff4d4f;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.server-success {
+  background-color: #f0fff4;
+  color: #38a169;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .form-columns {
     flex-direction: column;
-    gap: 5px;
+    gap: 15px;
   }
-  
-  .optional {
-    font-size: 12px;
-    color: #6c757d;
-    font-style: italic;
-    margin-left: 5px;
-  }
-  
-  .form-controlPhoto {
-    display: none; 
-  }
-  
-  #profilephoto + label {
-    display: inline-block;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: #ffffff;
-    background:  #94b7f4;
-    padding: 10px 15px;
-    border-radius: 8px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-  }
-  
-  #profilephoto + label:hover {
-    background:  #2575fc;
-    transition: 10ms;
-  }
-  
-  #profilephotoPreview {
-    margin-top: 10px;
-    width: 100px;
-    height: 100px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    object-fit: cover;
-    display: none; 
-  }
+}
 
-
-.containerregformAgen {
-    color: #fff;
-    padding: 20px;
-    border-radius: 15px;
-  }
-  
-
-  .card {
-    background-color: #ffffff;
-    border: none;
-    border-radius: 15px;
-  }
-  
-  .card h3 {
-    font-family: "Arial", sans-serif;
-    font-weight: bold;
-    color: #4a4a4a;
-  }
-  
-  .form-control,
-  .form-controlPhoto {
-    border-radius: 10px;         
-    font-size: 14px;            
-    padding: 10px 15px;       
-    border: 1px solid #ced4da;  
-    background-color: #f8f9fa;  
-    color: #495057;             
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
-  }
-  
-  .form-control:focus,
-  .form-controlPhoto:focus {
-    border-color: #3a18fb;
-    box-shadow: 0 0 0 0.2rem rgba(32, 172, 231, 0.25); 
-  }
-  
-  .form-label {
-    font-size: 14px;
-    color: #6c757d;
-    margin-bottom: 5px;
-  }
-  
-  .optional {
-    font-size: 12px;
-    font-style: italic;
-    color: #6c757d;
-    margin-left: 5px;
-  }
-  
-  /* Buttons */
-  .btnReg {
-    border: none;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 8px;
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .btnReg:hover {
-   scale: 1.03;
-   transition: 10ms;
-  }
-  
-  /* Mobile Responsiveness */
-  @media (max-width: 576px) {
-    .card {
-      width: 90%;
-    }
-  
-    .containerregformAgen {
-      padding: 10px;
-    }
-  }
-    
+.form-group input:hover,
+.form-group textarea:hover {
+  border-color: #6a11cb;
+}

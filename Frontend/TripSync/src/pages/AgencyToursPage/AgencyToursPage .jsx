@@ -12,15 +12,18 @@ const AgencyToursPage = () => {
   const navigate = useNavigate();
 
   // Access agencyId from location state
-  const agencyId = location.state?.agencyId;
-
+  const agencyId = location.state||{};
+console.log(agencyId);
   // Fetch tours for the selected agency
   useEffect(() => {
     const fetchTours = async () => {
       if (agencyId) {
         try {
+          const token = localStorage.getItem("token");
           const response = await axios.get(
-            `http://localhost:3000/api/v1/tours?agencyId=${agencyId}`
+            `http://localhost:3000/api/v1/trips/getTrips/${agencyId}`,{headers: { 
+              Authorization: `Bearer ${token}`,
+            },}
           );
           setTours(response.data); // Assuming the API returns a list of tours
         } catch (error) {
@@ -44,21 +47,29 @@ const AgencyToursPage = () => {
       {error && <div className="error-message">{error}</div>}
       <div className="tour-cards">
         {tours.length === 0 && <p>No tours available for this agency.</p>}
-        {tours.map((tour) => (
-          <TourCard
-            key={tour._id}
-            type="traveller" // We are only dealing with the traveler type here
-            imageSrc={tour.imageSrc}
-            description={tour.description}
-            days={tour.days}
-            originalPrice={tour.originalPrice}
-            salePrice={tour.salePrice}
-            destination={tour.destination}
-            startLocation={tour.startLocation}
-            hasSale={tour.hasSale}
-            onBook={() => handleBookTour(tour._id)} // Handle booking for traveler
-          />
-        ))}
+        {tours.map((tour) => {
+  // JavaScript logic for calculating days
+  const startDate = new Date(tour.startdate);
+  const endDate = new Date(tour.enddate);
+  const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)); // Difference in days
+
+  return (
+    <TourCard
+      key={tour.trip_id}
+      type="traveller" // We are only dealing with the traveler type here
+      imageSrc={tour.photos[0]}
+      description={tour.description}
+      days={days} // Pass the calculated days
+      originalPrice={tour.price}
+      salePrice={tour.saleprice}
+      destination={tour.destination}
+      startLocation={tour.startlocation}
+      hasSale={tour.sale}
+      onBook={() => handleBookTour(tour.user_id)} // Handle booking for traveler
+    />
+  );
+})}
+
       </div>
     </div>
   );

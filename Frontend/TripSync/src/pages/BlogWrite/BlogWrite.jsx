@@ -32,6 +32,7 @@ function BlogWrite() {
   const handleFileChange = (event) => {
     console.log(event.target.files[0]);
     setFile(event.target.files[0]);
+    handlePhotoChange(event);
   };
 
   async function handlesImage(filex) {
@@ -180,7 +181,7 @@ function BlogWrite() {
         />
         <label htmlFor="profilephoto">Upload Photo</label>
         {photoPreview && (
-          <img src={photoPreview} alt="Profile Preview" id="profilephoto" />
+          <img src={photoPreview} alt="Profile Preview" id="profilephotoWrite" />
         )}
       </div>
     </>

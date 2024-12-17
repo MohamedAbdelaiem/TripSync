@@ -6,7 +6,7 @@ import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import placeholder from '../../assets/OIP.jpg'
 import axios from "axios";
 
-const Blog = ({ blog_id, content, date, time, username, profilePic }) => {
+const Blog = ({ blog_id, content, date, time, username, profilePic,photo }) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -57,7 +57,7 @@ const Blog = ({ blog_id, content, date, time, username, profilePic }) => {
           {date} {time}
         </h6>
         <p className="card-text">{content}</p>
-        <img src={placeholder} className="photoContent"></img>
+        <img src={photo} className="photoContent"></img>
       </div>
     </div>
   );
@@ -70,6 +70,7 @@ Blog.propTypes = {
   time: PropTypes.string,
   username: PropTypes.string,
   profilePic: PropTypes.string,
+  photo:PropTypes.string,
 };
 
 export default Blog;

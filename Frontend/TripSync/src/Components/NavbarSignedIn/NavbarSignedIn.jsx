@@ -41,7 +41,7 @@ function NavbarSignedIn({ id, about }) {
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav m-2 listOfNavBar">
             <li className="HomeNav mx-2">
-              <a href="#" className="HomeNav">
+              <a href="/" className="HomeNav">
                 Home
               </a>
             </li>
@@ -69,7 +69,8 @@ function NavbarSignedIn({ id, about }) {
                   className="profile-img"
                   alt="Profile"
                   onClick={goToProfile}
-                />
+              />
+              {console.log(user,"ll")}
               <button
                 className="logoutButton"
                 onClick={() => {

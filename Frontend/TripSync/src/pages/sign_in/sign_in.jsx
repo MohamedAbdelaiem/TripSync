@@ -40,21 +40,18 @@ function Sign_in() {
       }
       if(response.data.status==="success"){
       setSuccess(response.data.message);
-      console.log(response.data.data);
       setUser(response.data.data);
-      console.log(user);
       // localStorage.setItem("user",JSON.stringify(response.data.data));  
-        if (user.role === 'admin')
+        if (response.data.data.role === 'admin')
           { 
             Navigate(`/Admin-view/${response.data.data.user_id}`);
           }
-          else if(user.role === 'travel_agency')
+          else if(response.data.data.role === 'travel_agency')
           { 
             Navigate(`/travel-agency/${response.data.data.user_id}`)
           }
         else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);  
-        // Navigate("/");
-        
+        // Navigate("/"); 
       }
       else{
         setError(response.data.message);

@@ -22,6 +22,8 @@ import "./TravelAgencyProfile.css";
 
 
 const TravelAgencyProfile = () => {
+  const watcher_id = location.state||{};
+
   const [file, setFile] = useState(null);
   const { id } = useParams(); // Extract TravelAgencyID and user.role from the URL
   const [agency, setAgency] = useState(null); // State for agency data
@@ -122,13 +124,13 @@ const TravelAgencyProfile = () => {
   return (
     <div className="travel-agency-container">
       {/* Side Navigation Bar */}
-      <SideNavBar userId={id} />
+      <SideNavBar userId={id}  />
 
       {/* Main Content */}
       <div className="main-content">
         <div className="profile-header">
           {/* Profile Picture */}
-          {isEditing && user.role === "travel_agency" ? (
+          {isEditing && user.role === "travel_agency"&&id===user.user_id ? (
             <label
               htmlFor="profile-picture-input"
               className="profile-picture-label"
@@ -155,7 +157,7 @@ const TravelAgencyProfile = () => {
           )}
 
           {/* Profile Name */}
-          {isEditing && user.role === "travel_agency" ? (
+          {isEditing && user.role === "travel_agency"&&id===user.user_id ? (
             <input
               type="text"
               value={profilename}
@@ -216,7 +218,7 @@ const TravelAgencyProfile = () => {
         </div>
 
         {/* Edit and Save Buttons */}
-        {user.role === "travel_agency" && (
+        {user.role === "travel_agency" && id===user.user_id&& (
           <div className="edit-save-buttons">
             {isEditing ? (
               <button onClick={handleSave} className="save-button">

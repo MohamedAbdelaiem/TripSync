@@ -100,7 +100,7 @@ const QACards = () => {
         <div className="qa-cards">
           {qaData.map((item, index) => (
             <div className="qa-card" key={item.question_id}>
-              {editIndex === index && user.role === "travel_agency" ? (
+              {editIndex === index && user.role === "travel_agency" &&user_id===user.user_id? (
                 <>
                   <div className="qa-card-header">
                     <textarea

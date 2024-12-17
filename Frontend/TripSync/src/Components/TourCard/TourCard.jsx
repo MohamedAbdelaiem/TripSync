@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import "./TourCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { UserContext } from "../../assets/userContext";
 
 const TourCard = ({
   type,
@@ -17,7 +19,9 @@ const TourCard = ({
   onEdit,
   onBook,
   onDelete, // New prop for Delete functionality
+  id,
 }) => {
+  const { user } = useContext(UserContext);
   return (
     <div className="tour-card">
       {hasSale ? (
@@ -49,12 +53,8 @@ const TourCard = ({
           )}
         </div>
         <div className="action-buttons">
-          {type === "traveller" ? (
-            <button className="action-button" onClick={onBook}>
-              Book Now
-            </button>
-          ) : (
-            <>
+          {type === "traveller"&&id===user.user_id ? (
+              <>
               <button className="action-button" onClick={onEdit}>
                 Edit
               </button>
@@ -62,6 +62,12 @@ const TourCard = ({
                 Delete
               </button>
             </>
+           
+          ) : (
+            <button className="action-button" onClick={onBook}>
+            Book Now
+          </button>
+          
           )}
         </div>
       </div>
@@ -82,6 +88,7 @@ TourCard.propTypes = {
   onEdit: PropTypes.func,
   onBook: PropTypes.func,
   onDelete: PropTypes.func, // New prop for Delete functionality
+  id: PropTypes.number,
 };
 
 export default TourCard;

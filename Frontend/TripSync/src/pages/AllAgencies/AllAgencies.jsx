@@ -5,8 +5,13 @@ import TravelAgencyCard from "../../Components/TravelAgencyCard/TravelAgencyCard
 import axios from "axios";
 import profile from "../../assets/profile.png";
 import "./AllAgencies.css";
+import { useContext } from "react";
+import { UserContext } from "../../assets/userContext";
 
 function AllAgencies() {
+
+  const { user } = useContext(UserContext);
+  const watcher=user.user_id;
   const [Agencies, setAgencies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -50,8 +55,9 @@ function AllAgencies() {
   // Navigate to the tours page for a specific agency
   const handleAgencyClick = (agencyId) => {
     //console.log(agency)
+
     console.log(agencyId);
-    navigate(`/agency-tours`, { state: { agencyId } }); // Pass the agencyId as state
+    navigate(`/travel-agency/${agencyId}`, { state: {watcher } }); // Pass the agencyId as state
   };
 
   return (

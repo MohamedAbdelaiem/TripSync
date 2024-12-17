@@ -120,9 +120,9 @@ function Review() {
           </div>
         )}
 
-        {user.role === "travel_agency" && (
+        {user.role === "travel_agency"&&(
           <div className="reviews-container">
-            <h3>Your Reviews</h3>
+            <h3>Reviews</h3>
             {reviews.length > 0 ? (
               reviews.map((review, index) => (
                 <div key={index} className="review-item">

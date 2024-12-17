@@ -67,6 +67,7 @@ const Tours = () => {
         tours={tours}
         onAddNewTour={() => navigate("/add-new-tour")}
         onDeleteTour={handleDeleteTour} // Pass the delete handler
+        ID={user_id}
       />
     </div>
   );

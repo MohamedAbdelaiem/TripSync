@@ -88,7 +88,7 @@ const OurStory = () => {
 
       <div className="about-us">
         <h1 className="header-title">
-          {isEditing && user.role === "travel_agency" ? (
+          {isEditing && user.role === "travel_agency"&&user_id===user.user_id ? (
             <input
               type="text"
               className="edit-input"
@@ -101,7 +101,7 @@ const OurStory = () => {
         </h1>
         <div className="header-underline"></div>
         <div className="description">
-          {isEditing && user.role === "travel_agency" ? (
+          {isEditing && user.role === "travel_agency"&&user_id===user.user_id ? (
             <textarea
               className="edit-textarea"
               value={description}
@@ -111,7 +111,7 @@ const OurStory = () => {
             description
           )}
         </div>
-        {user.role === "travel_agency" && (
+        {user.role === "travel_agency" &&user_id===user.user_id&& (
           <div className="edit-controls">
             {isEditing ? (
               <>

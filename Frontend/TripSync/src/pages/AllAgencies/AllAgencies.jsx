@@ -40,6 +40,7 @@ function AllAgencies() {
   // Filtering logic
   const filteredAgencies = Agencies.filter((Agency) => {
     const matchesSearch = Agency.username
+    
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
@@ -48,6 +49,8 @@ function AllAgencies() {
 
   // Navigate to the tours page for a specific agency
   const handleAgencyClick = (agencyId) => {
+    //console.log(agency)
+    console.log(agencyId);
     navigate(`/agency-tours`, { state: { agencyId } }); // Pass the agencyId as state
   };
 
@@ -69,7 +72,7 @@ function AllAgencies() {
           {filteredAgencies.map((Agency, index) => (
             <div
               key={index}
-              onClick={() => handleAgencyClick(Agency._id)} // Pass the agencyId to the new page
+              onClick={() => handleAgencyClick(Agency.travelagency_id)} // Pass the agencyId to the new page
             >
               <TravelAgencyCard
                 name={Agency.username}

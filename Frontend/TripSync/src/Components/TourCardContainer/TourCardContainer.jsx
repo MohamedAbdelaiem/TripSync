@@ -41,7 +41,7 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour }) => {
           destination={tour.destination}
           startLocation={tour.startlocation}
           hasSale={tour.sale}
-          salePrice={tour.salePrice}
+          salePrice={tour.saleprice}
           onBook={() => handleBook(tour)} // Pass the entire tour object
           onEdit={() => handleEdit(tour)}
           onDelete={() => handleDelete(tour.trip_id)}

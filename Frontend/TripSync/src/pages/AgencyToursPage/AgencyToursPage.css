@@ -1,23 +1,116 @@
-/* AgencyToursPage.css */
+/* General Page Styles */
 .agency-tours-page {
-    padding: 20px;
-    background-color: #f4f4f4;
-  }
-  
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #f9f9f9, #e6e6e6);
+  min-height: 100vh;
+  font-family: "Arial", sans-serif;
+  color: #333;
+}
+
+.agency-tours-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Grid for Tour Cards */
+.tour-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Error Message Styling */
+.error-message {
+  color: #d63031;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Tour Card Styles */
+.tour-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.tour-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.tour-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.tour-card-content {
+  padding: 15px;
+  text-align: left;
+}
+
+.tour-card h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #34495e;
+  font-weight: bold;
+}
+
+.tour-card p {
+  font-size: 1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+.tour-card .price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.tour-card .days {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2980b9;
+}
+
+.tour-card button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tour-card button:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .agency-tours-page h1 {
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 2rem;
   }
-  
+
   .tour-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: 1fr;
   }
-  
-  .error-message {
-    color: red;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
+}

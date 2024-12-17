@@ -10,20 +10,20 @@ const AddNewTour = ({ addTour }) => {
   const navigate = useNavigate();
 
   const [newTour, setNewTour] = useState({
-    Description:"",
-    Price:0,
-    MaxSeats:0,
-    Destinition:"",
-    endDate:"",
-    startDate:"",
-    StartLocation:"",
-    photos:[],
-    sale:false,
-    saleprice:0,
+    Description: "",
+    Price: "",
+    MaxSeats: "",
+    Destinition: "",
+    endDate: "",
+    startDate: "",
+    StartLocation: "",
+    photos: [],
+    sale: false,
+    saleprice: "",
     TravelAgency_ID: user.user_id,
   });
 
-  const [imageInput, setImageInput] = useState("");
+  const [imageFile, setImageFile] = useState(null); // For file input
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputChange = (e) => {
@@ -31,35 +31,25 @@ const AddNewTour = ({ addTour }) => {
     console.log(`Input changed: ${name} = ${type === "checkbox" ? checked : value}`); // Debug log
     setNewTour((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : type === "number" ? Number(value) : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-
-
   const handleAddImage = () => {
-    const isValidURL = (url) => {
-      try {
-        new URL(url);
-        return true;
-      } catch {
-        return false;
-      }
-    };
-
-    if (imageInput.trim() && isValidURL(imageInput)) {
-      if (newTour.photos.includes(imageInput)) {
-        setErrorMessage("This image URL is already added.");
-      } else {
+    if (imageFile) {
+      const fileReader = new FileReader();
+      fileReader.onloadend = () => {
+        const imageUrl = fileReader.result; // Base64 image data
         setNewTour((prev) => ({
           ...prev,
-          photos: [...prev.photos, imageInput.trim()],
+          photos: [...prev.photos, imageUrl],
         }));
         setErrorMessage("");
-        setImageInput("");
-      }
+        setImageFile(null);
+      };
+      fileReader.readAsDataURL(imageFile);
     } else {
-      setErrorMessage("Please enter a valid image URL.");
+      setErrorMessage("Please select an image file.");
     }
   };
 
@@ -74,14 +64,11 @@ const AddNewTour = ({ addTour }) => {
     const tourData = {
       ...newTour,
       Price: parseFloat(newTour.Price),
-      
       saleprice: newTour.sale ? parseFloat(newTour.saleprice) : null,
-      MaxSeats:parseInt(newTour.MaxSeats),
+      MaxSeats: parseInt(newTour.MaxSeats),
     };
 
     try {
-      console.log(tourData); 
-      //console.log(newTour.maxseats.type); 
       const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:3000/api/v1/users/myProfile/trips/addTrip",
@@ -122,7 +109,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="Description"
+            placeholder="Enter tour description"
           />
         </label>
 
@@ -136,7 +123,7 @@ const AddNewTour = ({ addTour }) => {
             required
             min="0"
             className="input-field"
-            aria-label="Price"
+            placeholder="e.g. 1000"
           />
         </label>
 
@@ -150,7 +137,7 @@ const AddNewTour = ({ addTour }) => {
             required
             min="1"
             className="input-field"
-            aria-label="maxSeats"
+            placeholder="e.g. 50"
           />
         </label>
 
@@ -163,7 +150,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="Destination"
+            placeholder="Enter destination"
           />
         </label>
 
@@ -176,7 +163,6 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="startDate"
           />
         </label>
 
@@ -189,7 +175,6 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="endDate"
           />
         </label>
 
@@ -202,7 +187,7 @@ const AddNewTour = ({ addTour }) => {
             onChange={handleInputChange}
             required
             className="input-field"
-            aria-label="StartLocation"
+            placeholder="Enter start location"
           />
         </label>
 
@@ -214,7 +199,6 @@ const AddNewTour = ({ addTour }) => {
             checked={newTour.sale}
             onChange={handleInputChange}
             className="input-field-checkbox"
-            aria-label="has sale"
           />
         </label>
 
@@ -229,20 +213,19 @@ const AddNewTour = ({ addTour }) => {
               required
               min="0"
               className="input-field"
-              aria-label="sale price"
+              placeholder="e.g. 800"
             />
           </label>
         )}
 
         <label className="input-label">
-          Add Image URL:
+          Upload Image:
           <div>
             <input
-              type="text"
-              value={imageInput}
-              onChange={(e) => setImageInput(e.target.value)}
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImageFile(e.target.files[0])}
               className="input-field"
-              aria-label="image url"
             />
             <button className="btn1" type="button" onClick={handleAddImage}>
               Add Image
@@ -254,7 +237,9 @@ const AddNewTour = ({ addTour }) => {
           <h4>Images:</h4>
           <ul>
             {newTour.photos.map((image, index) => (
-              <li key={index}>{image}</li>
+              <li key={index}>
+                <img src={image} alt={`tour-${index}`} width="100" />
+              </li>
             ))}
           </ul>
         </div>

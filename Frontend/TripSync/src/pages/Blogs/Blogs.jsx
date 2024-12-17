@@ -66,10 +66,11 @@ function Blogs() {
                   key={blog.blog_id}
                   blog_id={blog.blog_id}
                   content={blog.content}
-                  profilePic={blog.photo || profilePic}
+                  profilePic={blog.profilephoto || profilePic}
                   time={time} // Formatted time
                   date={new Date(blog.date).toLocaleDateString()} // Formatted date
                   username={blog.profilename || blog.username}
+                  photo={blog.photo}
                 />
               );
             });

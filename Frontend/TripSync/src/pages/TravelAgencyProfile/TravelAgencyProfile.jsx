@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom"; // Import useParams
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 import { UserContext } from "../../assets/userContext";
@@ -11,16 +11,51 @@ import {
 } from "react-icons/fa";
 import axios from "axios"; // Import axios
 import "./TravelAgencyProfile.css";
+// const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+    //     const reader = new FileReader();
+    //     reader.onload = () => setProfilePicture(reader.result); // Preview the image
+    //     reader.readAsDataURL(file);
+    //   }
+// };
+
 
 const TravelAgencyProfile = () => {
+  const [file, setFile] = useState(null);
   const { id } = useParams(); // Extract TravelAgencyID and user.role from the URL
   const [agency, setAgency] = useState(null); // State for agency data
   const [isEditing, setIsEditing] = useState(false); // Edit mode toggle
-  const [profileName, setProfileName] = useState(""); // Local state for the profile name
-  const [profilePicture, setProfilePicture] = useState(""); // Local state for the profile picture
+  const [profilename, setProfileName] = useState(""); // Local state for the profile name
+  const [profilephoto, setProfilePicture] = useState(""); // Local state for the profile picture
   // Fetch agency data on component mount or when the ID changes
 
   const { user } = useContext(UserContext);
+  const handleFileChange = (event) => {
+    console.log(event.target.files[0]);
+    setFile(event.target.files[0]);
+    const reader = new FileReader();
+    reader.onload = () => setProfilePicture(reader.result); // Preview the image
+  };
+  
+  async function handlesImage(filex) {
+    const file = filex;
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
+    if (file) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "TripSync"); // Cloudinary upload preset
+      data.append("cloud_name", "dxm7trzb5"); // Cloudinary cloud name
+  
+      const response = await axios.post(CLOUDINARY_URL, data);
+      const urlimage = response.data;
+      console.log(urlimage.url);
+      return urlimage.url;
+    } else {
+      return null;
+    }
+  }
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchAgencyData = async () => {
@@ -56,33 +91,29 @@ const TravelAgencyProfile = () => {
     const token = localStorage.getItem("token");
     try {
       // Update backend with edited data using axios
-      const response = await axios.patch(`http://localhost:3000/api/v1/users/updateMe`, {
-        ProfileName: profileName,
-        ProfilePicture: profilePicture,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const url = await handlesImage(file);
+      const response = await axios.patch(
+        `http://localhost:3000/api/v1/users/updateMe`,
+        {
+          profilename: profilename,
+          profilephoto: url,
         },
-      });
-
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       // Update agency state with the new data
       setAgency((prev) => ({
         ...prev,
-        ProfileName: profileName,
-        ProfilePicture: profilePicture,
+        profilename: profilename,
+        profilephoto: url,
       }));
+      console.log(response.data);
       setIsEditing(false); // Exit edit mode
     } catch (error) {
       console.error("Error saving profile changes:", error);
-    }
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => setProfilePicture(reader.result); // Preview the image
-      reader.readAsDataURL(file);
     }
   };
 
@@ -103,7 +134,7 @@ const TravelAgencyProfile = () => {
               className="profile-picture-label"
             >
               <img
-                src={profilePicture || "placeholder.jpg"}
+                src={profilephoto || "placeholder.jpg"}
                 alt="Profile"
                 className="profile-picture"
               />
@@ -117,7 +148,7 @@ const TravelAgencyProfile = () => {
             </label>
           ) : (
             <img
-              src={profilePicture || "placeholder.jpg"}
+              src={profilephoto || "placeholder.jpg"}
               alt="Profile"
               className="profile-picture"
             />
@@ -127,12 +158,12 @@ const TravelAgencyProfile = () => {
           {isEditing && user.role === "travel_agency" ? (
             <input
               type="text"
-              value={profileName}
+              value={profilename}
               onChange={(e) => setProfileName(e.target.value)}
               className="profile-name-input"
             />
           ) : (
-            <h2>{profileName}</h2>
+            <h2>{profilename}</h2>
           )}
 
           <p>

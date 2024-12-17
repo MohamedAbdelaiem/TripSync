@@ -31,7 +31,7 @@
     font-size: 16px;
   }
   
-  #profilephoto + label ,#post {
+  #profilephotoWrite + label ,#post {
     display: inline-block;
     cursor: pointer;
     font-size: 14px;
@@ -44,7 +44,7 @@
     transition: background-color 0.3s ease;
   }
   
-  #profilephoto + label:hover ,#post:hover {
+  #profilephotoWrite + label:hover ,#post:hover {
     background:  #2575fc;
     transition: 10ms;
   }
@@ -101,7 +101,7 @@
 }
  
 
-#profilephotoPreview {
+#profilephotoWrite {
   max-width: 100px;
   margin-top: 10px;
 }

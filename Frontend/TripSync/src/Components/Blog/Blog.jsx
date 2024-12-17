@@ -1,76 +1,61 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import "./Blog.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import placeholder from '../../assets/OIP.jpg'
+import { motion } from "framer-motion";
+import { Trash2, MoreVertical } from "lucide-react";
 import axios from "axios";
+import "./Blog.css";
 
-const Blog = ({ blog_id, content, date, time, username, profilePic,photo }) => {
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+const BlogPost = ({ blog }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleRefresh = () => {
-    window.location.reload(); // Reloads the current page
-  };
   const handleDelete = async () => {
-    setError("");
-    setSuccess("");
+    setIsDeleting(true);
     try {
       const token = localStorage.getItem("token");
-      const url = `http://localhost:3000/api/v1/blogs/DeleteBlog/${blog_id}`; // Include blog_id in the URL
-      const response = await axios.delete(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      await axios.delete(`http://localhost:3000/api/v1/blogs/DeleteBlog/${blog.id}`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
-      setSuccess(response.data.message);
-      console.log("Delete Success:", response.data.message);
-      handleRefresh();
+      window.location.reload();
     } catch (error) {
-      setError(error.response?.data?.message || "Something went wrong");
       console.error("Delete Error:", error);
+      setIsDeleting(false);
     }
   };
-  // console.log(content,blog_id,";");
+
   return (
-    <div className="flexContainer">
-      <div className="cardbody">
-        <div className="flex_">
-          <div className="data">
-            <img
-              className="blogerphoto"
-              src={profilePic}
-              alt="Profile"
-              // height={50}
-              // width={50}
-            />
-            <h5 className="cardtitle">{username}</h5>
-          </div>
-          <div className="del">
-            <div className="close-icon2" onClick={handleDelete}>
-              &times;
-            </div>
+    <div className="blog-post">
+      <div className="blog-post-header">
+        <div className="blog-author">
+          <img 
+            src={blog.profilePic} 
+            alt={`${blog.username}'s profile`} 
+            className="author-avatar" 
+          />
+          <div className="author-details">
+            <h3>{blog.username}</h3>
+            <p>{blog.date} • {blog.time}</p>
           </div>
         </div>
-        <h6 className="date card-subtitle mb-2 text-body-secondary">
-          {date} {time}
-        </h6>
-        <p className="card-text">{content}</p>
-        <img src={photo} className="photoContent"></img>
+        <div className="blog-actions">
+          <button 
+            className="delete-btn" 
+            onClick={handleDelete} 
+            disabled={isDeleting}
+          >
+            {isDeleting ? <Trash2 size={20} /> : <Trash2 size={20} />}
+          </button>
+        </div>
+      </div>
+
+      <div className="blog-content">
+        <p>{blog.content}</p>
+        {blog.image && (
+          <div className="blog-image">
+            <img src={blog.image} alt="Blog content" />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-Blog.propTypes = {
-  blog_id: PropTypes.number, // Add blog_id to props
-  content: PropTypes.string,
-  date: PropTypes.string,
-  time: PropTypes.string,
-  username: PropTypes.string,
-  profilePic: PropTypes.string,
-  photo:PropTypes.string,
-};
-
-export default Blog;
+export default BlogPost;

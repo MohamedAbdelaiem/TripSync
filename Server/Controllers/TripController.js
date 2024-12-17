@@ -263,8 +263,9 @@ exports.addTrip = async (req, res) => {
         ]
       );
       console.log("y1");
-    } catch (sqlError) { console.log(sqlError); }
-
+    } catch (sqlError) {
+      console.log(sqlError);
+    }
 
     try {
       photos.forEach((photo) => {
@@ -274,9 +275,9 @@ exports.addTrip = async (req, res) => {
         ]);
         console.log(photo);
       });
-    } catch (sqlError) { console.log(sqlError); }
-
-
+    } catch (sqlError) {
+      console.log(sqlError);
+    }
 
     await client.query("COMMIT");
     res.status(200).json({
@@ -352,7 +353,7 @@ exports.updateTrip = async (req, res) => {
     }
 
     const tripResult = await client.query(
-      "UPDATE TRIP SET Description = $1, Price = $2, MaxSeats= $3, Destinition= $4, startDate = $5, endDate=$9,StartLocation =$6 ,TravelAgency_ID= $7,sale=$10,pricesale=$11 WHERE Trip_id= $8 Returning Trip_ID",
+      "UPDATE TRIP SET Description = $1, Price = $2, MaxSeats= $3, Destinition= $4, startDate = $5, endDate=$9,StartLocation =$6 ,TravelAgency_ID= $7,sale=$10,saleprice=$11 WHERE Trip_id= $8 Returning Trip_ID",
       [
         Description,
         Price,
@@ -390,7 +391,7 @@ exports.updateTrip = async (req, res) => {
   } catch (err) {
     // Rollback the transaction if there's an error
     await client.query("ROLLBACK");
-    res.status(500).json({ success: false, error: "Error in updating Trip" });
+    res.status(500).json({ success: false, error: err });
   }
 };
 

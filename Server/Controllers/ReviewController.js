@@ -42,9 +42,10 @@ exports.getAllReviewsOfTravelAgency = async (req, res) => {
 
 exports.makeReview = async (req, res) => {
     try{
-        const traveler_id= req.user.user_id;
+        const traveler_id= req.user.user_id;   
         const travelAgency_id=req.params.user_id;
-        const {rating, review}=req.body;
+        const { rating, review } = req.body;
+        console.log(traveler_id, travelAgency_id);
         if(!rating || !review){
             return res.status(400).json({
                 status: "failed",

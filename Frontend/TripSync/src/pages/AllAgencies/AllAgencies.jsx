@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavbarSignedIn from "../../Components/NavbarSignedIn/NavbarSignedIn";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { NavLink, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import TravelAgencyCard from "../../Components/TravelAgencyCard/TravelAgencyCard";
 import axios from "axios";
 import profile from "../../assets/profile.png";
@@ -51,7 +51,7 @@ function AllAgencies() {
 
     return matchesSearch;
   });
-
+  console.log(filteredAgencies);
   // Navigate to the tours page for a specific agency
   const handleAgencyClick = (agencyId) => {
     //console.log(agency)
@@ -75,10 +75,12 @@ function AllAgencies() {
       {isLoading && <div className="loading">Loading ...</div>}
       {!isLoading && (
         <div>
+        
           {filteredAgencies.map((Agency, index) => (
             <div
               key={index}
-              onClick={() => handleAgencyClick(Agency.travelagency_id)} // Pass the agencyId to the new page
+              onClick={() => handleAgencyClick(Agency.travelagency_id
+                )} // Pass the agencyId to the new page
             >
               <TravelAgencyCard
                 name={Agency.username}

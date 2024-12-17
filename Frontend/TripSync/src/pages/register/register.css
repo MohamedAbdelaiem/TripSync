@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 .containerregform {
     color: #fff;
     border-radius: 15px;
@@ -51,7 +52,7 @@
     transition: 15ms;
   }
   
-  #profilephoto {
+  #profilephototrv {
     border: 1px solid #ced4da;
     padding: 5px;
     font-size: 14px;
@@ -75,22 +76,186 @@
   }
   
 
-  .optional{
-    margin-left: 220px;
-    font-size: 12px;
-    font-style: italic;
-    color: #6c757d;
-  }
-  #Address,#Description,#PhoneNumber,#Country,#profileName,#Location,#userName,#pass,#email {
-    border: 1px solid #ced4da;
-    padding: 5px;
-    font-size: 14px;
-    border-radius: 10px;
-    background-color: #e8f3fd;
-    color: #4a4a4a;
-  }
-  #Address,#Description,#PhoneNumber,#Country,#profileName,#Location,#userName,#pass,#email ::placeholder {
-    font-style: italic;
-    font-size: 14px;
-  }
-  
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+  font-family: 'Inter', sans-serif;
+  padding: 20px;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 450px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.register-card:hover {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+.register-header {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  text-align: center;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 15px;
+  stroke-width: 1.5;
+}
+
+.register-header h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.register-form {
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 500;
+}
+
+.input-icon {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  color: #2575fc;
+  stroke-width: 2;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2575fc;
+  box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.2);
+}
+
+.optional {
+  color: #888;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.server-error {
+  background-color: #fff2f0;
+  color: #ff4d4f;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.server-success {
+  background-color: #f6ffed;
+  color: #52c41a;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.file-input {
+  display: none;
+}
+
+.photo-upload label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #f0f2f5;
+  padding: 12px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.photo-upload label:hover {
+  background-color: #e6e8eb;
+}
+
+.photo-preview {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.photo-preview img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2575fc;
+}
+
+.register-button {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.register-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(37, 117, 252, 0.3);
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+}
+
+.login-link a {
+  color: #2575fc;
+  margin-left: 5px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}

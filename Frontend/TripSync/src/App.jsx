@@ -121,7 +121,7 @@ const App = () => {
           {/* <Route path="/Rewards/:id" element={<RewardsList />} /> */}
           <Route path="/TravelAgency" element={<TravelAgency />} />
           <Route path="/Review/:user_id" element={<Review />} />
-          <Route path="/Report" element={<Report />} />
+          <Route path="/Report/:user_id" element={<Report />} />
           <Route path="/Report/policy" element={<Policy />} />
           <Route path="/Blog" element={<Blogs />} />
           <Route path="/Blog/ALLAgencies" element={<AllAgencies />} />

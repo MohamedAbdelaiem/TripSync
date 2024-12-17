@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedInner";
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 import "./Review.css";
@@ -16,11 +16,10 @@ function Review() {
   const [success, setSuccess] = useState("");
   const [reviews, setReviews] = useState([]); // State to hold fetched reviews
   const location = useLocation();
-
   const { user } = useContext(UserContext);
-  const {user_id} = useParams();
+  const { user_id } = useParams();
 
-  const Base_URL = `http://localhost:3000/api/v1/users/${user_id}/reviews`; // Dynamically use the userId in the URL
+  const Base_URL = `http://localhost:3000/api/v1/users/${user_id}/reviews/reviews`; // Dynamically use the userId in the URL
 
   const handleInputChange = (event) => {
     const newRating = Math.min(Math.max(Number(event.target.value), 0), 5);
@@ -82,7 +81,9 @@ function Review() {
         {user.role === "traveller" && (
           <div className="cardReview">
             <div className="card-body">
-              <div className="titleReview h4">Let us Know about what you think</div>
+              <div className="titleReview h4">
+                Let us Know about what you think
+              </div>
               Rate us!
               <div className="progress">
                 <StarProgress rating={rating} />

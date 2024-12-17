@@ -172,8 +172,9 @@ function Register_TravelAgency() {
 
         if (response.data.status === "success") {
           localStorage.setItem("token", response.data.token);
+          console.log(response.data.data.user);
           setServerSuccess("Travel Agency registered successfully");
-          setUser(response.data.data);
+          setUser(response.data.data.user);
           setTimeout(() => {
             navigate("/");
           }, 2000);

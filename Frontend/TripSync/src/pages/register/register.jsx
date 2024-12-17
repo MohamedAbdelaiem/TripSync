@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { UserPlus, Mail, Lock, User, Image } from 'lucide-react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../assets/userContext";
 import './Register.css';
 
 function Register() {
@@ -16,6 +17,8 @@ function Register() {
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState('');
   const [serverSuccess, setServerSuccess] = useState('');
+
+  const { setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -128,6 +131,7 @@ function Register() {
         if (response.data.status === "success") {
           localStorage.setItem("token", response.data.token);
           setServerSuccess(response.data.message);
+          setUser(response.data.data.user);
           setTimeout(() => {
             navigate("/");
           }, 2000);
@@ -201,7 +205,7 @@ function Register() {
             </label>
             <input
               type="password"
-              id="pass"
+              id="password"
               placeholder="Create a strong password"
               value={formData.password}
               onChange={handleChange}

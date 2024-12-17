@@ -48,12 +48,12 @@
 }
 
 .blogerphoto {
-  /* margin-left: -10px; */
-  /* margin-top: -10px; */
-  width: 105px;
+  width: 100px; 
   height: 100px;
-  border-radius: 50px;
+  border-radius: 80%; 
+  object-fit: cover;
 }
+
 
 .date {
   margin-top: 10px;
@@ -112,10 +112,13 @@
 
 .del {
   margin-top: -5.3px;
-  margin-left: 140px;
+  margin-left: 100px;
 }
 
 .photoContent {
   width:400px;
-  margin-left: 45px;
+  margin-left: 70px;
+}
+.data{
+  width:400px;
 }

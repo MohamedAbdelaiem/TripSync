@@ -1,19 +1,21 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import planeImage from "../../assets/plane.png";
-import { NavLink,useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import profile from "../../assets/profile.png";
 import { UserContext } from "../../assets/userContext";
-import './NavbarSignedIn.css'
+import "./NavbarSignedIn.css";
 
 function NavbarSignedIn({ id, about }) {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const goToProfile = () => {
-    if(user)
-    {
+    if (user) {
       if (user.role === "traveller") {
-        navigate(`/Traveller-Profile/${user.user_id}`);
+        {
+          navigate(`/Traveller-Profile/${user.user_id}`);
+          console.log("traveller");
+        }
       } else if (user.role === "travel_agency") {
         navigate(`/travel-agency/${user.user_id}`);
       } else if (user.role === "admin") {
@@ -58,19 +60,18 @@ function NavbarSignedIn({ id, about }) {
             </NavLink>
             <NavLink to="AllTripsList" className={"AllTripsList"}>
               <li className="AllTripsList mx-2">Trips</li>
-
             </NavLink>
             {/* Profile and logout button at the end */}
             <div className="profile-logout-container ml-auto">
-                <img
-                  src={(user)?user.profilephoto:profile}
-                  height={50}
-                  width={50}
-                  className="profile-img"
-                  alt="Profile"
-                  onClick={goToProfile}
+              <img
+                src={user ? user.profilephoto : profile}
+                height={50}
+                width={50}
+                className="profile-img"
+                alt="Profile"
+                onClick={goToProfile}
               />
-              {console.log(user,"ll")}
+              {/* {console.log(user, "ll")} */}
               <button
                 className="logoutButton"
                 onClick={() => {

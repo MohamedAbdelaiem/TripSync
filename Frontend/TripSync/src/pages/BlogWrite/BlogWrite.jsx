@@ -3,23 +3,25 @@ import Blog from "../../Components/Blog/Blog";
 import profilePic from "../../assets/profile.png";
 import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedInner";
 import "./BlogWrite.css";
-import { NavLink ,useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 // import { Navigate } from "react-router-dom";
 function BlogWrite() {
+  const Base_Url_get = "http://localhost:3000/api/v1/blogs/AllBlogs";
+  const Base_URL = "http://localhost:3000/api/v1/blogs/CreateBlog";
   const navigate = useNavigate();
   const [photoPreview, setPhotoPreview] = useState(null);
-  const Base_URL = "http://localhost:3000/api/v1/blogs/CreateBlog";
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [file, setFile] = useState(null);
 
   const handleClick = () => {
-    navigate("/Blog"); 
+    navigate("/Blog");
   };
 
   const handlePhotoChange = (event) => {
@@ -53,7 +55,32 @@ function BlogWrite() {
       return null;
     }
   }
+  const [blogs, setBlogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const fetchBlogs = async () => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(Base_Url_get, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      // setBlogs(response.data.data);
+      setBlogs(response.data.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -97,66 +124,39 @@ function BlogWrite() {
             className="newBlogParent"
           ></input>
         </NavLink>
-        <div className="blogs-container">
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-        </div>
+        {isLoading ? (
+          <h3 className="loading">Loading...</h3>
+        ) : (
+          <div className="blogs-container">
+            {(() => {
+              const blogElements = [];
+              blogs.forEach((blog) => {
+                // Convert the blog.time to a readable format (e.g., HH:mm:ss)
+                const time = new Date(
+                  `1970-01-01T${blog.time}Z`
+                ).toLocaleTimeString();
+
+                blogElements.push(
+                  <Blog
+                    key={blog.blog_id}
+                    blog_id={blog.blog_id}
+                    content={blog.content}
+                    profilePic={blog.profilephoto || profilePic}
+                    time={time} // Formatted time
+                    date={new Date(blog.date).toLocaleDateString()} // Formatted date
+                    username={blog.profilename || blog.username}
+                    photo={blog.photo}
+                  />
+                );
+              });
+              return blogElements;
+            })()}
+          </div>
+        )}
       </div>
 
       <div className="centered-input-container">
-          <div class="close-icon" onClick={handleClick}></div>
+        <div class="close-icon" onClick={handleClick}></div>
         <div className="inputbox">
           <input
             type="text"
@@ -166,22 +166,27 @@ function BlogWrite() {
           />
         </div>
 
-
         {/* <NavLink to={`/Blog`}> */}
-          <button id="post" onClick={handlePost}>
-            Post
-          </button>
+        <button id="post" onClick={handlePost}>
+          Post
+        </button>
         {/* </NavLink> */}
         <input
           type="file"
           className="form-controlPhoto"
           id="profilephoto"
           accept="image/*"
-          onChange={(e) => {handleFileChange(e)}}
+          onChange={(e) => {
+            handleFileChange(e);
+          }}
         />
         <label htmlFor="profilephoto">Upload Photo</label>
         {photoPreview && (
-          <img src={photoPreview} alt="Profile Preview" id="profilephotoWrite" />
+          <img
+            src={photoPreview}
+            alt="Profile Preview"
+            id="profilephotoWrite"
+          />
         )}
       </div>
     </>

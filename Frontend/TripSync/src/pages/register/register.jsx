@@ -19,9 +19,16 @@ function Register() {
 
   const navigate = useNavigate();
 
+  const handlePhotoChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
+    }
+  };
   const handleFileChange = (event) => {
     console.log(event.target.files[0]);
     setFile(event.target.files[0]);
+    handlePhotoChange(event);
   };
 
   async function handlesImage(filex) {
@@ -67,16 +74,15 @@ function Register() {
           withCredentials: true,
         }
       );
-      if(response.data.status==="success"){
+      if (response.data.status === "success") {
         localStorage.setItem("token", response.data.token);
         setSuccess(response.data.message);
         setTimeout(() => {
           navigate("/");
         }, 2000);
-        }
-        else{
-          setError(response.data.message);
-        }
+      } else {
+        setError(response.data.message);
+      }
     } catch (error) {
       console.error(error);
       setError(error.response.data.message);
@@ -162,7 +168,9 @@ function Register() {
                 className="form-controlPhoto"
                 id="profilephoto"
                 accept="image/*"
-                onChange={(e) => {handleFileChange(e)}}
+                onChange={(e) => {
+                  handleFileChange(e);
+                }}
               />
               <label htmlFor="profilephoto">Upload Photo</label>
               {photoPreview && (

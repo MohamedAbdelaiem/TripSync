@@ -1,72 +1,85 @@
-import React from "react";
-import Blog from "../../Components/Blog/Blog";
-import profilePic from "../../assets/profile.png";
-import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedInner";
-import "./BlogWrite.css";
-import { NavLink ,useNavigate} from "react-router-dom";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-// import { Navigate } from "react-router-dom";
+import { 
+  Image, 
+  Send, 
+  X, 
+  Upload, 
+  Smile 
+} from "lucide-react";
+import EmojiPicker from "emoji-picker-react";
+import "./BlogWrite.css";
+
 function BlogWrite() {
   const navigate = useNavigate();
-  const [photoPreview, setPhotoPreview] = useState(null);
-  const Base_URL = "http://localhost:3000/api/v1/blogs/CreateBlog";
+  const fileInputRef = useRef(null);
+  
   const [description, setDescription] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [photoPreview, setPhotoPreview] = useState(null);
   const [file, setFile] = useState(null);
+  const [isEmojiOpen, setIsEmojiOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [isPosting, setIsPosting] = useState(false);
 
-  const handleClick = () => {
-    navigate("/Blog"); 
-  };
+  const Base_URL = "http://localhost:3000/api/v1/blogs/CreateBlog";
 
   const handlePhotoChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      setPhotoPreview(URL.createObjectURL(selectedFile));
+      setFile(selectedFile);
     }
   };
 
-  const handleFileChange = (event) => {
-    console.log(event.target.files[0]);
-    setFile(event.target.files[0]);
-    handlePhotoChange(event);
+  const handleRemovePhoto = () => {
+    setPhotoPreview(null);
+    setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
-  async function handlesImage(filex) {
-    const file = filex;
-    const CLOUDINARY_URL =
-      "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
-    if (file) {
+  async function uploadToCloudinary(fileToUpload) {
+    const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
+    if (fileToUpload) {
       const data = new FormData();
-      data.append("file", file);
-      data.append("upload_preset", "TripSync"); // Cloudinary upload preset
-      data.append("cloud_name", "dxm7trzb5"); // Cloudinary cloud name
+      data.append("file", fileToUpload);
+      data.append("upload_preset", "TripSync");
+      data.append("cloud_name", "dxm7trzb5");
 
-      const response = await axios.post(CLOUDINARY_URL, data);
-      const urlimage = response.data;
-      console.log(urlimage.url);
-      return urlimage.url;
-    } else {
-      return null;
+      try {
+        const response = await axios.post(CLOUDINARY_URL, data);
+        return response.data.url;
+      } catch (error) {
+        console.error("Cloudinary upload error:", error);
+        return null;
+      }
     }
+    return null;
   }
-
 
   const handlePost = async (e) => {
     e.preventDefault();
+    setIsPosting(true);
     setError("");
-    setSuccess("");
+
+    if (!description.trim()) {
+      setError("Please enter a blog description");
+      setIsPosting(false);
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
-      const url = await handlesImage(file);
-      const response = await axios.post(
+      const photoUrl = file ? await uploadToCloudinary(file) : null;
+
+      await axios.post(
         Base_URL,
         {
           description,
-          photo: url,
+          photo: photoUrl,
         },
         {
           headers: {
@@ -74,117 +87,105 @@ function BlogWrite() {
           },
         }
       );
-      setSuccess(response.data.message);
-      console.log(response.data.data[0].content);
-      handleClick();
+
+      navigate("/Blog");
     } catch (error) {
-      setError(error.message);
-      console.log("error", error.response.data.message);
-      console.log(description);
-      // console.log(token);
+      setError(error.response?.data?.message || "Failed to post blog");
+      setIsPosting(false);
     }
   };
 
+  const handleEmojiClick = (emojiObject) => {
+    setDescription(prev => prev + emojiObject.emoji);
+  };
+
   return (
-    <>
-      <div className="blur-overlay">
-        <NavbarSignedInner />
+    <motion.div 
+      className="blog-write-container"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="blog-write-content">
+        <button 
+          className="close-btn" 
+          onClick={() => navigate("/Blog")}
+        >
+          <X size={24} />
+        </button>
 
-        <NavLink to={"/blogWrite"}>
-          <input
-            type="text"
-            placeholder="What's in your mind?"
-            className="newBlogParent"
-          ></input>
-        </NavLink>
-        <div className="blogs-container">
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-          <Blog
-            content={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae velit odio qui ipsum, consequuntur porro accusamus, repudiandae dolorum voluptates est quaerat! Minus, dolore soluta quasi laborum suscipit quas eius quisquam."
-            }
-            profilePic={profilePic}
-            time={"12:20"}
-            date={"10/10/2024"}
-            username={"Esraa"}
-          />
-        </div>
-      </div>
-
-      <div className="centered-input-container">
-          <div class="close-icon" onClick={handleClick}></div>
-        <div className="inputbox">
-          <input
-            type="text"
-            placeholder="What's in your mind?"
-            className="centered-input"
-            onChange={(e) => setDescription(e.currentTarget.value)}
-          />
+        <div className="blog-write-header">
+          <h2>Create a New Blog</h2>
         </div>
 
+        <div className="blog-write-input-container">
+          <textarea 
+            placeholder="What's on your mind?"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="blog-description-input"
+            rows={4}
+          />
 
-        {/* <NavLink to={`/Blog`}> */}
-          <button id="post" onClick={handlePost}>
-            Post
-          </button>
-        {/* </NavLink> */}
-        <input
-          type="file"
-          className="form-controlPhoto"
-          id="profilephoto"
-          accept="image/*"
-          onChange={(e) => {handleFileChange(e)}}
-        />
-        <label htmlFor="profilephoto">Upload Photo</label>
-        {photoPreview && (
-          <img src={photoPreview} alt="Profile Preview" id="profilephotoWrite" />
-        )}
+          <div className="blog-write-actions">
+            <div className="action-left">
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                accept="image/*" 
+                onChange={handlePhotoChange}
+                className="file-input"
+                id="file-upload"
+              />
+              <label htmlFor="file-upload" className="upload-btn">
+                <Image size={20} />
+                <span>Photo</span>
+              </label>
+
+              <button 
+                className="emoji-btn" 
+                onClick={() => setIsEmojiOpen(!isEmojiOpen)}
+              >
+                <Smile size={20} />
+              </button>
+            </div>
+
+            <button 
+              className="post-btn" 
+              onClick={handlePost}
+              disabled={isPosting}
+            >
+              {isPosting ? "Posting..." : "Post"}
+              <Send size={18} />
+            </button>
+          </div>
+
+          {isEmojiOpen && (
+            <div className="emoji-picker-container">
+              <EmojiPicker onEmojiClick={handleEmojiClick} />
+            </div>
+          )}
+
+          {photoPreview && (
+            <div className="photo-preview">
+              <img src={photoPreview} alt="Blog Preview" />
+              <button 
+                className="remove-photo-btn" 
+                onClick={handleRemovePhoto}
+              >
+                <X size={16} />
+              </button>
+            </div>
+          )}
+
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
+        </div>
       </div>
-    </>
+    </motion.div>
   );
 }
 

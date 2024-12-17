@@ -69,6 +69,15 @@ function AdminSideBar({ onMenuSelected }) {
         >
           Create Admin
         </li>
+
+        <li
+          onClick={() => {
+            onMenuSelected("edit-me");
+          }}
+          className="admin-menu-item"
+        >
+          Edit Me
+        </li>
       </ul>
     </div>
   );

@@ -9,6 +9,7 @@ import AdminRewards from "../../Components/Admin/AdminRewards/AdminRewards";
 import AllPolicies from "../../Components/Admin/AdminPolicies/AllPolicies";
 import CreateAdmin from "../../Components/Admin/CreateAdmin/CreateAdmin";
 import AllAdminsList from "../../Components/Admin/AllAdminsList/AllAdmins";
+import AdminEditForm from "../../Components/Admin/editAdmin/editAdmin";
 
 
 import React, { useState, useEffect, useContext } from "react";
@@ -27,6 +28,7 @@ function AdminView() {
   const [dis_all_policies, set_dis_all_policies] = useState(false);
   const [dis_create_admin, set_dis_create_admin] = useState(false);
   const [dis_all_admins, set_dis_all_admins] = useState(false);
+  const [edit_me, set_edit_me] = useState(false);
 
   const [all_user_trips, set_all_user_trips] = useState([]);
   const [all_Travellers, set_all_Travellers] = useState([]);
@@ -77,6 +79,7 @@ function AdminView() {
     set_dis_all_policies(selected_item_name === "all-policies" ? true : false);
     set_dis_create_admin(selected_item_name === "create-admin" ? true : false);
     set_dis_all_admins(selected_item_name === "all-admins" ? true : false);
+    set_edit_me(selected_item_name === "edit-me" ? true : false);
   };
   const getAllTravelAgencies = async () => {
     try {
@@ -260,6 +263,11 @@ function AdminView() {
       {dis_create_admin ? (
         <CreateAdmin
           rerender = {getAllAdmins}
+        />
+      ) : null}
+
+      {edit_me ? (
+        <AdminEditForm
         />
       ) : null}
     </div>

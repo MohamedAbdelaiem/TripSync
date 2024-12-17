@@ -384,7 +384,7 @@ exports.UpdateMe = async (req, res) => {
         if (newPassword) {
             if (!previousPassword) {
                 await client.query('ROLLBACK');  // Rollback transaction on error
-                return res.json({ success: false, message: "Please provide previous password" });
+                return res.status(400).json({ success: false, message: "Please provide previous password" });
             }
             
             const user = await client.query('SELECT password FROM users WHERE user_id=$1', [req.params.user_id]);
@@ -393,13 +393,17 @@ exports.UpdateMe = async (req, res) => {
             
             if (!isMatch) {
                 await client.query('ROLLBACK');  // Rollback transaction on error
-                return res.json({ success: false, message: "Incorrect password" });
+                return res.status(400).json({ success: false, message: "Incorrect password" });
             }
             
             const hashedPassword = await bcrypt.hash(newPassword, 12);
             await client.query('UPDATE users SET password=$1 WHERE user_id=$2', [hashedPassword, req.params.user_id]);
 
-            const token = jwt.sign({ user_id: req.params.user_id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
+            console.log('Password updated successfully');
+
+            const token = jwt.sign({ user_id: req.params.user_id }, process.env.JWT_SECRET, {
+              expiresIn: process.env.JWT_EXPIRES_IN,
+            });
             const cookieOptions = {
               expires: new Date(
                 Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,

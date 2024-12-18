@@ -31,4 +31,12 @@ reportRouter
     ReportController.deleteReport
   );
 
+reportRouter
+  .route("/deleteReportForAdmin")
+  .delete(
+    AuthConroller.protect,
+    AuthConroller.restrictTo("admin"),
+    ReportController.deleteReportForAdmin
+);  
+
 module.exports = reportRouter;

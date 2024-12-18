@@ -189,3 +189,22 @@ exports.deleteReport = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.deleteReportForAdmin = async (req, res) => {
+  try{
+    const traveller_id=req.body.traveller_id;
+    const travelAgency_id=req.body.travelAgency_id;
+
+    const deleteReport=await client.query(`DELETE FROM Report WHERE TRAVELLER_ID=$1 AND TRAVEL_AGENCY_ID=$2`,[traveller_id,travelAgency_id]);
+    res.status(200).json({
+      status:"true",
+      message:"Report deleted successfully",
+    });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        status: "false",
+        message: "Internal Server Error",
+      });
+    }
+}

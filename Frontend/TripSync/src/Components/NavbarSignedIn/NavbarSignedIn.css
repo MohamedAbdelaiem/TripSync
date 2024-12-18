@@ -1,7 +1,7 @@
 .AllAgencies {
     text-decoration: none;
-    color: black;
-    font-size: 16px;
+    /* color: black; */
+    /* font-size: 16px; */
     /* font-weight: 500; */
     transition: color 0.3s ease;
 }
@@ -15,7 +15,9 @@
 .AllAgencies:hover {
     color: #007bff;
 }
-
+.blogNav{
+    color: #333;
+}
 .logoutButton {
     background-color: #f44336;
     color: white;

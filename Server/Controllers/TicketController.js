@@ -88,7 +88,7 @@ exports.addTicket = async (req, res) => {
     [TRIP_ID]
   );
 
-  if (maxSeates < NumberOfSeats + totalSeats)
+  if (maxSeates.rows[0].maxseats < NumberOfSeats + totalSeats.rows[0].sum)
     return res.status(500).json({
       status: "false",
       message: "There is not available seates",

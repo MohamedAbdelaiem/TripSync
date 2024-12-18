@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { UserPlus, Mail, Lock, User, Image } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../assets/userContext";
 import "./Register.css";
 
 function Register() {
@@ -18,21 +17,8 @@ function Register() {
   const [serverError, setServerError] = useState("");
   const [serverSuccess, setServerSuccess] = useState("");
 
-  const { setUser } = useContext(UserContext);
-
   const navigate = useNavigate();
 
-  const handlePhotoChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setPhotoPreview(URL.createObjectURL(file)); // Create a URL for preview
-    }
-  };
-  const handleFileChange = (event) => {
-    console.log(event.target.files[0]);
-    setFile(event.target.files[0]);
-    handlePhotoChange(event);
-  };
   const handleChange = (e) => {
     const { id, value, files } = e.target;
 
@@ -143,7 +129,6 @@ function Register() {
         if (response.data.status === "success") {
           localStorage.setItem("token", response.data.token);
           setServerSuccess(response.data.message);
-          setUser(response.data.data.user);
           setTimeout(() => {
             navigate("/");
           }, 2000);
@@ -158,101 +143,11 @@ function Register() {
   };
 
   return (
-    <>
-     <Sub_Navbar />
-      <div className="Register containerregform d-flex justify-content-center align-items-center vh-100">
-        <div className="card p-4 shadow-sm w-100" style={{ maxWidth: "400px" }}>
-          <h3 className="text-center mb-4">Register</h3>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="userName" className="form-label">
-                User Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="userName"
-                placeholder="Enter your user name"
-                required
-                onChange={(e) => setUserName(e.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="profileName" className="form-label">
-                Profile Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="profileName"
-                placeholder="Enter your user profile name"
-                required
-                onChange={(e) => setProfileName(e.currentTarget.value)}
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email Address
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="Enter your email"
-                required
-                onChange={(e) => setEmail(e.currentTarget.value)}
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="pass" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="pass"
-                placeholder="Enter your password"
-                required
-                onChange={(e) => setPassword(e.currentTarget.value)}
-              />
-            </div>
-
-            <div className="photo mb-2">
-              <label htmlFor="profilephoto" className="form-label">
-                Profile Photo <span className="optional">(optional)</span>
-              </label>
-              <input
-                type="file"
-                className="form-controlPhoto"
-                id="profilephoto"
-                accept="image/*"
-                onChange={(e) => {
-                  handleFileChange(e);
-                }}
-              />
-              <label htmlFor="profilephoto">Upload Photo</label>
-              {photoPreview && (
-                <img
-                  src={photoPreview}
-                  alt="Profile Preview"
-                  id="profilephoto"
-                />
-              )}
-            </div>
-
-            <div className="d-grid">
-              <button type="submit" className="btnReg">
-                Register
-              </button>
-            </div>
-          </form>
-          {/* <div className="register-container">
+    <div className="register-container">
       <div className="register-card">
         <div className="register-header">
           <UserPlus className="header-icon" />
-          <h2>Create Your Account</h2> */}
+          <h2>Create Your Account</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="register-form">
@@ -313,7 +208,7 @@ function Register() {
             </label>
             <input
               type="password"
-              id="password"
+              id="pass"
               placeholder="Create a strong password"
               value={formData.password}
               onChange={handleChange}
@@ -360,8 +255,7 @@ function Register() {
           </div>
         </form>
       </div>
-    </> 
-    // </div >
+    </div>
   );
 }
 

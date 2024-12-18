@@ -23,7 +23,7 @@ const Tours = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await axios.get(Base_Url, {
+      const response = await axios.get(`http://localhost:3000/api/v1/users/myProfile/trips/getAllTrips`, {
         headers: { 
           Authorization: `Bearer ${token}`,
         },
@@ -67,6 +67,7 @@ const Tours = () => {
         tours={tours}
         onAddNewTour={() => navigate("/add-new-tour")}
         onDeleteTour={handleDeleteTour} // Pass the delete handler
+        ID={user_id}
       />
     </div>
   );

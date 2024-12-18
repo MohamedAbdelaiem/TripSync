@@ -45,7 +45,7 @@ function AdminReport({
       <div className="report-actions">
         <button
           className="delete-report-btn"
-          // onClick={() => onDeleteReport(report.id)}
+          onClick={() => onDeleteReport(report.travellerid, report.travelagencyid)}
         >
           Delete Report
         </button>

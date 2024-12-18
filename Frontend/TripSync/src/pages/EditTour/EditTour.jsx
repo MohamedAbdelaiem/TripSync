@@ -2,48 +2,91 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios"; // Import axios
 import "./EditTour.css";
+import TravelAgencyProfile from "../TravelAgencyProfile/TravelAgencyProfile";
+import { useContext } from "react";
+import { UserContext } from "../../assets/userContext";
 
 const EditTourPage = () => {
+  const { user } = useContext(UserContext);
   const location = useLocation();
-  const { tourId } = location.state.trip_id || {}; // Assuming you pass the tour ID through state
 
+//  console.log(tourId);
+//  console.log(tour);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    from: "",
-    to: "",
-    description: "",
-    originalPrice: "",
-    salePrice: "",
+    Destinition: "",
+    StartLocation: "",
+    Description: "",
+    Price: "",
+    saleprice: "",
     sale: false,
-    images: [],
-  });
+    photos: [],
+    MaxSeats:1,
+    startDate: "",
+    endDate: "",
+    TravelAgency_ID:user.user_id,
 
+    // Description: "",
+    // Price: "",
+    // MaxSeats: "",
+    // Destinition: "",
+    // endDate: "",
+    // startDate: "",
+    // StartLocation: "",
+    // photos: [],
+    // sale: false,
+    // saleprice: "",
+    // TravelAgency_ID: user.user_id,
+  });
+  const {tour} = location.state || {}; // Assuming you pass the tour ID through state
+  const tourId=tour.trip_id;
   useEffect(() => {
     const fetchTourData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/v1/trips/getTripByID/${tourId}`); // API endpoint for fetching tour data
-        const tourData = response.data;
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/trips/getTripByID/${tourId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+  
+        const tourData = response.data[0];
+        console.log(" tourData")
+        console.log(tourData);  
+  
+        // Normalize response keys to match formData structure
         setFormData({
-          ...tourData,
+          StartLocation: tourData.startlocation || "",
+          Destinition: tourData.destinition || "",
+          Description: tourData.description || "",
+          Price: tourData.price || "",
+          saleprice: tourData.saleprice || "",
           sale: tourData.sale || false,
-          salePrice: tourData.saleprice || "",
-          originalPrice: tourData.price || "",
-          from: tourData.startlocation || "",
-          to: tourData.destinition|| "",
-          images: tourData.photos || [],
+          photos: tourData.photos || [],
+          MaxSeats: tourData.maxseats || 1,
+          startDate: tourData.start_date || "",
+          endDate: tourData.end_date || "",
+          TravelAgency_ID: user.user_id,
         });
       } catch (error) {
         console.error("Error fetching tour data:", error);
       }
     };
+  console.log(tourId);
+    if (tourId) fetchTourData();
+  }, [tourId, user.user_id]);
+  
 
-    if (tourId) fetchTourData(); // Fetch tour data if tourId is available
-  }, [tourId]);
+
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleImageAdd = (e) => {
@@ -74,10 +117,19 @@ const EditTourPage = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
+      //fetchTourData();
+      //console.log(response.data)
+      // formData.MaxSeats=response.data.maxseats;
+      // formData.startDate=response.data.startdate;
+      
       // Send the updated data to the server using axios
-      const response = await axios.put(`http://localhost:3000/api/v1/users/myProfile/trips/updateTrip/1${tourId}`, formData); // Update API endpoint
+      console.log(formData)
+      const token = localStorage.getItem("token");
+      const response = await axios.patch(`http://localhost:3000/api/v1/users/myProfile/trips/updateTrip/${tourId}`, formData,{headers: { 
+        Authorization: `Bearer ${token}`,
+      },}); // Update API endpoint
       console.log("Updated Tour:", response.data);
-      navigate(`/tours`); // Redirect to the tour page after update
+      navigate(-1); // Redirect to the tour page after update
     } catch (error) {
       console.error("Error updating tour data:", error);
     }
@@ -98,8 +150,8 @@ const EditTourPage = () => {
             className="form-input"
             type="text"
             id="from"
-            name="from"
-            value={formData.from || ""}
+            name="StartLocation"
+            value={formData.StartLocation || ""}
             onChange={handleInputChange}
             placeholder="Enter starting location"
           />
@@ -110,8 +162,8 @@ const EditTourPage = () => {
             className="form-input"
             type="text"
             id="to"
-            name="to"
-            value={formData.to || ""}
+            name="Destinition"
+            value={formData.Destinition || ""}
             onChange={handleInputChange}
             placeholder="Enter destination"
           />
@@ -123,8 +175,8 @@ const EditTourPage = () => {
           <textarea
             className="form-input"
             id="description"
-            name="description"
-            value={formData.description || ""}
+            name="Description"
+            value={formData.Description || ""}
             onChange={handleInputChange}
             placeholder="Enter tour description"
             rows="3"
@@ -138,8 +190,8 @@ const EditTourPage = () => {
             className="form-input"
             type="number"
             id="originalPrice"
-            name="originalPrice"
-            value={formData.originalPrice || ""}
+            name="Price"
+            value={formData.Price || ""}
             onChange={handleInputChange}
             placeholder="Enter the original price"
           />
@@ -152,8 +204,8 @@ const EditTourPage = () => {
                 className="form-input"
                 type="number"
                 id="salePrice"
-                name="salePrice"
-                value={formData.salePrice || ""}
+                name="saleprice"
+                value={formData.saleprice || ""}
                 onChange={handleInputChange}
                 placeholder="Enter the sale price"
               />
@@ -192,7 +244,7 @@ const EditTourPage = () => {
               className="form-input"
             />
             <div className="image-preview">
-              {formData.images.map((image, index) => (
+              {formData.photos.map((image, index) => (
                 <div key={index} className="image-item">
                   <img src={image} alt={`Tour ${index + 1}`} />
                   <button

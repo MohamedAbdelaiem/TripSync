@@ -7,24 +7,38 @@ import Slider from "react-slick";
 import axios from "axios"; // Import Axios
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useContext } from "react";
+import { UserContext } from "../../assets/userContext";
 
 const Book = ({ tour, onEnsureBooking }) => {
+   const { user } = useContext(UserContext);
+  const watcher=user.user_id;
   const [ticket, setTicket] = useState(null);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state for the button
   const [error, setError] = useState(null); // Error state
+  const [seats, setSeats] = useState(1); // Number of seats selected (default: 1)
 
   const handleBooking = async () => {
+    if (seats < 1 || seats > tour.maxseats) {
+      setError(`Please select between 1 and ${tour.maxseats} seats.`);
+      return;
+    }
+
     setLoading(true); // Start loading
     setError(null); // Reset error
 
     try {
-      const travellerID = localStorage.getItem("travellerID"); // Fetch TravellerID from storage or backend
-      const response = await axios.post("http://localhost:3000/api/tickets", {
-        tourID: tour.id, // Assuming tour has an ID field
-        travellerID,
-        price: tour.hasSale ? tour.salePrice : tour.price,
-        purchaseDate: new Date().toISOString().split("T")[0],
+      const token = localStorage.getItem("token");
+ //( NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID,DATE)
+      const response = await axios.post(`http://localhost:3000/api/v1/users/payForTrip/${tour.trip_id}`, {
+        TRIB_ID: tour.trip_id, // Assuming tour has an ID field
+        watcher,
+        Price: (tour.sale ? tour.saleprice : tour.price) * seats, // Total price based on seats
+        DATE: new Date().toISOString().split("T")[0],
+        NumberOfSeats:seats, // Number of seats selected
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
       });
 
       setTicket(response.data); // Store the ticket details from the response
@@ -58,7 +72,7 @@ const Book = ({ tour, onEnsureBooking }) => {
     <div className="book-page-container">
       <div className="book-page-slider">
         <Slider {...settings}>
-          {tour.images.map((image, index) => (
+          {tour.photos.map((image, index) => (
             <div key={index} className="book-page-slide">
               <img src={image} alt={`Slide ${index + 1}`} />
             </div>
@@ -70,13 +84,17 @@ const Book = ({ tour, onEnsureBooking }) => {
         <h2>{tour.description}</h2>
         <div className="book-page-info">
           <p>
-            <FontAwesomeIcon icon={faMapMarkerAlt} /> From: {tour.startLocation} | To: {tour.destination}
+            <FontAwesomeIcon icon={faMapMarkerAlt} /> From: {tour.startlocation} | To: {tour.destinition}
           </p>
           <p>
-            <FontAwesomeIcon icon={faCalendar} /> Duration: {tour.duration} days
+            <FontAwesomeIcon icon={faCalendar} /> Duration:{
+            Math.ceil(
+              (new Date(tour.enddate) - new Date(tour.startdate)) / (1000 * 60 * 60 * 24)
+            )
+          } days
           </p>
           <p>
-            <FontAwesomeIcon icon={faUser} /> Max Seats: {tour.maxSeats}
+            <FontAwesomeIcon icon={faUser} /> Max Seats: {tour.maxseats}
           </p>
         </div>
 
@@ -84,11 +102,25 @@ const Book = ({ tour, onEnsureBooking }) => {
           {tour.hasSale ? (
             <>
               <span className="original-price">${tour.price}</span>
-              <span className="sale-price">${tour.salePrice}</span>
+              <span className="sale-price">${tour.saleprice}</span>
             </>
           ) : (
             <span className="price">${tour.price}</span>
           )}
+        </div>
+
+        {/* Input for Number of Seats */}
+        <div className="form-group">
+          <label htmlFor="seats">Number of Seats:</label>
+          <input
+            type="number"
+            id="seats"
+            name="NumberOfSeats"
+            min="1"
+            max={tour.maxseats}
+            value={seats}
+            onChange={(e) => setSeats(Number(e.target.value))}
+          />
         </div>
 
         <button
@@ -123,6 +155,9 @@ const Book = ({ tour, onEnsureBooking }) => {
                 <p>
                   <strong>Traveller ID:</strong> {ticket.TravellerID}
                 </p>
+                <p>
+                  <strong>Seats:</strong> {seats}
+                </p>
               </div>
             )}
           </div>
@@ -134,16 +169,16 @@ const Book = ({ tour, onEnsureBooking }) => {
 
 Book.propTypes = {
   tour: PropTypes.shape({
-    id: PropTypes.string.isRequired, // Assuming tour has an ID
+    trip_id: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    maxSeats: PropTypes.number.isRequired,
-    destination: PropTypes.string.isRequired,
+    maxseats: PropTypes.number.isRequired,
+    destinition: PropTypes.string.isRequired,
     duration: PropTypes.number.isRequired,
-    startLocation: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    startlocation: PropTypes.string.isRequired,
+    photos: PropTypes.arrayOf(PropTypes.string).isRequired,
     hasSale: PropTypes.bool,
-    salePrice: PropTypes.number,
+    saleprice: PropTypes.number,
   }).isRequired,
   onEnsureBooking: PropTypes.func.isRequired,
 };

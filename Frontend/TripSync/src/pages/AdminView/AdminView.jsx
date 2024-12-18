@@ -143,7 +143,7 @@ function AdminView() {
           },
         }
       );
-      // console.log(res.data.data);
+      console.log(res.data.data);
       set_all_reports(res.data.data);
     } catch (err) {
       console.log(err);
@@ -199,7 +199,7 @@ function AdminView() {
       } catch (err) {
         console.log(err);
       }
-    }
+  }
 
 
   useEffect(() => {

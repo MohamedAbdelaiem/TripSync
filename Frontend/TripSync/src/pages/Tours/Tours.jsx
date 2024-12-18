@@ -23,7 +23,7 @@ const Tours = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await axios.get(Base_Url, {
+      const response = await axios.get(`http://localhost:3000/api/v1/trips/getTrips/${user_id}`, {
         headers: { 
           Authorization: `Bearer ${token}`,
         },

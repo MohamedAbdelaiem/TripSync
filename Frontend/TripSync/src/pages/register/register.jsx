@@ -159,7 +159,7 @@ function Register() {
 
   return (
     <>
-      <Sub_Navbar />
+     <Sub_Navbar />
       <div className="Register containerregform d-flex justify-content-center align-items-center vh-100">
         <div className="card p-4 shadow-sm w-100" style={{ maxWidth: "400px" }}>
           <h3 className="text-center mb-4">Register</h3>

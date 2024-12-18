@@ -38,7 +38,11 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
           type={type}
           imageSrc={tour.photos && tour.photos.length > 0 ? tour.photos[0] : 'defaultImage.jpg'}  // Check if images exists
           description={tour.description}
-          days={tour.duration}
+          days={
+            Math.ceil(
+              (new Date(tour.enddate) - new Date(tour.startdate)) / (1000 * 60 * 60 * 24)
+            )
+          }
           originalPrice={tour.price}
           destination={tour.destination}
           startLocation={tour.startlocation}

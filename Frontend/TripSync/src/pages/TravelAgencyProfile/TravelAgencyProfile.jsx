@@ -130,7 +130,7 @@ const TravelAgencyProfile = () => {
       <div className="main-content">
         <div className="profile-header">
           {/* Profile Picture */}
-          {isEditing && user.role === "travel_agency"&&id===user.user_id ? (
+          {isEditing && user.role === "travel_agency"&&Number(id)===user.user_id ? (
             <label
               htmlFor="profile-picture-input"
               className="profile-picture-label"
@@ -157,7 +157,7 @@ const TravelAgencyProfile = () => {
           )}
 
           {/* Profile Name */}
-          {isEditing && user.role === "travel_agency"&&id===user.user_id ? (
+          {isEditing && user.role === "travel_agency"&&Number(id)===user.user_id ? (
             <input
               type="text"
               value={profilename}
@@ -218,7 +218,7 @@ const TravelAgencyProfile = () => {
         </div>
 
         {/* Edit and Save Buttons */}
-        {user.role === "travel_agency" && id===user.user_id&& (
+        {user.role === "travel_agency" && Number(id)===user.user_id&& (
           <div className="edit-save-buttons">
             {isEditing ? (
               <button onClick={handleSave} className="save-button">

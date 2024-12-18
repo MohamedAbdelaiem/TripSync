@@ -79,7 +79,7 @@ exports.addTicket = async (req, res) => {
     });
   }
   const totalSeats = await client.query(
-    "SELECT SUM(numberofseats) FROM tickets GROUP BY trip_id WHERE TRIP_ID= $1",
+    "SELECT SUM(numberofseats) FROM tickets WHERE TRIP_ID= $1",
     [TRIP_ID]
   );
 

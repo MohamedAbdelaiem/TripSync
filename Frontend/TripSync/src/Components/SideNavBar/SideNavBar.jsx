@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SideNavBar.css";
 import { NavLink } from "react-router-dom";
 import {
@@ -8,11 +8,24 @@ import {
   FaQuestionCircle,
   FaStar,
   FaExclamationTriangle,
+  FaEnvelope, // أيقونة الرسائل
 } from "react-icons/fa";
+import UserMessages from "../../Components/trav-prof/UserMessages/UserMessages";
+import { useContext } from "react";
+import { useParams } from "react-router-dom";
+import { UserContext } from "../../assets/userContext";
 
 const SideNavBar = ({ userId }) => {
-  // Helper function for constructing URLs
+   const { user } = useContext(UserContext);
+  const [isMessagesOpen, setIsMessagesOpen] = useState(false);
+  const { user_id } = useParams();
+
+  
   const getNavLink = (path) => `${path}/${userId}`;
+
+  
+  const openMessages = () => setIsMessagesOpen(true);
+const closeMessages = () => setIsMessagesOpen(false);
 
   return (
     <div className="side-nav">
@@ -58,6 +71,21 @@ const SideNavBar = ({ userId }) => {
       >
         <FaExclamationTriangle style={{ marginRight: "8px" }} /> Report
       </NavLink>
+
+      <button className="messages-button" onClick={openMessages}>
+        <FaEnvelope style={{ marginRight: "8px" }} /> Messages
+      </button>
+
+ 
+      {isMessagesOpen && (
+        <UserMessages
+          isOpen={isMessagesOpen}
+          onClose={closeMessages}
+          profileId={user_id} //
+          currentUser={user}
+          isOwner={Number(user_id)===Number(user.user_id)}
+        />
+      )}
     </div>
   );
 };

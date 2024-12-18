@@ -30,5 +30,28 @@
     color: white; 
     font-weight: bold;
   }
+  .messages-button {
+    background-color:#f8f9fa; 
+    color:black; 
+    border: none;
+    padding: 10px 15px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+  }
+  
+  .messages-button:hover {
+    background-color:#007bff; 
+    color: white; 
+    font-weight: bold;
+    transition: 0.6s;
+  }
+  
+  .messages-button svg {
+    margin-right: 5px; 
+  }
   
   

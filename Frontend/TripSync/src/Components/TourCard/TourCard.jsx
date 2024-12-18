@@ -63,12 +63,12 @@ const TourCard = ({
               </button>
             </>
            
-          ) : (
+          ) :type==="traveller"? (
             <button className="action-button" onClick={onBook}>
             Book Now
           </button>
           
-          )}
+          ):(<></>)}
         </div>
       </div>
     </div>

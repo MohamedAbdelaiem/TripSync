@@ -78,6 +78,21 @@ exports.addTicket = async (req, res) => {
       error: "Please provide all details",
     });
   }
+  const totalSeats = await client.query(
+    "SELECT SUM(numberofseats) FROM tickets GROUP BY trip_id WHERE TRIP_ID= $1",
+    [TRIP_ID]
+  );
+
+  const maxSeates = await client.query(
+    "SELECT maxseats FROM trip WHERE TRIP_ID = $1",
+    [TRIP_ID]
+  );
+
+  if (maxSeates < NumberOfSeats + totalSeats)
+    return res.status(500).json({
+      status: "false",
+      message: "There is not available seates",
+    });
 
   const tickets = await client.query("SELECT * FROM trip WHERE TRIP_ID = $1", [
     TRIP_ID,
@@ -100,7 +115,7 @@ exports.addTicket = async (req, res) => {
     // // Insert into the tickets table
 
     const ticketsResult = await client.query(
-      'INSERT INTO Tickets ( NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID,DATE) VALUES($1, $2, $3, $4,CURRENT_DATE)',
+      "INSERT INTO Tickets ( NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID,DATE) VALUES($1, $2, $3, $4,CURRENT_DATE)",
       [NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID]
     );
 
@@ -113,9 +128,8 @@ exports.addTicket = async (req, res) => {
     //update points of the traveller
     const traveller_points = await client.query(
       "UPDATE Traveller SET Points=Points+$1 WHERE Traveller_ID = $2",
-      [NumberOfSeats*10, TRAVELLER_ID]
+      [NumberOfSeats * 10, TRAVELLER_ID]
     );
-
 
     await client.query("COMMIT");
 
@@ -129,7 +143,7 @@ exports.addTicket = async (req, res) => {
     res
       .status(500)
       .json({ success: false, error: "Error in creating tickets" });
-    console.log(err);  
+    console.log(err);
   }
 };
 
@@ -177,7 +191,7 @@ exports.deleteTicket = async (req, res) => {
 
     const traveller_points = await client.query(
       "UPDATE Traveller SET Points=Points-$1 WHERE Traveller_ID = $2",
-      [tickets.rows[0].numberofseats*10, TRAVELLER_ID]
+      [tickets.rows[0].numberofseats * 10, TRAVELLER_ID]
     );
 
     await client.query("COMMIT");

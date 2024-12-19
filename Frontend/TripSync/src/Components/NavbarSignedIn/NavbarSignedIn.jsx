@@ -58,7 +58,7 @@ function NavbarSignedIn({ id, about }) {
             <NavLink to="AllAgencies" className={"AllAgencies"}>
               <li className="AllAgencies mx-2">Travel agencies</li>
             </NavLink>
-            <NavLink to="all-trips" className={"all-trips"}>
+            <NavLink to="AllTripsList" className={"AllTripsList"}>
               <li className="AllTripsList mx-2">Trips</li>
             </NavLink>
             {/* Profile and logout button at the end */}

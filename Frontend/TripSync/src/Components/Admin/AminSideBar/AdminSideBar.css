@@ -64,3 +64,17 @@
 .menu-button:hover {
   background-color: #34495e;
 }
+
+
+.return-home-from-admin {
+  color: white;
+  padding: 5px;
+  position: absolute;
+  left: 10px;
+  top: 20px;
+  text-decoration: none;
+}
+
+.return-home-from-admin:hover {
+  transform: scale(1.1);
+} 

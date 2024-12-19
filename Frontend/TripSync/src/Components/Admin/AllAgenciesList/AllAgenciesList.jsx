@@ -5,15 +5,19 @@ function AllAgenciesList({ all_agencies,rerender }) {
   // console.log(all_travellers[0]);
   return (
     <div className="all-agencies-list-container">
+      <div className="stat-card-agencies total">
+        <span className="stat-number-agency">{all_agencies.length}</span>
+        <span className="stat-label-agency">Total Agencies</span>
+      </div>
       {all_agencies.length > 0 ? (
         <ul className="agencies-list">
-          {all_agencies.map((agen,idx) => (
+          {all_agencies.map((agen, idx) => (
             <li key={idx} className="agencies-list-item">
               <AgencyCard
                 image_url={agen.profilephoto}
                 id={agen.travelagency_id}
                 prof_name={agen.profilename}
-                rerender = {rerender}
+                rerender={rerender}
               />
             </li>
           ))}

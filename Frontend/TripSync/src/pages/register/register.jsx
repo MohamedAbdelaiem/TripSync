@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserPlus, Mail, Lock, User, Image } from "lucide-react";
 import { UserContext } from "../../assets/userContext";
 
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
 function Register() {
+  const [showPopupSuccess, setShowPopupSuccess] = useState(false);
   const [photoPreview, setPhotoPreview] = useState(null);
   const [formData, setFormData] = useState({
     userName: "",
@@ -103,6 +104,10 @@ function Register() {
     return null;
   };
 
+  const togglePopupSuccess = () => {
+    setShowPopupSuccess(!showPopupSuccess); // Toggle the popup visibility
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setServerError("");
@@ -131,12 +136,15 @@ function Register() {
         );
 
         if (response.data.status === "success") {
-          localStorage.setItem("token", response.data.token);
-          setUser(response.data.data.user);
-          setServerSuccess(response.data.message);
+          togglePopupSuccess();
           setTimeout(() => {
-            navigate("/");
-          }, 2000);
+            localStorage.setItem("token", response.data.token);
+            setUser(response.data.data.user);
+            setServerSuccess(response.data.message);
+            setTimeout(() => {
+              navigate("/");
+            }, 2000);
+          }, 3000);
         } else {
           setServerError(response.data.message);
         }
@@ -260,6 +268,18 @@ function Register() {
           </div>
         </form>
       </div>
+      {showPopupSuccess && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h5>Success</h5>
+            <p>Sign in successfully</p>
+            <i
+              className="fa-solid fa-check"
+              style={{ color: "#0fc21b", fontSize: "2rem" }}
+            ></i>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

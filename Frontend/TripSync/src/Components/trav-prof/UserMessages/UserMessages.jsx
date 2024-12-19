@@ -49,21 +49,33 @@ const UserMessages = ({
 
 const reRender = () => {
   get_user_messages();
-};
+  };
+  
+    const scrollToLastElement = () => {
+      const ulElement = messUlRef.current;
+      if (ulElement) {
+        const lastChild = ulElement.lastChild; // Get the last child of the <ul>
+        if (lastChild) {
+          lastChild.scrollIntoView(); // Scroll to the last child
+        }
+      }
+    };
+  
 
   
+  useEffect(() => { 
+    scrollToLastElement();
+  },[selectedChatMessages])
 
   useEffect(() => {
     get_user_messages(); // Fetch messages
   }, [profileId]);
-
   useEffect(() => {
     if (userMessages.length > 0) {
-      console.log(1);
       const chatNames = [];
       const chats = [];
       let id = 1;
-      for (let i = 0; i < userMessages.length; i++) {
+      for (let i = userMessages.length-1 ; i >= 0; i--) {
         let message_sender = userMessages[i].sender_name;
         let message_receiver = userMessages[i].receiver_name;
         if (
@@ -118,6 +130,7 @@ const reRender = () => {
       );
       console.log(response.data.data.messages);
       setUserMessages(response.data.data.messages);
+      scrollToLastElement();
     } catch (error) {
       console.log(error);
     }
@@ -175,26 +188,22 @@ const reRender = () => {
   }
   //-----------------------------------------
 
-  const scrollToLastElement = () => {
-    const ulElement = messUlRef.current;
-    if (ulElement) {
-      const lastChild = ulElement.lastElementChild; // Get the last child of the <ul>
-      if (lastChild) {
-        lastChild.scrollIntoView(); // Scroll to the last child
-      }
-    }
-  };
-  
+
 
   const handleChatClick = (chatId) => {
-    const chat = allChats.filter((chat) => chat.chatId == chatId)[0];
-    setSelectedChat(chat);
-    const messages = userMessages.filter(
-      (message) =>
-        message.sender_id == chat.senderId ||
-        message.receiver_id == chat.senderId
-    );
-    setSelectedChatMessages(messages);
+    const all = allChats.filter((chat) => chat.chatId == chatId);
+    if (all.length > 0) {
+      const chat = all[0];
+      setSelectedChat(chat);
+      const messages = userMessages.filter(
+        (message) =>
+          message.sender_id == chat.senderId ||
+          message.receiver_id == chat.senderId
+      );
+      setSelectedChatMessages(messages); 
+      console.log(`chat ${chatId}`);
+      scrollToLastElement();
+    }
   };
 
     const handleSendMessage = (e) => {
@@ -212,11 +221,15 @@ const reRender = () => {
           // time: `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`,
           time: currentDate.toLocaleTimeString().slice(0,8),
         };
+        selectedChatMessages.push(message);
         setNewMessage("");
         sendMessage();
         get_user_messages();
-        handleChatClick(selectedChat.chatId);
-        console.log(message);
+
+        // console.log(selectedChat.chatId);
+        // handleChatClick(selectedChat.chatId);
+        
+        // console.log(message);
       }
     };
 

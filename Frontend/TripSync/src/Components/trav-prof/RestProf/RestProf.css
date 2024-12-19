@@ -151,3 +151,33 @@ h1.greeting-message {
 
 
 
+
+/* Popup content styling */
+.popup-content-Reward {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+}
+
+/* Success heading styling */
+.popup-content-Reward h5 {
+  color: #0fc21b;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Message text styling */
+.popup-content-Reward p {
+  color: #333333;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+/* Icon styling */
+.popup-content-Reward i {
+  display: block;
+  margin: 0 auto;
+}

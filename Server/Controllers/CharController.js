@@ -107,7 +107,7 @@ JOIN
 WHERE 
     (m.SENDER_ID = $1 OR m.RECEIVER_ID = $1)
 ORDER BY 
-    m.MESSAGE_DATE, m.MESSAGE_TIME;
+    m.MESSAGE_DATE , m.MESSAGE_TIME ;
         `;
         const messages = await client.query(query, [id]);
         res.json({

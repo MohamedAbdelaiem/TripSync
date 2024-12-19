@@ -1,0 +1,39 @@
+.reward-card {
+  width: 300px;
+  height: 450px;
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #34495e, #2c3e50);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 15px;
+}
+
+.reward-image {
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid #2c3e50;
+}
+
+.reward-details {
+  width: 100%;
+  text-align: center;
+  color: #ecf0f1;
+}
+
+.reward-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.reward-points {
+  font-size: 1.2rem;
+  color: #bdc3c7;
+}

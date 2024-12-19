@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import Reward from "../Reward/Reward";
 import "./EligibleRewards.css";
 
-const EligibleRewards = ({ rewards, userPoints,rerender }) => {
+const EligibleRewards = ({
+  rewards,
+  userPoints,
+  rerender,
+  owned,
+  showPopUp,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  
   // Filter rewards based on user points
   const eligibleRewards = rewards.filter(
     (reward) => reward.pointsneeded <= userPoints
@@ -28,9 +33,12 @@ const EligibleRewards = ({ rewards, userPoints,rerender }) => {
   };
 
   return (
-    <div className="eligible-rewards" id="user-rewards">
+    <div
+      className="eligible-rewards"
+      id={owned ? "user-own-rewards" : "user-rewards"}
+    >
       <div className="header-container">
-        <h2>Eligible Rewards</h2>
+        <h2>{owned ? "My rewards" : "Eligible Rewards"}</h2>
         <button className="total-rewards-button">
           Total Rewards: {eligibleRewards.length}
         </button>
@@ -54,8 +62,9 @@ const EligibleRewards = ({ rewards, userPoints,rerender }) => {
                 photoLink={reward.photo}
                 requiredPoints={reward.pointsneeded}
                 description={reward.description}
-                reward_claimed={false}
+                reward_claimed={owned}
                 rerender={rerender}
+                showPopUp = {showPopUp}
               />
             ))}
         </div>

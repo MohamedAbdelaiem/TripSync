@@ -97,3 +97,69 @@
   margin: 0;
   padding: 0;
 }
+
+
+.stat-card-traveller {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  transition: transform 0.2s ease;
+}
+
+.stat-card-traveller:hover {
+  transform: translateY(-2px);
+}
+
+.stat-card-traveller.total {
+  border-left: 4px solid #007bff;
+}
+
+.stat-card-traveller.not-started {
+  border-left: 4px solid #ffdd00;
+}
+
+.stat-card-traveller.finished {
+  border-left: 4px solid #4caf50;
+}
+
+.stat-number-traveller {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.stat-label-traveller {
+  font-size: 14px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive styles for statistics */
+@media (max-width: 768px) {
+  .trips-statistics {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .stat-card-traveller {
+    width: 90%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 20px;
+  }
+
+  .stat-number-traveller {
+    margin-bottom: 0;
+    margin-right: 10px;
+  }
+}

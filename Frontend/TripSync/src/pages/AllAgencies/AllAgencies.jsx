@@ -89,7 +89,7 @@ function AllAgencies() {
             </div>
           ))}
           {filteredAgencies.length === 0 && (
-            <p>No Agencies match your criteria.</p>
+            <p className="Nosearch">No Agencies match your criteria.</p>
           )}
         </div>
       )}

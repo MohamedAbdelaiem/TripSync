@@ -1,73 +1,129 @@
-Add general form container styling
+/* AddNewTour.css */
+
+/* General container styling */
 .add-new-tour-container {
-  width: 100%;
-  max-width: 700px;
-  margin: 3rem auto;
-  padding: 2.5rem;
-  background: linear-gradient(145deg, #f5f7fa, #e4e9f2);
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
-.add-new-tour-container:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-}
-
-/* Header */
-.add-new-tour-container h2 {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 1.5rem;
-  color: #4a4a4a;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  color: #fff;
   font-family: 'Arial', sans-serif;
 }
 
-/* Form styling */
+.add-new-tour-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Form Styling */
 .form1111 {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 1rem 0;
-  font-family: 'Arial', sans-serif; /* Ensure consistent font for form */
+  gap: 15px;
 }
 
-/* Label styling */
 .input-label {
+  display: flex;
+  flex-direction: column;
   font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.5rem;
-  text-align: left; /* Align the label text to the left */
-  display: block; /* Ensure labels are displayed as block-level elements */
-  margin-top: 1rem; /* Add spacing between label and input */
 }
 
-/* Input fields styling */
 .input-field {
-  padding: 0.9rem 1.2rem;
-  font-size: 1.1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f1f1f1;
-  transition: all 0.3s ease;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 5px;
+  font-size: 1rem;
+  background-color: #f0f8ff;
+  color: #333;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .input-field:focus {
-  border-color: #5c6bc0;
   outline: none;
-  background-color: #e8ebf3;
+  border: 2px solid #1e90ff;
 }
 
-/* Button styling */
-.btn2, .btn1 {
-  padding: 0.8rem 1.5rem;
-  font-size: 1.1rem;
+.input-field-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+}
+
+/* Buttons */
+.btn1,
+.btn2 {
+  background: #1e90ff;
+  color: white;
+  padding: 10px 20px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  color:white;
-  background-color: blue;
-  transition: all 0.3s ease;
+  transition: transform 0.2s, background 0.3s;
 }
 
+.btn1:hover,
+.btn2:hover {
+  transform: scale(1.05);
+  background: #005bbb;
+}
+
+/* Error Message */
+.error-message {
+  color: #ffcccb;
+  background: #b71c1c;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Image Preview */
+.image-preview {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.image-preview h4 {
+  margin-bottom: 10px;
+}
+
+.image-preview ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.image-preview li img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 2px solid white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .add-new-tour-container {
+    padding: 15px;
+  }
+
+  .form1111 {
+    gap: 10px;
+  }
+
+  .btn1,
+  .btn2 {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}

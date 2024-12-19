@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import NavbarSignedInner from "../../Components/NavbarSignedInner/NavbarSignedInner";
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
+import ReviewCard from "../../Components/reviewCard/reviewCard";
 import "./Review.css";
 import StarProgress from "../../Components/StarProgress/StarProgress";
 import { useLocation } from "react-router-dom";
@@ -62,7 +63,8 @@ function Review() {
             Authorization: `Bearer ${token}`,
           },
         });
-        setReviews(response.data);
+        console.log(response.data);
+        setReviews(response.data.data);
       } catch (error) {
         console.error("Error fetching reviews:", error.message);
       }
@@ -122,22 +124,26 @@ function Review() {
         )}
 
         {user.role === "travel_agency"&&(
-          <div className="reviews-container">
-            <h3>Reviews</h3>
+          <div className="review-card-b">
+            <h3 className="reviews-header-section">Reviews</h3>
+            <section className="review-cards">
+            {console.log(reviews)}
             {reviews.length > 0 ? (
               reviews.map((review, index) => (
-                <div key={index} className="review-item">
-                  <p>
-                    <strong>Rating:</strong> {review.rating} / 5
-                  </p>
-                  <p>
-                    <strong>Review:</strong> {review.review}
-                  </p>
-                </div>
+                <ReviewCard
+                  key={index}
+                  review={review.review}
+                  rate={review.rate}
+                  profilename={review.profilename}
+                  profilephoto={review.profilephoto}
+                  traveller_id={review.traveller_id}
+                  travel_agency_id={review.travel_agency_id}
+                />
               ))
             ) : (
               <p>No reviews yet.</p>
             )}
+            </section>
           </div>
         )}
       </div>

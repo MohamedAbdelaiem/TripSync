@@ -1,45 +1,58 @@
-import React, { useState,useContext } from "react";
-import { 
-  UserPlus, Mail, Lock, User, MapPin, Phone, 
-  Globe, FileText, Image, Building 
-} from 'lucide-react';
+import React, { useState, useContext } from "react";
+import {
+  UserPlus,
+  Mail,
+  Lock,
+  User,
+  MapPin,
+  Phone,
+  Globe,
+  FileText,
+  Image,
+  Building,
+} from "lucide-react";
 import { UserContext } from "../../assets/userContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import './Register_TravelAgency.css';
+import "./Register_TravelAgency.css";
 
 function Register_TravelAgency() {
   const [photoPreview, setPhotoPreview] = useState(null);
+  const [showPopupSuccess, setShowPopupSuccess] = useState(false);
   const [formData, setFormData] = useState({
-    userName: '',
-    profileName: '',
-    email: '',
-    password: '',
-    address: '',
-    location: '',
-    country: '',
-    phoneNumber: '',
-    description: '',
-    profilePhoto: null
+    userName: "",
+    profileName: "",
+    email: "",
+    password: "",
+    address: "",
+    location: "",
+    country: "",
+    phoneNumber: "",
+    description: "",
+    profilePhoto: null,
   });
   const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState('');
-  const [serverSuccess, setServerSuccess] = useState('');
+  const [serverError, setServerError] = useState("");
+  const [serverSuccess, setServerSuccess] = useState("");
 
   const { user, setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
+
+  const togglePopupSuccess = () => {
+    setShowPopupSuccess(!showPopupSuccess); // Toggle the popup visibility
+  };
   const handleChange = (e) => {
     const { id, value, files } = e.target;
-    
-    if (id === 'profilephoto') {
+
+    if (id === "profilephoto") {
       const file = files[0];
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        profilePhoto: file
+        profilePhoto: file,
       }));
-      
+
       if (file) {
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -48,9 +61,9 @@ function Register_TravelAgency() {
         reader.readAsDataURL(file);
       }
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [id]: value
+        [id]: value,
       }));
     }
   };
@@ -60,59 +73,59 @@ function Register_TravelAgency() {
 
     // Username validation
     if (!formData.userName) {
-      newErrors.userName = 'Username is required';
+      newErrors.userName = "Username is required";
     } else if (formData.userName.length < 3) {
-      newErrors.userName = 'Username must be at least 3 characters';
+      newErrors.userName = "Username must be at least 3 characters";
     }
 
     // Profile Name validation
     if (!formData.profileName) {
-      newErrors.profileName = 'Profile Name is required';
+      newErrors.profileName = "Profile Name is required";
     } else if (formData.profileName.length < 2) {
-      newErrors.profileName = 'Profile Name must be at least 2 characters';
+      newErrors.profileName = "Profile Name must be at least 2 characters";
     }
 
     // Email validation
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "Email is invalid";
     }
 
     // Password validation
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
+      newErrors.password = "Password must be at least 8 characters";
     }
 
     // Phone Number validation
     if (!formData.phoneNumber) {
-      newErrors.phoneNumber = 'Phone Number is required';
+      newErrors.phoneNumber = "Phone Number is required";
     }
 
     // Address validation
     if (!formData.address) {
-      newErrors.address = 'Address is required';
+      newErrors.address = "Address is required";
     } else if (formData.address.length < 5) {
-      newErrors.address = 'Address must be at least 5 characters';
+      newErrors.address = "Address must be at least 5 characters";
     }
 
     // Location validation
     if (!formData.location) {
-      newErrors.location = 'Location is required';
+      newErrors.location = "Location is required";
     }
 
     // Country validation
     if (!formData.country) {
-      newErrors.country = 'Country is required';
+      newErrors.country = "Country is required";
     }
 
     // Description validation
     if (!formData.description) {
-      newErrors.description = 'Description is required';
+      newErrors.description = "Description is required";
     } else if (formData.description.length < 10) {
-      newErrors.description = 'Description must be at least 10 characters';
+      newErrors.description = "Description must be at least 10 characters";
     }
 
     setErrors(newErrors);
@@ -120,7 +133,8 @@ function Register_TravelAgency() {
   };
 
   const handlesImage = async (file) => {
-    const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
+    const CLOUDINARY_URL =
+      "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
     if (file) {
       const data = new FormData();
       data.append("file", file);
@@ -140,8 +154,8 @@ function Register_TravelAgency() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setServerError('');
-    setServerSuccess('');
+    setServerError("");
+    setServerSuccess("");
 
     if (validateForm()) {
       try {
@@ -171,19 +185,22 @@ function Register_TravelAgency() {
         );
 
         if (response.data.status === "success") {
-          localStorage.setItem("token", response.data.token);
-          console.log(response.data.data.user);
-          setServerSuccess("Travel Agency registered successfully");
-          setUser(response.data.data.user);
+          togglePopupSuccess();
           setTimeout(() => {
-            navigate("/");
-          }, 2000);
+            localStorage.setItem("token", response.data.token);
+            console.log(response.data.data.user);
+            setServerSuccess("Travel Agency registered successfully");
+            setUser(response.data.data.user);
+            setTimeout(() => {
+              navigate("/");
+            }, 2000);
+          }, 3000);
         } else {
           setServerError(response.data.message);
         }
       } catch (error) {
         console.error(error);
-        setServerError(error.response?.data?.message || 'An error occurred');
+        setServerError(error.response?.data?.message || "An error occurred");
       }
     }
   };
@@ -195,10 +212,12 @@ function Register_TravelAgency() {
           <Building className="header-icon" />
           <h2>Travel Agency Registration</h2>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="travel-agency-register-form">
           {serverError && <div className="server-error">{serverError}</div>}
-          {serverSuccess && <div className="server-success">{serverSuccess}</div>}
+          {serverSuccess && (
+            <div className="server-success">{serverSuccess}</div>
+          )}
 
           <div className="form-columns">
             <div className="form-column">
@@ -213,7 +232,9 @@ function Register_TravelAgency() {
                   value={formData.userName}
                   onChange={handleChange}
                 />
-                {errors.userName && <p className="error-message">{errors.userName}</p>}
+                {errors.userName && (
+                  <p className="error-message">{errors.userName}</p>
+                )}
               </div>
 
               <div className="form-group">
@@ -227,7 +248,9 @@ function Register_TravelAgency() {
                   value={formData.profileName}
                   onChange={handleChange}
                 />
-                {errors.profileName && <p className="error-message">{errors.profileName}</p>}
+                {errors.profileName && (
+                  <p className="error-message">{errors.profileName}</p>
+                )}
               </div>
 
               <div className="form-group">
@@ -241,7 +264,9 @@ function Register_TravelAgency() {
                   value={formData.email}
                   onChange={handleChange}
                 />
-                {errors.email && <p className="error-message">{errors.email}</p>}
+                {errors.email && (
+                  <p className="error-message">{errors.email}</p>
+                )}
               </div>
 
               <div className="form-group">
@@ -249,13 +274,15 @@ function Register_TravelAgency() {
                   <Lock className="input-icon" /> Password
                 </label>
                 <input
-                    type="password"
-                    id="password"
-                    placeholder="Create a strong password"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />  
-                {errors.password && <p className="error-message">{errors.password}</p>}
+                  type="password"
+                  id="password"
+                  placeholder="Create a strong password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                {errors.password && (
+                  <p className="error-message">{errors.password}</p>
+                )}
               </div>
             </div>
 
@@ -271,7 +298,9 @@ function Register_TravelAgency() {
                   value={formData.address}
                   onChange={handleChange}
                 />
-                {errors.address && <p className="error-message">{errors.address}</p>}
+                {errors.address && (
+                  <p className="error-message">{errors.address}</p>
+                )}
               </div>
 
               <div className="form-group">
@@ -285,7 +314,9 @@ function Register_TravelAgency() {
                   value={formData.location}
                   onChange={handleChange}
                 />
-                {errors.location && <p className="error-message">{errors.location}</p>}
+                {errors.location && (
+                  <p className="error-message">{errors.location}</p>
+                )}
               </div>
 
               <div className="form-group">
@@ -299,7 +330,9 @@ function Register_TravelAgency() {
                   value={formData.country}
                   onChange={handleChange}
                 />
-                {errors.country && <p className="error-message">{errors.country}</p>}
+                {errors.country && (
+                  <p className="error-message">{errors.country}</p>
+                )}
               </div>
 
               <div className="form-group">
@@ -313,7 +346,9 @@ function Register_TravelAgency() {
                   value={formData.phoneNumber}
                   onChange={handleChange}
                 />
-                {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
+                {errors.phoneNumber && (
+                  <p className="error-message">{errors.phoneNumber}</p>
+                )}
               </div>
             </div>
           </div>
@@ -328,12 +363,14 @@ function Register_TravelAgency() {
               value={formData.description}
               onChange={handleChange}
             />
-            {errors.description && <p className="error-message">{errors.description}</p>}
+            {errors.description && (
+              <p className="error-message">{errors.description}</p>
+            )}
           </div>
 
           <div className="form-group photo-upload">
             <label htmlFor="profilephoto">
-              <Image className="input-icon" /> Profile Photo 
+              <Image className="input-icon" /> Profile Photo
               <span className="optional">(optional)</span>
             </label>
             <input
@@ -355,14 +392,31 @@ function Register_TravelAgency() {
           </button>
 
           <div className="login-link">
-            Already have an account? 
-            <a href="/login" onClick={(e) => {
-              e.preventDefault();
-              navigate('/Sign_in');
-            }}>
+            Already have an account?
+            <a
+              href="/login"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/Sign_in");
+              }}
+            >
               Log in
             </a>
           </div>
+       
+
+          {showPopupSuccess && (
+            <div className="popup-overlay">
+              <div className="popup-content">
+                <h5>Success</h5>
+                <p>Sign in successfully</p>
+                <i
+                  className="fa-solid fa-check"
+                  style={{ color: "#0fc21b", fontSize: "2rem" }}
+                ></i>
+              </div>
+            </div>
+          )}
         </form>
       </div>
     </div>

@@ -4,6 +4,8 @@ const { start } = require("repl");
 
 exports.getAllTripsOfAgency = async (req, res) => {
   const TRAVELAGENCY_ID = req.user.user_id;
+  console.log(TRAVELAGENCY_ID);
+
   try {
     client.query(
       `
@@ -168,11 +170,11 @@ exports.deleteTrip = async (req, res) => {
   }
   // console.log(Trip.rows[0].travelagency_id, user_id);
   console.log(Trip.rows[0].travelagency_id, user_id);
-  if(req.user.role !== "admin" && Trip.rows[0].travelagency_id != user_id) {
+  if (req.user.role !== "admin" && Trip.rows[0].travelagency_id != user_id) {
     return res.status(403).json({
       status: "failed",
       message: "You are not authorized to delete this trip",
-      });
+    });
   }
 
   try {
@@ -454,6 +456,54 @@ GROUP BY
     trp.StartLocation, trav_agency.ProfileName, trp.StartDate, trp.EndDate, trp.Name
 `,
       [traveller_id],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data");
+        }
+        res.status(200).json(result.rows);
+      }
+    );
+  } catch (e) {
+    res.status(500).json({
+      status: false,
+      message: "Error in fetching data",
+    });
+  }
+};
+exports.getTripsForAgency_id = async (req, res) => {
+  try {
+    const travelAgency_id = req.params.user_id;
+    // console.log(travelAgency_id);
+    client.query(
+      `
+      SELECT 
+        T.Trip_ID,
+        T.Name,
+        T.Description,
+        T.Price,
+        T.MaxSeats,
+        T.Destinition,
+        T.StartDate,
+        T.EndDate,
+        T.StartLocation,
+        T.TravelAgency_ID,
+        T.Sale,
+        T.SalePrice,
+        COALESCE(
+          JSON_AGG(
+            TP.PHOTO
+          ) FILTER (WHERE TP.PHOTO IS NOT NULL), 
+          '[]'
+        ) AS Photos
+      FROM 
+        Trip T
+      LEFT JOIN 
+        TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
+        WHERE  T.TravelAgency_ID=$1
+      GROUP BY 
+        T.Trip_ID;`,
+      [travelAgency_id],
       (err, result) => {
         if (err) {
           console.log(err);

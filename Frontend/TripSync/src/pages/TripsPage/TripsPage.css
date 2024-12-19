@@ -1,0 +1,29 @@
+.trips-page {
+    padding: 20px;
+    font-family: "Arial", sans-serif;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+  }
+  
+  .trips-page h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 2rem;
+  }
+  
+  .trips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #ff5e57;
+    margin-top: 50px;
+  }
+  

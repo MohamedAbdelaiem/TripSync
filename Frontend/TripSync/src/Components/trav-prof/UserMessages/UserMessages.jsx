@@ -63,6 +63,9 @@ const reRender = () => {
   
 
   
+  useEffect(() => { 
+    scrollToLastElement();
+  },[selectedChatMessages])
 
   useEffect(() => {
     get_user_messages(); // Fetch messages

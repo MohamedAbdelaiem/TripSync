@@ -4,9 +4,14 @@ import "./../../../pages/Traveller_Prof/TravellerProf.css";
 import EligibleRewards from "../UserRewards/EligibleRewards";
 import UserTrips from "../UserTrips/UserTrips";
 import UserTickets from "../UserTickets/UserTickets";
+import { useState } from "react";
 
 function RestProf(props) {
   let current_user_is_owner = props.isOwner;
+  const [showPopup, setShowPopup] = useState(false); // State to control the popup visibility
+  const togglePoppUp = () => {
+    setShowPopup(!showPopup);
+  }
   return (
     <>
       <div className="RestProf-container">
@@ -40,6 +45,7 @@ function RestProf(props) {
             userPoints={props.points}
             rerender={props.rerender}
             owned={false}
+            showPopUp={togglePoppUp}
           />
         )}
         <UserTrips userID={props.profileID} trips={props.all_trips} />
@@ -53,6 +59,23 @@ function RestProf(props) {
             rerender={props.rerender}
             owned={true}
           />
+        )}
+
+        {showPopup && (
+          <div className="popup-overlay-Reward-container">
+            <div className="popup-overlay-Reward">
+              <div className="popup-content-Reward">
+                <h5>Success</h5>
+                <p>
+                  Reward Claimed Successfully{" "}
+                  <i
+                    className="fa-solid fa-check"
+                    style={{ color: "#0fc21b", fontSize: "2rem" }}
+                  ></i>
+                </p>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </>

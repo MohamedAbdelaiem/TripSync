@@ -57,12 +57,12 @@ function Review() {
     const fetchReviews = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`${Base_URL}/reviews`, {
+        const response = await axios.get(`${Base_URL}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setReviews(response.data.reviews);
+        setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error.message);
       }

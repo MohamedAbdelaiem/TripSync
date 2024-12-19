@@ -96,7 +96,7 @@ const reRender = () => {
         }
       }
       setAllCahts(chats);
-      scrollToLastElement();
+      // scrollToLastElement();
     }
   }, [userMessages]);
 

@@ -1,21 +1,19 @@
 import React, { useContext } from "react";
 import planeImage from "../../assets/plane.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import profile from "../../assets/profile.png";
 import { UserContext } from "../../assets/userContext";
 import "./NavbarSignedIn.css";
 
-function NavbarSignedIn({ id, about }) {
-  const { user,setUser } = useContext(UserContext);
+function NavbarSignedIn({ id }) {
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const goToProfile = () => {
     if (user) {
       if (user.role === "traveller") {
-        {
-          navigate(`/Traveller-Profile/${user.user_id}`);
-          console.log("traveller");
-        }
+        navigate(`/Traveller-Profile/${user.user_id}`);
       } else if (user.role === "travel_agency") {
         navigate(`/travel-agency/${user.user_id}`);
       } else if (user.role === "admin") {
@@ -23,6 +21,10 @@ function NavbarSignedIn({ id, about }) {
       }
     }
   };
+
+  // Check if the current URL is "http://localhost:5173/"
+  const isHomePage = location.pathname === "/";
+
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -32,6 +34,7 @@ function NavbarSignedIn({ id, about }) {
             src={planeImage}
             width={20}
             height={20}
+            alt="Logo"
           />
           My Dream Place
         </a>
@@ -47,11 +50,13 @@ function NavbarSignedIn({ id, about }) {
                 Home
               </a>
             </li>
-            <li className="aboutNav nav-item mx-2">
-              <a className="aboutNav" href={id} style={{ visibility: about }}>
-                About
-              </a>
-            </li>
+            {isHomePage && ( // Only render the "About" link if on the homepage
+              <li className="aboutNav nav-item mx-2">
+                <a className="aboutNav" href={id}>
+                  About
+                </a>
+              </li>
+            )}
             <NavLink to="/Blog" className={"blogNav"}>
               <li className="blogNav mx-2">Blogs</li>
             </NavLink>
@@ -71,7 +76,6 @@ function NavbarSignedIn({ id, about }) {
                 alt="Profile"
                 onClick={goToProfile}
               />
-              {/* {console.log(user, "ll")} */}
               <button
                 className="logoutButton"
                 onClick={() => {

@@ -19,7 +19,6 @@ function Sign_in() {
   // const [user,setUser]=useState(useContext(UserContext));
 
   const togglePopupFail = () => {
-    console.log("called");
     setShowPopupFail(!showPopupFail); // Toggle the popup visibility
   };
   const togglePopupSuccess = () => {

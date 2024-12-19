@@ -1,13 +1,15 @@
 import { useState } from "react";
 import "./AddReward.css";
 import axios from "axios";
-function AddReward({ closeAddRewardModal, userId,rerender }) {
+
+function AddReward({ closeAddRewardModal, userId, rerender }) {
   const [formData, setFormData] = useState({
     reward_name: "",
     req_points: "",
     reward_photo: null,
     adminId: userId,
-    type: ""
+    type: "",
+    promotion_percentage: "", // New field for promotion percentage
   });
 
   const [profilePhoto, setProfilePhoto] = useState(null);
@@ -22,8 +24,8 @@ function AddReward({ closeAddRewardModal, userId,rerender }) {
     if (file.type === "image/jpeg" || file.type === "image/jpg") {
       setFormData({ ...formData, reward_photo: file });
     } else {
-      alert("please select an image (jpeg / jpg)");
-      setFormData({ ...formData, profilePicture: null });
+      alert("Please select an image (jpeg / jpg)");
+      setFormData({ ...formData, reward_photo: null });
       e.target.value = null;
     }
   };
@@ -35,12 +37,11 @@ function AddReward({ closeAddRewardModal, userId,rerender }) {
     if (file) {
       const data = new FormData();
       data.append("file", file);
-      data.append("upload_preset", "TripSync"); // Cloudinary upload preset
-      data.append("cloud_name", "dxm7trzb5"); // Cloudinary cloud name
+      data.append("upload_preset", "TripSync");
+      data.append("cloud_name", "dxm7trzb5");
 
       const response = await axios.post(CLOUDINARY_URL, data);
       const urlimage = response.data;
-      console.log(urlimage.url);
       setProfilePhoto(urlimage.url);
       return urlimage.url;
     } else {
@@ -48,32 +49,34 @@ function AddReward({ closeAddRewardModal, userId,rerender }) {
     }
   }
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
+    try {
       const image = await handlesImage(formData.reward_photo);
       console.log(image);
-      const reward = await axios.post("http://localhost:3000/api/v1/rewards/addReward", {
-        reward_description: formData.reward_name,
-        reward_points: formData.req_points,
-        photo: image,
-        reward_type: formData.type,
-      },
-      {
-        headers:{
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      const reward = await axios.post(
+        "http://localhost:3000/api/v1/rewards/addReward",
+        {
+          reward_description: formData.reward_name,
+          reward_points: formData.req_points,
+          photo: image,
+          reward_type: formData.type,
+          promotion_percentage:
+            formData.type === "promotion" ? formData.promotion_percentage : null,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      }
-    );
+      );
       console.log(reward.data);
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
     }
     closeAddRewardModal();
     rerender();
-  }
-
+  };
 
   return (
     <div className="reward-modal-overlay">
@@ -106,15 +109,36 @@ function AddReward({ closeAddRewardModal, userId,rerender }) {
 
           <label>
             Type:
-            <input
-              type="text"
+            <select
               name="type"
               value={formData.type}
               onChange={handleInputChange}
-              placeholder="Enter the type of reward"
               required
-            />
+            >
+              <option value="" disabled>
+                Select reward type
+              </option>
+              <option value="general">General</option>
+              <option value="promotion">Promotion</option>
+              <option value="free trip">Free Trip</option>
+            </select>
           </label>
+
+          {formData.type === "promotion" && (
+            <label>
+              Promotion Percentage:
+              <input
+                type="number"
+                name="promotion_percentage"
+                value={formData.promotion_percentage}
+                onChange={handleInputChange}
+                placeholder="Enter the promotion percentage"
+                min="0"
+                max="100"
+                required
+              />
+            </label>
+          )}
 
           <label>
             Reward Photo:
@@ -138,4 +162,5 @@ function AddReward({ closeAddRewardModal, userId,rerender }) {
     </div>
   );
 }
+
 export default AddReward;

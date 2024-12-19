@@ -5,6 +5,10 @@ function AllTravellersList({ all_travellers, rerender_admin, rerender }) {
   console.log(all_travellers[0]);
   return (
     <div className="all-travellers-list-container">
+        <div className="stat-card-traveller total">
+            <span className="stat-number-traveller">{all_travellers.length}</span>
+            <span className="stat-label-traveller">Total Travellers</span>
+        </div>
       <ul className="travellers-list">
         {all_travellers.map((trav, idx) => (
           <li key={idx} className="travellers-list-item">

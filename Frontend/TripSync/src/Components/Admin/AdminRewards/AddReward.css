@@ -1,5 +1,3 @@
-/* AddReward.css */
-
 .reward-modal-overlay {
   position: fixed;
   top: 0;
@@ -42,6 +40,7 @@
 
 .reward-modal-container form input[type="text"],
 .reward-modal-container form input[type="number"],
+.reward-modal-container form select,
 .reward-modal-container form input[type="file"] {
   width: 100%;
   padding: 10px;

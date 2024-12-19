@@ -168,11 +168,11 @@ exports.deleteTrip = async (req, res) => {
   }
   // console.log(Trip.rows[0].travelagency_id, user_id);
   console.log(Trip.rows[0].travelagency_id, user_id);
-  if (Trip.rows[0].travelagency_id != user_id) {
-    return res.status(401).json({
+  if(req.user.role !== "admin" && Trip.rows[0].travelagency_id != user_id) {
+    return res.status(403).json({
       status: "failed",
-      message: "You are not allowed to delete this Trip",
-    });
+      message: "You are not authorized to delete this trip",
+      });
   }
 
   try {

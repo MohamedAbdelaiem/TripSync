@@ -97,6 +97,7 @@ CREATE TABLE Rewards
     PHOTO VARCHAR(200) NOT NULL,               -- Photo of the reward
     Description VARCHAR(400) NOT NULL,         -- Description of the reward
     PointsNeeded INT NOT NULL,                 -- Points needed to redeem the reward
+    PromotionPercentage DECIMAL(5, 2),        -- Promotion percentage if the reward is a promotion
     Type VARCHAR(100) NOT NULL CHECK (Type IN ('general', 'promotion', 'free trip')), -- Type of the reward
     FOREIGN KEY (ADMIN_ID) REFERENCES Admins(ADMIN_ID) ON DELETE SET NULL -- Set admin to NULL if deleted
 );

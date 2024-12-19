@@ -43,7 +43,7 @@ exports.getRewardById = async (req, res) => {
 exports.addReward = async (req, res) => {
     try {
 
-        const {reward_description, reward_points,photo,reward_type } = req.body;
+        const {reward_description, reward_points,photo,reward_type,promotion_percentage } = req.body;
         if (!reward_description && !reward_points &&!reward_type) 
         {
             return res.status(400).json({
@@ -57,14 +57,17 @@ exports.addReward = async (req, res) => {
                 message: 'Points should be positive'
             });
         }
-        const reward = await client.query('INSERT INTO rewards(Description,PointsNeeded,ADMIN_ID,PHOTO,Type) VALUES($1,$2,$3,$4,$5) RETURNING *', [ reward_description, reward_points,req.user.user_id,photo,reward_type]);
+        const reward = await client.query('INSERT INTO rewards(Description,PointsNeeded,ADMIN_ID,PHOTO,Type,PromotionPercentage) VALUES($1,$2,$3,$4,$5,$6) RETURNING *', [ reward_description, reward_points,req.user.user_id,photo,reward_type,promotion_percentage]);
         res.status(200).json({
             status: 'success',
             message: 'Reward added successfully',
             data: reward.rows
         });
     } catch (e) {
-        res.status(400).send('Error in adding data');
+        res.status(400).json({
+            status: 'failed',
+            message:e
+        });
         console.log(e);
     }
 };
@@ -92,7 +95,7 @@ exports.deleteReward = async (req, res) => {
 exports.updateReward = async (req, res) => {
     try {
         await client.query('BEGIN');
-        const {reward_description, reward_points,reward_photo,reward_type } = req.body;
+        const {reward_description, reward_points,reward_photo,reward_type,promotion_percentage } = req.body;
         const reward_id = req.params.reward_id;
         if (!reward_description && !reward_points&& !reward_photo&& !reward_type) {
 
@@ -127,6 +130,9 @@ exports.updateReward = async (req, res) => {
         }
         if(reward_type){
             await client.query('UPDATE rewards SET Type=$1 WHERE reward_id=$2', [reward_type, reward_id]);
+        }
+        if(promotion_percentage){
+            await client.query('UPDATE rewards SET PromotionPercentage=$1 WHERE reward_id=$2', [promotion_percentage, reward_id]);
         }
 
 

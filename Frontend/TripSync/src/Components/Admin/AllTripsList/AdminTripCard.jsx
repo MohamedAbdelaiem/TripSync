@@ -1,7 +1,8 @@
-import React from "react";
+import {React,useContext} from "react";
 import "./AllTripsList.css";
 import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function AdminTripCard({
   name,
@@ -42,13 +43,27 @@ function AdminTripCard({
     console.log(`View details for trip ID: ${trip_id}`);
   };
 
+  const deleteTrip = async() => {
+    try{
+      const tokent = localStorage.getItem('token');
+      await axios.delete(`http://localhost:3000/api/v1/trips/deleteTrip/${trip_id}`,{
+        headers: {
+          Authorization: `Bearer ${tokent}`,
+        },
+      });
+      rerender();
+    }catch(e){
+      console.log(e);
+      }
+    console.log(`Delete trip ID: ${trip_id}`);
+    // Add delete functionality here, e.g., calling an API to remove the trip
+  };
+  
   return (
     <div className="admin-trip-card">
       <div className="admin-trip-image-section">
         <img
-          src={
-            photos && photos[0] ? photos[0] : "https://via.placeholder.com/150"
-          }
+          src={photos && photos[0] ? photos[0] : "https://via.placeholder.com/150"}
           alt={name || "Trip Image"}
           className="admin-trip-image"
         />
@@ -63,30 +78,28 @@ function AdminTripCard({
             <div className="trip-status finished">Finished</div>
           )}
         </div>
-        <p className="admin-trip-organizer">
-          Organized by: {organizer || "Unknown"}
-        </p>
+        <p className="admin-trip-organizer">Organized by: {organizer || "Unknown"}</p>
         <p className="admin-trip-locations">
-          <FaMapMarkerAlt className="admin-icon" /> From{" "}
-          {startlocation || "N/A"} to {destinition || "N/A"}
+          <FaMapMarkerAlt className="admin-icon" /> From {startlocation || "N/A"} to{" "}
+          {destinition || "N/A"}
         </p>
         <p className="admin-trip-dates">
           <FaClock className="admin-icon" />{" "}
           {new Date(startdate).toLocaleDateString()} -{" "}
-          {new Date(enddate).toLocaleDateString()} (
-          {Difference_In_Days || "N/A"} days)
+          {new Date(enddate).toLocaleDateString()} ({Difference_In_Days || "N/A"} days)
         </p>
         <div className="admin-trip-footer">
-          <button
-            className="admin-trip-button"
-            onClick={go_to_trip_details}
-          >
+          <button className="admin-trip-button" onClick={go_to_trip_details}>
             View Details
+          </button>
+          <button className="admin-delete-button" onClick={deleteTrip}>
+            Delete
           </button>
         </div>
       </div>
     </div>
   );
+  
 }
 
 export default AdminTripCard;

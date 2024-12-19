@@ -33,7 +33,7 @@ const Book = ({ tour, onEnsureBooking }) => {
  //( NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID,DATE)
       const response = await axios.post(`http://localhost:3000/api/v1/users/payForTrip/${tour.trip_id}`, {
         TRIB_ID: tour.trip_id, // Assuming tour has an ID field
-        watcher,
+        TRAVELLER_ID:watcher,
         Price: (tour.sale ? tour.saleprice : tour.price) * seats, // Total price based on seats
         DATE: new Date().toISOString().split("T")[0],
         NumberOfSeats:seats, // Number of seats selected
@@ -99,7 +99,7 @@ const Book = ({ tour, onEnsureBooking }) => {
         </div>
 
         <div className="book-page-price">
-          {tour.hasSale ? (
+          {tour.sale ? (
             <>
               <span className="original-price">${tour.price}</span>
               <span className="sale-price">${tour.saleprice}</span>
@@ -115,7 +115,7 @@ const Book = ({ tour, onEnsureBooking }) => {
           <input
             type="number"
             id="seats"
-            name="NumberOfSeats"
+            name="seats"
             min="1"
             max={tour.maxseats}
             value={seats}
@@ -133,35 +133,7 @@ const Book = ({ tour, onEnsureBooking }) => {
 
         {error && <p className="error">{error}</p>}
 
-        {bookingConfirmed && (
-          <div className="booking-confirmation">
-            <h3>Booking Confirmed! Your ticket has been created successfully.</h3>
-
-            {ticket && (
-              <div className="ticket-details">
-                <h4>Ticket Details:</h4>
-                <p>
-                  <strong>Ticket ID:</strong> {ticket.TicketID}
-                </p>
-                <p>
-                  <strong>Purchase Date:</strong> {ticket.PurchaseDate}
-                </p>
-                <p>
-                  <strong>Price:</strong> ${ticket.Price}
-                </p>
-                <p>
-                  <strong>Trip ID:</strong> {ticket.TripID}
-                </p>
-                <p>
-                  <strong>Traveller ID:</strong> {ticket.TravellerID}
-                </p>
-                <p>
-                  <strong>Seats:</strong> {seats}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
+    
       </div>
     </div>
   );

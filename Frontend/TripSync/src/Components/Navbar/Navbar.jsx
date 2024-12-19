@@ -78,6 +78,7 @@ const Navbar = ({ id }) => {
           </div>
         </div>
       )}
+      
     </>
   );
 };

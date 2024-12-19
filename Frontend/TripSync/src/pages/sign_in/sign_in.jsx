@@ -4,10 +4,12 @@ import "./Sign_in.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../assets/userContext";
-
+import { NavLink } from "react-router-dom";
 // import navLink from React
 
 function Sign_in() {
+  const [showPopupFail, setShowPopupFail] = useState(false); // State to control the popup visibility
+  const [showPopupSuccess, setShowPopupSuccess] = useState(false); // State to control the popup visibility
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,6 +18,13 @@ function Sign_in() {
   // console.log(UserContext);
   // const [user,setUser]=useState(useContext(UserContext));
 
+  const togglePopupFail = () => {
+    console.log("called");
+    setShowPopupFail(!showPopupFail); // Toggle the popup visibility
+  };
+  const togglePopupSuccess = () => {
+    setShowPopupSuccess(!showPopupSuccess); // Toggle the popup visibility
+  };
   const Navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -38,25 +47,26 @@ function Sign_in() {
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
       }
-      if(response.data.status==="success"){
-      setSuccess(response.data.message);
-      setUser(response.data.data);
-      // localStorage.setItem("user",JSON.stringify(response.data.data));  
-        if (response.data.data.role === 'admin')
-          { 
-            Navigate(`/Admin-view/${response.data.data.user_id}`);
+      if (response.data.status === "success") {
+        togglePopupSuccess();
+        setTimeout(() => {
+          {
+            setSuccess(response.data.message);
+            setUser(response.data.data);
+            // localStorage.setItem("user",JSON.stringify(response.data.data));
+            if (response.data.data.role === "admin") {
+              Navigate(`/Admin-view/${response.data.data.user_id}`);
+            } else if (response.data.data.role === "travel_agency") {
+              Navigate(`/travel-agency/${response.data.data.user_id}`);
+            } else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);
+            // Navigate("/");}
           }
-          else if(response.data.data.role === 'travel_agency')
-          { 
-            Navigate(`/travel-agency/${response.data.data.user_id}`)
-          }
-        else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);  
-        // Navigate("/"); 
-      }
-      else{
+        }, 3000);
+      } else {
         setError(response.data.message);
       }
     } catch (error) {
+      togglePopupFail();
       setError(error?.message);
       console.log(error?.response?.data?.message);
     }
@@ -96,8 +106,8 @@ function Sign_in() {
                 onChange={(e) => setPassword(e.currentTarget.value)}
               />
             </div>
+
             <navLink to="/">
-              {" "}
               <div className="d-grid">
                 <button type="submit" className="btnSign">
                   Sign In
@@ -109,9 +119,35 @@ function Sign_in() {
               <button className="forgetPassword">Forget your password?</button>
             </navLink>
 
-            {/* <navLink to="ResetPassword">
+            {showPopupFail && (
+              <div className="popup-overlay">
+                <div className="popup-content">
+                  <h5>Error</h5>
+                  <p>Please enter correct email and password</p>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => setShowPopupFail(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {showPopupSuccess && (
+              <div className="popup-overlay">
+                <div className="popup-content">
+                  <h5>Success</h5>
+                  <p>Sign in successfully</p>
+                  <i className="fa-solid fa-check" style={{color:"#0fc21b", fontSize:"2rem"} }></i>
+                
+                </div>
+              </div>
+            )}
+
+            {/* <NavLink to="ResetPassword">
               <button className="ResetPassword">Reset your password?</button>
-            </navLink> */}
+            </NavLink> */}
           </form>
         </div>
       </div>

@@ -1,13 +1,16 @@
-  import React, { useEffect, useState } from "react";
+  import React, { useEffect, useState,useContext } from "react";
   import { Calendar, MapPin, Users, User, DollarSign } from "lucide-react";
   import { useParams } from "react-router-dom";
   import { ExternalLink } from "lucide-react";
   import { useNavigate } from "react-router-dom";
+  import { UserContext } from "../../../../assets/userContext";
   import axios from "axios";
   import "./TripDetailsPage.css";
   const TripDetailsPage = () => {
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const [trip_data, set_trip_data] = useState({});
+    const {user}=useContext(UserContext);
+
     const formatDate = (dateString) => {
       return new Date(dateString).toLocaleDateString("en-US", {
         year: "numeric",
@@ -15,6 +18,7 @@
         day: "numeric",
       });
     };
+
 
     const name = trip_data.name;
     const description = trip_data.description;
@@ -62,11 +66,11 @@
           {
             Price: price,
             NumberOfSeats: 1, //must be passed from the form
-
+          },
+          {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-            withCredentials: true,
           }
         );
         console.log(response.data);
@@ -183,7 +187,7 @@
           </div>
 
           {/* Book Now Button */}
-          {new Date() < new Date(start_date) ? (
+          {new Date() < new Date(start_date)&&user&&user.role=='traveller' ? (
             <div className="book-now-container">
               <button className="book-now-btn" onClick={handleBook}>Book This Trip</button>
             </div>

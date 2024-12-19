@@ -133,35 +133,7 @@ const Book = ({ tour, onEnsureBooking }) => {
 
         {error && <p className="error">{error}</p>}
 
-        {bookingConfirmed && (
-          <div className="booking-confirmation">
-            <h3>Booking Confirmed! Your ticket has been created successfully.</h3>
-
-            {ticket && (
-              <div className="ticket-details">
-                <h4>Ticket Details:</h4>
-                <p>
-                  <strong>Ticket ID:</strong> {ticket.TicketID}
-                </p>
-                <p>
-                  <strong>Purchase Date:</strong> {ticket.PurchaseDate}
-                </p>
-                <p>
-                  <strong>Price:</strong> ${ticket.Price}
-                </p>
-                <p>
-                  <strong>Trip ID:</strong> {ticket.TripID}
-                </p>
-                <p>
-                  <strong>Traveller ID:</strong> {ticket.TravellerID}
-                </p>
-                <p>
-                  <strong>Seats:</strong> {seats}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
+    
       </div>
     </div>
   );

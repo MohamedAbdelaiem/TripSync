@@ -16,16 +16,14 @@ import { useParams } from "react-router-dom";
 import { UserContext } from "../../assets/userContext";
 
 const SideNavBar = ({ userId }) => {
-   const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [isMessagesOpen, setIsMessagesOpen] = useState(false);
   const { user_id } = useParams();
 
-  
   const getNavLink = (path) => `${path}/${userId}`;
 
-  
   const openMessages = () => setIsMessagesOpen(true);
-const closeMessages = () => setIsMessagesOpen(false);
+  const closeMessages = () => setIsMessagesOpen(false);
 
   return (
     <div className="side-nav">
@@ -64,26 +62,27 @@ const closeMessages = () => setIsMessagesOpen(false);
       >
         <FaStar style={{ marginRight: "8px" }} /> Review
       </NavLink>
-      <NavLink
-        to={getNavLink("/Report")}
-        aria-label="Navigate to Report"
-        className={({ isActive }) => (isActive ? "active" : "")}
-      >
-        <FaExclamationTriangle style={{ marginRight: "8px" }} /> Report
-      </NavLink>
+
+      {user.role === "traveller" && (
+        <NavLink
+          to={getNavLink("/Report")}
+          aria-label="Navigate to Report"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          <FaExclamationTriangle style={{ marginRight: "8px" }} /> Report
+        </NavLink>
+      )}
 
       <button className="messages-button" onClick={openMessages}>
         <FaEnvelope style={{ marginRight: "8px" }} /> Messages
       </button>
-
- 
       {isMessagesOpen && (
         <UserMessages
           isOpen={isMessagesOpen}
           onClose={closeMessages}
           profileId={user_id} //
           currentUser={user}
-          isOwner={Number(user_id)===Number(user.user_id)}
+          isOwner={Number(user_id) === Number(user.user_id)}
         />
       )}
     </div>

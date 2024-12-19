@@ -1,10 +1,16 @@
-// import React from 'react'
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
 import planeImage from "../../assets/plane.png";
 import { NavLink } from "react-router-dom";
 
-const Navbar = ({id}) => {
+const Navbar = ({ id }) => {
+  const [showPopup, setShowPopup] = useState(false); // State to control the popup visibility
+
+  const togglePopup = () => {
+    setShowPopup(!showPopup); // Toggle the popup visibility
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -14,6 +20,7 @@ const Navbar = ({id}) => {
             src={planeImage}
             width={20}
             height={20}
+            alt="plane"
           />
           My Dream Place
         </a>
@@ -24,16 +31,23 @@ const Navbar = ({id}) => {
         ></button>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav m-2">
-            <li className="HomeNav  mx-2">
-              <a href="#" className="HomeNav">Home</a>
+            <li className="HomeNav mx-2">
+              <a href="#" className="HomeNav">
+                Home
+              </a>
             </li>
             <a href={id} className="aboutNav">
-              <li className="aboutNav nav-item  mx-2">About</li>
+              <li className="aboutNav nav-item mx-2">About</li>
             </a>
-
-            <NavLink to="Blog" className={"blogNav"}>
-              <li className="blogNav mx-2">Blogs</li>
-            </NavLink>
+            <li className="blogNav mx-2" onClick={togglePopup}>
+              Blogs
+            </li>
+            <li className="agnencyNav mx-2" onClick={togglePopup}>
+              Travel agencies
+            </li>
+            <li className="tripNav mx-2" onClick={togglePopup}>
+              Trips
+            </li>
           </ul>
         </div>
         <div className="collapse navbar-collapse d-flex justify-content-end">
@@ -49,6 +63,21 @@ const Navbar = ({id}) => {
           </NavLink>
         </div>
       </nav>
+
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h5>Sorry</h5>
+            <p>You are not log in, please log in first</p>
+            <button
+              className="btn btn-danger"
+              onClick={() => setShowPopup(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

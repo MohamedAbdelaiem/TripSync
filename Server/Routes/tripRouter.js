@@ -30,6 +30,10 @@ tripRouter
   .get(AuthConroller.protect, TripController.getTripsForUser_id);
 
 tripRouter
+  .route("/getTripsForAgency/:user_id")
+  .get(AuthConroller.protect, TripController.getTripsForAgency_id);
+
+tripRouter
   .route("/addTrip")
   .post(
     AuthConroller.protect,

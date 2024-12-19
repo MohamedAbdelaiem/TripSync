@@ -8,8 +8,8 @@ import { NavLink } from "react-router-dom";
 // import navLink from React
 
 function Sign_in() {
-  const [showPopupFail, setShowPopupFail] = useState(false); // State to control the popup visibility
-  const [showPopupSuccess, setShowPopupSuccess] = useState(false); // State to control the popup visibility
+  const [showPopupFail, setShowPopupFail] = useState(false); 
+  const [showPopupSuccess, setShowPopupSuccess] = useState(false); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -25,6 +25,7 @@ function Sign_in() {
   const togglePopupSuccess = () => {
     setShowPopupSuccess(!showPopupSuccess); // Toggle the popup visibility
   };
+  
   const Navigate = useNavigate();
 
   const handleSubmit = async (e) => {

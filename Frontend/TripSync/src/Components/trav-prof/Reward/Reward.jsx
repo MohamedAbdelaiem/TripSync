@@ -1,26 +1,37 @@
 import React from "react";
-import "./Reward.css"
+import "./Reward.css";
 import axios from "axios";
 import { useState } from "react";
 
-const Reward = ({ id, photoLink, requiredPoints, description, reward_claimed,rerender }) => {
-  const [claimed, setClaimed] = useState(reward_claimed); 
-  const token=localStorage.getItem('token');
+const Reward = ({
+  id,
+  photoLink,
+  requiredPoints,
+  description,
+  reward_claimed,
+  rerender,
+  showPopUp,
+}) => {
+  const [claimed, setClaimed] = useState(reward_claimed);
+
+  const token = localStorage.getItem("token");
   const RedeemReward = async () => {
     console.log(token);
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/v1/rewards/RedeemReward/${id}`, 
-        {},  // Assuming no request body is needed. If there is, pass it here
+        `http://localhost:3000/api/v1/rewards/RedeemReward/${id}`,
+        {}, // Assuming no request body is needed. If there is, pass it here
         {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       console.log(response.data);
-      setClaimed(true);
-      rerender();
+      showPopUp();
+      setTimeout(() => {
+        rerender();
+      }, 3000);
     } catch (error) {
       console.log(error);
     }
@@ -28,7 +39,8 @@ const Reward = ({ id, photoLink, requiredPoints, description, reward_claimed,rer
 
   const handleClaim = () => {
     // setTimeout(() => { RedeemReward() }, 1000);
-    RedeemReward(); 
+
+    RedeemReward();
     setClaimed(!claimed);
   };
 

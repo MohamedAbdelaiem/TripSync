@@ -8,7 +8,7 @@ function ProfPicture(props) {
   return (
     <>
       <div className="profile-container">
-        <div className="profile-picture">
+        <div className="travellr-profile-picture">
           <img src={imagePath} alt="Profile Picture"></img>
         </div>
         <h2 className="profile-name">{props.profName}</h2>

@@ -9,6 +9,7 @@ function AdminReport({
   navigateToAgencyProfile,
   rerender
 }) {
+  console.log(report);
   return (
     <div className="report-container">
       <div className="report-header">
@@ -23,7 +24,7 @@ function AdminReport({
             className="report-user-name"
             onClick={() => navigateToUserProfile(report.travellerid)}
           >
-            {report.user_name}
+            {report.travellerprofilename}
           </p>
           <p
             className="report-agency-name"
@@ -45,7 +46,9 @@ function AdminReport({
       <div className="report-actions">
         <button
           className="delete-report-btn"
-          onClick={() => onDeleteReport(report.travellerid, report.travelagencyid)}
+          onClick={() =>
+            onDeleteReport(report.travellerid, report.travelagencyid)
+          }
         >
           Delete Report
         </button>

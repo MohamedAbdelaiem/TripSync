@@ -19,11 +19,14 @@ const SideNavBar = ({ userId }) => {
   const { user } = useContext(UserContext);
   const [isMessagesOpen, setIsMessagesOpen] = useState(false);
   const { user_id } = useParams();
+  const { id } = useParams();
 
   const getNavLink = (path) => `${path}/${userId}`;
 
   const openMessages = () => setIsMessagesOpen(true);
   const closeMessages = () => setIsMessagesOpen(false);
+
+  console.log(user_id, "   ", user.user_id);
 
   return (
     <div className="side-nav">
@@ -80,9 +83,9 @@ const SideNavBar = ({ userId }) => {
         <UserMessages
           isOpen={isMessagesOpen}
           onClose={closeMessages}
-          profileId={user_id} //
+          profileId={user_id || id} 
           currentUser={user}
-          isOwner={Number(user_id) === Number(user.user_id)}
+          isOwner={Number(user_id) === Number(user.user_id) || Number(id) === Number(user.user_id)}
         />
       )}
     </div>

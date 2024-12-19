@@ -1,130 +1,76 @@
-import React from 'react';
+import {React,useContext} from 'react';
 import './reviewCard.css';
+import { Trash2 } from 'lucide-react';
+import axios from 'axios';
+import { UserContext } from '../../assets/userContext';
 
-// import {}from '../../assets/Rectangle 17.png';
+function ReviewCard({ review, rate, traveller_id, travel_agency_id, profilename, profilephoto }) {
+    // Function to render stars based on rating
+    const {user}=useContext(UserContext);
+    const renderStars = () => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(
+                <i key={i} className={i <= rate ? "fas fa-star" : "far fa-star"}></i>
+            );
+        }
+        return stars;
+    };
 
-function reviewCard(props){
-    return(
+    const deleteReview = async () => {
+        if(user.user_id!==traveller_id){
+            alert("You can't delete this review");
+            return;
+        }
+        try {
+            const token = localStorage.getItem("token");
+            const response =await axios.delete(`http://localhost:3000/api/v1/users/${travel_agency_id}/reviews/deleteReview`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(response.data);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    return (
         <>
-        <main className="review-card-b">
-            <section id="testimonial" className="testimonial">  
-                <div className="testimonial-heading">
-                    <span>comments</span>
-                    <h1>Client Says</h1>
-                </div>
-
                 <div className="testimonial-container">
                     <div className="testimonial-box">
                         <div className="box-top">
                             <div className="profile-in-card">
                                 <div className="profile-img-in-card">
-                                    <img src='/images/user-11.jpg'></img>
+                                    <img src={profilephoto} alt="Profile" />
                                 </div>
                                 <div className="profile-name-in-card">
-                                    <strong>Client Name</strong>
-                                    <span>user name</span>
+                                    <strong>{profilename}</strong>
                                 </div>
                             </div>
-                            <div className="reviews-in-card">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i> 
+                            <div className="review-actions">
+                                <div className="reviews-in-card">
+                                    {renderStars()}
+                                </div>
+                                <button 
+                                    className="delete-button-review"
+                                    onClick={() => {
+                                        deleteReview();
+                                    }}
+                                    aria-label="Delete review"
+                                >
+                                    <Trash2 size={16} />
+                                </button>
                             </div>
                         </div>
-                            <div className="review-text-in-card">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita in delectus, harum soluta dignissimos deserunt ipsum impedit itaque pariatur! Officia saepe quod quidem illum fugit excepturi rem sapiente dignissimos iste.</p>
-                            </div>  
-                    </div>
-
-                    <div className="testimonial-box">
-                        <div className="box-top">
-                            <div className="profile-in-card">
-                                <div className="profile-img-in-card">
-                                    <img src='/images/user-11.jpg'></img>
-                                </div>
-                                <div className="profile-name-in-card">
-                                    <strong>Client Name</strong>
-                                    <span>user name</span>
-                                </div>
-                            </div>
-                            <div className="reviews-in-card">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i> 
-                            </div>
+                        <div className="review-text-in-card">
+                            <p>{review}</p>
                         </div>
-                            <div className="review-text-in-card">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita in delectus, harum soluta dignissimos deserunt ipsum impedit itaque pariatur! Officia saepe quod quidem illum fugit excepturi rem sapiente dignissimos iste.</p>
-                            </div>  
                     </div>
-
-                    <div className="testimonial-box">
-                        <div className="box-top">
-                            <div className="profile-in-card">
-                                <div className="profile-img-in-card">
-                                    <img src='/images/user-11.jpg'></img>
-                                </div>
-                                <div className="profile-name-in-card">
-                                    <strong>Client Name</strong>
-                                    <span>user name</span>
-                                </div>
-                            </div>
-                            <div className="reviews-in-card">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i> 
-                            </div>
-                        </div>
-                            <div className="review-text-in-card">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita in delectus, harum soluta dignissimos deserunt ipsum impedit itaque pariatur! Officia saepe quod quidem illum fugit excepturi rem sapiente dignissimos iste.</p>
-                            </div>  
-                    </div>
-
-                    <div className="testimonial-box">
-                        <div className="box-top">
-                            <div className="profile-in-card">
-                                <div className="profile-img-in-card">
-                                    <img src='/images/user-11.jpg'></img>
-                                </div>
-                                <div className="profile-name-in-card">
-                                    <strong>Client Name</strong>
-                                    <span>user name</span>
-                                </div>
-                            </div>
-                            <div className="reviews-in-card">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i> 
-                            </div>
-                        </div>
-                            <div className="review-text-in-card">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita in delectus, harum soluta dignissimos deserunt ipsum impedit itaque pariatur! Officia saepe quod quidem illum fugit excepturi rem sapiente dignissimos iste.</p>
-                            </div>  
-                    </div>
-                </div>  
-
-               
-                
-
-                
-           </section> 
-               
-        </main>
-
-        
-
+                </div>
         </>
-
-        
-    )
+    );
 }
 
-export default reviewCard;
+export default ReviewCard;

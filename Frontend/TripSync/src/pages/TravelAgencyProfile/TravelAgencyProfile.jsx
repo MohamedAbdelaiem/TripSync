@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom"; // Import useParams
+import { useParams } from "react-router-dom";
 import SideNavBar from "../../Components/SideNavBar/SideNavBar";
 import { UserContext } from "../../assets/userContext";
 import {
@@ -9,60 +9,52 @@ import {
   FaPhone,
   FaEnvelope,
 } from "react-icons/fa";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import "./TravelAgencyProfile.css";
-// const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-    //     const reader = new FileReader();
-    //     reader.onload = () => setProfilePicture(reader.result); // Preview the image
-    //     reader.readAsDataURL(file);
-    //   }
-// };
-
 
 const TravelAgencyProfile = () => {
-  const watcher_id = location.state||{};
+  const { id } = useParams();
+  const { user } = useContext(UserContext);
+
+  const [agency, setAgency] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [profilename, setProfileName] = useState("");
+  const [profilephoto, setProfilePicture] = useState("");
+  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState("");
+  const [email, setEmail] = useState("");
+  const [phonenumber, setPhoneNumber] = useState("");
+  const [country, setCountry] = useState("");
 
   const [file, setFile] = useState(null);
-  const { id } = useParams(); // Extract TravelAgencyID and user.role from the URL
-  const [agency, setAgency] = useState(null); // State for agency data
-  const [isEditing, setIsEditing] = useState(false); // Edit mode toggle
-  const [profilename, setProfileName] = useState(""); // Local state for the profile name
-  const [profilephoto, setProfilePicture] = useState(""); // Local state for the profile picture
-  // Fetch agency data on component mount or when the ID changes
 
-  const { user } = useContext(UserContext);
   const handleFileChange = (event) => {
-    console.log(event.target.files[0]);
     setFile(event.target.files[0]);
     const reader = new FileReader();
-    reader.onload = () => setProfilePicture(reader.result); // Preview the image
+    reader.onload = () => setProfilePicture(reader.result);
+    reader.readAsDataURL(event.target.files[0]);
   };
-  
-  async function handlesImage(filex) {
-    const file = filex;
+
+  async function handlesImage(file) {
     const CLOUDINARY_URL =
       "https://api.cloudinary.com/v1_1/dxm7trzb5/image/upload";
     if (file) {
       const data = new FormData();
       data.append("file", file);
-      data.append("upload_preset", "TripSync"); // Cloudinary upload preset
-      data.append("cloud_name", "dxm7trzb5"); // Cloudinary cloud name
-  
+      data.append("upload_preset", "TripSync");
+      data.append("cloud_name", "dxm7trzb5");
+
       const response = await axios.post(CLOUDINARY_URL, data);
-      const urlimage = response.data;
-      console.log(urlimage.url);
-      return urlimage.url;
-    } else {
-      return null;
+      return response.data.url;
     }
+    return null;
   }
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchAgencyData = async () => {
       try {
-        console.log(id);
         const response = await axios.get(
           `http://localhost:3000/api/v1/users/${id}`,
           {
@@ -70,18 +62,18 @@ const TravelAgencyProfile = () => {
               Authorization: `Bearer ${token}`,
             },
           }
-        ); // Use axios to fetch agency data
-        setAgency(response.data.data[0]);
+        );
+        const data = response.data.data[0];
+        setAgency(data);
 
-        if (response.data.data[0].profilename === null)
-          setProfileName(response.data.data[0].username);
-        else setProfileName(response.data.data[0].profilename); // Initialize profileName
-
-        setProfilePicture(response.data.data[0].profilephoto); // Initialize profilePicture
-        console.log(response.data);
+        setProfileName(data.profilename || data.username);
+        setProfilePicture(data.profilephoto);
+        setAddress(data.address);
+        setLocation(data.location);
+        setEmail(data.email);
+        setPhoneNumber(data.phonenumber);
+        setCountry(data.country);
       } catch (error) {
-        console.log(id);
-        // console
         console.error("Error fetching travel agency data:", error);
       }
     };
@@ -92,13 +84,18 @@ const TravelAgencyProfile = () => {
   const handleSave = async () => {
     const token = localStorage.getItem("token");
     try {
-      // Update backend with edited data using axios
-      const url = await handlesImage(file);
+      const profilePhotoUrl = file ? await handlesImage(file) : profilephoto;
+
       const response = await axios.patch(
         `http://localhost:3000/api/v1/users/updateMe`,
         {
-          profilename: profilename,
-          profilephoto: url,
+          profilename,
+          profilephoto: profilePhotoUrl,
+          address,
+          location,
+          email,
+          phonenumber,
+          country,
         },
         {
           headers: {
@@ -106,35 +103,33 @@ const TravelAgencyProfile = () => {
           },
         }
       );
-      // Update agency state with the new data
+
       setAgency((prev) => ({
         ...prev,
-        profilename: profilename,
-        profilephoto: url,
+        profilename,
+        profilephoto: profilePhotoUrl,
+        address,
+        location,
+        email,
+        phonenumber,
+        country,
       }));
-      console.log(response.data);
-      setIsEditing(false); // Exit edit mode
+      setIsEditing(false);
     } catch (error) {
       console.error("Error saving profile changes:", error);
     }
   };
 
-  if (!agency) return <div>Loading...</div>; // Show loading state while fetching data
+  if (!agency) return <div>Loading...</div>;
 
   return (
     <div className="travel-agency-container">
-      {/* Side Navigation Bar */}
-      <SideNavBar userId={id}  />
+      <SideNavBar userId={id} />
 
-      {/* Main Content */}
       <div className="main-content">
         <div className="profile-header">
-          {/* Profile Picture */}
-          {isEditing && user.role === "travel_agency"&&Number(id)===user.user_id ? (
-            <label
-              htmlFor="profile-picture-input"
-              className="profile-picture-label"
-            >
+          {isEditing && user.role === "travel_agency" && Number(id) === user.user_id ? (
+            <label htmlForm="profile-picture-input" className="profile-picture-label">
               <img
                 src={profilephoto || "placeholder.jpg"}
                 alt="Profile"
@@ -156,13 +151,14 @@ const TravelAgencyProfile = () => {
             />
           )}
 
-          {/* Profile Name */}
-          {isEditing && user.role === "travel_agency"&&Number(id)===user.user_id ? (
-            <input
+          
+          
+          {isEditing && user.role === "travel_agency" && Number(id) === user.user_id ? (
+            <input className="profile-name-input"
               type="text"
+              name="hello"
               value={profilename}
               onChange={(e) => setProfileName(e.target.value)}
-              className="profile-name-input"
             />
           ) : (
             <h2>{profilename}</h2>
@@ -177,17 +173,31 @@ const TravelAgencyProfile = () => {
           <h3>Travel Agency Details</h3>
           <p>
             <strong>
-              <FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} />{" "}
-              Address:
+              <FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} /> Address:
             </strong>{" "}
-            {agency.address}
+            {isEditing && user.role === "travel_agency" && Number(id) === user.user_id ? (
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            ) : (
+              address
+            )}
           </p>
           <p>
             <strong>
-              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} />{" "}
-              Location:
+              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} /> Location:
             </strong>{" "}
-            {agency.location}
+            {isEditing ? (
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            ) : (
+              location
+            )}
           </p>
           <p>
             <strong>
@@ -197,38 +207,56 @@ const TravelAgencyProfile = () => {
           </p>
           <p>
             <strong>
-              <FaEnvelope style={{ color: "green", marginRight: "5px" }} />{" "}
-              Email:
+              <FaEnvelope style={{ color: "green", marginRight: "5px" }} /> Email:
             </strong>{" "}
-            {agency.email}
+            {isEditing ? (
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            ) : (
+              email
+            )}
           </p>
           <p>
             <strong>
               <FaPhone style={{ color: "purple", marginRight: "5px" }} /> Phone:
             </strong>{" "}
-            {agency.phonenumber}
+            {isEditing ? (
+              <input
+                type="text"
+                value={phonenumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            ) : (
+              phonenumber
+            )}
           </p>
           <p>
             <strong>
-              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} />{" "}
-              Country:
+              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} /> Country:
             </strong>{" "}
-            {agency.country}
+            {isEditing ? (
+              <input
+                type="text"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+              />
+            ) : (
+              country
+            )}
           </p>
         </div>
 
-        {/* Edit and Save Buttons */}
-        {user.role === "travel_agency" && Number(id)===user.user_id&& (
+        {user.role === "travel_agency" && Number(id) === user.user_id && (
           <div className="edit-save-buttons">
             {isEditing ? (
               <button onClick={handleSave} className="save-button">
                 Save Changes
               </button>
             ) : (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="edit-button"
-              >
+              <button onClick={() => setIsEditing(true)} className="edit-button">
                 Edit Profile
               </button>
             )}

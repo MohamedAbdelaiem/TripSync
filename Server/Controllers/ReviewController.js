@@ -18,7 +18,23 @@ exports.getAllReviewsOfTravelAgency = async (req, res) => {
                 message: "This travel agency does not exist"
             });
         }
-        const reviews = await client.query('SELECT * FROM Review WHERE TRAVEL_AGENCY_ID = $1', [travelAgency_id]);
+        const reviews = await client.query(`SELECT 
+            r.REVIEW,
+            r.RATE,
+            r.DATE,
+            r.TRAVELLER_ID,
+            r.TRAVEL_AGENCY_ID,
+            u.ProfileName,
+            u.ProfilePhoto
+        FROM 
+            Review r
+        JOIN 
+            Users u
+        ON 
+            r.TRAVELLER_ID = u.USER_ID
+        WHERE 
+            r.TRAVEL_AGENCY_ID = $1;
+        `, [travelAgency_id]);
         if(reviews.rows.length === 0){
             return res.status(404).json({
                 status: "failed",

@@ -134,6 +134,64 @@
     margin-bottom: 20px;
 }
 
+/* Adding to your existing CSS */
+
+.review-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between stars and delete button */
+}
+
+.delete-button-review {
+    background: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ff4444;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.delete-button-review:hover {
+    background-color: #fff1f1;
+    border-color: #ff4444;
+    color: #ff0000;
+}
+
+/* Update the existing reviews-in-card class */
+.reviews-in-card {
+    color: #f9d71c;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* Ensure proper spacing in box-top */
+.box-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Add responsive styles */
+@media (max-width: 768px) {
+    .review-actions {
+        gap: 8px;
+    }
+    
+    .delete-button-review {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+
 
 
 

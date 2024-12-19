@@ -1,50 +1,72 @@
-/* TravelAgencyProfile.css */
+TravelAgencyProfile.css
 :root {
-    --primary-color: #3a6ea5;
-    --secondary-color: #5c7cfa;
-    --background-light: #f4f6f9;
-    --text-dark: #333;
-    --text-light: #fff;
-    --border-radius: 12px;
-    --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --primary-color: #2B6CB0;
+    --secondary-color: #4299E1;
+    --accent-color: #63B3ED;
+    --background-light: #F7FAFC;
+    --text-dark: #2D3748;
+    --text-gray: #4A5568;
+    --text-light: #FFFFFF;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
 }
 
 .travel-agency-container {
     display: flex;
     min-height: 100vh;
     background-color: var(--background-light);
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .main-content {
     flex-grow: 1;
     padding: 40px;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 .profile-header {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, 
+        var(--primary-color) 0%,
+        var(--secondary-color) 50%,
+        var(--accent-color) 100%);
     color: var(--text-light);
     border-radius: var(--border-radius);
-    padding: 30px;
+    padding: 40px;
     text-align: center;
     position: relative;
     box-shadow: var(--box-shadow);
     margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.profile-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    z-index: 1;
 }
 
 .profile-picture {
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
-    border: 5px solid var(--text-light);
-    transition: transform 0.3s ease;
+    border: 6px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: var(--transition);
+    position: relative;
+    z-index: 2;
 }
 
 .profile-picture:hover {
     transform: scale(1.05);
+    border-color: var(--text-light);
 }
 
 .profile-picture-label {
@@ -54,74 +76,136 @@
 }
 
 .profile-picture-label::after {
-    content: '✏️';
+    content: '📸';
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
+    bottom: 15px;
+    right: 15px;
+    background-color: var(--text-light);
     border-radius: 50%;
-    padding: 5px;
+    padding: 8px;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transform: scale(0.8);
+    transition: var(--transition);
 }
 
 .profile-picture-label:hover::after {
     opacity: 1;
+    transform: scale(1);
+}
+
+.profile-header h2 {
+    margin-top: 20px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .profile-name-input {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid var(--text-light);
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
     color: var(--text-light);
-    font-size: 1.8rem;
+    font-size: 2rem;
     text-align: center;
-    width: 100%;
-    margin-top: 15px;
+    width: 80%;
+    margin-top: 20px;
+    padding: 10px;
+    transition: var(--transition);
+}
+
+.profile-name-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .agency-details {
     background-color: var(--text-light);
     border-radius: var(--border-radius);
-    padding: 30px;
+    padding: 40px;
     box-shadow: var(--box-shadow);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    transition: var(--transition);
+}
+
+.agency-details:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.agency-details h3 {
+    grid-column: 1 / -1;
+    color: var(--text-dark);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #EDF2F7;
 }
 
 .agency-details p {
     display: flex;
     align-items: center;
-    color: var(--text-dark);
-    margin-bottom: 15px;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #F8FAFC;
+    transition: var(--transition);
+}
+
+.agency-details p:hover {
+    background: #EDF2F7;
+    transform: translateY(-2px);
 }
 
 .agency-details p strong {
     display: flex;
     align-items: center;
-    margin-right: 10px;
+    margin-right: 15px;
     color: var(--primary-color);
+    font-weight: 600;
 }
 
 .agency-details p strong svg {
-    margin-right: 8px;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.agency-details input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.agency-details input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
 }
 
 .edit-save-buttons {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
+    gap: 20px;
+    margin-top: 40px;
 }
 
 .edit-button,
 .save-button {
-    padding: 12px 25px;
+    padding: 15px 35px;
     border: none;
-    border-radius: 25px;
-    font-size: 1rem;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -133,29 +217,61 @@
 }
 
 .save-button {
-    background-color: #28a745;
+    background-color: #48BB78;
     color: var(--text-light);
 }
 
 .edit-button:hover,
 .save-button:hover {
-    opacity: 0.9;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .main-content {
         padding: 20px;
     }
 
-    .agency-details {
-        grid-template-columns: 1fr;
+    .profile-header {
+        padding: 30px 20px;
     }
 
     .profile-picture {
         width: 150px;
         height: 150px;
+    }
+
+    .profile-header h2 {
+        font-size: 2rem;
+    }
+
+    .agency-details {
+        grid-template-columns: 1fr;
+        padding: 25px;
+    }
+
+    .edit-save-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .edit-button,
+    .save-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-name-input {
+        font-size: 1.5rem;
+        width: 90%;
+    }
+
+    .agency-details p {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
     }
 }

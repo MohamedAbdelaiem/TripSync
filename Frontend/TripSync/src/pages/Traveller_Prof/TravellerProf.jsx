@@ -21,6 +21,7 @@ function TravellerProf(props) {
   const [rewards, setRewards] = useState([]);
   const [all_user_trips, set_all_user_trips] = useState([]);
   const [all_user_tickets, set_all_user_tickets] = useState([]);
+  const [traveller_own_rewards, set_traveller_own_rewards] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
 
   let { profile_id } = useParams();
@@ -113,12 +114,35 @@ function TravellerProf(props) {
       setIsLoading(false);
     }
   };
+  const get_traveller_own_rewards = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      // const t = all_Travellers.filter((trav) => trav.userID == id)[0];
+      // setTraveller(t);
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/rewards/myRewards`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+      setIsLoading(false);
+      console.log(response.data);
+      set_traveller_own_rewards(response.data);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     get_traveller();
     getRewards();
     getTrips();
     getTickets();
+    get_traveller_own_rewards();
 
     if (user !== null && profile_id == id) setIsOwner(true);
   }, []);
@@ -140,6 +164,7 @@ function TravellerProf(props) {
   const reRender = () => {
     getRewards();
     get_traveller();
+    get_traveller_own_rewards();
   };
 
   if (isLoading) {
@@ -155,8 +180,7 @@ function TravellerProf(props) {
             profileID={profile_id}
             openEditProfModal={openModal}
             openMessages={openMessages}
-            isOwner = {isOwner}
-            
+            isOwner={isOwner}
           ></SideBar>
           <RestProf
             profName={traveller.profilename}
@@ -166,12 +190,15 @@ function TravellerProf(props) {
             all_trips={all_user_trips}
             all_tickets={all_user_tickets}
             profileID={profile_id}
-            isOwner = {isOwner}
+            isOwner={isOwner}
             rerender={reRender}
-      
+            userOwnedRewards={traveller_own_rewards}
           ></RestProf>
           {modalIsOpened && (
-            <EditTravProfModal closeEditprofModal={closeModal} rerender={reRender} />
+            <EditTravProfModal
+              closeEditprofModal={closeModal}
+              rerender={reRender}
+            />
           )}
           <UserMessages
             isOpen={messagesAreOpened}
@@ -179,7 +206,7 @@ function TravellerProf(props) {
             allMessages={all_messages}
             onClose={closeMessages}
             isOwner={isOwner}
-            currentUser = {user} 
+            currentUser={user}
           />
         </div>
       </>

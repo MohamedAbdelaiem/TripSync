@@ -28,7 +28,8 @@ function SideBar(props) {
           ></ProfPicture>
         </li>
         <li onClick={props.openMessages}>
-          {current_user_is_owner ? "messages" : "send message"} &nbsp;<i className="fa-regular fa-message"></i>
+          {current_user_is_owner ? "messages" : "send message"} &nbsp;
+          <i className="fa-regular fa-message"></i>
         </li>
         {current_user_is_owner && (
           <li onClick={props.openEditProfModal}>
@@ -36,14 +37,16 @@ function SideBar(props) {
           </li>
         )}
 
-        {current_user_is_owner && <a
-          href="#user-rewards"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <li>
-            My Rewards &nbsp; <i className="fa-solid fa-award"></i>
-          </li>
-        </a>}
+        {current_user_is_owner && (
+          <a
+            href="#user-rewards"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <li>
+              Elligable Rewards &nbsp; <i className="fa-solid fa-award"></i>
+            </li>
+          </a>
+        )}
 
         <a
           href="#user-trips"
@@ -61,6 +64,17 @@ function SideBar(props) {
           >
             <li>
               Tickets &nbsp; <i className="fa-solid fa-ticket"></i>
+            </li>
+          </a>
+        )}
+
+        {current_user_is_owner && (
+          <a
+            href="#user-own-rewards"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <li>
+              My Rewards &nbsp; <i className="fa-solid fa-award"></i>
             </li>
           </a>
         )}

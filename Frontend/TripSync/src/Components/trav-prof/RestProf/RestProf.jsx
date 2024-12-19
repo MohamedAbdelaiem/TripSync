@@ -39,11 +39,20 @@ function RestProf(props) {
             rewards={props.all_rewards}
             userPoints={props.points}
             rerender={props.rerender}
+            owned={false}
           />
         )}
         <UserTrips userID={props.profileID} trips={props.all_trips} />
         {current_user_is_owner && (
           <UserTickets userID={props.profileID} tickets={props.all_tickets} />
+        )}
+        {current_user_is_owner && (
+          <EligibleRewards
+            rewards={props.userOwnedRewards}
+            userPoints={props.points}
+            rerender={props.rerender}
+            owned={true}
+          />
         )}
       </div>
     </>

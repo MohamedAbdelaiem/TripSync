@@ -7,18 +7,15 @@
     background-color: #1a61be;
     color: aliceblue;
 }
-/* .register{
-    border-color: #2F80ED;
-    color: #2F80ED;
-} */
+
  .blogNav, .HomeNav, .aboutNav {
     text-decoration:none;
     
-    color: black;
  }
  .blogNav,.tripNav,.agnencyNav{
     cursor: pointer;
  }
+
 .popup-overlay {
     position: fixed;
     top: 0;

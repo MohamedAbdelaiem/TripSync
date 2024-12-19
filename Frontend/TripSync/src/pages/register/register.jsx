@@ -18,6 +18,7 @@ function Register() {
   });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
+  // const [fetchError, setServerError] = useState("");
   const [serverSuccess, setServerSuccess] = useState("");
 
   const { user, setUser } = useContext(UserContext);
@@ -146,9 +147,10 @@ function Register() {
             }, 2000);
           }, 3000);
         } else {
-          setServerError(response.data.message);
+          // setServerError(response.data.message);
         }
       } catch (error) {
+        setServerError(error.response.data.message);
         console.error(error);
         setServerError(error.response?.data?.message || "An error occurred");
       }

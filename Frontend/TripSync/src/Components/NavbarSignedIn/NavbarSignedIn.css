@@ -12,9 +12,11 @@
     gap: 10px;
 }
 
-.AllAgencies:hover {
+.AllAgencies:hover,.blogNav:hover {
     color: #007bff;
 }
+
+
 .blogNav{
     color: #333;
 }

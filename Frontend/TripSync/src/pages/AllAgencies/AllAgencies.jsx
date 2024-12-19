@@ -9,9 +9,8 @@ import { useContext } from "react";
 import { UserContext } from "../../assets/userContext";
 
 function AllAgencies() {
-
   const { user } = useContext(UserContext);
-  const watcher=user.user_id;
+  const watcher = user.user_id;
   const [Agencies, setAgencies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +44,7 @@ function AllAgencies() {
   // Filtering logic
   const filteredAgencies = Agencies.filter((Agency) => {
     const matchesSearch = Agency.username
-    
+
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
@@ -53,12 +52,7 @@ function AllAgencies() {
   });
   console.log(filteredAgencies);
   // Navigate to the tours page for a specific agency
-  const handleAgencyClick = (agencyId) => {
-    //console.log(agency)
 
-    console.log(agencyId);
-    navigate(`/travel-agency/${agencyId}`, { state: {watcher } }); // Pass the agencyId as state
-  };
 
   return (
     <>
@@ -75,16 +69,16 @@ function AllAgencies() {
       {isLoading && <div className="loading">Loading ...</div>}
       {!isLoading && (
         <div>
-        
           {filteredAgencies.map((Agency, index) => (
             <div
               key={index}
-              onClick={() => handleAgencyClick(Agency.travelagency_id
-                )} // Pass the agencyId to the new page
+
+              // Pass the agencyId to the new page
             >
               <TravelAgencyCard
                 name={Agency.username}
                 photo={Agency.ProfilePhoto || profile}
+                id={Agency.travelagency_id}
               />
             </div>
           ))}

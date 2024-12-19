@@ -30,6 +30,7 @@ function AllAgencies() {
         },
       });
       setAgencies(response.data);
+      console.log(response.data);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -44,7 +45,6 @@ function AllAgencies() {
   // Filtering logic
   const filteredAgencies = Agencies.filter((Agency) => {
     const matchesSearch = Agency.username
-
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
@@ -76,9 +76,10 @@ function AllAgencies() {
               // Pass the agencyId to the new page
             >
               <TravelAgencyCard
-                name={Agency.username}
-                photo={Agency.ProfilePhoto || profile}
+                name={Agency.profilename}
+                photo={Agency.profilephoto || profile}
                 id={Agency.travelagency_id}
+
               />
             </div>
           ))}

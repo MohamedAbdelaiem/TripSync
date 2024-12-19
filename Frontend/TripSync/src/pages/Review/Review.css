@@ -50,9 +50,6 @@
   .star:hover ~ .star {
       color: #ddd; /* Reset stars to the right of the hovered star */
   }
-  .rateNum{
-      
-  }
   .input-review{
       height: 70px;
   }

@@ -214,12 +214,7 @@
   left: 3%;
   top: 1%;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  border-radius: 3px;
 }
 .go-home-from-trip:hover {
-  scale: 1.5;
-  transform: translateX(5px);
-  transform: translateY(5px);
-  background-color: #e0e0e0;
+  transform: scale(1.1);
 }

@@ -81,4 +81,12 @@ tripRouter
     TripController.deletePromotion
   );
 
+tripRouter
+  .route('/getAvailbleSeats/:trip_id')
+  .get(
+    AuthConroller.protect,
+    AuthConroller.restrictTo("traveller"),
+    TripController.availbleSeats
+  );  
+
 module.exports = tripRouter;

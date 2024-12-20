@@ -54,12 +54,7 @@ function Sign_in() {
             setSuccess(response.data.message);
             setUser(response.data.data);
             // localStorage.setItem("user",JSON.stringify(response.data.data));
-            if (response.data.data.role === "admin") {
-              Navigate(`/Admin-view/${response.data.data.user_id}`);
-            } else if (response.data.data.role === "travel_agency") {
-              Navigate(`/travel-agency/${response.data.data.user_id}`);
-            } else Navigate(`/Traveller-Profile/${response.data.data.user_id}`);
-            // Navigate("/");}
+            Navigate("/");
           }
         }, 3000);
       } else {

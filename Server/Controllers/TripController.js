@@ -647,3 +647,28 @@ exports.deletePromotion = async (req, res) => {
     });
   }
 };
+
+
+exports.availbleSeats = async (req, res) => {
+  const { trip_id } = req.params;
+
+  if (!trip_id) {
+    return res.status(400).json({
+      status: "failed",
+      message: "Please provide the trip id",
+    });
+  }
+  try{
+    const result = await client.query("SELECT * FROM Tickets WHERE TRIP_ID = $1", [trip_id]);
+    const totalSeats = result.rows.reduce((acc, curr) => acc + curr.numberofseats, 0);
+    const maxSeats = await client.query("SELECT maxseats FROM trip WHERE TRIP_ID = $1", [trip_id]);
+    const availableSeats = maxSeats.rows[0].maxseats - totalSeats;
+    res.status(200).json({
+      status: true,
+      data: availableSeats,
+    });
+  }
+  catch(err){
+    res.status(500).json({ success: false, error: "Error in getting available seats" });
+  }
+};  

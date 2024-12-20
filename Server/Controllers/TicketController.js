@@ -72,23 +72,27 @@ exports.addTicket = async (req, res) => {
   console.log(TRIP_ID, TRAVELLER_ID);
 
   // Validate input
-  if (!NumberOfSeats || !Price) {
+  if (!NumberOfSeats || Price<0) {
     return res.status(400).json({
       success: false,
       error: "Please provide all details",
     });
   }
-  const totalSeats = await client.query(
-    "SELECT SUM(numberofseats) FROM tickets WHERE TRIP_ID= $1",
+  const result = await client.query(
+    "SELECT * FROM tickets WHERE TRIP_ID= $1",
     [TRIP_ID]
   );
+
+  const totalSeats = result.rows.reduce((acc, curr) => acc + curr.numberofseats, 0);
 
   const maxSeates = await client.query(
     "SELECT maxseats FROM trip WHERE TRIP_ID = $1",
     [TRIP_ID]
   );
 
-  if (maxSeates.rows[0].maxseats < NumberOfSeats + totalSeats.rows[0].sum)
+  const availableSeats = maxSeates.rows[0].maxseats - totalSeats;
+
+  if (availableSeats<NumberOfSeats)
     return res.status(500).json({
       status: "false",
       message: "There is not available seates",
@@ -146,6 +150,8 @@ exports.addTicket = async (req, res) => {
     console.log(err);
   }
 };
+
+
 
 exports.deleteTicket = async (req, res) => {
   const TRAVELLER_ID = req.user.user_id;

@@ -27,12 +27,34 @@ function Review() {
     setRating(newRating);
   };
 
+  const fetchReviews = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`${Base_URL}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      setReviews(response.data.data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error.message);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
     try {
       const token = localStorage.getItem("token");
+      if (!rating || rating < 0 || rating > 5) {
+        setError("Please provide a valid rating between 0 and 5.");
+        return;
+      }
+      if (!review.trim()) {
+        setError("Review content cannot be empty.");
+        return;
+      }
       const response = await axios.post(
         `${Base_URL}/makeReview`,
         {
@@ -47,39 +69,29 @@ function Review() {
       );
       setSuccess(response.data.message);
       console.log(response.data.message);
+      fetchReviews();
     } catch (error) {
-      setError(error.message);
+      setError("you have already reviewed this travel agency");
       console.log(review, rate, "error", error.response.data.message);
     }
   };
 
-  useEffect(() => {
-    // Fetch reviews only if the userType is travel_agency
-    const fetchReviews = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(`${Base_URL}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(response.data);
-        setReviews(response.data.data);
-      } catch (error) {
-        console.error("Error fetching reviews:", error.message);
-      }
-    };
 
-    if (user.role === "travel_agency" && user_id) {
+  const reRender = () => {
+    fetchReviews();
+  };
+
+ useEffect(() => {
+    if (user_id) {
       fetchReviews();
     }
-  }, [user.role, user_id]);
+  }, [user.role, user_id,review]);
 
   return (
     <>
       <div className="flexx">
         <SideNavBar userId={user_id}></SideNavBar>
-
+        <div className="review-header">
         {user.role === "traveller" && (
           <div className="cardReview">
             <div className="card-body">
@@ -123,7 +135,7 @@ function Review() {
           </div>
         )}
 
-        {user.role === "travel_agency"&&(
+        {(
           <div className="review-card-b">
             <h3 className="reviews-header-section">Reviews</h3>
             <section className="review-cards">
@@ -138,6 +150,7 @@ function Review() {
                   profilephoto={review.profilephoto}
                   traveller_id={review.traveller_id}
                   travel_agency_id={review.travel_agency_id}
+                  reRender={reRender}
                 />
               ))
             ) : (
@@ -146,6 +159,7 @@ function Review() {
             </section>
           </div>
         )}
+        </div>
       </div>
     </>
   );

@@ -44,7 +44,7 @@ function Report() {
   return (
     <>
       <div className="flexx">
-        <SideNavBar type={userType}></SideNavBar>
+        <SideNavBar userId={user_id}></SideNavBar>
         <div className="flexxx">
           <h1 className="TitleReport">Report an issue</h1>
           <div className="report">

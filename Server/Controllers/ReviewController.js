@@ -35,12 +35,6 @@ exports.getAllReviewsOfTravelAgency = async (req, res) => {
         WHERE 
             r.TRAVEL_AGENCY_ID = $1;
         `, [travelAgency_id]);
-        if(reviews.rows.length === 0){
-            return res.status(404).json({
-                status: "failed",
-                message: "No reviews found for this travel agency"
-            });
-        }
         res.status(200).json({
             status: "success",
             data: reviews.rows
@@ -130,7 +124,7 @@ exports.makeReview = async (req, res) => {
 
 exports.deleteReview = async (req, res) => {
     try{
-        const traveller_id = req.user.user_id;
+        const traveller_id = req.body.traveller_id;
         const travelAgency_id = req.params.user_id;
         await client.query('BEGIN');
         await client.query('DELETE FROM Review WHERE TRAVEL_AGENCY_ID=$1 AND TRAVELLER_ID=$2',[travelAgency_id, traveller_id]);

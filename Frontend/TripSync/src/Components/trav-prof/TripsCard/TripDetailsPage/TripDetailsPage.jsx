@@ -103,7 +103,11 @@ const TripDetailsPage = () => {
     try {
       if ((selectedFreeTrip && selectedFreeTrip.reward_id) && (selectedPromotion && selectedPromotion.reward_id)) {
         alert("You can only select one reward at a time.");
-        return;
+        togglePoppUp("You can only select one reward at a time.", "fail");
+        setTimeout(() => {
+          setShowPopup(false);
+          return;
+        }, 2000);
       }
       console.log(selectedFreeTrip);
       let actualPrice=(sale)?saleprice:price;
@@ -132,12 +136,21 @@ const TripDetailsPage = () => {
         }
       );
       console.log(response.data);
-      alert("Booking successful!");
-      setShowBookingForm(false);
-      navigate(`/traveller-profile/${user.user_id}`);
+
+      // alert("Booking successful!");
+      togglePoppUp("Booking successful!", "success");
+      setTimeout(() => {
+        setShowBookingForm(false);
+        navigate(`/traveller-profile/${user.user_id}`);
+      }, 2000);
+
     } catch (error) {
       console.error(error);
-      alert("Booking failed. Please try again.");
+      togglePoppUp("Booking failed. Please check try again.", "fail");
+      setTimeout(() => {
+        setShowBookingForm(false);
+        navigate(`/traveller-profile/${user.user_id}`);
+      }, 2000);
     }
   };
 
@@ -159,7 +172,6 @@ const TripDetailsPage = () => {
         console.log(promotions)
         const freeTrips = response.data.filter((reward) => reward.type === "free trip");
         setMyFreeTrips(freeTrips);
-        console.log(freeTrips)
       }
       setMyRewards(response.data);
     } catch (error) {
@@ -251,7 +263,9 @@ const TripDetailsPage = () => {
           <div className="trip-info-section">
             <div className="trip-detail-item">
               <DollarSign className="trip-detail-icon" />
+
               <span className="trip-price">${sale?saleprice:price}</span>
+
             </div>
             <div className="trip-detail-item">
               <User className="trip-detail-icon" />
@@ -354,6 +368,42 @@ const TripDetailsPage = () => {
           </div>
         ) : null}
       </div>
+
+
+      {showPopup && (
+        <div className="popup-overlay-Reward-container">
+          <div className="popup-overlay-Reward">
+            <div className="popup-content-Reward">
+              <h5>
+                <span style={{ color: success ? "#1ac136" : "#ff0000" }}>
+                  {success ? "successful process" : "un successful process"}
+                </span>
+              </h5>
+              <p>
+                {popMessageContent} &nbsp;
+                {success ? (
+                  <i
+                    className="fa-solid fa-check"
+                    style={{
+                      color: "#1ac136",
+                      fontSize: "2rem",
+                    }}
+                  ></i>
+                ) : (
+                  <i
+                    className="fa-solid fa-x"
+                    style={{
+                      color: "#ff0000",
+                      fontSize: "2rem",
+                    }}
+                  ></i>
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

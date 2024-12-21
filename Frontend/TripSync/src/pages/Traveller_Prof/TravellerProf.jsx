@@ -13,7 +13,6 @@ import UserMessages from "../../Components/trav-prof/UserMessages/UserMessages.j
 import { UserContext } from "../../assets/userContext";
 
 function TravellerProf(props) {
-
   const [traveller, setTraveller] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [modalIsOpened, setModalIsOpened] = useState(false);
@@ -24,11 +23,22 @@ function TravellerProf(props) {
   const [traveller_own_rewards, set_traveller_own_rewards] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
 
+  const [showPopup, setShowPopup] = useState(false);
+  const [fail, setFail] = useState(false);
+  const [success, setsuccess] = useState(false);
+  const [popMessageContent, setPopMessageContent] = useState("");
+  const togglePoppUp = (content, status) => {
+    setShowPopup(!showPopup);
+    setsuccess(status === "success" ? true : false);
+    setFail(status === "success" ? false : true);
+    setPopMessageContent(content);
+  };
+
   let { profile_id } = useParams();
   console.log(profile_id);
-  const { user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   console.log(user);
-  
+
   let id = null;
   if (user !== null) {
     id = user.user_id;
@@ -65,7 +75,7 @@ function TravellerProf(props) {
           withCredentials: true,
         }
       );
-      console.log(response.data); 
+      console.log(response.data);
       set_all_user_trips(response.data);
     } catch (error) {
       console.log(error);
@@ -143,10 +153,10 @@ function TravellerProf(props) {
     getTrips();
     getTickets();
     get_traveller_own_rewards();
+    setShowPopup(false);
 
     if (user !== null && profile_id == id) setIsOwner(true);
   }, []);
-
 
   const openModal = () => {
     setModalIsOpened(true);
@@ -165,11 +175,17 @@ function TravellerProf(props) {
     getRewards();
     get_traveller();
     get_traveller_own_rewards();
+    setShowPopup(false);
   };
 
   if (isLoading) {
     return <div>Loading...</div>; // Show a loading indicator
-  } else if (user === null || traveller === null || traveller.role !== 'traveller') return <div className="user-not-found-message">User not founded</div>;
+  } else if (
+    user === null ||
+    traveller === null ||
+    traveller.role !== "traveller"
+  )
+    return <div className="user-not-found-message">User not founded</div>;
   else
     return (
       <>
@@ -193,11 +209,13 @@ function TravellerProf(props) {
             isOwner={isOwner}
             rerender={reRender}
             userOwnedRewards={traveller_own_rewards}
+            showPopUp={togglePoppUp}
           ></RestProf>
           {modalIsOpened && (
             <EditTravProfModal
               closeEditprofModal={closeModal}
               rerender={reRender}
+              showPopUp={togglePoppUp}
             />
           )}
           <UserMessages
@@ -209,6 +227,40 @@ function TravellerProf(props) {
             currentUser={user}
           />
         </div>
+
+        {showPopup && (
+          <div className="popup-overlay-Reward-container">
+            <div className="popup-overlay-Reward">
+              <div className="popup-content-Reward">
+                <h5>
+                  <span style={{ color: success ? "#1ac136" : "#ff0000" }}>
+                    {success ? "successful process" : "un successful process"}
+                  </span>
+                </h5>
+                <p>
+                  {popMessageContent} &nbsp;
+                  {success ? (
+                    <i
+                      className="fa-solid fa-check"
+                      style={{
+                        color: "#1ac136",
+                        fontSize: "2rem",
+                      }}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fa-solid fa-x"
+                      style={{
+                        color: "#ff0000",
+                        fontSize: "2rem",
+                      }}
+                    ></i>
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </>
     );
 }

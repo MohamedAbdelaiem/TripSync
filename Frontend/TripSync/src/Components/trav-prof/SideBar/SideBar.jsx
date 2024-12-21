@@ -9,6 +9,7 @@ import EditProfileModal from "../EditTravProfile/EditTravProfModal";
 
 function SideBar(props) {
   const navigate = useNavigate();
+  
 
   let current_user_is_owner = props.isOwner;
 
@@ -79,6 +80,8 @@ function SideBar(props) {
           </a>
         )}
       </ul>
+
+
     </div>
   );
 }

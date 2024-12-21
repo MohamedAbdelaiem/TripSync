@@ -51,7 +51,6 @@ const EligibleRewards = ({
         >
           <i className="fa-solid fa-arrow-left"></i>
         </button>
-
         <div className="rewards-carousel">
           {eligibleRewards
             .slice(currentIndex, currentIndex + itemsPerPage)

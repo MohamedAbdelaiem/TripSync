@@ -1,4 +1,4 @@
-import {React,useEffect,useState} from "react";
+import { React, useEffect, useState } from "react";
 import "./AllTripsList.css";
 import AdminTripCard from "./adminTripCard";
 import axios from "axios";
@@ -7,20 +7,18 @@ function AllTripsList({ all_trips, rerender }) {
   // Calculate trip statistics
   const totalTrips = all_trips.length;
   const notStartedTrips = all_trips.filter(
-    trip => new Date(trip.startdate) > new Date()
+    (trip) => new Date(trip.startdate) > new Date()
   ).length;
   const finishedTrips = all_trips.filter(
-    trip => new Date(trip.startdate) <= new Date()
+    (trip) => new Date(trip.startdate) <= new Date()
   ).length;
 
-  const [mostTrips,setMost5Trips]=useState([]);
-  useEffect(()=>{
-    most5Trips();
-  },[]);
+  const [mostTrips, setMost5Trips] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const most5Trips=async()=>{
-    try{
-      const token=localStorage.getItem("token");
+  const fetchMost5Trips = async () => {
+    try {
+      const token = localStorage.getItem("token");
       const res = await axios.get(
         `http://localhost:3000/api/v1/trips/mostFiveTrips`,
         {
@@ -31,13 +29,16 @@ function AllTripsList({ all_trips, rerender }) {
       );
       console.log(res.data);
       setMost5Trips(res.data);
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
-
+  useEffect(() => {
+    fetchMost5Trips();
+  }, []);
 
   return (
     <div className="all-trips-list-container">
@@ -56,17 +57,22 @@ function AllTripsList({ all_trips, rerender }) {
         </div>
       </div>
 
-      <h2 className="most5tripsdesign">Most 5 Trips purchased</h2>
-      <ul className="all-trips-menu-list">
-        {mostTrips.map((trip, idx) => (
-          <li className="all-trips-menu-item" key={idx}>
-            <AdminTripCard {...trip} rerender={rerender} />
-          </li>
-        ))}
-      </ul>
+      <h2 className="most5tripsdesign">Most 5 Trips Purchased</h2>
+      {loading ? (
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+        </div>
+      ) : (
+        <ul className="all-trips-menu-list">
+          {mostTrips.map((trip, idx) => (
+            <li className="all-trips-menu-item" key={idx}>
+              <AdminTripCard {...trip} rerender={rerender} />
+            </li>
+          ))}
+        </ul>
+      )}
 
-      <h2 className="most5tripsdesign">All Tribs</h2>
-
+      <h2 className="most5tripsdesign">All Trips</h2>
       <ul className="all-trips-menu-list">
         {all_trips.map((trip, idx) => (
           <li className="all-trips-menu-item" key={idx}>

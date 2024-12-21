@@ -107,7 +107,7 @@ const AdminEditForm = () => {
         <div className="admin-edit-content">
           <form onSubmit={handleSubmit}>
             {/* Username Section */}
-            <div className="form-section">
+            <div className="form-section-admin">
               <h3>
                 <UserCircle className="section-icon" /> Username Update
               </h3>
@@ -124,7 +124,7 @@ const AdminEditForm = () => {
             </div>
 
             {/* Email Section */}
-            <div className="form-section">
+            <div className="form-section-admin">
               <h3>
                 <Mail className="section-icon" /> Email Update
               </h3>
@@ -142,7 +142,7 @@ const AdminEditForm = () => {
             </div>
 
             {/* Password Section */}
-            <div className="form-section">
+            <div className="form-section-admin">
               <h3>
                 <Lock className="section-icon" /> Password Update
               </h3>

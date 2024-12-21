@@ -75,7 +75,7 @@ function Sign_in() {
           <h3 className="text-center mb-4">Sign In</h3>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">
+              <label htmlFor="email" className="form-label-sign-in">
                 Email Address
               </label>
               <input
@@ -89,7 +89,7 @@ function Sign_in() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="passSign" className="form-label">
+              <label htmlFor="passSign" className="form-label-sign-in">
                 Password
               </label>
               <input

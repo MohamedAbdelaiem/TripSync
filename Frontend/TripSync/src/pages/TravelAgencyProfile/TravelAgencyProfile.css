@@ -251,6 +251,11 @@
     filter: brightness(1.1);
 }
 
+.rate-icon {
+    color: gold;
+    margin-right: 0.5rem ;
+}
+
 @media (max-width: 768px) {
     .main-content {
         padding: 16px;

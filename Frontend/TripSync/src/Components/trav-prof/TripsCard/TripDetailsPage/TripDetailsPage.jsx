@@ -155,7 +155,8 @@ const TripDetailsPage = () => {
       console.error(error);
       togglePoppUp("unsuccessful booking no available seats", "fail");
       setTimeout(() => {
-        navigate(`/traveller-profile/${user.user_id}`);
+        setShowPopup(false);
+        return;
       }, 2000);
     }
   };

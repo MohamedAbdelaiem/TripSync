@@ -81,7 +81,6 @@ exports.getAllUsers = async (req, res) => {
           res.status(400).send("Error in fetching data from users");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -103,7 +102,6 @@ exports.getAllTravelAgencies = async (req, res) => {
           });
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -132,7 +130,6 @@ exports.getAllTravelers = async (req, res) => {
 
 exports.getAllAdmins = async (req, res) => {
   try {
-    console.log("Admins");
     client.query(
       "SELECT admin_id,email,profilephoto,profilename,role,username FROM admins,users WHERE admin_id=user_id",
       (err, result) => {
@@ -461,6 +458,45 @@ exports.UpdateMe = async (req, res) => {
         res.json({ success: false, message: err });
     } 
 };
+
+exports.getAvgRatingOfAllTravelAgencies = async (req, res) => {
+  try{
+    console.log("In getAvgRatingOfAllTravelAgencies");
+    client.query(`SELECT AVG(RATE) FROM Review`,(err,result)=>{
+      if(err){
+        console.log(err);
+        res.status(400).send("why");
+      }
+      else{
+        res.status(200).json(result.rows);
+      }
+      });
+  }
+  catch(e)
+  {
+    console.log(e);
+  }
+}
+
+exports.getfivemosttravellers = async (req, res) => {
+  try{
+    console.log("In getfivemosttravellers");
+    client.query(`SELECT * FROM traveller ORDER BY NumberOfTrips DESC LIMIT 5`,(err
+      , result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data from users");
+          }
+        else {
+          res.status(200).json(result.rows);
+        }
+        });
+  }
+  catch(e)
+  {
+    console.log(e);
+  }
+}
 
 
 

@@ -22,7 +22,10 @@ const TourCard = ({
   onBook,
   onDelete, // New prop for Delete functionality
   id,
+  end,
 }) => {
+  console.log(new Date(end))
+  console.log(new Date())
   const [availbleSeats, setAvailbleSeats] = useState(0);
   const { user } = useContext(UserContext);
     const currentDate = new Date().toLocaleDateString();
@@ -48,6 +51,7 @@ const TourCard = ({
       useEffect(() => {;
         getAvailbleSeats();
       }, []);
+      console.log(availbleSeats)
   return (
     <div className="tour-card">
       {hasSale ? (
@@ -89,7 +93,7 @@ const TourCard = ({
               </button>
             </>
            
-          ) :type==="traveller"&&availbleSeats? (
+          ) :type==="traveller"&&availbleSeats&&new Date(end)>new Date()? (
             <button className="action-button" onClick={onBook}>
             Book Now
           </button>

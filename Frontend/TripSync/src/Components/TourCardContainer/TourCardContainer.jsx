@@ -7,7 +7,7 @@ import { UserContext } from "../../assets/userContext";
 const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-
+console.log(tours)
   const handleBook = (tour) => {
     console.log("Navigating to Book Page with tour:", tour);
     navigate("/book", { state: { tour } }); // Pass selected tour to Book page
@@ -52,6 +52,7 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
           onEdit={() => handleEdit(tour)}
           onDelete={() => handleDelete(tour.trip_id)}
           id={ID}
+          end={tour.startdate}
         />
       ))
     ) : (

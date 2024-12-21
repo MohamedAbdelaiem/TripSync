@@ -18,7 +18,7 @@ const AddNewTour = () => {
     StartLocation: "",
     photos: [],
     sale: false,
-    saleprice: "",
+    saleprice: null,
     TravelAgency_ID: user.user_id,
   });
 

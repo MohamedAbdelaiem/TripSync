@@ -228,7 +228,8 @@ function TravellerProf(props) {
           />
         </div>
 
-        {showPopup && (
+        
+        { showPopup && (
           <div className="popup-overlay-Reward-container">
             <div className="popup-overlay-Reward">
               <div className="popup-content-Reward">

@@ -8,16 +8,10 @@ import { useState } from "react";
 
 function RestProf(props) {
   let current_user_is_owner = props.isOwner;
-  const [showPopup, setShowPopup] = useState(false);
-  const [fail, setFail] = useState(false);
-  const [success, setsuccess] = useState(false);
-  const [popMessageContent, setPopMessageContent] = useState("");
-  const togglePoppUp = (content, status) => {
+  const [showPopup, setShowPopup] = useState(false); // State to control the popup visibility
+  const togglePoppUp = () => {
     setShowPopup(!showPopup);
-    setsuccess(status === "success" ? true : false);
-    setFail(status === "success" ? false : true);
-    setPopMessageContent(content);
-  };
+  }
   return (
     <>
       <div className="RestProf-container">
@@ -51,20 +45,12 @@ function RestProf(props) {
             userPoints={props.points}
             rerender={props.rerender}
             owned={false}
-            showPopUp={props.showPopUp}
+            showPopUp={togglePoppUp}
           />
         )}
-        <UserTrips
-          userID={props.profileID}
-          trips={props.all_trips}
-          showPopUp={togglePoppUp}
-        />
+        <UserTrips userID={props.profileID} trips={props.all_trips} />
         {current_user_is_owner && (
-          <UserTickets
-            userID={props.profileID}
-            tickets={props.all_tickets}
-            showPopUp={props.showPopUp}
-          />
+          <UserTickets userID={props.profileID} tickets={props.all_tickets} />
         )}
         {current_user_is_owner && (
           <EligibleRewards
@@ -72,7 +58,6 @@ function RestProf(props) {
             userPoints={props.points}
             rerender={props.rerender}
             owned={true}
-            showPopUp={props.showPopUp}
           />
         )}
 
@@ -80,28 +65,13 @@ function RestProf(props) {
           <div className="popup-overlay-Reward-container">
             <div className="popup-overlay-Reward">
               <div className="popup-content-Reward">
-                <h5>
-                  {success ? "successful process" : "un successful process"}
-                </h5>
+                <h5>Success</h5>
                 <p>
-                  {popMessageContent} &nbsp;
-                  {success ? (
-                    <i
-                      className="fa-solid fa-check"
-                      style={{
-                        color: "#1ac136",
-                        fontSize: "2rem",
-                      }}
-                    ></i>
-                  ) : (
-                    <i
-                      className="fa-solid fa-x"
-                      style={{
-                        color: "#ff0000",
-                        fontSize: "2rem",
-                      }}
-                    ></i>
-                  )}
+                  Reward Claimed Successfully{" "}
+                  <i
+                    className="fa-solid fa-check"
+                    style={{ color: "#0fc21b", fontSize: "2rem" }}
+                  ></i>
                 </p>
               </div>
             </div>

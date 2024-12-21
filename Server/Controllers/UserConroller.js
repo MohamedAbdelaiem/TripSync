@@ -481,8 +481,27 @@ exports.getAvgRatingOfAllTravelAgencies = async (req, res) => {
 exports.getfivemosttravellers = async (req, res) => {
   try{
     console.log("In getfivemosttravellers");
-    client.query(`SELECT * FROM traveller ORDER BY NumberOfTrips DESC LIMIT 5`,(err
-      , result) => {
+    client.query(`SELECT 
+    TR.TRAVELLER_ID AS user_id,
+    U.username,
+    U.email,
+    U.ProfilePhoto,
+    U.profilename,
+    TR.Points,
+    TR.NumberOfTrips,
+    COALESCE(SUM(TK.NumberOfSeats), 0) AS TotalBookedSeats
+FROM 
+    Traveller TR
+JOIN 
+    Users U ON TR.TRAVELLER_ID = U.USER_ID -- Join Traveller with Users
+LEFT JOIN 
+    Tickets TK ON TR.TRAVELLER_ID = TK.TRAVELLER_ID -- Join with Tickets to calculate total booked seats
+GROUP BY 
+    TR.TRAVELLER_ID, U.username, U.email, TR.Points, TR.NumberOfTrips,U.profilename,U.ProfilePhoto
+ORDER BY 
+    TotalBookedSeats DESC
+LIMIT 5;
+`,(err, result) => {
         if (err) {
           console.log(err);
           res.status(400).send("Error in fetching data from users");
@@ -494,6 +513,25 @@ exports.getfivemosttravellers = async (req, res) => {
   }
   catch(e)
   {
+    console.log(e);
+  }
+}
+
+exports.getRegistrationUser=async(req,res)=>{
+  try{
+    const response=client.query(`SELECT DATE(created_at)AS date,Count(user_id) AS userCount FROM users GROUP BY DATE(created_at) ORDER BY DATE(created_at)`,(err,result)=>{
+      if(err){
+        console.log(err);
+        res.status(400).send("Error in fetching data from users");
+      }
+      else{
+        res.status(200).json(result.rows);
+      }
+    });
+  }
+  catch(e)
+  {
+    res.status(400).send("Error in fetching data from users");
     console.log(e);
   }
 }

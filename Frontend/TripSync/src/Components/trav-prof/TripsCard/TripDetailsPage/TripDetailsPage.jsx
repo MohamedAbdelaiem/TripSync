@@ -43,7 +43,8 @@ const TripDetailsPage = () => {
     organizer_id,
     organizer_name,
     start_date,
-    end_date
+    end_date,
+    saleprice
   } = tripData;
 
   const getTripData = async () => {
@@ -105,7 +106,7 @@ const TripDetailsPage = () => {
         return;
       }
       console.log(selectedFreeTrip);
-      let actualPrice=(!sale)?sale:price;
+      let actualPrice=(sale)?saleprice:price;
       if(selectedFreeTrip.reward_id)
       {
         await RedeemReward(selectedFreeTrip.reward_id);
@@ -248,7 +249,7 @@ const TripDetailsPage = () => {
           <div className="trip-info-section">
             <div className="trip-detail-item">
               <DollarSign className="trip-detail-icon" />
-              <span className="trip-price">${sale!=0?sale:price}</span>
+              <span className="trip-price">${sale?saleprice:price}</span>
             </div>
             <div className="trip-detail-item">
               <User className="trip-detail-icon" />

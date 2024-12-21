@@ -15,6 +15,7 @@ import "./TravelAgencyProfile.css";
 const TravelAgencyProfile = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
+  console.log(user);
 
   const [agency, setAgency] = useState(null);
   const [isEditing, setIsEditing] = useState(false);

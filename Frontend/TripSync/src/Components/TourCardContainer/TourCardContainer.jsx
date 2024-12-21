@@ -44,7 +44,7 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
             )
           }
           originalPrice={tour.price}
-          destination={tour.destination}
+          destination={tour.destinition}
           startLocation={tour.startlocation}
           hasSale={tour.sale}
           salePrice={tour.saleprice}

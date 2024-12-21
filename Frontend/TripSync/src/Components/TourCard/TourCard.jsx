@@ -22,6 +22,7 @@ const TourCard = ({
   id,
 }) => {
   const { user } = useContext(UserContext);
+    const currentDate = new Date().toLocaleDateString();
   return (
     <div className="tour-card">
       {hasSale ? (

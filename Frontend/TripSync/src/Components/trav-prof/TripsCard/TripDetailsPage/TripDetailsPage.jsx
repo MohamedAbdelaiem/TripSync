@@ -54,9 +54,6 @@ const TripDetailsPage = () => {
     organizer_name,
     start_date,
     end_date,
-
-    saleprice
-
   } = tripData;
 
   const getTripData = async () => {
@@ -120,17 +117,15 @@ const TripDetailsPage = () => {
         selectedPromotion.reward_id
       ) {
         alert("You can only select one reward at a time.");
-        return;
+        togglePoppUp("You can only select one reward at a time.", "fail");
+        setTimeout(() => {
+          setShowPopup(false);
+          return;
+        }, 2000);
       }
       console.log(selectedFreeTrip);
-
-      let actualPrice = !sale ? sale : price;
+      let actualPrice = sale != 0 ? sale : price;
       if (selectedFreeTrip.reward_id) {
-
-      let actualPrice=(sale)?saleprice:price;
-      if(selectedFreeTrip.reward_id)
-      {
-
         await RedeemReward(selectedFreeTrip.reward_id);
         actualPrice = 0;
       } else if (selectedPromotion.reward_id) {
@@ -155,15 +150,17 @@ const TripDetailsPage = () => {
       );
       console.log(response.data);
       // alert("Booking successful!");
-      togglePoppUp("Trip Booked Successfully", "success");
-      setShowBookingForm(false);
+      togglePoppUp("Booking successful!", "success");
       setTimeout(() => {
+        setShowBookingForm(false);
         navigate(`/traveller-profile/${user.user_id}`);
       }, 2000);
+
     } catch (error) {
       console.error(error);
-      togglePoppUp("unsuccessful booking no available seats", "fail");
+      togglePoppUp("Booking failed. Please check try again.", "fail");
       setTimeout(() => {
+        setShowBookingForm(false);
         navigate(`/traveller-profile/${user.user_id}`);
       }, 2000);
     }
@@ -186,16 +183,10 @@ const TripDetailsPage = () => {
           (reward) => reward.type === "promotion"
         );
         setMyPromotions(promotions);
-
         const freeTrips = response.data.filter(
           (reward) => reward.type === "free trip"
         );
-
-        console.log(promotions)
-        const freeTrips = response.data.filter((reward) => reward.type === "free trip");
-
         setMyFreeTrips(freeTrips);
-        console.log(freeTrips)
       }
       setMyRewards(response.data);
     } catch (error) {
@@ -227,6 +218,7 @@ const TripDetailsPage = () => {
       <button className="go-home-from-trip" onClick={goToHome}>
         <i className="fa-solid fa-arrow-left-long"></i> Home
       </button>
+
       {/* Photo Gallery */}
       <div className="trip-photo-gallery">
         {photos && photos.length > 0 ? (
@@ -256,6 +248,7 @@ const TripDetailsPage = () => {
           <div className="no-photo-placeholder">No Photos Available</div>
         )}
       </div>
+
       {/* Trip Details */}
       <div className="trip-content">
         <h1 className="trip-title">{name}</h1>
@@ -285,11 +278,7 @@ const TripDetailsPage = () => {
           <div className="trip-info-section">
             <div className="trip-detail-item">
               <DollarSign className="trip-detail-icon" />
-
               <span className="trip-price">${sale != 0 ? sale : price}</span>
-
-              <span className="trip-price">${sale?saleprice:price}</span>
-
             </div>
             <div className="trip-detail-item">
               <User className="trip-detail-icon" />
@@ -393,13 +382,14 @@ const TripDetailsPage = () => {
           </div>
         ) : null}
       </div>
+
       {showPopup && (
         <div className="popup-overlay-Reward-container">
           <div className="popup-overlay-Reward">
             <div className="popup-content-Reward">
               <h5>
                 <span style={{ color: success ? "#1ac136" : "#ff0000" }}>
-                  {success ? "successful process" : "Sorry"}
+                  {success ? "successful process" : "un successful process"}
                 </span>
               </h5>
               <p>

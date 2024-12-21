@@ -155,8 +155,10 @@ const TripDetailsPage = () => {
       if (response.data.length !== 0) {
         const promotions = response.data.filter((reward) => reward.type === "promotion");
         setMyPromotions(promotions);
+        console.log(promotions)
         const freeTrips = response.data.filter((reward) => reward.type === "free trip");
         setMyFreeTrips(freeTrips);
+        console.log(freeTrips)
       }
       setMyRewards(response.data);
     } catch (error) {

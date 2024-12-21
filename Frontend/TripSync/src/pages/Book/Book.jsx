@@ -1,58 +1,140 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import "./Book.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faCalendar, faUser } from "@fortawesome/free-solid-svg-icons";
+import { useParams, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
-import axios from "axios"; // Import Axios
+import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useContext } from "react";
 import { UserContext } from "../../assets/userContext";
 
 const Book = ({ tour, onEnsureBooking }) => {
-   const { user } = useContext(UserContext);
-  const watcher=user.user_id;
+  const { user } = useContext(UserContext);
+  const watcher = user.user_id;
+
   const [ticket, setTicket] = useState(null);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
-  const [loading, setLoading] = useState(false); // Loading state for the button
-  const [error, setError] = useState(null); // Error state
-  const [seats, setSeats] = useState(1); // Number of seats selected (default: 1)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [seats, setSeats] = useState(1);
+  const [availbleSeats, setAvailbleSeats] = useState(0);
+  const [myRewards, setMyRewards] = useState([]);
+  const [myPromotions, setMyPromotions] = useState([]);
+  const [myFreeTrips, setMyFreeTrips] = useState([]);
+  const [selectedPromotion, setSelectedPromotion] = useState("");
+  const [selectedFreeTrip, setSelectedFreeTrip] = useState("");
 
-  const handleBooking = async () => {
-    if (seats < 1 || seats > tour.maxseats) {
-      setError(`Please select between 1 and ${tour.maxseats} seats.`);
-      return;
-    }
-
-    setLoading(true); // Start loading
-    setError(null); // Reset error
-
+  const getAvailbleSeats = async () => {
     try {
       const token = localStorage.getItem("token");
- //( NumberOfSeats, Price, TRAVELLER_ID, TRIP_ID,DATE)
-      const response = await axios.post(`http://localhost:3000/api/v1/users/payForTrip/${tour.trip_id}`, {
-        TRIB_ID: tour.trip_id, // Assuming tour has an ID field
-        TRAVELLER_ID:watcher,
-        Price: (tour.sale ? tour.saleprice : tour.price) * seats, // Total price based on seats
-        DATE: new Date().toISOString().split("T")[0],
-        NumberOfSeats:seats, // Number of seats selected
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      setTicket(response.data); // Store the ticket details from the response
-      setBookingConfirmed(true); // Confirm booking
-      console.log("Ticket Created:", response.data);
-      onEnsureBooking(); // Trigger parent callback if necessary
-    } catch (err) {
-      console.error("Error creating ticket:", err);
-      setError("Failed to create ticket. Please try again.");
-    } finally {
-      setLoading(false); // Stop loading
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/trips/getAvailbleSeats/${tour.trip_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setAvailbleSeats(response.data.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
+  const RedeemReward = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.delete(`http://localhost:3000/api/v1/rewards/deleteFromMyRewards/${id}`, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleBook = async (e) => {
+    e.preventDefault();
+    try {
+      if (seats < 1 || seats > availbleSeats) {
+        setError(`Please select between 1 and ${availbleSeats} seats.`);
+        return;
+      }
+      if ((selectedFreeTrip && selectedFreeTrip.reward_id) && (selectedPromotion && selectedPromotion.reward_id)) {
+        alert("You can only select one reward at a time.");
+        return;
+      }
+      console.log(selectedFreeTrip);
+      let actualPrice=(!tour.sale)?tour.price:tour.saleprice;
+      if(selectedFreeTrip.reward_id)
+      {
+        await RedeemReward(selectedFreeTrip.reward_id);
+        actualPrice=0;
+      }
+      else if(selectedPromotion.reward_id)
+      {
+        await RedeemReward(selectedPromotion.reward_id);
+        actualPrice=actualPrice-actualPrice*selectedPromotion.promotionpercentage/100;
+      }
+      const token = localStorage.getItem("token");
+      console.log(actualPrice);
+      const response = await axios.post(
+        `http://localhost:3000/api/v1/users/payForTrip/${tour.trip_id}`,
+        {
+          Price: actualPrice*seats,
+          NumberOfSeats: seats,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setBookingConfirmed(true);
+      onEnsureBooking();
+      //navigate(`/traveller-profile/${watcher}`);
+    } catch (error) {
+      console.error(error);
+      alert("Booking failed. Please try again.");
+    }
+  };
+
+  const fetchMyRewards = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/rewards/myRewards`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.length !== 0) {
+        const promotions = response.data.filter((reward) => reward.type === "promotion");
+        setMyPromotions(promotions);
+        const freeTrips = response.data.filter((reward) => reward.type === "free trip");
+        setMyFreeTrips(freeTrips);
+      }
+      setMyRewards(response.data);
+    } catch (error) {
+      console.error("Error fetching rewards:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMyRewards();
+    getAvailbleSeats();
+  }, []);
+  console.log(myPromotions)
+  console.log(myFreeTrips)
   const settings = {
     dots: true,
     infinite: true,
@@ -87,11 +169,11 @@ const Book = ({ tour, onEnsureBooking }) => {
             <FontAwesomeIcon icon={faMapMarkerAlt} /> From: {tour.startlocation} | To: {tour.destinition}
           </p>
           <p>
-            <FontAwesomeIcon icon={faCalendar} /> Duration:{
-            Math.ceil(
+            <FontAwesomeIcon icon={faCalendar} /> Duration:{" "}
+            {Math.ceil(
               (new Date(tour.enddate) - new Date(tour.startdate)) / (1000 * 60 * 60 * 24)
-            )
-          } days
+            )}{" "}
+            days
           </p>
           <p>
             <FontAwesomeIcon icon={faUser} /> Max Seats: {tour.maxseats}
@@ -122,18 +204,65 @@ const Book = ({ tour, onEnsureBooking }) => {
             onChange={(e) => setSeats(Number(e.target.value))}
           />
         </div>
+    
+       {/* Promotions Dropdown */}
+{myPromotions.length > 0 && (
+  <div className="form-group">
+    <label htmlFor="promotions">Choose a Promotion:</label>
+    <select
+      id="promotions"
+      value={selectedPromotion?.reward_id || ""} // Bind to reward_id
+      onChange={(e) => {
+        const selected = myPromotions.find(
+          (promotion) => promotion.reward_id == e.target.value
+        );
+        setSelectedPromotion(selected || {});
+      }}
+    >
+      <option value="">None</option>
+      {myPromotions.map((promo) => (
+        <option key={promo.reward_id} value={promo.reward_id}>
+          {promo.description}
+        </option>
+      ))}
+    </select>
+  </div>
+)}
+
+
+    {/* Free Trips Dropdown */}
+{myFreeTrips.length > 0 && (
+  <div className="form-group">
+    <label htmlFor="free-trips">Choose a Free Trip:</label>
+    <select
+      id="free-trips"
+      value={selectedFreeTrip?.reward_id || ""} // Bind to reward_id
+      onChange={(e) => {
+        const selected = myFreeTrips.find(
+          (freeTrip) => freeTrip.reward_id == e.target.value
+        );
+        setSelectedFreeTrip(selected || {});
+      }}
+    >
+      <option value="">None</option>
+      {myFreeTrips.map((trip) => (
+        <option key={trip.reward_id} value={trip.reward_id}>
+          {trip.description}
+        </option>
+      ))}
+    </select>
+  </div>
+)}
 
         <button
           className="book-now-button"
-          onClick={handleBooking}
+          onClick={handleBook}
           disabled={loading}
         >
           {loading ? "Processing..." : "Ensure Booking"}
         </button>
 
         {error && <p className="error">{error}</p>}
-
-    
       </div>
     </div>
   );

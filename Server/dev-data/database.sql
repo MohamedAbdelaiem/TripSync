@@ -8,6 +8,7 @@ CREATE TABLE Users
     ProfilePhoto VARCHAR(300),
     ProfileName VARCHAR(200),
     passwordchangedat TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     role VARCHAR(200) NOT NULL CHECK (role IN ('admin', 'traveller', 'travel_agency'))
 );
 

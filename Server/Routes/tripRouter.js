@@ -89,4 +89,13 @@ tripRouter
     TripController.availbleSeats
   );  
 
+//dashBoard
+
+tripRouter
+.route(`/mostFiveTrips`)
+.get(
+  AuthConroller.protect,
+  AuthConroller.restrictTo("admin"),
+  TripController.most5tripsPurchased);  
+
 module.exports = tripRouter;

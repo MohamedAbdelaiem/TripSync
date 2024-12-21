@@ -2,7 +2,6 @@ import React from "react";
 import "./AllTravellersList.css"
 import TravellerCard from "./TravellerCard";
 function AllTravellersList({ all_travellers, rerender_admin, rerender }) {
-  console.log(all_travellers[0]);
   return (
     <div className="all-travellers-list-container">
         <div className="stat-card-traveller total">

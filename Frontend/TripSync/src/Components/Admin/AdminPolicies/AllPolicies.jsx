@@ -36,6 +36,10 @@ const AllPolicies = ({ all_policies, is_admin, admin_id,rerender }) => {
 
   return (
     <div className="all-policies-container">
+      <div className="stat-card-policy total">
+        <span className="stat-number-policy">{all_policies.length}</span>
+        <span className="stat-label-policy">Total policies</span>
+      </div>
       {add_policy_opend ? (
         <div className="add-policy-modal">
           <AddPolicy

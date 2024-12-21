@@ -57,6 +57,10 @@ function AllReportsList({ all_reports, userId, rerender }) {
   return (
     <div className="all-reports-container">
       <h2>All Reports</h2>
+      <div className="stat-card-report total">
+          <span className="stat-number-report">{all_reports.length}</span>
+          <span className="stat-label-report">Total Reports</span>
+      </div>
       <div className="reports-list">
         {all_reports.map((report, idx) => (
           <AdminReport

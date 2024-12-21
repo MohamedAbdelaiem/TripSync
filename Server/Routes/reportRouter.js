@@ -39,4 +39,13 @@ reportRouter
     ReportController.deleteReportForAdmin
 );  
 
+//dashboard
+reportRouter
+.route("/getallreportsofAgency")
+.get(
+  AuthConroller.protect,
+  AuthConroller.restrictTo("admin"),
+  ReportController.getNumberOfReportsForAgency
+);
+
 module.exports = reportRouter;

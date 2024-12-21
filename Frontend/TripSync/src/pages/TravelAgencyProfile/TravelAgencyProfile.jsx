@@ -14,7 +14,7 @@ import "./TravelAgencyProfile.css";
 
 const TravelAgencyProfile = () => {
   const { id } = useParams();
-  const { user,setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   console.log(user);
 
   const [agency, setAgency] = useState(null);
@@ -103,7 +103,7 @@ const TravelAgencyProfile = () => {
         useremail, // Email for `users` relation
         address,
         location,
-        phoneNumber:phonenumber,
+        phoneNumber: phonenumber,
         country,
         rate,
         email: agencyEmail, // Travel agency-specific email
@@ -119,6 +119,7 @@ const TravelAgencyProfile = () => {
       await axios.patch(
         `http://localhost:3000/api/v1/users/updateMe`,
         {
+
           profilephoto:profilePhotoUrl,
           profilename:updateData.profilename,
           previousPassword:updateData.previousPassword,
@@ -140,8 +141,8 @@ const TravelAgencyProfile = () => {
 
       console.log(updateData);
 
-      const newemail=(updateData.useremail)?updateData.useremail:user.email;
-      
+      const newemail = updateData.useremail ? updateData.useremail : user.email;
+
       setUser({
         ...user,
         profilename: updateData.profilename,
@@ -191,8 +192,13 @@ const TravelAgencyProfile = () => {
 
       <div className="main-content">
         <div className="profile-header">
-          {isEditing && user.role === "travel_agency" && Number(id) === user.user_id ? (
-            <label htmlFor="profile-picture-input" className="profile-picture-label">
+          {isEditing &&
+          user.role === "travel_agency" &&
+          Number(id) === user.user_id ? (
+            <label
+              htmlFor="profile-picture-input"
+              className="profile-picture-label"
+            >
               <img
                 src={profilephoto || "placeholder.jpg"}
                 alt="Profile"
@@ -214,7 +220,9 @@ const TravelAgencyProfile = () => {
             />
           )}
 
-          {isEditing && user.role === "travel_agency" && Number(id) === user.user_id ? (
+          {isEditing &&
+          user.role === "travel_agency" &&
+          Number(id) === user.user_id ? (
             <input
               className="profile-name-input"
               type="text"
@@ -234,7 +242,8 @@ const TravelAgencyProfile = () => {
           <h3>Travel Agency Details</h3>
           <p>
             <strong>
-              <FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} /> Address:
+              <FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} />{" "}
+              Address:
             </strong>{" "}
             {isEditing ? (
               <input
@@ -248,7 +257,8 @@ const TravelAgencyProfile = () => {
           </p>
           <p>
             <strong>
-              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} /> Location:
+              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} />{" "}
+              Location:
             </strong>{" "}
             {isEditing ? (
               <input
@@ -266,7 +276,8 @@ const TravelAgencyProfile = () => {
             <>
               <p>
                 <strong>
-                  <FaEnvelope style={{ color: "purple", marginRight: "5px" }} /> User Email:
+                  <FaEnvelope style={{ color: "purple", marginRight: "5px" }} />{" "}
+                  User Email:
                 </strong>
                 <input
                   type="text"
@@ -322,15 +333,20 @@ const TravelAgencyProfile = () => {
           </p>
 
           <p>
-            <strong><FaStar className="rate-icon" />Rate:</strong>
 
-             { rate}
-            
+            <strong>
+              <FaStar className="rate-icon" />
+              Rate:
+            </strong>
+
+            {rate}
+
           </p>
 
           <p>
             <strong>
-              <FaEnvelope style={{ color: "purple", marginRight: "5px" }} /> Travel Agency Email:
+              <FaEnvelope style={{ color: "purple", marginRight: "5px" }} />{" "}
+              Travel Agency Email:
             </strong>
             {isEditing ? (
               <input
@@ -351,7 +367,10 @@ const TravelAgencyProfile = () => {
                 Save Changes
               </button>
             ) : (
-              <button onClick={() => setIsEditing(true)} className="edit-button">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="edit-button"
+              >
                 Edit Profile
               </button>
             )}

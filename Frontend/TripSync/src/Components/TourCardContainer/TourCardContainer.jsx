@@ -4,10 +4,12 @@ import TourCard from "../TourCard/TourCard";
 import "./TourCardContainer.css";
 import { useContext } from "react";
 import { UserContext } from "../../assets/userContext";
-const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
+const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour, ID }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-console.log(tours)
+
+  console.log(tours);
+
   const handleBook = (tour) => {
     console.log("Navigating to Book Page with tour:", tour);
     navigate("/book", { state: { tour } }); // Pass selected tour to Book page
@@ -23,13 +25,14 @@ console.log(tours)
   return (
     <div className="containr">
       <div className="add-tour-button-container">
-        {type === "travel_agency" &&Number(ID)==user.user_id&& (
+        {type === "travel_agency" && Number(ID) == user.user_id && (
           <button className="add-tour-button" onClick={onAddNewTour}>
             Add New Tour
           </button>
         )}
       </div>
       <div className="tour-card-container">
+
           {(tours.length > 0) ? (
       tours.map((tour, index) => (
         <TourCard
@@ -58,6 +61,7 @@ console.log(tours)
     ) : (
       <h1>No Tours Available</h1>
     )}
+
 
       </div>
     </div>

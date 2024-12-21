@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import "./TourCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+
 import { useContext,useEffect,useState } from "react";
+
 import { UserContext } from "../../assets/userContext";
 import axios from "axios";
 
@@ -24,6 +26,7 @@ const TourCard = ({
   id,
   end,
 }) => {
+
   console.log(new Date(end))
   console.log(new Date())
   const [availbleSeats, setAvailbleSeats] = useState(0);
@@ -52,6 +55,7 @@ const TourCard = ({
         getAvailbleSeats();
       }, []);
       console.log(availbleSeats)
+
   return (
     <div className="tour-card">
       {hasSale ? (
@@ -83,8 +87,8 @@ const TourCard = ({
           )}
         </div>
         <div className="action-buttons">
-          {type === "travel_agency"&&Number(id)==user.user_id ? (
-              <>
+          {type === "travel_agency" && Number(id) == user.user_id ? (
+            <>
               <button className="action-button" onClick={onEdit}>
                 Edit
               </button>
@@ -92,13 +96,15 @@ const TourCard = ({
                 Delete
               </button>
             </>
+
            
           ) :type==="traveller"&&availbleSeats&&new Date(end)>new Date()? (
             <button className="action-button" onClick={onBook}>
-            Book Now
-          </button>
-          
-          ):(<></>)}
+              Book Now
+            </button>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>
@@ -106,7 +112,9 @@ const TourCard = ({
 };
 
 TourCard.propTypes = {
+
   key:PropTypes.Number,
+
   type: PropTypes.string,
   imageSrc: PropTypes.string,
   description: PropTypes.string,

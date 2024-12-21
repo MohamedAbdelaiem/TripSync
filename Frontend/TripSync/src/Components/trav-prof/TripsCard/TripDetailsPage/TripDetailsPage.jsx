@@ -148,8 +148,8 @@ const TripDetailsPage = () => {
       console.error(error);
       togglePoppUp("Booking failed. Please check try again.", "fail");
       setTimeout(() => {
-        setShowBookingForm(false);
-        navigate(`/traveller-profile/${user.user_id}`);
+        setShowPopup(false);
+        return;
       }, 2000);
     }
   };

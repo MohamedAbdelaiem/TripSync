@@ -81,4 +81,20 @@ tripRouter
     TripController.deletePromotion
   );
 
+tripRouter
+  .route('/getAvailbleSeats/:trip_id')
+  .get(
+    AuthConroller.protect,
+    TripController.availbleSeats
+  );  
+
+//dashBoard
+
+tripRouter
+.route(`/mostFiveTrips`)
+.get(
+  AuthConroller.protect,
+  AuthConroller.restrictTo("admin"),
+  TripController.most5tripsPurchased);  
+
 module.exports = tripRouter;

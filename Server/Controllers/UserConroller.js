@@ -81,7 +81,6 @@ exports.getAllUsers = async (req, res) => {
           res.status(400).send("Error in fetching data from users");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -93,7 +92,7 @@ exports.getAllUsers = async (req, res) => {
 exports.getAllTravelAgencies = async (req, res) => {
   try {
     client.query(
-      "SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename,t.TravelAgency_ID ,s.username FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id",
+      "SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename,t.TravelAgency_ID ,s.username,s.profilephoto,s.profilename FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id",
       (err, result) => {
         if (err) {
           console.log(err);
@@ -103,7 +102,6 @@ exports.getAllTravelAgencies = async (req, res) => {
           });
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -132,7 +130,6 @@ exports.getAllTravelers = async (req, res) => {
 
 exports.getAllAdmins = async (req, res) => {
   try {
-    console.log("Admins");
     client.query(
       "SELECT admin_id,email,profilephoto,profilename,role,username FROM admins,users WHERE admin_id=user_id",
       (err, result) => {
@@ -187,7 +184,7 @@ exports.getUser=async(req,res)=>{
                 const role=result.rows[0].role;
                 if(role==='travel_agency')
                 {
-                    client.query('SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename,s.username FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id AND user_id=$1',[user_id],(err,result)=>
+                    client.query('SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email AS useremail,s.profilephoto,s.profilename,s.username FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id AND user_id=$1',[user_id],(err,result)=>
                         {
                             if(err)
                             {
@@ -461,6 +458,83 @@ exports.UpdateMe = async (req, res) => {
         res.json({ success: false, message: err });
     } 
 };
+
+exports.getAvgRatingOfAllTravelAgencies = async (req, res) => {
+  try{
+    console.log("In getAvgRatingOfAllTravelAgencies");
+    client.query(`SELECT AVG(RATE) FROM Review`,(err,result)=>{
+      if(err){
+        console.log(err);
+        res.status(400).send("why");
+      }
+      else{
+        res.status(200).json(result.rows);
+      }
+      });
+  }
+  catch(e)
+  {
+    console.log(e);
+  }
+}
+
+exports.getfivemosttravellers = async (req, res) => {
+  try{
+    console.log("In getfivemosttravellers");
+    client.query(`SELECT 
+    TR.TRAVELLER_ID AS user_id,
+    U.username,
+    U.email,
+    U.ProfilePhoto,
+    U.profilename,
+    TR.Points,
+    TR.NumberOfTrips,
+    COALESCE(SUM(TK.NumberOfSeats), 0) AS TotalBookedSeats
+FROM 
+    Traveller TR
+JOIN 
+    Users U ON TR.TRAVELLER_ID = U.USER_ID -- Join Traveller with Users
+LEFT JOIN 
+    Tickets TK ON TR.TRAVELLER_ID = TK.TRAVELLER_ID -- Join with Tickets to calculate total booked seats
+GROUP BY 
+    TR.TRAVELLER_ID, U.username, U.email, TR.Points, TR.NumberOfTrips,U.profilename,U.ProfilePhoto
+ORDER BY 
+    TotalBookedSeats DESC
+LIMIT 5;
+`,(err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data from users");
+          }
+        else {
+          res.status(200).json(result.rows);
+        }
+        });
+  }
+  catch(e)
+  {
+    console.log(e);
+  }
+}
+
+exports.getRegistrationUser=async(req,res)=>{
+  try{
+    const response=client.query(`SELECT DATE(created_at)AS date,Count(user_id) AS userCount FROM users GROUP BY DATE(created_at) ORDER BY DATE(created_at)`,(err,result)=>{
+      if(err){
+        console.log(err);
+        res.status(400).send("Error in fetching data from users");
+      }
+      else{
+        res.status(200).json(result.rows);
+      }
+    });
+  }
+  catch(e)
+  {
+    res.status(400).send("Error in fetching data from users");
+    console.log(e);
+  }
+}
 
 
 

@@ -42,7 +42,6 @@ exports.getAllTripsOfAgency = async (req, res) => {
           res.status(400).send("Error in fetching data from trip");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -89,7 +88,6 @@ GROUP BY
           res.status(400).send("Error in fetching data from trip");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -146,7 +144,6 @@ GROUP BY
           res.status(400).send("Error in fetching data");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -169,7 +166,6 @@ exports.deleteTrip = async (req, res) => {
     });
   }
   // console.log(Trip.rows[0].travelagency_id, user_id);
-  console.log(Trip.rows[0].travelagency_id, user_id);
   if (req.user.role !== "admin" && Trip.rows[0].travelagency_id != user_id) {
     return res.status(403).json({
       status: "failed",
@@ -415,7 +411,6 @@ exports.getHistory = async (req, res) => {
           res.status(400).send("Error in fetching data");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -524,7 +519,6 @@ exports.getAllPromotions = async (req, res) => {
   const travelAgency_id = req.user.user_id;
   // const Trip_id = req.params.Trip_ID;
 
-  console.log(req.user, req.params, travelAgency_id);
 
   if (isNaN(travelAgency_id)) {
     return res.status(400).json({
@@ -647,3 +641,83 @@ exports.deletePromotion = async (req, res) => {
     });
   }
 };
+
+
+exports.availbleSeats = async (req, res) => {
+  const { trip_id } = req.params;
+
+  if (!trip_id) {
+    return res.status(400).json({
+      status: "failed",
+      message: "Please provide the trip id",
+    });
+  }
+  try{
+    const result = await client.query("SELECT * FROM Tickets WHERE TRIP_ID = $1", [trip_id]);
+    const totalSeats = result.rows.reduce((acc, curr) => acc + curr.numberofseats, 0);
+    const maxSeats = await client.query("SELECT maxseats FROM trip WHERE TRIP_ID = $1", [trip_id]);
+    const availableSeats = maxSeats.rows[0].maxseats - totalSeats;
+    res.status(200).json({
+      status: true,
+      data: availableSeats,
+    });
+  }
+  catch(err){
+    res.status(500).json({ success: false, error: "Error in getting available seats" });
+  }
+};  
+
+exports.most5tripsPurchased = async (req, res) => {
+  try {
+    client.query(
+      `SELECT 
+    T.Trip_ID,
+    T.Name,
+    T.Description,
+    T.Price,
+    T.MaxSeats,
+    T.Destinition,
+    T.StartDate,
+    T.EndDate,
+    T.StartLocation,
+    T.TravelAgency_ID,
+    T.Sale,
+    T.SalePrice,
+    COALESCE(
+        JSON_AGG(
+            TP.PHOTO
+        ) FILTER (WHERE TP.PHOTO IS NOT NULL), 
+        '[]'
+    ) AS Photos,
+    U.username AS Organizer,
+    COALESCE(SUM(TK.NumberOfSeats), 0) AS TotalBookedSeats
+FROM 
+    Trip T
+LEFT JOIN 
+    TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
+LEFT JOIN 
+    Users U ON T.TravelAgency_ID = U.USER_ID -- Join with Users to get the username of the travel agency
+LEFT JOIN 
+    Tickets TK ON T.Trip_ID = TK.TRIP_ID -- Join with Tickets to calculate the total booked seats
+GROUP BY 
+    T.Trip_ID, U.username
+ORDER BY 
+    TotalBookedSeats DESC
+LIMIT 5;
+`,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data");
+        }
+        res.status(200).json(result.rows);
+      }
+    );
+  }
+  catch (e) {
+    res.status(500).json({
+      status: false,
+      message: "Error in fetching data",
+    });
+  }
+}

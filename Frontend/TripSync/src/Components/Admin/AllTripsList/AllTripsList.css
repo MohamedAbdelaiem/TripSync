@@ -289,3 +289,19 @@ trips list styling
   background-color: #f5f5f5;
   padding-top: 20px;
 }
+
+.most5tripsdesign {
+  font-size: 1.8rem; /* Increase font size for prominence */
+  font-weight: bold; /* Bold font for emphasis */
+  text-align: center; /* Center-align the text */
+  color: #333; /* Dark text for readability */
+  margin: 20px 0; /* Add vertical spacing */
+  text-transform: uppercase; /* Make text uppercase for style */
+  letter-spacing: 1px; /* Slightly increase letter spacing */
+  background: linear-gradient(to right, #007bff, #4c7aaf); /* Gradient background */
+  color: white; /* White text for contrast */
+  padding: 10px; /* Add padding for better spacing */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+

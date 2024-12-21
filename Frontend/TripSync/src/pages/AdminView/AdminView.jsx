@@ -9,7 +9,8 @@ import AdminRewards from "../../Components/Admin/AdminRewards/AdminRewards";
 import AllPolicies from "../../Components/Admin/AdminPolicies/AllPolicies";
 import CreateAdmin from "../../Components/Admin/CreateAdmin/CreateAdmin";
 import AllAdminsList from "../../Components/Admin/AllAdminsList/AllAdmins";
-import AdminEditForm from "../../Components/Admin/editAdmin/editAdmin";
+import AdminEditForm from "../../Components/Admin/editAdmin/EditAdmin";
+import UserChart from "../../Components/Admin/AdminGraphs/UserChart";
 
 
 import React, { useState, useEffect, useContext } from "react";
@@ -29,6 +30,7 @@ function AdminView() {
   const [dis_create_admin, set_dis_create_admin] = useState(false);
   const [dis_all_admins, set_dis_all_admins] = useState(false);
   const [edit_me, set_edit_me] = useState(false);
+  const [showGraphs, setShowGraphs] = useState(false);
 
   const [all_user_trips, set_all_user_trips] = useState([]);
   const [all_Travellers, set_all_Travellers] = useState([]);
@@ -80,6 +82,7 @@ function AdminView() {
     set_dis_create_admin(selected_item_name === "create-admin" ? true : false);
     set_dis_all_admins(selected_item_name === "all-admins" ? true : false);
     set_edit_me(selected_item_name === "edit-me" ? true : false);
+    setShowGraphs(selected_item_name === "show-graphs" ? true : false);
   };
   const getAllTravelAgencies = async () => {
     try {
@@ -269,6 +272,10 @@ function AdminView() {
       {edit_me ? (
         <AdminEditForm
         />
+      ) : null}
+
+      {showGraphs ? (
+        <UserChart />
       ) : null}
     </div>
   );

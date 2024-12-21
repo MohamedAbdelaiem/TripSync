@@ -208,3 +208,24 @@ exports.deleteReportForAdmin = async (req, res) => {
       });
     }
 }
+
+exports.getNumberOfReportsForAgency = async (req, res) => {
+  try {
+    const travelAgency_id=req.params.user_id;
+    const reports = await client.query(
+      `SELECT COUNT(*) FROM Report WHERE TRAVEL_AGENCY_ID=$1`,
+      [travelAgency_id]
+    );
+    res.status(200).json({
+      status: "true",
+      data: reports.rows[0].count,
+    });
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "false",
+      message: "Internal Server Error",
+    });
+  }
+}

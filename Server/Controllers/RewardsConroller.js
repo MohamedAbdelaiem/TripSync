@@ -281,5 +281,28 @@ exports.getRewardThatiCanGet=async(req,res)=>{
         });
     }
 }
+
+exports.deleteFromMyrewards=async(req,res)=>{
+    try{
+        const user_id=req.user.user_id;
+        const reward_id=req.params.reward_id;
+        if(!reward_id){
+            return res.status(400).json({
+                status:'failed',
+                message:'Please provide reward id'
+            });
+        }
+        console.log(reward_id);
+        const result = await client.query('DELETE FROM GetReward WHERE REWARD_ID=$1 AND TRAVELLER_ID=$2',[reward_id,user_id]);
+        res.status(200).json(result.rows);
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            status:'failed',
+            message:err
+        });
+    }
+}
         
 

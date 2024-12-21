@@ -1,8 +1,20 @@
 const client = require('../db');
 
-exports.getAllQAOfTravelAgency = async (req, res) => {
+exports.getAllQAOfmyProfile = async (req, res) => {
     try {
         const travelAgency_id = req.user.user_id;
+        const QA = await client.query('SELECT * FROM QA WHERE TRAVEL_AGENCY_ID=$1', [travelAgency_id]);
+        res.status(200).json(QA.rows);
+    }
+    catch (e) {
+        res.status(400).send('Error in fetching data');
+        console.log(e);
+    }
+}
+
+exports.getAllQAOfaTravelAgency= async (req, res) => {
+    try {
+        const travelAgency_id = req.params.user_id;
         const QA = await client.query('SELECT * FROM QA WHERE TRAVEL_AGENCY_ID=$1', [travelAgency_id]);
         res.status(200).json(QA.rows);
     }

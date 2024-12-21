@@ -4,7 +4,7 @@ import { Trash2 } from 'lucide-react';
 import axios from 'axios';
 import { UserContext } from '../../assets/userContext';
 
-function ReviewCard({ review, rate, traveller_id, travel_agency_id, profilename, profilephoto }) {
+function ReviewCard({ review, rate, traveller_id, travel_agency_id, profilename, profilephoto,reRender }) {
     // Function to render stars based on rating
     const {user}=useContext(UserContext);
     const renderStars = () => {
@@ -18,19 +18,31 @@ function ReviewCard({ review, rate, traveller_id, travel_agency_id, profilename,
     };
 
     const deleteReview = async () => {
+        if(user.role!=="admin")
+        {
         if(user.user_id!==traveller_id){
             alert("You can't delete this review");
             return;
         }
+    }
         try {
             const token = localStorage.getItem("token");
-            const response =await axios.delete(`http://localhost:3000/api/v1/users/${travel_agency_id}/reviews/deleteReview`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await axios.delete(
+                `http://localhost:3000/api/v1/users/${travel_agency_id}/reviews/reviews/deleteReview`,
+                {
+                    data: {
+                        traveller_id: traveller_id, // Sending traveller_id in the body
+                    },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            
             console.log(response.data);
+            reRender();
         }
+
         catch (error) {
             console.error(error);
         }

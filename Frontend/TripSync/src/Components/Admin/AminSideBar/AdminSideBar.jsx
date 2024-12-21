@@ -3,6 +3,10 @@ import "./AdminSideBar.css"
 function AdminSideBar({ onMenuSelected }) {
   return (
     <div className="admin-sidebar-caontainer">
+      <a href="/" className="return-home-from-admin">
+        <i class="fa-solid fa-arrow-left"></i>
+         &nbsp;Home
+      </a>
       <h2 className="admin-sidebar-title">Admin Panel</h2>
       <ul className="admin-sidebar-menu-list">
         <li
@@ -53,13 +57,13 @@ function AdminSideBar({ onMenuSelected }) {
         >
           All Policies
         </li>
-        <li 
-            onClick={() => {
-              onMenuSelected("all-admins");
-            }}
-            className="admin-menu-item"
+        <li
+          onClick={() => {
+            onMenuSelected("all-admins");
+          }}
+          className="admin-menu-item"
         >
-            All Admins
+          All Admins
         </li>
         <li
           onClick={() => {
@@ -77,6 +81,15 @@ function AdminSideBar({ onMenuSelected }) {
           className="admin-menu-item"
         >
           Edit Me
+        </li>
+
+        <li
+          onClick={() => {
+            onMenuSelected("show-graphs");
+          }}
+          className="admin-menu-item"
+        >
+          Show Graphs
         </li>
       </ul>
     </div>

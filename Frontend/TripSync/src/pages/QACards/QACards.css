@@ -136,3 +136,18 @@
 .cancel-btn:hover {
   background-color: #c82333;
 }
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: red;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  color: darkred;
+}
+

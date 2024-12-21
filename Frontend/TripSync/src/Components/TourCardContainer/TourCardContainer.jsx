@@ -4,9 +4,11 @@ import TourCard from "../TourCard/TourCard";
 import "./TourCardContainer.css";
 import { useContext } from "react";
 import { UserContext } from "../../assets/userContext";
-const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
+const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour, ID }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+
+  console.log(tours);
 
   const handleBook = (tour) => {
     console.log("Navigating to Book Page with tour:", tour);
@@ -20,21 +22,22 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
     console.log("Deleting tour with ID:", tourId);
     onDeleteTour(tourId); // Call the delete function passed as a prop
   };
-
   return (
     <div className="containr">
       <div className="add-tour-button-container">
-        {type === "travel_agency" &&Number(ID)==user.user_id&& (
+        {type === "travel_agency" && Number(ID) == user.user_id && (
           <button className="add-tour-button" onClick={onAddNewTour}>
             Add New Tour
           </button>
         )}
       </div>
       <div className="tour-card-container">
+
           {(tours.length > 0) ? (
       tours.map((tour, index) => (
         <TourCard
           key={tour.trip_id || index}  // Use unique id if possible, else fallback to index
+          tripid={tour.trip_id}
           type={type}
           imageSrc={tour.photos && tour.photos.length > 0 ? tour.photos[0] : 'defaultImage.jpg'}  // Check if images exists
           description={tour.description}
@@ -44,7 +47,7 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
             )
           }
           originalPrice={tour.price}
-          destination={tour.destination}
+          destination={tour.destinition}
           startLocation={tour.startlocation}
           hasSale={tour.sale}
           salePrice={tour.saleprice}
@@ -52,11 +55,13 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
           onEdit={() => handleEdit(tour)}
           onDelete={() => handleDelete(tour.trip_id)}
           id={ID}
+          end={tour.startdate}
         />
       ))
     ) : (
       <h1>No Tours Available</h1>
     )}
+
 
       </div>
     </div>

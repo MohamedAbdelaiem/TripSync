@@ -14,7 +14,8 @@ import "./TravelAgencyProfile.css";
 
 const TravelAgencyProfile = () => {
   const { id } = useParams();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  console.log(user);
 
   const [agency, setAgency] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -23,11 +24,15 @@ const TravelAgencyProfile = () => {
   const [profilephoto, setProfilePicture] = useState("");
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState("");
-  const [email, setEmail] = useState("");
+  const [useremail, setUserEmail] = useState(""); // Email for `users`
   const [phonenumber, setPhoneNumber] = useState("");
   const [country, setCountry] = useState("");
+  const [rate, setRate] = useState(0); // For travel agencies
+  const [agencyEmail, setAgencyEmail] = useState(""); // Travel agency-specific email
 
   const [file, setFile] = useState(null);
+  const [password, setPassword] = useState(""); // Travel agency password
+  const [previousPassword, setPreviousPassword] = useState("");
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -64,15 +69,18 @@ const TravelAgencyProfile = () => {
           }
         );
         const data = response.data.data[0];
+        console.log(data);
         setAgency(data);
 
         setProfileName(data.profilename || data.username);
         setProfilePicture(data.profilephoto);
         setAddress(data.address);
         setLocation(data.location);
-        setEmail(data.email);
+        setUserEmail(data.useremail); // Corrected to use data.useremail
         setPhoneNumber(data.phonenumber);
         setCountry(data.country);
+        setRate(data.rate);
+        setAgencyEmail(data.email); // Travel agency-specific email
       } catch (error) {
         console.error("Error fetching travel agency data:", error);
       }
@@ -83,19 +91,46 @@ const TravelAgencyProfile = () => {
 
   const handleSave = async () => {
     const token = localStorage.getItem("token");
+
     try {
       const profilePhotoUrl = file ? await handlesImage(file) : profilephoto;
+      // Prepare the request body based on user's role
+      const updateData = {
+        profilephoto: profilePhotoUrl,
+        profilename,
+        previousPassword,
+        newPassword: password,
+        useremail, // Email for `users` relation
+        address,
+        location,
+        phoneNumber: phonenumber,
+        country,
+        rate,
+        email: agencyEmail, // Travel agency-specific email
+      };
 
-      const response = await axios.patch(
+      // if (user.role === "travel_agency") {
+      //   // Add additional fields for travel agency
+      //   updateData.description = description;
+      //   updateData.email = agencyEmail; // Email specific to the travel agency
+      // }
+
+      // Make the API call to update the user
+      await axios.patch(
         `http://localhost:3000/api/v1/users/updateMe`,
         {
-          profilename,
-          profilephoto: profilePhotoUrl,
-          address,
-          location,
-          email,
-          phonenumber,
-          country,
+
+          profilephoto:profilePhotoUrl,
+          profilename:updateData.profilename,
+          previousPassword:updateData.previousPassword,
+          newPassword:updateData.newPassword,
+          useremail:updateData.useremail,
+          address:updateData.address,
+          location:updateData.location,
+          phoneNumber:updateData.phoneNumber,
+          country:updateData.country,
+          rate:updateData.rate,
+          email:updateData.email,
         },
         {
           headers: {
@@ -104,19 +139,48 @@ const TravelAgencyProfile = () => {
         }
       );
 
-      setAgency((prev) => ({
-        ...prev,
-        profilename,
+      console.log(updateData);
+
+      const newemail = updateData.useremail ? updateData.useremail : user.email;
+
+      setUser({
+        ...user,
+        profilename: updateData.profilename,
         profilephoto: profilePhotoUrl,
-        address,
-        location,
-        email,
-        phonenumber,
-        country,
-      }));
+        useremail: newemail,
+        address: updateData.address,
+        location: updateData.location,
+        phonenumber: updateData.phoneNumber,
+        country: updateData.country,
+        rate: updateData.rate,
+        email: updateData.email,
+      });
+
+      setAgency({
+        ...agency,
+        profilename: updateData.profilename,
+        profilephoto: profilePhotoUrl,
+        useremail: newemail,
+        address: updateData.address,
+        location: updateData.location,
+        phonenumber: updateData.phonenumber,
+        country: updateData.country,
+        rate: updateData.rate,
+        email: updateData.email,
+      });
+
       setIsEditing(false);
+      setPassword(""); // Clear password field after successful save
+      setPreviousPassword(""); // Clear previous password field
     } catch (error) {
       console.error("Error saving profile changes:", error);
+
+      // Handle errors such as incorrect previous password
+      if (error.response && error.response.data.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("An error occurred while saving changes.");
+      }
     }
   };
 
@@ -128,8 +192,13 @@ const TravelAgencyProfile = () => {
 
       <div className="main-content">
         <div className="profile-header">
-          {isEditing && user.role === "travel_agency" && Number(id) === user.user_id ? (
-            <label htmlForm="profile-picture-input" className="profile-picture-label">
+          {isEditing &&
+          user.role === "travel_agency" &&
+          Number(id) === user.user_id ? (
+            <label
+              htmlFor="profile-picture-input"
+              className="profile-picture-label"
+            >
               <img
                 src={profilephoto || "placeholder.jpg"}
                 alt="Profile"
@@ -151,12 +220,12 @@ const TravelAgencyProfile = () => {
             />
           )}
 
-          
-          
-          {isEditing && user.role === "travel_agency" && Number(id) === user.user_id ? (
-            <input className="profile-name-input"
+          {isEditing &&
+          user.role === "travel_agency" &&
+          Number(id) === user.user_id ? (
+            <input
+              className="profile-name-input"
               type="text"
-              name="hello"
               value={profilename}
               onChange={(e) => setProfileName(e.target.value)}
             />
@@ -173,9 +242,10 @@ const TravelAgencyProfile = () => {
           <h3>Travel Agency Details</h3>
           <p>
             <strong>
-              <FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} /> Address:
+              <FaMapMarkerAlt style={{ color: "red", marginRight: "5px" }} />{" "}
+              Address:
             </strong>{" "}
-            {isEditing && user.role === "travel_agency" && Number(id) === user.user_id ? (
+            {isEditing ? (
               <input
                 type="text"
                 value={address}
@@ -187,7 +257,8 @@ const TravelAgencyProfile = () => {
           </p>
           <p>
             <strong>
-              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} /> Location:
+              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} />{" "}
+              Location:
             </strong>{" "}
             {isEditing ? (
               <input
@@ -199,29 +270,42 @@ const TravelAgencyProfile = () => {
               location
             )}
           </p>
+
+          {/* Render Email and Password Fields Only in Edit Mode */}
+          {isEditing && (
+            <>
+              <p>
+                <strong>
+                  <FaEnvelope style={{ color: "purple", marginRight: "5px" }} />{" "}
+                  User Email:
+                </strong>
+                <input
+                  type="text"
+                  value={useremail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                />
+              </p>
+              <p>
+                <strong>Password:</strong>
+                <input
+                  type="password"
+                  placeholder="Previous Password"
+                  value={previousPassword}
+                  onChange={(e) => setPreviousPassword(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="New Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </p>
+            </>
+          )}
+
           <p>
             <strong>
-              <FaStar style={{ color: "gold", marginRight: "5px" }} /> Rate:
-            </strong>{" "}
-            {agency.rate}
-          </p>
-          <p>
-            <strong>
-              <FaEnvelope style={{ color: "green", marginRight: "5px" }} /> Email:
-            </strong>{" "}
-            {isEditing ? (
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            ) : (
-              email
-            )}
-          </p>
-          <p>
-            <strong>
-              <FaPhone style={{ color: "purple", marginRight: "5px" }} /> Phone:
+              <FaPhone style={{ color: "blue", marginRight: "5px" }} /> Phone:
             </strong>{" "}
             {isEditing ? (
               <input
@@ -233,10 +317,10 @@ const TravelAgencyProfile = () => {
               phonenumber
             )}
           </p>
+
+          {/* Travel Agency-specific fields */}
           <p>
-            <strong>
-              <FaGlobe style={{ color: "#007BFF", marginRight: "5px" }} /> Country:
-            </strong>{" "}
+            <strong>Country:</strong>
             {isEditing ? (
               <input
                 type="text"
@@ -245,6 +329,33 @@ const TravelAgencyProfile = () => {
               />
             ) : (
               country
+            )}
+          </p>
+
+          <p>
+
+            <strong>
+              <FaStar className="rate-icon" />
+              Rate:
+            </strong>
+
+            {rate}
+
+          </p>
+
+          <p>
+            <strong>
+              <FaEnvelope style={{ color: "purple", marginRight: "5px" }} />{" "}
+              Travel Agency Email:
+            </strong>
+            {isEditing ? (
+              <input
+                type="text"
+                value={agencyEmail}
+                onChange={(e) => setAgencyEmail(e.target.value)}
+              />
+            ) : (
+              agencyEmail
             )}
           </p>
         </div>
@@ -256,7 +367,10 @@ const TravelAgencyProfile = () => {
                 Save Changes
               </button>
             ) : (
-              <button onClick={() => setIsEditing(true)} className="edit-button">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="edit-button"
+              >
                 Edit Profile
               </button>
             )}

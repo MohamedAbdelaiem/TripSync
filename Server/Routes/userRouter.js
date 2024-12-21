@@ -15,6 +15,10 @@ const ticketRouter = require("./ticketRouter");
 
 const userRouter = express.Router();
 
+//dashboard
+userRouter.get("/mostfiveTravellers", AuthConroller.protect, UserConroller.getfivemosttravellers);
+userRouter.get("/getAverageRating", AuthConroller.protect, UserConroller.getAvgRatingOfAllTravelAgencies);
+userRouter.get("/getUserReg", AuthConroller.protect, UserConroller.getRegistrationUser);
 // Authentication Routes
 userRouter.route("/SignUp").post(AuthConroller.signup);
 userRouter.route("/LogIn").post(AuthConroller.LogIn);
@@ -117,5 +121,6 @@ userRouter.use("/:user_id/reviews", (req, res, next) => {
   reviewRouter(req, res, next); // Explicitly pass `req` and `res` to reviewRouter
 });
 
+//dashBoard
 // Export the router
 module.exports = userRouter;

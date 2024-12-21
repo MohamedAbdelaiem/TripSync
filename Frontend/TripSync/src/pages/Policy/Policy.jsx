@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NavbarSignedIn from "../../Components/NavbarSignedIn/NavbarSignedIn";
 import Navbar from "../../Components/Navbar/Navbar";
 import policyPhoto from "../../assets/policy2.jpg";
 import "./policy.css";
 import { UserContext } from "../../assets/userContext";
 import PolicyCard from "../../Components/PolicyCard/PolicyCard";
-import { useState,useEffect } from "react";
 import axios from "axios";
+
 const Base_Url = "http://localhost:3000/api/v1/policies/getAllPolicies";
 
 function Policy() {
@@ -24,7 +24,6 @@ function Policy() {
         },
       });
       console.log(response.data);
-      // setpolicy(response.data.data);
       setpolicy(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -40,21 +39,27 @@ function Policy() {
   return (
     <>
       {UserContext ? <NavbarSignedIn /> : <Navbar />}
-      <div className="flexPolicy">
-        <img src={policyPhoto} className="policyPhoto"></img>
-        <div>
-          <h1 className="headerPolicy">Our Policy</h1>
+      <div className="policy-page">
+        {/* Photo Section */}
+        <div className="policy-photo-container">
+          <img src={policyPhoto} alt="Policy" className="policyPhoto" />
+        </div>
 
+        {/* Policy Content Section */}
+        <div className="policy-content">
+          <h1 className="headerPolicy">Our Policy</h1>
           {isLoading ? (
             <h3 className="loading">Loading...</h3>
           ) : (
-            <>
-              <div className="policy-container">
-                {policies.map((policy) => (
-                  <PolicyCard title={policy.title} description={policy.description} />
-                ))}
-              </div>
-            </>
+            <div className="policy-container">
+              {policies.map((policy) => (
+                <PolicyCard
+                  key={policy.id} // Use a unique key
+                  title={policy.title}
+                  description={policy.description}
+                />
+              ))}
+            </div>
           )}
         </div>
       </div>

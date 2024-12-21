@@ -1,17 +1,52 @@
-.policyPhoto{
-    width: 500px;
-    margin: 100px;
-}
-
-.flexPolicy{
+.policy-page {
     display: flex;
-}
-.headerPolicy{
-    margin-top: 50px;
-    margin-bottom: 20px;
-    margin-left: 300px;
-}
-.policy-container{
-    margin-left: 200px;
-    width: 600px;
-}
+    flex-direction: row;
+    gap: 20px; /* Adds space between the photo and the content */
+    padding: 20px;
+  }
+  
+  .policy-photo-container {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+
+  }
+  .headerPolicy{
+    margin-left: 140px;
+  }
+  .policyPhoto {
+    width: 100%;
+    max-width: 400px; /* Adjust the size as needed */
+    border-radius: 10px; /* Optional: Add rounded corners */
+  }
+  
+  .policy-content {
+    flex: 2; /* Takes up 2 parts of the row */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .policy-container {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Adds space between policy cards */
+  }
+  .policy-photo-container {
+    position: sticky;
+    top: 0; /* Adjust based on how far you want it to stick from the top */
+    height: 100vh; /* Full height of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #f8f9fa; Optional background color */
+  }
+  
+  .policyPhoto {
+    width: 100%; /* Adjust width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure it fits nicely */
+  }
+  

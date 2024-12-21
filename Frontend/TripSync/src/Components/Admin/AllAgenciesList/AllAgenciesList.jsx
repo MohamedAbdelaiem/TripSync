@@ -33,7 +33,7 @@ function AllAgenciesList({ all_agencies,rerender }) {
           <span className="stat-label-agency">Total Agencies</span>
         </div>
         <div className="stat-card-agencies finished">
-          <span className="stat-number-agency">{(rating?rating:0)}</span>
+          <span className="stat-number-agency">{(rating?rating.toFixed(2):0)}</span>
           <span className="stat-label-agency">avgerage Rating</span>
         </div>
       </div>

@@ -82,6 +82,15 @@ function AdminSideBar({ onMenuSelected }) {
         >
           Edit Me
         </li>
+
+        <li
+          onClick={() => {
+            onMenuSelected("show-graphs");
+          }}
+          className="admin-menu-item"
+        >
+          Show Graphs
+        </li>
       </ul>
     </div>
   );

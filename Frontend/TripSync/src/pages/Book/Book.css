@@ -211,6 +211,46 @@
 .booking-confirmation {
   animation: fadeIn 0.8s ease-in-out;
 }
+/* Added Fields for Promotions and Free Trips */
+.promotions-container,
+.free-trips-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.promotions-container label,
+.free-trips-container label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.promotions-container select,
+.free-trips-container select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.promotions-container select:focus,
+.free-trips-container select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.promotions-container .info,
+.free-trips-container .info {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
 
 @keyframes fadeIn {
   from {

@@ -27,7 +27,7 @@ const TravelAgencyProfile = () => {
   const [useremail, setUserEmail] = useState(""); // Email for `users`
   const [phonenumber, setPhoneNumber] = useState("");
   const [country, setCountry] = useState("");
-  const [description, setDescription] = useState(""); // For travel agencies
+  const [rate, setRate] = useState(0); // For travel agencies
   const [agencyEmail, setAgencyEmail] = useState(""); // Travel agency-specific email
 
   const [file, setFile] = useState(null);
@@ -79,7 +79,7 @@ const TravelAgencyProfile = () => {
         setUserEmail(data.useremail); // Corrected to use data.useremail
         setPhoneNumber(data.phonenumber);
         setCountry(data.country);
-        setDescription(data.description);
+        setRate(data.rate);
         setAgencyEmail(data.email); // Travel agency-specific email
       } catch (error) {
         console.error("Error fetching travel agency data:", error);
@@ -105,7 +105,7 @@ const TravelAgencyProfile = () => {
         location,
         phoneNumber:phonenumber,
         country,
-        description,
+        rate,
         email: agencyEmail, // Travel agency-specific email
       };
 
@@ -128,7 +128,7 @@ const TravelAgencyProfile = () => {
           location:updateData.location,
           phoneNumber:updateData.phoneNumber,
           country:updateData.country,
-          description:updateData.description,
+          rate:updateData.rate,
           email:updateData.email,
         },
         {
@@ -151,7 +151,7 @@ const TravelAgencyProfile = () => {
         location: updateData.location,
         phonenumber: updateData.phoneNumber,
         country: updateData.country,
-        description: updateData.description,
+        rate: updateData.rate,
         email: updateData.email,
       });
 
@@ -164,7 +164,7 @@ const TravelAgencyProfile = () => {
         location: updateData.location,
         phonenumber: updateData.phonenumber,
         country: updateData.country,
-        description: updateData.description,
+        rate: updateData.rate,
         email: updateData.email,
       });
 
@@ -322,15 +322,10 @@ const TravelAgencyProfile = () => {
           </p>
 
           <p>
-            <strong>Description:</strong>
-            {isEditing ? (
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            ) : (
-              description
-            )}
+            <strong><FaStar className="rate-icon" />Rate:</strong>
+
+             { rate}
+            
           </p>
 
           <p>

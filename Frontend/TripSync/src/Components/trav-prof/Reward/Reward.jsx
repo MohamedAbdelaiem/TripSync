@@ -28,7 +28,7 @@ const Reward = ({
         }
       );
       console.log(response.data);
-      showPopUp("Reward Calimes Successfully","success");
+      showPopUp();
       setTimeout(() => {
         rerender();
       }, 3000);

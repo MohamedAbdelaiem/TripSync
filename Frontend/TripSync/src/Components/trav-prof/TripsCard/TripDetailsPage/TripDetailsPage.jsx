@@ -19,16 +19,6 @@ const TripDetailsPage = () => {
   const [availbleSeats, setAvailbleSeats] = useState(0);
   const { user } = useContext(UserContext);
 
-  const [showPopup, setShowPopup] = useState(false);
-  const [fail, setFail] = useState(false);
-  const [success, setsuccess] = useState(false);
-  const [popMessageContent, setPopMessageContent] = useState("");
-  const togglePoppUp = (content, status) => {
-    setShowPopup(!showPopup);
-    setsuccess(status === "success" ? true : false);
-    setFail(status === "success" ? false : true);
-    setPopMessageContent(content);
-  };
 
   const navigate = useNavigate();
   const { trip_id } = useParams();
@@ -54,6 +44,7 @@ const TripDetailsPage = () => {
     organizer_name,
     start_date,
     end_date,
+    saleprice
   } = tripData;
 
   const getTripData = async () => {
@@ -74,7 +65,7 @@ const TripDetailsPage = () => {
   };
 
   const getAvailbleSeats = async () => {
-    try {
+    try{
       const token = localStorage.getItem("token");
       const response = await axios.get(
         `http://localhost:3000/api/v1/trips/getAvailbleSeats/${trip_id}`,
@@ -86,7 +77,8 @@ const TripDetailsPage = () => {
       );
       console.log(response.data.data);
       setAvailbleSeats(response.data.data);
-    } catch (error) {
+    }
+    catch(error){
       console.error(error);
     }
   };
@@ -94,12 +86,11 @@ const TripDetailsPage = () => {
   const RedeemReward = async (id) => {
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(
-        `http://localhost:3000/api/v1/rewards/deleteFromMyRewards/${id}`,
+      await axios.delete(`http://localhost:3000/api/v1/rewards/deleteFromMyRewards/${id}`, 
         {
           headers: {
             Authorization: `Bearer ${token}`,
-          },
+          }
         }
       );
     } catch (error) {
@@ -110,33 +101,33 @@ const TripDetailsPage = () => {
   const handleBook = async (e) => {
     e.preventDefault();
     try {
-      if (
-        selectedFreeTrip &&
-        selectedFreeTrip.reward_id &&
-        selectedPromotion &&
-        selectedPromotion.reward_id
-      ) {
+      if ((selectedFreeTrip && selectedFreeTrip.reward_id) && (selectedPromotion && selectedPromotion.reward_id)) {
         alert("You can only select one reward at a time.");
-        return;
+        togglePoppUp("You can only select one reward at a time.", "fail");
+        setTimeout(() => {
+          setShowPopup(false);
+          return;
+        }, 2000);
       }
       console.log(selectedFreeTrip);
-      let actualPrice = !sale ? sale : price;
-      if (selectedFreeTrip.reward_id) {
+      let actualPrice=(sale)?saleprice:price;
+      if(selectedFreeTrip.reward_id)
+      {
         await RedeemReward(selectedFreeTrip.reward_id);
-        actualPrice = 0;
-      } else if (selectedPromotion.reward_id) {
+        actualPrice=0;
+      }
+      else if(selectedPromotion.reward_id)
+      {
         await RedeemReward(selectedPromotion.reward_id);
-        actualPrice =
-          actualPrice -
-          (actualPrice * selectedPromotion.promotionpercentage) / 100;
+        actualPrice=actualPrice-actualPrice*selectedPromotion.promotionpercentage/100;
       }
       const token = localStorage.getItem("token");
       console.log(actualPrice);
       const response = await axios.post(
         `http://localhost:3000/api/v1/users/payForTrip/${trip_id}`,
         {
-          Price: actualPrice * numberOfSeats,
-          NumberOfSeats: numberOfSeats,
+          Price: actualPrice*numberOfSeats,
+          NumberOfSeats: numberOfSeats
         },
         {
           headers: {
@@ -145,16 +136,19 @@ const TripDetailsPage = () => {
         }
       );
       console.log(response.data);
+
       // alert("Booking successful!");
-      togglePoppUp("Trip Booked Successfully", "success");
-      setShowBookingForm(false);
+      togglePoppUp("Booking successful!", "success");
       setTimeout(() => {
+        setShowBookingForm(false);
         navigate(`/traveller-profile/${user.user_id}`);
       }, 2000);
+
     } catch (error) {
       console.error(error);
-      togglePoppUp("unsuccessful booking no available seats", "fail");
+      togglePoppUp("Booking failed. Please check try again.", "fail");
       setTimeout(() => {
+        setShowBookingForm(false);
         navigate(`/traveller-profile/${user.user_id}`);
       }, 2000);
     }
@@ -173,13 +167,10 @@ const TripDetailsPage = () => {
       );
       console.log(response.data);
       if (response.data.length !== 0) {
-        const promotions = response.data.filter(
-          (reward) => reward.type === "promotion"
-        );
+        const promotions = response.data.filter((reward) => reward.type === "promotion");
         setMyPromotions(promotions);
-        const freeTrips = response.data.filter(
-          (reward) => reward.type === "free trip"
-        );
+        console.log(promotions)
+        const freeTrips = response.data.filter((reward) => reward.type === "free trip");
         setMyFreeTrips(freeTrips);
       }
       setMyRewards(response.data);
@@ -212,6 +203,7 @@ const TripDetailsPage = () => {
       <button className="go-home-from-trip" onClick={goToHome}>
         <i className="fa-solid fa-arrow-left-long"></i> Home
       </button>
+
       {/* Photo Gallery */}
       <div className="trip-photo-gallery">
         {photos && photos.length > 0 ? (
@@ -241,6 +233,7 @@ const TripDetailsPage = () => {
           <div className="no-photo-placeholder">No Photos Available</div>
         )}
       </div>
+
       {/* Trip Details */}
       <div className="trip-content">
         <h1 className="trip-title">{name}</h1>
@@ -270,7 +263,9 @@ const TripDetailsPage = () => {
           <div className="trip-info-section">
             <div className="trip-detail-item">
               <DollarSign className="trip-detail-icon" />
-              <span className="trip-price">${sale != 0 ? sale : price}</span>
+
+              <span className="trip-price">${sale?saleprice:price}</span>
+
             </div>
             <div className="trip-detail-item">
               <User className="trip-detail-icon" />
@@ -322,11 +317,9 @@ const TripDetailsPage = () => {
                     <label htmlFor="promotion">Select Promotion</label>
                     <select
                       id="promotion"
-                      value={selectedPromotion.reward_id || ""}
+                      value={selectedPromotion.reward_id || ''}
                       onChange={(e) => {
-                        const selected = myPromotions.find(
-                          (promotion) => promotion.reward_id == e.target.value
-                        );
+                        const selected = myPromotions.find(promotion => promotion.reward_id == e.target.value);
                         setSelectedPromotion(selected || {});
                       }}
                     >
@@ -337,6 +330,7 @@ const TripDetailsPage = () => {
                         </option>
                       ))}
                     </select>
+
                   </>
                 )}
 
@@ -345,13 +339,11 @@ const TripDetailsPage = () => {
                     <label htmlFor="free-trip">Select Free Trip</label>
                     <select
                       id="free-trip"
-                      value={selectedFreeTrip.reward_id || ""}
+                      value={selectedFreeTrip.reward_id || ''}
                       onChange={(e) => {
                         console.log("Selected value:", e.target.value); // Log selected value
                         console.log("My free trips:", myFreeTrips); // Log my free trips
-                        const selected = myFreeTrips.find(
-                          (freeTrip) => freeTrip.reward_id == e.target.value
-                        );
+                        const selected = myFreeTrips.find(freeTrip => freeTrip.reward_id == e.target.value);
                         console.log("Found free trip:", selected); // Log the found trip
                         setSelectedFreeTrip(selected || {});
                       }}
@@ -363,6 +355,8 @@ const TripDetailsPage = () => {
                         </option>
                       ))}
                     </select>
+
+
                   </>
                 )}
 
@@ -374,13 +368,15 @@ const TripDetailsPage = () => {
           </div>
         ) : null}
       </div>
+
+
       {showPopup && (
         <div className="popup-overlay-Reward-container">
           <div className="popup-overlay-Reward">
             <div className="popup-content-Reward">
               <h5>
                 <span style={{ color: success ? "#1ac136" : "#ff0000" }}>
-                  {success ? "successful process" : "Sorry"}
+                  {success ? "successful process" : "un successful process"}
                 </span>
               </h5>
               <p>
@@ -407,6 +403,7 @@ const TripDetailsPage = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./CreateAdmin.css"; // Import the CSS file
 
-function CreateAdmin({ rerender, showPopUp }) {
+function CreateAdmin({rerender}) {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -18,59 +18,51 @@ function CreateAdmin({ rerender, showPopUp }) {
   };
 
   const createAdmin = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/createUser",
-        {
-          user_name: formData.username,
-          user_email: formData.email,
-          user_password: formData.password,
-          role: "admin",
+    try{
+      const response = await axios.post("http://localhost:3000/api/v1/users/createUser",{
+        user_name: formData.username,
+        user_email: formData.email,
+        user_password: formData.password,
+        role: "admin"
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      showPopUp("admin added successfully", "success");
-      setTimeout(() => {
-        rerender();
-      }, 2000);
-    } catch (err) {
+      });
+    }
+    catch(err){
       console.log(err);
-      showPopUp("unsucessful process", "fail");
-      setTimeout(() => {
-        rerender();
-      }, 2000);
     }
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    try {
-      const { username, password, email } = formData;
+    try{
+    const { username, password, email } = formData;
 
-      // Basic form validation
-      if (!username || !password || !email) {
-        setError("All fields are required!");
-        return;
-      }
+    // Basic form validation
+    if (!username || !password || !email) {
+      setError("All fields are required!");
+      return;
+    }
 
-      if (!/\S+@\S+\.\S+/.test(email)) {
-        setError("Please enter a valid email address.");
-        return;
-      }
-      await createAdmin();
-      setError(""); // Clear any previous error
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    await createAdmin();
+    setError(""); // Clear any previous error
       console.log("Admin Created:", formData);
       formData.username = "";
       formData.password = "";
       formData.email = "";
-    } catch (err) {
-      console.log(err);
-    }
+      rerender();
+  }
+  catch(err){
+    console.log(err);
+  }
   };
 
   return (

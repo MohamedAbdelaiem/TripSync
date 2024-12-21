@@ -20,7 +20,6 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
     console.log("Deleting tour with ID:", tourId);
     onDeleteTour(tourId); // Call the delete function passed as a prop
   };
-
   return (
     <div className="containr">
       <div className="add-tour-button-container">
@@ -35,6 +34,7 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour ,ID}) => {
       tours.map((tour, index) => (
         <TourCard
           key={tour.trip_id || index}  // Use unique id if possible, else fallback to index
+          tripid={tour.trip_id}
           type={type}
           imageSrc={tour.photos && tour.photos.length > 0 ? tour.photos[0] : 'defaultImage.jpg'}  // Check if images exists
           description={tour.description}

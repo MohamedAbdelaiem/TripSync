@@ -42,7 +42,6 @@ exports.getAllTripsOfAgency = async (req, res) => {
           res.status(400).send("Error in fetching data from trip");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -89,7 +88,6 @@ GROUP BY
           res.status(400).send("Error in fetching data from trip");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -146,7 +144,6 @@ GROUP BY
           res.status(400).send("Error in fetching data");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -169,7 +166,6 @@ exports.deleteTrip = async (req, res) => {
     });
   }
   // console.log(Trip.rows[0].travelagency_id, user_id);
-  console.log(Trip.rows[0].travelagency_id, user_id);
   if (req.user.role !== "admin" && Trip.rows[0].travelagency_id != user_id) {
     return res.status(403).json({
       status: "failed",
@@ -415,7 +411,6 @@ exports.getHistory = async (req, res) => {
           res.status(400).send("Error in fetching data");
         } else {
           res.status(200).json(result.rows);
-          console.log(result.rows);
         }
       }
     );
@@ -524,7 +519,6 @@ exports.getAllPromotions = async (req, res) => {
   const travelAgency_id = req.user.user_id;
   // const Trip_id = req.params.Trip_ID;
 
-  console.log(req.user, req.params, travelAgency_id);
 
   if (isNaN(travelAgency_id)) {
     return res.status(400).json({
@@ -672,3 +666,37 @@ exports.availbleSeats = async (req, res) => {
     res.status(500).json({ success: false, error: "Error in getting available seats" });
   }
 };  
+
+exports.most5tripsPurchased = async (req, res) => {
+  try {
+    client.query(
+      `SELECT 
+    T.Name,
+    COUNT(T.Name) AS count
+FROM
+    Trip T
+JOIN
+    Tickets Tk
+ON
+    T.Trip_ID = Tk.Trip_ID
+GROUP BY
+    T.Name
+ORDER BY
+    count DESC
+LIMIT 5;`,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send("Error in fetching data");
+        }
+        res.status(200).json(result.rows);
+      }
+    );
+  }
+  catch (e) {
+    res.status(500).json({
+      status: false,
+      message: "Error in fetching data",
+    });
+  }
+}

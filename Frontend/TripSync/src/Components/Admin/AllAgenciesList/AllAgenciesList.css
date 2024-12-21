@@ -1,4 +1,4 @@
-/* styling for agency card */
+/* General styling for agency card */
 .agency-card-container {
   display: flex;
   align-items: center;
@@ -38,7 +38,14 @@
 .agency-card-name {
   font-size: 18px;
   color: #ecf0f1;
-  flex: 1;
+  margin: 0;
+}
+
+.agency-card-reports {
+  font-size: 12px; /* Smaller font for reports */
+  color: #bdc3c7; /* Subtle gray color */
+  margin-top: 5px; /* Space between name and reports */
+  text-align: left;
 }
 
 .agency-card-actions {
@@ -74,8 +81,7 @@
   background-color: #c0392b;
 }
 
-/* styling for Agencies list */
-
+/* Styling for Agencies list */
 .all-agencies-list-container {
   display: flex;
   flex-direction: column;
@@ -85,7 +91,7 @@
   width: 75%;
   min-height: 100vh;
   position: absolute;
-  right:0px;
+  right: 0px;
   box-sizing: border-box;
 }
 
@@ -98,7 +104,6 @@
   padding: 0;
 }
 
-
 .stat-card-agencies {
   display: flex;
   flex-direction: column;
@@ -110,6 +115,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   min-width: 150px;
   transition: transform 0.2s ease;
+  margin-bottom: 8px;
 }
 
 .stat-card-agencies:hover {
@@ -142,6 +148,18 @@
   letter-spacing: 0.5px;
 }
 
+.agencyStatistics {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
 
-
-
+.informatonAgency{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}

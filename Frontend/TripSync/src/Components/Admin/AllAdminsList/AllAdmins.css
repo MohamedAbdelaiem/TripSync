@@ -97,4 +97,70 @@
     margin: 0;
     padding: 0;
   }
+
+  .stat-card-admin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 150px;
+    transition: transform 0.2s ease;
+  }
+  
+  .stat-card-admin:hover {
+    transform: translateY(-2px);
+  }
+  
+  .stat-card-admin.total {
+    border-left: 4px solid #007bff;
+  }
+  
+  .stat-card-admin.not-started {
+    border-left: 4px solid #ffdd00;
+  }
+  
+  .stat-card-admin.finished {
+    border-left: 4px solid #4caf50;
+  }
+  
+  .stat-number-admin {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .stat-label-admin {
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Responsive styles for statistics */
+  @media (max-width: 768px) {
+    .trips-statistics {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+    }
+  
+    .stat-card-admin {
+      width: 90%;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 12px 20px;
+    }
+  
+    .stat-number-admin {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+  }
+  
   

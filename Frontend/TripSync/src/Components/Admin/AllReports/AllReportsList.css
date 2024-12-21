@@ -21,3 +21,72 @@
   flex-direction: column;
   gap: 20px;
 }
+
+.stat-card-report {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  transition: transform 0.2s ease;
+}
+
+.stat-card-report:hover {
+  transform: translateY(-2px);
+}
+
+
+.stat-card-report.total {
+  border-left: 4px solid #dc3545;
+}
+
+.stat-number-report {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.stat-label-report {
+  font-size: 14px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive styles for statistics */
+@media (max-width: 768px) {
+
+  .stat-card-report {
+      width: calc(50% - 10px);
+      min-width: unset;
+      padding: 12px 15px;
+  }
+
+  .stat-number-report {
+      font-size: 20px;
+  }
+
+  .stat-label-report {
+      font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .stat-card-report {
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 12px 20px;
+  }
+
+  .stat-number-report {
+      margin-bottom: 0;
+      margin-right: 10px;
+  }
+}

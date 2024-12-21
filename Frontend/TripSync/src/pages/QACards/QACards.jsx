@@ -26,13 +26,14 @@ const QACards = () => {
     const fetchQAData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/users/myProfile/QA/getAllQA",
+          `http://localhost:3000/api/v1/users/myProfile/QA/getAllQAOfAgency/${user_id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
+        console.log(response.data);
         setQaData(response.data);
       } catch (error) {
         setError("Failed to load data. Please try again later.");

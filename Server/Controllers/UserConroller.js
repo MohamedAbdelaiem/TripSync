@@ -184,7 +184,7 @@ exports.getUser=async(req,res)=>{
                 const role=result.rows[0].role;
                 if(role==='travel_agency')
                 {
-                    client.query('SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email,s.profilephoto,s.profilename,s.username FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id AND user_id=$1',[user_id],(err,result)=>
+                    client.query('SELECT t.Location, t.Address, t.PhoneNumber, t.Email, t.Rate,t.Description,t.Country,s.email AS useremail,s.profilephoto,s.profilename,s.username FROM travelagency AS t,users AS s WHERE TravelAgency_ID=user_id AND user_id=$1',[user_id],(err,result)=>
                         {
                             if(err)
                             {

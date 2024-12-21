@@ -14,7 +14,7 @@ import "./TravelAgencyProfile.css";
 
 const TravelAgencyProfile = () => {
   const { id } = useParams();
-  const { user } = useContext(UserContext);
+  const { user,setUser } = useContext(UserContext);
   console.log(user);
 
   const [agency, setAgency] = useState(null);
@@ -94,7 +94,6 @@ const TravelAgencyProfile = () => {
 
     try {
       const profilePhotoUrl = file ? await handlesImage(file) : profilephoto;
-
       // Prepare the request body based on user's role
       const updateData = {
         profilephoto: profilePhotoUrl,
@@ -104,20 +103,34 @@ const TravelAgencyProfile = () => {
         useremail, // Email for `users` relation
         address,
         location,
-        phonenumber,
+        phoneNumber:phonenumber,
         country,
+        description,
+        email: agencyEmail, // Travel agency-specific email
       };
 
-      if (user.role === "travel_agency") {
-        // Add additional fields for travel agency
-        updateData.description = description;
-        updateData.email = agencyEmail; // Email specific to the travel agency
-      }
+      // if (user.role === "travel_agency") {
+      //   // Add additional fields for travel agency
+      //   updateData.description = description;
+      //   updateData.email = agencyEmail; // Email specific to the travel agency
+      // }
 
       // Make the API call to update the user
       await axios.patch(
         `http://localhost:3000/api/v1/users/updateMe`,
-        updateData,
+        {
+          profilephoto:profilePhotoUrl,
+          profilename:updateData.profilename,
+          previousPassword:updateData.previousPassword,
+          newPassword:updateData.newPassword,
+          useremail:updateData.useremail,
+          address:updateData.address,
+          location:updateData.location,
+          phoneNumber:updateData.phoneNumber,
+          country:updateData.country,
+          description:updateData.description,
+          email:updateData.email,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -125,11 +138,35 @@ const TravelAgencyProfile = () => {
         }
       );
 
-      // Update local state with the new data
-      setAgency((prev) => ({
-        ...prev,
-        ...updateData,
-      }));
+      console.log(updateData);
+
+      const newemail=(updateData.useremail)?updateData.useremail:user.email;
+      
+      setUser({
+        ...user,
+        profilename: updateData.profilename,
+        profilephoto: profilePhotoUrl,
+        useremail: newemail,
+        address: updateData.address,
+        location: updateData.location,
+        phonenumber: updateData.phoneNumber,
+        country: updateData.country,
+        description: updateData.description,
+        email: updateData.email,
+      });
+
+      setAgency({
+        ...agency,
+        profilename: updateData.profilename,
+        profilephoto: profilePhotoUrl,
+        useremail: newemail,
+        address: updateData.address,
+        location: updateData.location,
+        phonenumber: updateData.phonenumber,
+        country: updateData.country,
+        description: updateData.description,
+        email: updateData.email,
+      });
 
       setIsEditing(false);
       setPassword(""); // Clear password field after successful save

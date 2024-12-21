@@ -105,7 +105,7 @@ const TripDetailsPage = () => {
         return;
       }
       console.log(selectedFreeTrip);
-      let actualPrice=sale!=0?sale:price;
+      let actualPrice=(!sale)?sale:price;
       if(selectedFreeTrip.reward_id)
       {
         await RedeemReward(selectedFreeTrip.reward_id);

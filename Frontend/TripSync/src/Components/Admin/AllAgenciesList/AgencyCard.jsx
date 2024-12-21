@@ -12,17 +12,17 @@ function AgencyCard({ image_url, id, prof_name, rerender }) {
   const token = localStorage.getItem("token");
   const getNumberOfBlocks = async () => {
     try{
+      console.log("id",id);
       const res = await axios.get(
-        `http://localhost:3000/api/v1/reports/getallreportsofAgency`,
+        `http://localhost:3000/api/v1/reports/getallreportsofAgency/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          data: {
-            travelAgency_id: id,
-          },
         }
       );
+
+
       console.log(res.data);
       setBlocks(res.data.data);
     }

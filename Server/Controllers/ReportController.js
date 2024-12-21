@@ -211,7 +211,7 @@ exports.deleteReportForAdmin = async (req, res) => {
 
 exports.getNumberOfReportsForAgency = async (req, res) => {
   try {
-    const travelAgency_id=req.body.travelAgency_id;
+    const travelAgency_id=req.params.user_id;
     const reports = await client.query(
       `SELECT COUNT(*) FROM Report WHERE TRAVEL_AGENCY_ID=$1`,
       [travelAgency_id]

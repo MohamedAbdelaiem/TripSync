@@ -1,0 +1,63 @@
+/* UserChart.css */
+
+.user-chart-container {
+    width: 70%;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .user-chart-container:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .user-chart-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+  
+  .user-chart-wrapper {
+    padding: 1rem;
+    background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
+    border-radius: 8px;
+    border: 1px solid rgba(75, 192, 192, 0.2);
+  }
+  
+  /* Custom styles for chart elements */
+  .user-chart-legends {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 1200px) {
+    .user-chart-container {
+      width: 75%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .user-chart-container {
+      width: 90%;
+      position: static;
+      margin: 2rem auto;
+    }
+  
+    .user-chart-title {
+      font-size: 1.5rem;
+    }
+  }

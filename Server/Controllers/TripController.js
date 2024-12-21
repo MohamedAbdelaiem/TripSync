@@ -671,19 +671,40 @@ exports.most5tripsPurchased = async (req, res) => {
   try {
     client.query(
       `SELECT 
+    T.Trip_ID,
     T.Name,
-    COUNT(T.Name) AS count
-FROM
+    T.Description,
+    T.Price,
+    T.MaxSeats,
+    T.Destinition,
+    T.StartDate,
+    T.EndDate,
+    T.StartLocation,
+    T.TravelAgency_ID,
+    T.Sale,
+    T.SalePrice,
+    COALESCE(
+        JSON_AGG(
+            TP.PHOTO
+        ) FILTER (WHERE TP.PHOTO IS NOT NULL), 
+        '[]'
+    ) AS Photos,
+    U.username AS Organizer,
+    COALESCE(SUM(TK.NumberOfSeats), 0) AS TotalBookedSeats
+FROM 
     Trip T
-JOIN
-    Tickets Tk
-ON
-    T.Trip_ID = Tk.Trip_ID
-GROUP BY
-    T.Name
-ORDER BY
-    count DESC
-LIMIT 5;`,
+LEFT JOIN 
+    TripPhotos TP ON T.Trip_ID = TP.TRIP_ID
+LEFT JOIN 
+    Users U ON T.TravelAgency_ID = U.USER_ID -- Join with Users to get the username of the travel agency
+LEFT JOIN 
+    Tickets TK ON T.Trip_ID = TK.TRIP_ID -- Join with Tickets to calculate the total booked seats
+GROUP BY 
+    T.Trip_ID, U.username
+ORDER BY 
+    TotalBookedSeats DESC
+LIMIT 5;
+`,
       (err, result) => {
         if (err) {
           console.log(err);

@@ -250,6 +250,10 @@
     box-shadow: var(--shadow-lg);
     filter: brightness(1.1);
 }
+.rate-icon {
+    color: gold;
+    margin-right: 0.5rem;
+  }
 
 .rate-icon {
     color: gold;

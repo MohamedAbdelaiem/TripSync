@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import "./TourCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useEffect, useState } from "react";
+
+import { useContext,useEffect,useState } from "react";
+
 import { UserContext } from "../../assets/userContext";
 import axios from "axios";
 
@@ -24,33 +26,36 @@ const TourCard = ({
   id,
   end,
 }) => {
-  console.log(new Date(end));
-  console.log(new Date());
+
+  console.log(new Date(end))
+  console.log(new Date())
   const [availbleSeats, setAvailbleSeats] = useState(0);
   const { user } = useContext(UserContext);
-  const currentDate = new Date().toLocaleDateString();
+    const currentDate = new Date().toLocaleDateString();
 
-  const getAvailbleSeats = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/trips/getAvailbleSeats/${tripid}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response.data.data);
-      setAvailbleSeats(response.data.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    getAvailbleSeats();
-  }, []);
-  console.log(availbleSeats);
+    const getAvailbleSeats = async () => {
+      try{
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/trips/getAvailbleSeats/${tripid}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response.data.data);
+        setAvailbleSeats(response.data.data);
+      }
+      catch(error){
+        console.error(error);
+      }
+    };
+      useEffect(() => {;
+        getAvailbleSeats();
+      }, []);
+      console.log(availbleSeats)
+
   return (
     <div className="tour-card">
       {hasSale ? (
@@ -91,9 +96,9 @@ const TourCard = ({
                 Delete
               </button>
             </>
-          ) : type === "traveller" &&
-            availbleSeats &&
-            new Date(end) > new Date() ? (
+
+           
+          ) :type==="traveller"&&availbleSeats&&new Date(end)>new Date()? (
             <button className="action-button" onClick={onBook}>
               Book Now
             </button>
@@ -107,7 +112,9 @@ const TourCard = ({
 };
 
 TourCard.propTypes = {
-  key: PropTypes.Number,
+
+  key:PropTypes.Number,
+
   type: PropTypes.string,
   imageSrc: PropTypes.string,
   description: PropTypes.string,

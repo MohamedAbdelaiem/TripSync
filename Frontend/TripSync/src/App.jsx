@@ -53,8 +53,6 @@ const App = () => {
     role: "traveller",
   };
 
-  
-
   const [tours, setTours] = useState([
     {
       id: 1,

@@ -1,4 +1,4 @@
-import "./AdminView.css";
+import "./AdminView.css"
 
 import AdminSideBar from "../../Components/Admin/AminSideBar/AdminSideBar";
 import AllTripsList from "../../Components/Admin/AllTripsList/AllTripsList";
@@ -10,12 +10,15 @@ import AllPolicies from "../../Components/Admin/AdminPolicies/AllPolicies";
 import CreateAdmin from "../../Components/Admin/CreateAdmin/CreateAdmin";
 import AllAdminsList from "../../Components/Admin/AllAdminsList/AllAdmins";
 import AdminEditForm from "../../Components/Admin/editAdmin/EditAdmin";
+import UserChart from "../../Components/Admin/AdminGraphs/UserChart";
+
 
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../assets/userContext";
 import { useParams } from "react-router-dom";
 import { func } from "prop-types";
 import axios from "axios";
+
 
 function AdminView() {
   const [dis_all_trips, set_dis_all_trips] = useState(false);
@@ -27,6 +30,7 @@ function AdminView() {
   const [dis_create_admin, set_dis_create_admin] = useState(false);
   const [dis_all_admins, set_dis_all_admins] = useState(false);
   const [edit_me, set_edit_me] = useState(false);
+  const [showGraphs, setShowGraphs] = useState(false);
 
   const [all_user_trips, set_all_user_trips] = useState([]);
   const [all_Travellers, set_all_Travellers] = useState([]);
@@ -35,22 +39,11 @@ function AdminView() {
   const [all_reports, set_all_reports] = useState([]);
   const [all_policies, set_all_policies] = useState([]);
   const [all_admins, set_all_admins] = useState([]);
-
+  
   const { user, setUser } = useContext(UserContext);
   let { adminId } = useParams();
 
-  const [showPopup, setShowPopup] = useState(false);
-  const [fail, setFail] = useState(false);
-  const [success, setsuccess] = useState(false);
-  const [popMessageContent, setPopMessageContent] = useState("");
-  const togglePoppUp = (content, status) => {
-    setShowPopup(!showPopup);
-    setsuccess(status === "success" ? true : false);
-    setFail(status === "success" ? false : true);
-    setPopMessageContent(content);
-  };
-
-  if (user === null || user.role !== "admin") {
+  if (user === null || user.role !== 'admin') {
     return (
       <div className="not-admin-container">
         <div className="not-admin-card">
@@ -66,7 +59,8 @@ function AdminView() {
       </div>
     );
   }
-  if (user.user_id != adminId) {
+  if (user.user_id != adminId) 
+  {
     return (
       <>
         <div className="error-in-id">
@@ -88,6 +82,7 @@ function AdminView() {
     set_dis_create_admin(selected_item_name === "create-admin" ? true : false);
     set_dis_all_admins(selected_item_name === "all-admins" ? true : false);
     set_edit_me(selected_item_name === "edit-me" ? true : false);
+    setShowGraphs(selected_item_name === "show-graphs" ? true : false);
   };
   const getAllTravelAgencies = async () => {
     try {
@@ -193,21 +188,22 @@ function AdminView() {
   };
 
   const getAllAdmins = async () => {
-    try {
+    try{
       const res = await axios.get(
         `http://localhost:3000/api/v1/users/getAllAdmins`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+          }
       );
       // console.log(res.data);
       set_all_admins(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+      } catch (err) {
+        console.log(err);
+      }
+  }
+
 
   useEffect(() => {
     getAllTravellers();
@@ -217,14 +213,9 @@ function AdminView() {
     getAllPolicies();
     getAllTrips();
     getAllAdmins();
-    setShowPopup(false);
   }, []);
-
-  const rerender = () => {
-        getAllAdmins();
-        setShowPopup(false);
-  }
   // console.log(all_user_trips);
+
 
   return (
     <div className="amin-view-container">
@@ -267,47 +258,25 @@ function AdminView() {
         />
       ) : null}
       {dis_all_admins ? (
-        <AllAdminsList all_admins={all_admins} rerender={getAllAdmins} />
+        <AllAdminsList
+          all_admins={all_admins}
+          rerender = {getAllAdmins}
+        />
       ) : null}
       {dis_create_admin ? (
-        <CreateAdmin rerender={rerender} showPopUp={togglePoppUp} />
+        <CreateAdmin
+          rerender = {getAllAdmins}
+        />
       ) : null}
 
-      {edit_me ? <AdminEditForm /> : null}
+      {edit_me ? (
+        <AdminEditForm
+        />
+      ) : null}
 
-      {showPopup && (
-        <div className="popup-overlay-Reward-container">
-          <div className="popup-overlay-Reward">
-            <div className="popup-content-Reward">
-              <h5>
-                <span style={{ color: success ? "#1ac136" : "#ff0000" }}>
-                  {success ? "successful process" : "un successful process"}
-                </span>
-              </h5>
-              <p>
-                {popMessageContent} &nbsp;
-                {success ? (
-                  <i
-                    className="fa-solid fa-check"
-                    style={{
-                      color: "#1ac136",
-                      fontSize: "2rem",
-                    }}
-                  ></i>
-                ) : (
-                  <i
-                    className="fa-solid fa-x"
-                    style={{
-                      color: "#ff0000",
-                      fontSize: "2rem",
-                    }}
-                  ></i>
-                )}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {showGraphs ? (
+        <UserChart />
+      ) : null}
     </div>
   );
 }

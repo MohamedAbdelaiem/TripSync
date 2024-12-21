@@ -209,6 +209,43 @@ function TravellerProf(props) {
             currentUser={user}
           />
         </div>
+
+
+        
+        { showPopup && (
+          <div className="popup-overlay-Reward-container">
+            <div className="popup-overlay-Reward">
+              <div className="popup-content-Reward">
+                <h5>
+                  <span style={{ color: success ? "#1ac136" : "#ff0000" }}>
+                    {success ? "successful process" : "un successful process"}
+                  </span>
+                </h5>
+                <p>
+                  {popMessageContent} &nbsp;
+                  {success ? (
+                    <i
+                      className="fa-solid fa-check"
+                      style={{
+                        color: "#1ac136",
+                        fontSize: "2rem",
+                      }}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fa-solid fa-x"
+                      style={{
+                        color: "#ff0000",
+                        fontSize: "2rem",
+                      }}
+                    ></i>
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
       </>
     );
 }

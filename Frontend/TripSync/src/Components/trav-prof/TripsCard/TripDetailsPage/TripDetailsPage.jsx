@@ -54,6 +54,9 @@ const TripDetailsPage = () => {
     organizer_name,
     start_date,
     end_date,
+
+    saleprice
+
   } = tripData;
 
   const getTripData = async () => {
@@ -120,8 +123,14 @@ const TripDetailsPage = () => {
         return;
       }
       console.log(selectedFreeTrip);
+
       let actualPrice = !sale ? sale : price;
       if (selectedFreeTrip.reward_id) {
+
+      let actualPrice=(sale)?saleprice:price;
+      if(selectedFreeTrip.reward_id)
+      {
+
         await RedeemReward(selectedFreeTrip.reward_id);
         actualPrice = 0;
       } else if (selectedPromotion.reward_id) {
@@ -177,10 +186,16 @@ const TripDetailsPage = () => {
           (reward) => reward.type === "promotion"
         );
         setMyPromotions(promotions);
+
         const freeTrips = response.data.filter(
           (reward) => reward.type === "free trip"
         );
+
+        console.log(promotions)
+        const freeTrips = response.data.filter((reward) => reward.type === "free trip");
+
         setMyFreeTrips(freeTrips);
+        console.log(freeTrips)
       }
       setMyRewards(response.data);
     } catch (error) {
@@ -270,7 +285,11 @@ const TripDetailsPage = () => {
           <div className="trip-info-section">
             <div className="trip-detail-item">
               <DollarSign className="trip-detail-icon" />
+
               <span className="trip-price">${sale != 0 ? sale : price}</span>
+
+              <span className="trip-price">${sale?saleprice:price}</span>
+
             </div>
             <div className="trip-detail-item">
               <User className="trip-detail-icon" />

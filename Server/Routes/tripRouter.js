@@ -85,7 +85,6 @@ tripRouter
   .route('/getAvailbleSeats/:trip_id')
   .get(
     AuthConroller.protect,
-    AuthConroller.restrictTo("traveller"),
     TripController.availbleSeats
   );  
 

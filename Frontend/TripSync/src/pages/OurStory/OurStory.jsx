@@ -88,7 +88,7 @@ const OurStory = () => {
       <SidNavBar type={user.role} userId={user_id}></SidNavBar>
 
       <div className="about-us">
-        <div className="profile-container">
+        <div className="profile-container1">
         <img
   src={profilePhoto.startsWith("http") ? profilePhoto : `http://localhost:3000/uploads/${profilePhoto}`}
   alt="Profile"

@@ -9,7 +9,7 @@ import AdminRewards from "../../Components/Admin/AdminRewards/AdminRewards";
 import AllPolicies from "../../Components/Admin/AdminPolicies/AllPolicies";
 import CreateAdmin from "../../Components/Admin/CreateAdmin/CreateAdmin";
 import AllAdminsList from "../../Components/Admin/AllAdminsList/AllAdmins";
-import AdminEditForm from "../../Components/Admin/AdminEditForm/AdminEditForm";
+import AdminEditForm from "../../Components/Admin/editAdmin/editAdmin";
 import UserChart from "../../Components/Admin/AdminGraphs/UserChart";
 
 import React, { useState, useEffect, useContext } from "react";

@@ -10,7 +10,6 @@ const AgencyNav = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const toggleDropdown = () => {
-    console.log("Dropdown toggle triggered");
     setDropdownVisible(!isDropdownVisible);
   };
 

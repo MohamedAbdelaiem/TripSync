@@ -9,7 +9,6 @@ function AdminReport({
   navigateToAgencyProfile,
   rerender
 }) {
-  console.log(report);
   return (
     <div className="report-container">
       <div className="report-header">

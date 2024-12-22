@@ -35,7 +35,7 @@ function Review() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+
       setReviews(response.data.data);
     } catch (error) {
       console.error("Error fetching reviews:", error.message);
@@ -68,7 +68,7 @@ function Review() {
         }
       );
       setSuccess(response.data.message);
-      console.log(response.data.message);
+
       fetchReviews();
     } catch (error) {
       setError("you have already reviewed this travel agency");
@@ -139,7 +139,7 @@ function Review() {
           <div className="review-card-b">
             <h3 className="reviews-header-section">Reviews</h3>
             <section className="review-cards">
-            {console.log(reviews)}
+
             {reviews.length > 0 ? (
               reviews.map((review, index) => (
                 <ReviewCard

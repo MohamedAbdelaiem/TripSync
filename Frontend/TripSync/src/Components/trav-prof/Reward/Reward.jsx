@@ -16,7 +16,7 @@ const Reward = ({
 
   const token = localStorage.getItem("token");
   const RedeemReward = async () => {
-    console.log(token);
+
     try {
       const response = await axios.post(
         `http://localhost:3000/api/v1/rewards/RedeemReward/${id}`,
@@ -27,7 +27,7 @@ const Reward = ({
           },
         }
       );
-      console.log(response.data);
+
       showPopUp("Reward Calimes Successfully","success");
       setTimeout(() => {
         rerender();

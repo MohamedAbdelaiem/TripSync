@@ -8,10 +8,10 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour, ID }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
 
-  console.log(tours);
+
 
   const handleBook = (tour) => {
-    console.log("Navigating to Book Page with tour:", tour);
+ 
     navigate("/book", { state: { tour } }); // Pass selected tour to Book page
   };
 
@@ -19,7 +19,7 @@ const TourCardContainer = ({ type, tours, onAddNewTour, onDeleteTour, ID }) => {
     navigate("/edit-tour", { state: { tour } }); // Pass selected tour to Edit page
   };
   const handleDelete = (tourId) => {
-    console.log("Deleting tour with ID:", tourId);
+
     onDeleteTour(tourId); // Call the delete function passed as a prop
   };
   return (

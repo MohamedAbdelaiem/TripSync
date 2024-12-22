@@ -63,7 +63,6 @@ function CreateAdmin({ rerender, showPopUp }) {
       }
       await createAdmin();
       setError(""); // Clear any previous error
-      console.log("Admin Created:", formData);
       formData.username = "";
       formData.password = "";
       formData.email = "";

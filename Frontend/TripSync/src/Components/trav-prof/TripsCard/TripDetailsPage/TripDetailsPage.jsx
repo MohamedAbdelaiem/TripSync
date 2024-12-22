@@ -84,7 +84,7 @@ const TripDetailsPage = () => {
           },
         }
       );
-      console.log(response.data.data);
+
       setAvailbleSeats(response.data.data);
     } catch (error) {
       console.error(error);
@@ -119,7 +119,7 @@ const TripDetailsPage = () => {
         alert("You can only select one reward at a time.");
         return;
       }
-      console.log(selectedFreeTrip);
+
       let actualPrice = !sale ? sale : price;
       if (selectedFreeTrip.reward_id) {
         actualPrice = 0;
@@ -127,7 +127,7 @@ const TripDetailsPage = () => {
         actualPrice =actualPrice -(actualPrice * selectedPromotion.promotionpercentage) / 100;
       }
       const token = localStorage.getItem("token");
-      console.log(actualPrice);
+
       const response = await axios.post(
         `http://localhost:3000/api/v1/users/payForTrip/${trip_id}`,
         {
@@ -147,7 +147,7 @@ const TripDetailsPage = () => {
         await RedeemReward(selectedPromotion.reward_id);
       }
 
-      console.log(response.data);
+
       // alert("Booking successful!");
       togglePoppUp("Trip Booked Successfully", "success");
       setShowBookingForm(false);
@@ -175,7 +175,7 @@ const TripDetailsPage = () => {
           },
         }
       );
-      console.log(response.data);
+
       if (response.data.length !== 0) {
         const promotions = response.data.filter(
           (reward) => reward.type === "promotion"
@@ -351,12 +351,9 @@ const TripDetailsPage = () => {
                       id="free-trip"
                       value={selectedFreeTrip.reward_id || ""}
                       onChange={(e) => {
-                        console.log("Selected value:", e.target.value); // Log selected value
-                        console.log("My free trips:", myFreeTrips); // Log my free trips
                         const selected = myFreeTrips.find(
                           (freeTrip) => freeTrip.reward_id == e.target.value
                         );
-                        console.log("Found free trip:", selected); // Log the found trip
                         setSelectedFreeTrip(selected || {});
                       }}
                     >

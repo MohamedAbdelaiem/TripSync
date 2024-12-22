@@ -12,7 +12,6 @@ function AgencyCard({ image_url, id, prof_name, rerender }) {
   const token = localStorage.getItem("token");
   const getNumberOfBlocks = async () => {
     try{
-      console.log("id",id);
       const res = await axios.get(
         `http://localhost:3000/api/v1/reports/getallreportsofAgency/${id}`,
         {
@@ -23,7 +22,6 @@ function AgencyCard({ image_url, id, prof_name, rerender }) {
       );
 
 
-      console.log(res.data);
       setBlocks(res.data.data);
     }
     catch(err){
@@ -43,7 +41,6 @@ function AgencyCard({ image_url, id, prof_name, rerender }) {
         withCredentials: true,
       })
       .then((res) => {
-        console.log("user deleted");
         rerender();
       })
       .catch((err) => {

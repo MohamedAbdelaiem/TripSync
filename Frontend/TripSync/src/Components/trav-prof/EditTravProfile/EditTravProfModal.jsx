@@ -30,7 +30,7 @@ const EditTravProfModal = (props) => {
 
       const response = await axios.post(CLOUDINARY_URL, data);
       const urlimage = response.data;
-      console.log(urlimage.url);
+
       setProfilePhoto(urlimage.url);
       return urlimage.url;
     } else {
@@ -45,7 +45,7 @@ const EditTravProfModal = (props) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
+
     if (file.type === "image/jpeg" || file.type === "image/jpg") {
       setFormData({ ...formData, profilePicture: e.target.files[0] });
     } else {
@@ -69,7 +69,7 @@ const EditTravProfModal = (props) => {
     try {
       const token = localStorage.getItem("token");
       const url = await handlesImage(formData.profilePicture);
-      console.log(url);
+
       await axios.patch(
         "http://localhost:3000/api/v1/users/updateMe",
         {
@@ -96,7 +96,7 @@ const EditTravProfModal = (props) => {
         profilephoto: url,
       });
 
-      console.log("Updated Profile Data: ", formData);
+
     } catch (err) {
       console.log(err);
       props.showPopUp("please check for the enterd data", "fail");

@@ -5,9 +5,6 @@ import { useNavigate } from "react-router-dom";
 function TravelAgencyCard({ name, photo, id }) {
   const navigate = useNavigate(); // Hook for navigation
   const handleAgencyClick = (agencyId) => {
-    //console.log(agency)
-
-    console.log(agencyId);
     navigate(`/travel-agency/${agencyId}`); // Pass the agencyId as state
   };
   return (

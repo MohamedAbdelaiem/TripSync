@@ -27,8 +27,7 @@ const TourCard = ({
   end,
 }) => {
 
-  console.log(new Date(end))
-  console.log(new Date())
+
   const [availbleSeats, setAvailbleSeats] = useState(0);
   const { user } = useContext(UserContext);
     const currentDate = new Date().toLocaleDateString();
@@ -44,7 +43,7 @@ const TourCard = ({
             },
           }
         );
-        console.log(response.data.data);
+ 
         setAvailbleSeats(response.data.data);
       }
       catch(error){
@@ -54,7 +53,7 @@ const TourCard = ({
       useEffect(() => {;
         getAvailbleSeats();
       }, []);
-      console.log(availbleSeats)
+
 
   return (
     <div className="tour-card">

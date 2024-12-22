@@ -15,7 +15,6 @@ const AdminReward = ({
 
   const handleDelete = (e) => {
       id = e.target.key
-      console.log(id);
   };
 
   return (

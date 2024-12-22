@@ -292,7 +292,7 @@ exports.deleteFromMyrewards=async(req,res)=>{
                 message:'Please provide reward id'
             });
         }
-        console.log(reward_id);
+
         const result = await client.query('DELETE FROM GetReward WHERE REWARD_ID=$1 AND TRAVELLER_ID=$2',[reward_id,user_id]);
         res.status(200).json(result.rows);
     }

@@ -66,7 +66,7 @@ exports.deleteBlog = async (req, res) => {
         message: "Blog ID should be a number",
       });
     }
-    console.log(req.user.user_id);
+ 
     const selectedBlog = await client.query(
       "SELECT * FROM blogs WHERE BLOG_ID=$1",
       [blog_id]
@@ -77,7 +77,7 @@ exports.deleteBlog = async (req, res) => {
         message: "No blog found",
       });
     }
-    console.log(selectedBlog.rows[0].user_id);
+
     if (req.user.user_id !== selectedBlog.rows[0].user_id) {
       if (req.user.role !== "admin") {
         return res.status(401).json({

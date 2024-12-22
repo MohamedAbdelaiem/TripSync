@@ -23,7 +23,7 @@ function Policy() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+
       setpolicy(response.data);
       setIsLoading(false);
     } catch (error) {

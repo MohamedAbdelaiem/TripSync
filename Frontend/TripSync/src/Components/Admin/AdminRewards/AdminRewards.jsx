@@ -7,7 +7,6 @@ import "./AdminRewards.css";
 function AdminRewards({ all_rewards, userId, rerender }) {
     const [add_reward_opend, set_add_reward_opened] = useState(false);
 
-    console.log(all_rewards);
 
     // Calculate statistics
     const totalRewards = all_rewards.length;
@@ -24,12 +23,10 @@ function AdminRewards({ all_rewards, userId, rerender }) {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             }
         }).then((res)=>{
-            console.log(`Reward with ID ${reward_id} deleted!`);
             rerender();
         }).catch((err)=>{
             console.log(err);
         });
-        console.log("delete reward with id" + reward_id);
     }
 
     const closeAddRewardModal = () => {

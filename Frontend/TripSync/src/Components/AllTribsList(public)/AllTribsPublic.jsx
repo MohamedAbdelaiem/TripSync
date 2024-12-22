@@ -22,7 +22,6 @@ function AllTribsListPublic() {
             withCredentials: true,
           }
         );
-        console.log(response.data);
         setTrips(response.data);
         setIsLoading(false);
       } catch (error) {

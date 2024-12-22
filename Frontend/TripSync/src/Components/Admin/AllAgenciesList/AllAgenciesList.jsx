@@ -18,7 +18,6 @@ function AllAgenciesList({ all_agencies, rerender }) {
           },
         }
       );
-      console.log(res.data);
       setRating(res.data[0].avg);
     } catch (err) {
       console.log(err);

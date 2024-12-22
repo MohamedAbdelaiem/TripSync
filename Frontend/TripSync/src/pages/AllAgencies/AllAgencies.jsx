@@ -30,7 +30,7 @@ function AllAgencies() {
         },
       });
       setAgencies(response.data);
-      console.log(response.data);
+
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -50,7 +50,7 @@ function AllAgencies() {
 
     return matchesSearch;
   });
-  console.log(filteredAgencies);
+
   // Navigate to the tours page for a specific agency
 
 

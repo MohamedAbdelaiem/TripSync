@@ -40,7 +40,7 @@ const UserMessages = ({
           withCredentials: true,
         }
       );
-      console.log(response.data);
+
   }
   catch (error) {
     console.log(error);
@@ -128,7 +128,7 @@ const reRender = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data.data.messages);
+
       setUserMessages(response.data.data.messages);
       scrollToLastElement();
     } catch (error) {
@@ -154,7 +154,7 @@ const reRender = () => {
           time: `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`,
         };
         setNewMessage("");
-        console.log(message);
+
         sendMessage();
         closeChats();
       }
@@ -201,7 +201,7 @@ const reRender = () => {
           message.receiver_id == chat.senderId
       );
       setSelectedChatMessages(messages); 
-      console.log(`chat ${chatId}`);
+
       scrollToLastElement();
     }
   };

@@ -33,7 +33,7 @@ function Report() {
       );
       setSuccess(response.data.message);
       setIsMessageVisible(true); // Show the message on successful submission
-      console.log(response.data);
+
     } catch (error) {
       setError(error.message);
       setIsMessageVisible(false); // Hide the message if there’s an error

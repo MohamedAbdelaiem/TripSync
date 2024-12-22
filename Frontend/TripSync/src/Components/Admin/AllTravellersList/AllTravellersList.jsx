@@ -20,7 +20,6 @@ function AllTravellersList({ all_travellers, rerender_admin, rerender }) {
         }
       );
       setActiveTravelers(res.data);
-      console.log(res.data);
     } catch (err) {
       console.log(err);
     } finally {

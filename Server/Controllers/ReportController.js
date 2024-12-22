@@ -72,7 +72,7 @@ exports.getAllReportsForTravelAgency = async (req, res) => {
     );
 
     await client.query("COMMIT");
-    console.log(reportsRes.rows);
+
     return res.status(200).json({
       status: true,
       data: reportsRes.rows,
@@ -91,7 +91,7 @@ exports.addReport = async (req, res) => {
   const TRAVELLER_ID = req.user.user_id;
   const travelagency_id = req.params.user_id;
 
-  console.log(travelagency_id, TRAVELLER_ID,req.user.role);
+
 
   if (isNaN(travelagency_id)) {
     return res.status(400).json({
@@ -102,7 +102,7 @@ exports.addReport = async (req, res) => {
 
   // Validate input
   if (!description) {
-    console.log(req.body.description);
+
     return res.status(400).json({
       success: false,
       error: "Please provide a description for the report",

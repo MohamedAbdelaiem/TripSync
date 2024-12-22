@@ -4,7 +4,6 @@ import axios from 'axios';
 import './AdminEditForm.css';
 
 const AdminEditForm = () => {
-    console.log('AdminEditForm');
   const [formData, setFormData] = useState({
     newUsername: '',
     newEmail: '',
@@ -87,7 +86,6 @@ const AdminEditForm = () => {
             }
         )
         .then((response) => {
-            console.log(response.data);
             alert('Profile updated successfully');
         })
         .catch((error) => {

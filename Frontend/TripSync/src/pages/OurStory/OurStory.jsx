@@ -35,7 +35,6 @@ const OurStory = () => {
       );
 
       const userData = response.data.data[0];
-      console.log(userData)
       setDescription(userData.description);
       setName(userData.username);
       setProfilePhoto(userData.profilephoto ); // Use default if no profile photo
@@ -67,8 +66,7 @@ const OurStory = () => {
         }
       );
 
-      console.log("Updated data:", updatedData);
-      console.log("Response:", response);
+
 
       setIsEditing(false);
     } catch (error) {

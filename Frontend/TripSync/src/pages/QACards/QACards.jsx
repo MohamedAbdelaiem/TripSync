@@ -33,7 +33,7 @@ const QACards = () => {
             },
           }
         );
-        console.log(response.data);
+
         setQaData(response.data);
       } catch (error) {
         setError("Failed to load data. Please try again later.");
@@ -45,7 +45,7 @@ const QACards = () => {
 
     fetchQAData();
   }, []);
-console.log(qaData)
+
   const handleDelete = async (questionId) => {
     try {
       setLoading(true);
@@ -95,7 +95,7 @@ console.log(qaData)
         }
       );
   
-      console.log(response); // Log the response to check the data
+
   
       // Check if response contains valid data
       if (!response.data) {

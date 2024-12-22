@@ -53,7 +53,6 @@ function AddReward({ closeAddRewardModal, userId, rerender }) {
     e.preventDefault();
     try {
       const image = await handlesImage(formData.reward_photo);
-      console.log(image);
       const reward = await axios.post(
         "http://localhost:3000/api/v1/rewards/addReward",
         {
@@ -70,7 +69,6 @@ function AddReward({ closeAddRewardModal, userId, rerender }) {
           },
         }
       );
-      console.log(reward.data);
     } catch (err) {
       console.log(err);
     }

@@ -44,7 +44,6 @@ function PublicTrips({
 
 
   const viewTripDetails_clicked = () => {
-    console.log(`View details for trip ID: ${trip_id}`);
   };
 
   return (

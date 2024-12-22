@@ -188,7 +188,7 @@ function Register_TravelAgency() {
           togglePopupSuccess();
           setTimeout(() => {
             localStorage.setItem("token", response.data.token);
-            console.log(response.data.data.user);
+
             setServerSuccess("Travel Agency registered successfully");
             setUser(response.data.data.user);
             setTimeout(() => {

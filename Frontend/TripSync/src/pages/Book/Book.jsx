@@ -69,7 +69,7 @@ const Book = ({ tour, onEnsureBooking }) => {
         alert("You can only select one reward at a time.");
         return;
       }
-      console.log(selectedFreeTrip);
+
       let actualPrice=(!tour.sale)?tour.price:tour.saleprice;
       if(selectedFreeTrip.reward_id)
       {
@@ -82,7 +82,7 @@ const Book = ({ tour, onEnsureBooking }) => {
         actualPrice=actualPrice-actualPrice*selectedPromotion.promotionpercentage/100;
       }
       const token = localStorage.getItem("token");
-      console.log(actualPrice);
+ 
       const response = await axios.post(
         `http://localhost:3000/api/v1/users/payForTrip/${tour.trip_id}`,
         {
@@ -95,7 +95,7 @@ const Book = ({ tour, onEnsureBooking }) => {
           },
         }
       );
-      console.log(response.data);
+
       setBookingConfirmed(true);
       onEnsureBooking();
       //navigate(`/traveller-profile/${watcher}`);
@@ -133,8 +133,7 @@ const Book = ({ tour, onEnsureBooking }) => {
     fetchMyRewards();
     getAvailbleSeats();
   }, []);
-  console.log(myPromotions)
-  console.log(myFreeTrips)
+
   const settings = {
     dots: true,
     infinite: true,

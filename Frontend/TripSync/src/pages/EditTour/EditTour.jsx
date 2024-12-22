@@ -10,8 +10,7 @@ const EditTourPage = () => {
   const { user } = useContext(UserContext);
   const location = useLocation();
 
-//  console.log(tourId);
-//  console.log(tour);
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -53,8 +52,7 @@ const EditTourPage = () => {
         );
   
         const tourData = response.data[0];
-        console.log(" tourData")
-        console.log(tourData);  
+
   
         // Normalize response keys to match formData structure
         setFormData({
@@ -74,7 +72,7 @@ const EditTourPage = () => {
         console.error("Error fetching tour data:", error);
       }
     };
-  console.log(tourId);
+
     if (tourId) fetchTourData();
   }, [tourId, user.user_id]);
   
@@ -118,17 +116,16 @@ const EditTourPage = () => {
     e.preventDefault();
     try {
       //fetchTourData();
-      //console.log(response.data)
       // formData.MaxSeats=response.data.maxseats;
       // formData.startDate=response.data.startdate;
       
       // Send the updated data to the server using axios
-      console.log(formData)
+
       const token = localStorage.getItem("token");
       const response = await axios.patch(`http://localhost:3000/api/v1/users/myProfile/trips/updateTrip/${tourId}`, formData,{headers: { 
         Authorization: `Bearer ${token}`,
       },}); // Update API endpoint
-      console.log("Updated Tour:", response.data);
+
       navigate(-1); // Redirect to the tour page after update
     } catch (error) {
       console.error("Error updating tour data:", error);

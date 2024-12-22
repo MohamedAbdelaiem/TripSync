@@ -461,7 +461,7 @@ exports.UpdateMe = async (req, res) => {
 
 exports.getAvgRatingOfAllTravelAgencies = async (req, res) => {
   try{
-    console.log("In getAvgRatingOfAllTravelAgencies");
+
     client.query(`SELECT AVG(RATE) FROM Review`,(err,result)=>{
       if(err){
         console.log(err);
@@ -480,7 +480,7 @@ exports.getAvgRatingOfAllTravelAgencies = async (req, res) => {
 
 exports.getfivemosttravellers = async (req, res) => {
   try{
-    console.log("In getfivemosttravellers");
+
     client.query(`SELECT 
     TR.TRAVELLER_ID AS user_id,
     U.username,

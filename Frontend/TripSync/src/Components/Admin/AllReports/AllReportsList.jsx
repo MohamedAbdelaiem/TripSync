@@ -46,7 +46,6 @@ function AllReportsList({ all_reports, userId, rerender }) {
         },
         withCredentials: true,
       });
-      console.log("Agency deleted");
       rerender();
     } catch (err) {
       console.log(err);
@@ -57,12 +56,10 @@ function AllReportsList({ all_reports, userId, rerender }) {
 
   const viewUserProfile = (traveller_id) => {
     navigate(`/traveller-profile/${traveller_id}`);
-    console.log(`View traveller with id: ${traveller_id}`);
   };
 
   const viewAgencyProfile = (agency_id) => {
     navigate(`/travel-agency/${agency_id}`);
-    console.log(`View agency with id: ${agency_id}`);
   };
 
   return (

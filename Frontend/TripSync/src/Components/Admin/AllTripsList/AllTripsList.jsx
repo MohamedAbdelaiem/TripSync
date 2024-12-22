@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import "./AllTripsList.css";
-import AdminTripCard from "./adminTripCard";
+import AdminTripCard from "./AdminTripCard";
 import axios from "axios";
 
 function AllTripsList({ all_trips, rerender }) {
@@ -27,7 +27,6 @@ function AllTripsList({ all_trips, rerender }) {
           },
         }
       );
-      console.log(res.data);
       setMost5Trips(res.data);
     } catch (err) {
       console.log(err);

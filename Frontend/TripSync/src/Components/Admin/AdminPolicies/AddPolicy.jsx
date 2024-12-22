@@ -29,12 +29,10 @@ function AddPolicy({ closeAddPolicyModal, adminId,rerender }) {
           },
         }
       );
-      console.log(res.data);
       rerender();
     } catch (err) {
       console.log(err);
     }
-    console.log("Policy Added successfully: ", formData);
     closeAddPolicyModal(); // Close the modal after submitting
   };
 

@@ -11,7 +11,7 @@ const BookPage = () => {
     setTicketCreated(true); // Simulate ticket creation
     setShowToast(true); // Show the toast notification
     // if(showToast)
-    console.log("Toast should be shown now");
+
   };
   
   const location = useLocation();

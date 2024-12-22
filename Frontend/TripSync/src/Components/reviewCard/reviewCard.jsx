@@ -39,7 +39,7 @@ function ReviewCard({ review, rate, traveller_id, travel_agency_id, profilename,
                 }
             );
             
-            console.log(response.data);
+
             reRender();
         }
 

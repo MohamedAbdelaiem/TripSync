@@ -68,7 +68,7 @@ exports.addTicket = async (req, res) => {
   const TRAVELLER_ID = req.user.user_id;
   const TRIP_ID = req.params.trip_id;
 
-  console.log(TRIP_ID, TRAVELLER_ID);
+
 
   // Validate input
   if (!NumberOfSeats || Price<0) {

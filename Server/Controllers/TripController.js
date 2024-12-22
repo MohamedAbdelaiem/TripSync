@@ -4,7 +4,7 @@ const { start } = require("repl");
 
 exports.getAllTripsOfAgency = async (req, res) => {
   const TRAVELAGENCY_ID = req.user.user_id;
-  console.log(TRAVELAGENCY_ID);
+
 
   try {
     client.query(
@@ -165,7 +165,7 @@ exports.deleteTrip = async (req, res) => {
       message: "Trip not found",
     });
   }
-  // console.log(Trip.rows[0].travelagency_id, user_id);
+
   if (req.user.role !== "admin" && Trip.rows[0].travelagency_id != user_id) {
     return res.status(403).json({
       status: "failed",
@@ -229,7 +229,7 @@ exports.addTrip = async (req, res) => {
       error: "Please provide all details",
     });
   }
-  console.log(saleprice);
+
 
   if (isNaN(Price) || isNaN(MaxSeats) || isNaN(TravelAgency_ID)) {
     return res.status(400).json({
@@ -243,7 +243,7 @@ exports.addTrip = async (req, res) => {
     await client.query("BEGIN");
     // // Insert into the trip table
     // if (!sale) sale = false;
-    console.log(sale);
+
     try {
       tripResult = await client.query(
         "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate,endDate, StartLocation ,TravelAgency_ID,sale,saleprice) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9,$10) RETURNING Trip_ID",
@@ -260,7 +260,7 @@ exports.addTrip = async (req, res) => {
           saleprice,
         ]
       );
-      console.log("y1");
+
     } catch (sqlError) {
       console.log(sqlError);
     }
@@ -469,7 +469,7 @@ GROUP BY
 exports.getTripsForAgency_id = async (req, res) => {
   try {
     const travelAgency_id = req.params.user_id;
-    // console.log(travelAgency_id);
+
     client.query(
       `
       SELECT 

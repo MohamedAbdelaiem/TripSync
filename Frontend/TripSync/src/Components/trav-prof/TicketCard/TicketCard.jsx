@@ -3,7 +3,7 @@ import "./TicketCard.css";
 import jsPDF from "jspdf";
 
 const TicketCard = ({ ticket }) => {
-  console.log(ticket);
+
   // const { image, tripName, bookingDate, startDate, status, seatsBooked, price } =
   //   ticket;
   const image = ticket.photos[0];

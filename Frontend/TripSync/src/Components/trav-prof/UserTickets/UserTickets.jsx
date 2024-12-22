@@ -8,7 +8,7 @@ const UserTickets = ({ tickets, userID }) => {
 
   const userTickets = tickets;
 
-  console.log(userTickets);
+
 
   const itemsPerPage = window.innerWidth <= 768 ? 1 : 3;
 

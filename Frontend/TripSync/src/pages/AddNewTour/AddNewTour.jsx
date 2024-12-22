@@ -56,7 +56,7 @@ const AddNewTour = () => {
   const handleAddImage = async () => {
     if (imageFile) {
       const imageUrl = await handleImageUpload(imageFile);
-      console.log(imageUrl);
+
       if (imageUrl) {
         setNewTour((prev) => ({
           ...prev,
@@ -89,8 +89,7 @@ const handleFormSubmit = async (e) => {
   }
 
   try {
-    console.log("new tour");
-    console.log(newTour);
+
     const token = localStorage.getItem("token");
     const response = await axios.post(
       "http://localhost:3000/api/v1/users/myProfile/trips/addTrip",
@@ -102,7 +101,7 @@ const handleFormSubmit = async (e) => {
         },
       }
     );
-    console.log("API Response:", response);
+
     navigate(-1); // Navigate back after successful submission
   } catch (error) {
     console.error("Error adding tour:", error);

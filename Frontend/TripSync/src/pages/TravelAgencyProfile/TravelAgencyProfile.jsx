@@ -15,7 +15,7 @@ import "./TravelAgencyProfile.css";
 const TravelAgencyProfile = () => {
   const { id } = useParams();
   const { user, setUser } = useContext(UserContext);
-  console.log(user);
+
 
   const [agency, setAgency] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -69,7 +69,7 @@ const TravelAgencyProfile = () => {
           }
         );
         const data = response.data.data[0];
-        console.log(data);
+
         setAgency(data);
 
         setProfileName(data.profilename || data.username);
@@ -139,7 +139,7 @@ const TravelAgencyProfile = () => {
         }
       );
 
-      console.log(updateData);
+
 
       const newemail = updateData.useremail ? updateData.useremail : user.email;
 

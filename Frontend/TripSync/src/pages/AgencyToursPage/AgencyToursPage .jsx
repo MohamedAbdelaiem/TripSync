@@ -13,7 +13,7 @@ const AgencyToursPage = () => {
 
   // Access agencyId from location state
   const agencyId = location.state||{};
-console.log(agencyId);
+
   // Fetch tours for the selected agency
   useEffect(() => {
     const fetchTours = async () => {

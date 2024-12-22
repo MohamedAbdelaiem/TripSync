@@ -40,7 +40,6 @@ function AdminTripCard({
 
 
   const viewTripDetails_clicked = () => {
-    console.log(`View details for trip ID: ${trip_id}`);
   };
 
   const deleteTrip = async() => {
@@ -55,7 +54,6 @@ function AdminTripCard({
     }catch(e){
       console.log(e);
       }
-    console.log(`Delete trip ID: ${trip_id}`);
     // Add delete functionality here, e.g., calling an API to remove the trip
   };
   

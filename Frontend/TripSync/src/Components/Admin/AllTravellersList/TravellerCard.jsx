@@ -21,7 +21,6 @@ function TravellerCard({ image_url, id, prof_name, rerender }) {
         withCredentials: true,
       })
       .then((res) => {
-        console.log("user deleted");
         rerender();
       })
       .catch((err) => {

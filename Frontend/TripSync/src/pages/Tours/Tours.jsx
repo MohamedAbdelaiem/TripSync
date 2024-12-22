@@ -28,7 +28,7 @@ const Tours = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+
       // setTrips(response.data.data);
       setTours(response.data);
       // setIsLoading(false);
@@ -47,7 +47,7 @@ const Tours = () => {
   const handleDeleteTour = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      console.log(id);  
+
       await axios.delete(`http://localhost:3000/api/v1/users/myProfile/trips/deleteTrip/${id}`,{ headers: { 
         Authorization: `Bearer ${token}`,
       },}); // Replace with your API endpoint

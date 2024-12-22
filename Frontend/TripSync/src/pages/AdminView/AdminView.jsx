@@ -9,7 +9,7 @@ import AdminRewards from "../../Components/Admin/AdminRewards/AdminRewards";
 import AllPolicies from "../../Components/Admin/AdminPolicies/AllPolicies";
 import CreateAdmin from "../../Components/Admin/CreateAdmin/CreateAdmin";
 import AllAdminsList from "../../Components/Admin/AllAdminsList/AllAdmins";
-import AdminEditForm from "../../Components/Admin/editAdmin/EditAdmin";
+import AdminEditForm from "../../Components/Admin/AdminEditForm/AdminEditForm";
 import UserChart from "../../Components/Admin/AdminGraphs/UserChart";
 
 import React, { useState, useEffect, useContext } from "react";
@@ -104,7 +104,7 @@ function AdminView() {
       );
       // set_dis_all_agencies(true);
       set_all_agencies(res.data);
-      // console.log(res.data);
+
     } catch (err) {
       console.log(err);
     }
@@ -120,7 +120,7 @@ function AdminView() {
           },
         }
       );
-      console.log(res.data);
+
       set_all_user_trips(res.data);
     } catch (err) {
       console.log(err);
@@ -137,7 +137,6 @@ function AdminView() {
           },
         }
       );
-      // console.log(res.data);
       set_all_rewards(res.data);
     } catch (err) {
       console.log(err);
@@ -154,7 +153,6 @@ function AdminView() {
           },
         }
       );
-      console.log(res.data.data);
       set_all_reports(res.data.data);
     } catch (err) {
       console.log(err);
@@ -171,7 +169,7 @@ function AdminView() {
           },
         }
       );
-      // console.log(res.data);
+
       set_all_policies(res.data);
     } catch (err) {
       console.log(err);
@@ -188,7 +186,7 @@ function AdminView() {
           },
         }
       );
-      // console.log(res.data);
+ 
       set_all_Travellers(res.data);
     } catch (err) {
       console.log(err);
@@ -205,7 +203,7 @@ function AdminView() {
           },
         }
       );
-      // console.log(res.data);
+  
       set_all_admins(res.data);
     } catch (err) {
       console.log(err);
@@ -227,7 +225,7 @@ function AdminView() {
         getAllAdmins();
         setShowPopup(false);
   }
-  // console.log(all_user_trips);
+
 
   return (
     <div className="amin-view-container">

@@ -26,7 +26,7 @@ const SideNavBar = ({ userId }) => {
   const openMessages = () => setIsMessagesOpen(true);
   const closeMessages = () => setIsMessagesOpen(false);
 
-  console.log(user_id, "   ", user.user_id);
+
 
   return (
     <div className="side-nav">

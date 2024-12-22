@@ -4,7 +4,7 @@ const client = require('../db');
 exports.getAllReviewsOfTravelAgency = async (req, res) => {
     try{
         const travelAgency_id = req.params.user_id;
-        console.log(req.params);
+
         if(isNaN(travelAgency_id)){
             return res.status(400).json({
                 status: "failed",
@@ -55,7 +55,7 @@ exports.makeReview = async (req, res) => {
         const traveler_id= req.user.user_id;   
         const travelAgency_id=req.params.user_id;
         const { rating, review } = req.body;
-        console.log(traveler_id, travelAgency_id);
+
         if(!rating || !review){
             return res.status(400).json({
                 status: "failed",

@@ -35,9 +35,9 @@ function TravellerProf(props) {
   };
 
   let { profile_id } = useParams();
-  console.log(profile_id);
+
   const { user } = useContext(UserContext);
-  console.log(user);
+
 
   let id = null;
   if (user !== null) {
@@ -56,7 +56,7 @@ function TravellerProf(props) {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+
       setRewards(response.data);
     } catch (error) {
       console.log(error);
@@ -75,7 +75,7 @@ function TravellerProf(props) {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+
       set_all_user_trips(response.data);
     } catch (error) {
       console.log(error);
@@ -94,9 +94,9 @@ function TravellerProf(props) {
           withCredentials: true,
         }
       );
-      // console.log(response.data.date);
+  
       set_all_user_tickets(response.data.data);
-      console.log(response.data.data);
+
     } catch (error) {
       console.log(error);
     }
@@ -139,7 +139,7 @@ function TravellerProf(props) {
         }
       );
       setIsLoading(false);
-      console.log(response.data);
+
       set_traveller_own_rewards(response.data);
     } catch (error) {
       console.log(error);

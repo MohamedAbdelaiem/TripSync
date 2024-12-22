@@ -35,7 +35,7 @@ async function sendResetEmail(email, resetToken) {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log("Email sent");
+
   } catch (err) {
     console.log(err);
   }
@@ -217,7 +217,7 @@ exports.LogIn = async (req, res, next) => {
       data: userData,
     });
   } catch (e) {
-    console.log("[[", e);
+
     res.status(400).json({
       status: "fail",
       message: "Error logging in the user",
@@ -229,7 +229,7 @@ exports.protect = async (req, res, next) => {
   try {
     // 1) Get token and check if it's there
     let token;
-    // console.log(req);
+
     if (
       req.headers &&
       req.headers.authorization &&
@@ -239,7 +239,7 @@ exports.protect = async (req, res, next) => {
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
     }
-    // console.log(token);
+
 
     if (!token) {
       return res.status(401).json({

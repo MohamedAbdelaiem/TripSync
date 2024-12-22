@@ -13,7 +13,6 @@ const AllPolicies = ({ all_policies, is_admin, admin_id,rerender }) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       }
     }).then((res)=>{
-      console.log(`Policy with ID ${policy_id} deleted!`);
       rerender();
     }).catch((err)=>{
       console.log(err);
@@ -24,7 +23,6 @@ const AllPolicies = ({ all_policies, is_admin, admin_id,rerender }) => {
   const onAddPolicy = (admin_id) => {
     set_add_policy_opend(true);
     // Add logic to open the add policy modal
-    console.log(`Policy with admin ID ${admin_id} add`);
   };
 
   const openAddPolicyModal = () => {

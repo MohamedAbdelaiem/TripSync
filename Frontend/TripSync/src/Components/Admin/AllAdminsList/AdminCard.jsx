@@ -16,7 +16,6 @@ function AdminCard({id, user_name, rerender }) {
         withCredentials: true,
       })
       .then((res) => {
-        console.log("user deleted");
         rerender();
       })
       .catch((err) => {

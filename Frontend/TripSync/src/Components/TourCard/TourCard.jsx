@@ -75,7 +75,23 @@ const TourCard = ({
         <div className="details-row">
           <FontAwesomeIcon icon={faCalendar} />
           <span> No of Days: {days}</span>
+          
         </div>
+        <div className="details-row">
+          <FontAwesomeIcon icon={faCalendar} />
+          <span> Start Date:{" "}
+                      
+                      { new Date(end).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: "2-digit",
+                          timeZoneName: "short",
+                        })}</span>
+        </div>
+       
         <div className="price-row">
           {hasSale ? (
             <>

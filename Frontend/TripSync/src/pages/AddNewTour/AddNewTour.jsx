@@ -20,6 +20,7 @@ const AddNewTour = () => {
     sale: false,
     saleprice: null,
     TravelAgency_ID: user.user_id,
+    Name:"",
   });
 
   const [imageFile, setImageFile] = useState(null); // For file input
@@ -72,10 +73,16 @@ const AddNewTour = () => {
   // Form submission
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+  
+    // Validate that start date is less than end date
+    if (new Date(newTour.startDate) >= new Date(newTour.endDate)) {
+      setErrorMessage("Start date must be earlier than the end date.");
+      return;
+    }
+  
     try {
       console.log("new tour");
-      console.log(newTour)
+      console.log(newTour);
       const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:3000/api/v1/users/myProfile/trips/addTrip",
@@ -94,12 +101,25 @@ const AddNewTour = () => {
       setErrorMessage("Failed to add the tour. Please check your input and try again.");
     }
   };
-
+  
   return (
     <div className="add-new-tour-container">
       <h2>Add New Tour</h2>
       <form onSubmit={handleFormSubmit} className="form1111">
         {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+        <label className="input-label">
+          Name:
+          <input
+            type="text"
+            name="Name"
+            value={newTour.Name}
+            onChange={handleInputChange}
+            required
+            className="input-field"
+            placeholder="Enter tour name"
+          />
+        </label>
 
         <label className="input-label">
           Description:

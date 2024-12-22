@@ -259,15 +259,18 @@ console.log(qaData)
                 </>
               ) : (
                 <>
-                  <div className="qa-card-header">
-                    <h3 className="qa-card-question">{item.question}</h3>
-                    <button 
-                      className="delete-btn"
-                      onClick={() => handleDelete(item.question_id)}
-                    >
-                      X
-                    </button>
-                  </div>
+                <div className="qa-card-header">
+              <h3 className="qa-card-question">{item.question}</h3>
+            {user.role === "travel_agency" && Number(user_id) === user.user_id && (
+        <button 
+          className="delete-btn"
+         onClick={() => handleDelete(item.question_id)}
+         >
+        X
+       </button>
+       )}
+        </div>
+
                   <div className="qa-card-body">
                     <p className="qa-card-answer">{item.answer}</p>
                   </div>

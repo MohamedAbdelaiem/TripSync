@@ -169,14 +169,37 @@ const Book = ({ tour, onEnsureBooking }) => {
             <FontAwesomeIcon icon={faMapMarkerAlt} /> From: {tour.startlocation} | To: {tour.destinition}
           </p>
           <p>
-            <FontAwesomeIcon icon={faCalendar} /> Duration:{" "}
-            {Math.ceil(
-              (new Date(tour.enddate) - new Date(tour.startdate)) / (1000 * 60 * 60 * 24)
-            )}{" "}
-            days
+            <FontAwesomeIcon icon={faCalendar} /> Start Date:{" "}
+            
+            { new Date(tour.startdate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                timeZoneName: "short",
+              })}
+     
+           
           </p>
           <p>
-            <FontAwesomeIcon icon={faUser} /> Max Seats: {tour.maxseats}
+            <FontAwesomeIcon icon={faCalendar} /> End Date:{" "}
+            
+              { new Date(tour.enddate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                timeZoneName: "short",
+              })}
+           
+          </p>
+          
+          <p>
+            <FontAwesomeIcon icon={faUser} /> Available Seats: {availbleSeats}
           </p>
         </div>
 

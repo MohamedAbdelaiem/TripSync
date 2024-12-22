@@ -13,13 +13,10 @@ const OurStory = () => {
 
   const { user } = useContext(UserContext);
   const { user_id } = useParams();
-  console.log(typeof user_id);
-  console.log(typeof user.user_id);
-
-
 
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState(""); // New state for profile photo
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -37,8 +34,11 @@ const OurStory = () => {
         }
       );
 
-      setDescription(response.data.data[0].description);
-      setName(response.data.data[0].username);
+      const userData = response.data.data[0];
+      console.log(userData)
+      setDescription(userData.description);
+      setName(userData.username);
+      setProfilePhoto(userData.profilephoto ); // Use default if no profile photo
     } catch (error) {
       console.error("Error fetching travel agency data:", error);
     } finally {
@@ -69,7 +69,7 @@ const OurStory = () => {
 
       console.log("Updated data:", updatedData);
       console.log("Response:", response);
-      
+
       setIsEditing(false);
     } catch (error) {
       console.error("Error saving updated travel agency data:", error);
@@ -88,21 +88,29 @@ const OurStory = () => {
       <SidNavBar type={user.role} userId={user_id}></SidNavBar>
 
       <div className="about-us">
-        <h1 className="header-title">
-          {isEditing && user.role === "travel_agency"&&Number(user_id)==user.user_id ? (
-            <input
-              type="text"
-              className="edit-input"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          ) : (
-            name
-          )}
-        </h1>
+        <div className="profile-container">
+        <img
+  src={profilePhoto.startsWith("http") ? profilePhoto : `http://localhost:3000/uploads/${profilePhoto}`}
+  alt="Profile"
+  className="profile-photo"
+/>
+
+          <h1 className="header-title">
+            {isEditing && user.role === "travel_agency" && Number(user_id) === user.user_id ? (
+              <input
+                type="text"
+                className="edit-input"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            ) : (
+              name
+            )}
+          </h1>
+        </div>
         <div className="header-underline"></div>
         <div className="description">
-          {isEditing && user.role === "travel_agency"&Number(user_id)==user.user_id ? (
+          {isEditing && user.role === "travel_agency" && Number(user_id) === user.user_id ? (
             <textarea
               className="edit-textarea"
               value={description}
@@ -112,7 +120,7 @@ const OurStory = () => {
             description
           )}
         </div>
-        {user.role === "travel_agency" &&Number(user_id)==user.user_id&& (
+        {user.role === "travel_agency" && Number(user_id) === user.user_id && (
           <div className="edit-controls">
             {isEditing ? (
               <>

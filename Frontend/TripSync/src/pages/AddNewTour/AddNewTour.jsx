@@ -70,38 +70,46 @@ const AddNewTour = () => {
     }
   };
 
-  // Form submission
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-  
-    // Validate that start date is less than end date
-    if (new Date(newTour.startDate) >= new Date(newTour.endDate)) {
-      setErrorMessage("Start date must be earlier than the end date.");
-      return;
-    }
-  
-    try {
-      console.log("new tour");
-      console.log(newTour);
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/myProfile/trips/addTrip",
-        newTour,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("API Response:", response);
-      navigate(-1); // Navigate back after successful submission
-    } catch (error) {
-      console.error("Error adding tour:", error);
-      setErrorMessage("Failed to add the tour. Please check your input and try again.");
-    }
-  };
-  
+ // Form submission
+const handleFormSubmit = async (e) => {
+  e.preventDefault();
+
+  const currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+
+  // Validate that start date is greater than the current date
+  if (new Date(newTour.startDate) <= new Date(currentDate)) {
+    setErrorMessage("Start date must be later than the current date.");
+    return;
+  }
+
+  // Validate that start date is less than end date
+  if (new Date(newTour.startDate) >= new Date(newTour.endDate)) {
+    setErrorMessage("Start date must be earlier than the end date.");
+    return;
+  }
+
+  try {
+    console.log("new tour");
+    console.log(newTour);
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      "http://localhost:3000/api/v1/users/myProfile/trips/addTrip",
+      newTour,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("API Response:", response);
+    navigate(-1); // Navigate back after successful submission
+  } catch (error) {
+    console.error("Error adding tour:", error);
+    setErrorMessage("Failed to add the tour. Please check your input and try again.");
+  }
+};
+
   return (
     <div className="add-new-tour-container">
       <h2>Add New Tour</h2>

@@ -209,9 +209,9 @@ exports.addTrip = async (req, res) => {
     sale,
     saleprice,
     TravelAgency_ID,
+    Name
   } = req.body;
   // const TravelAgency_ID = req.user.user_id;
-
   // Validate input
   if (
     !Description ||
@@ -222,7 +222,8 @@ exports.addTrip = async (req, res) => {
     !endDate ||
     !StartLocation ||
     !photos ||
-    !TravelAgency_ID
+    !TravelAgency_ID||
+    !Name
   ) {
     return res.status(400).json({
       success: false,
@@ -246,7 +247,7 @@ exports.addTrip = async (req, res) => {
 
     try {
       tripResult = await client.query(
-        "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate,endDate, StartLocation ,TravelAgency_ID,sale,saleprice) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9,$10) RETURNING Trip_ID",
+        "INSERT INTO TRIP (Description, Price, MaxSeats, Destinition, startDate,endDate, StartLocation ,TravelAgency_ID,sale,saleprice,Name) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9,$10,$11) RETURNING Trip_ID",
         [
           Description,
           Price,
@@ -258,6 +259,7 @@ exports.addTrip = async (req, res) => {
           TravelAgency_ID,
           sale,
           saleprice,
+          Name
         ]
       );
 

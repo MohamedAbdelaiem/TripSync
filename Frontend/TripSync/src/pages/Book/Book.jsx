@@ -73,12 +73,10 @@ const Book = ({ tour, onEnsureBooking }) => {
       let actualPrice=(!tour.sale)?tour.price:tour.saleprice;
       if(selectedFreeTrip.reward_id)
       {
-        await RedeemReward(selectedFreeTrip.reward_id);
         actualPrice=0;
       }
       else if(selectedPromotion.reward_id)
       {
-        await RedeemReward(selectedPromotion.reward_id);
         actualPrice=actualPrice-actualPrice*selectedPromotion.promotionpercentage/100;
       }
       const token = localStorage.getItem("token");
@@ -95,6 +93,12 @@ const Book = ({ tour, onEnsureBooking }) => {
           },
         }
       );
+
+      if (selectedFreeTrip.reward_id) {
+        await RedeemReward(selectedFreeTrip.reward_id);
+      } else if (selectedPromotion.reward_id) {
+        await RedeemReward(selectedPromotion.reward_id);
+      }
 
       setBookingConfirmed(true);
       onEnsureBooking();

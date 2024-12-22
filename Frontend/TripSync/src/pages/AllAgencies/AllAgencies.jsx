@@ -66,20 +66,20 @@ function AllAgencies() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      {isLoading && <div className="loading">Loading ...</div>}
+      {isLoading && (
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p className="loading-text">Please Wait...</p>
+        </div>
+      )}
       {!isLoading && (
         <div>
           {filteredAgencies.map((Agency, index) => (
-            <div
-              key={index}
-
-              // Pass the agencyId to the new page
-            >
+            <div key={index}>
               <TravelAgencyCard
                 name={Agency.profilename}
                 photo={Agency.profilephoto || profile}
                 id={Agency.travelagency_id}
-
               />
             </div>
           ))}
@@ -88,6 +88,7 @@ function AllAgencies() {
           )}
         </div>
       )}
+
     </>
   );
 }

@@ -2,29 +2,25 @@ import { useState, useContext } from "react";
 import Sub_Navbar from "../../Components/Sub_Navbar/Sub_Navbar";
 import "./Sign_in.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { UserContext } from "../../assets/userContext";
-import { NavLink } from "react-router-dom";
-// import navLink from React
 
 function Sign_in() {
-  const [showPopupFail, setShowPopupFail] = useState(false); 
-  const [showPopupSuccess, setShowPopupSuccess] = useState(false); 
+  const [showPopupFail, setShowPopupFail] = useState(false);
+  const [showPopupSuccess, setShowPopupSuccess] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { user, setUser } = useContext(UserContext);
-  // console.log(UserContext);
-  // const [user,setUser]=useState(useContext(UserContext));
 
   const togglePopupFail = () => {
-    setShowPopupFail(!showPopupFail); // Toggle the popup visibility
+    setShowPopupFail(!showPopupFail);
   };
   const togglePopupSuccess = () => {
-    setShowPopupSuccess(!showPopupSuccess); // Toggle the popup visibility
+    setShowPopupSuccess(!showPopupSuccess);
   };
-  
+
   const Navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -50,12 +46,9 @@ function Sign_in() {
       if (response.data.status === "success") {
         togglePopupSuccess();
         setTimeout(() => {
-          {
-            setSuccess(response.data.message);
-            setUser(response.data.data);
-            // localStorage.setItem("user",JSON.stringify(response.data.data));
-            Navigate("/");
-          }
+          setSuccess(response.data.message);
+          setUser(response.data.data);
+          Navigate("/");
         }, 3000);
       } else {
         setError(response.data.message);
@@ -63,87 +56,84 @@ function Sign_in() {
     } catch (error) {
       togglePopupFail();
       setError(error?.message);
-      console.log(error?.response?.data?.message);
     }
   };
 
   return (
     <>
-      <Sub_Navbar />
-      <div className="sign_in containerSignin d-flex justify-content-center align-items-center vh-100">
-        <div className="card p-4 shadow-sm w-100" style={{ maxWidth: "400px" }}>
-          <h3 className="text-center mb-4">Sign In</h3>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label-sign-in">
-                Email Address
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="Enter your email"
-                required
-                onChange={(e) => setEmail(e.currentTarget.value)}
-              />
+      <div className="signin-container">
+        <div className="signin-card">
+          <div className="signin-header">
+            <div className="icon-circle">
+              <i className="fas fa-user"></i>
+            </div>
+            <h2>Welcome Back</h2>
+            <p className="subtitle">Sign in to your account</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="signin-form">
+            <div className="form-group">
+              <div className="input-wrapper">
+                <i className="fas fa-envelope input-icon"></i>
+                <input
+                  type="email"
+                  required
+                  placeholder="Email Address"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="form-input"
+                />
+              </div>
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="passSign" className="form-label-sign-in">
-                Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="passSign"
-                placeholder="Enter your password"
-                required
-                onChange={(e) => setPassword(e.currentTarget.value)}
-              />
+            <div className="form-group">
+              <div className="input-wrapper">
+                <i className="fas fa-lock input-icon"></i>
+                <input
+                  type="password"
+                  required
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="form-input"
+                />
+              </div>
             </div>
 
-            <navLink to="/">
-              <div className="d-grid">
-                <button type="submit" className="btnSign">
-                  Sign In
+            <button type="submit" className="signin-button">
+              Sign In
+            </button>
+
+            <div className="links-container">
+              <NavLink to="/signup" className="signup-link">
+                Create an account
+              </NavLink>
+            </div>
+          </form>
+
+          {showPopupFail && (
+            <div className="popup-overlay">
+              <div className="popup-content error">
+                <i className="fas fa-times-circle"></i>
+                <h5>Error</h5>
+                <p>Please enter correct email and password</p>
+                <button
+                  className="popup-button"
+                  onClick={() => setShowPopupFail(false)}
+                >
+                  Close
                 </button>
               </div>
-            </navLink>
+            </div>
+          )}
 
-            <navLink to="ForgetPassword">
-              <button className="forgetPassword">Forget your password?</button>
-            </navLink>
-
-            {showPopupFail && (
-              <div className="popup-overlay">
-                <div className="popup-content">
-                  <h5>Error</h5>
-                  <p>Please enter correct email and password</p>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => setShowPopupFail(false)}
-                  >
-                    Close
-                  </button>
-                </div>
+          {showPopupSuccess && (
+            <div className="popup-overlay">
+              <div className="popup-content success">
+                <i className="fas fa-check-circle"></i>
+                <h5>Success</h5>
+                <p>Sign in successful</p>
               </div>
-            )}
-
-            {showPopupSuccess && (
-              <div className="popup-overlay">
-                <div className="popup-content">
-                  <h5>Success</h5>
-                  <p>Sign in successfully</p>
-                  <i className="fa-solid fa-check" style={{color:"#0fc21b", fontSize:"2rem"} }></i>
-                
-                </div>
-              </div>
-            )}
-
-            {/* <NavLink to="ResetPassword">
-              <button className="ResetPassword">Reset your password?</button>
-            </NavLink> */}
-          </form>
+            </div>
+          )}
         </div>
       </div>
     </>

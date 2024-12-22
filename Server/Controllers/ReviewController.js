@@ -128,6 +128,16 @@ exports.deleteReview = async (req, res) => {
         const travelAgency_id = req.params.user_id;
         await client.query('BEGIN');
         await client.query('DELETE FROM Review WHERE TRAVEL_AGENCY_ID=$1 AND TRAVELLER_ID=$2',[travelAgency_id, traveller_id]);
+        const newRate = await client.query('SELECT AVG(rate) FROM Review WHERE TRAVEL_AGENCY_ID=$1', [travelAgency_id]);
+        if(newRate.rows[0].avg === null){
+            await client.query('UPDATE TravelAgency SET Rate=0 WHERE TravelAgency_ID=$1', [travelAgency_id]);
+            await client.query('COMMIT');
+            return res.status(200).json({
+                status: "success",
+                message: "Review deleted successfully"
+            });
+        }
+        await client.query('UPDATE TravelAgency SET Rate=$1 WHERE TravelAgency_ID=$2', [newRate.rows[0].avg, travelAgency_id]);
         await client.query('COMMIT');
         res.status(200).json({
             status: "success",

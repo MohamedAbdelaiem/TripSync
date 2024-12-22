@@ -1,140 +1,245 @@
- .forgetPassword{
-    margin-left: 200px;
-    margin-top: 20px;
-    border: none;
-    background-color:#fff;
-}
-.ResetPassword{
-    margin-left: 200px;
-    margin-top: 5px;
-    border: none;
-    background-color:#fff;
-
+.signin-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  padding: 20px;
+  animation: gradientAnimation 15s ease infinite;
+  background-size: 200% 200%;
 }
 
+.signin-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(106, 17, 203, 0.15);
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-/* Sign_in.css */
+.signin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(106, 17, 203, 0.2);
+}
 
-/* Container Styling */
-.containerSignin {
-    /* background: linear-gradient(to right, #007bff, #6610f2); */
-    color: #fff;
-    padding: 20px;
-    border-radius: 15px;
+.signin-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 10px 20px rgba(106, 17, 203, 0.2);
+}
+
+.icon-circle i {
+  font-size: 2rem;
+  color: white;
+}
+
+.signin-header h2 {
+  color: #2d3748;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  position: relative;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #6a11cb;
+  box-shadow: 0 0 0 4px rgba(106, 17, 203, 0.1);
+}
+
+.input-icon {
+  position: absolute;
+  left: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #6a11cb;
+}
+
+.signin-button {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(106, 17, 203, 0.2);
+}
+
+.signin-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(106, 17, 203, 0.3);
+  opacity: 0.95;
+}
+
+.signin-button:active {
+  transform: translateY(0);
+}
+
+.links-container {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.signup-link {
+  color: #6a11cb;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+  color: #2575fc;
+  text-decoration: underline;
+}
+
+/* Popup Styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.popup-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: popupIn 0.3s ease-out;
+}
+
+.popup-content i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.popup-content.success i {
+  color: #0fc21b;
+}
+
+.popup-content.error i {
+  color: #dc3545;
+}
+
+.popup-content h5 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #2d3748;
+}
+
+.popup-content p {
+  color: #718096;
+  margin-bottom: 1.5rem;
+}
+
+.popup-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.popup-button:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+@keyframes popupIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  /* Card Styling */
-  .card {
-    background-color: #ffffff;
-    border: none;
-    border-radius: 15px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .card h3 {
-    font-family: "Arial", sans-serif;
-    font-weight: bold;
-    color: #4a4a4a;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
   }
-  
-  /* Input Fields */
-  .form-control {
-    border-radius: 10px;
-    font-size: 14px;
-    padding: 10px 15px;
-    border: 1px solid #ced4da;
-    transition: box-shadow 0.3s ease, border 0.3s ease;
-    color: black !important;
+  50% {
+    background-position: 100% 50%;
   }
-  
-  /* .form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  } */
-  
-  /* Labels */
-  .form-label-sign-in {
-    font-size: 14px;
-    color: black;
-    margin-bottom: 5px;
+  100% {
+    background-position: 0% 50%;
   }
-  
-  /* Buttons */
-  .btnSign {
-    background:  #007bff;
-    color: #fff;
-    border: none;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 8px;
-    transition: background 0.3s ease;
-  }
-  
-  .btnSign:hover {
-    scale:1.02;
-  }
-  
- 
-  .forgetPassword,
-  .ResetPassword {
-    background: none;
-    border: none;
-    color: #007bff;
-    font-size: 14px;
-    font-weight: bold;
-    text-decoration: underline;
-    cursor: pointer;
-    padding: 0;
-  }
-  
-  .forgetPassword:hover,
-  .ResetPassword:hover {
-    color: #0056b3;
-    text-decoration: none;
-  }
-  
-  /* Mobile Responsiveness */
-  @media (max-width: 576px) {
-    .card {
-      width: 90%;
-    }
-  
-    .containerSignin {
-      padding: 10px;
-    }
-  }
-  #passSign{
-    border: 1px solid #ced4da;
-    padding: 5px;
-    font-size: 14px;
-    border-radius: 10px;
-    background-color: #e8f3fd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .signin-card {
+    padding: 2rem;
   }
 
-  .btn_success{
-    color: #1bb20d;
-  }
-
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+  .signin-header h2 {
+    font-size: 1.75rem;
   }
   
-  /* Popup content box */
-  .popup-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  .icon-circle {
+    width: 70px;
+    height: 70px;
   }
-  
+}

@@ -8,6 +8,7 @@ import axios from "axios";
 function AllTribsListPublic() {
   const [trips, setTrips] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const fetchTrips = async () => {
@@ -26,6 +27,7 @@ function AllTribsListPublic() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     };
     fetchTrips();
@@ -35,13 +37,19 @@ function AllTribsListPublic() {
     <>
       <NavbarSignedIn />
       <div className="all-trips-list-container-public">
-        <ul className="all-trips-menu-list-public">
-          {trips.map((trip, idx) => (
-            <li className="all-trips-menu-item-public" key={idx}>
-              <PublicTrips {...trip} />
-            </li>
-          ))}
-        </ul>
+        {isLoading ? (
+          <div className="spinner-container">
+            <div className="spinner"></div>
+          </div>
+        ) : (
+          <ul className="all-trips-menu-list-public">
+            {trips.map((trip, idx) => (
+              <li className="all-trips-menu-item-public" key={idx}>
+                <PublicTrips {...trip} />
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </>
   );

@@ -148,15 +148,27 @@ function TravellerProf(props) {
   };
 
   useEffect(() => {
-    get_traveller();
-    getRewards();
-    getTrips();
-    getTickets();
-    get_traveller_own_rewards();
-    setShowPopup(false);
-
-    if (user !== null && profile_id == id) setIsOwner(true);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        await Promise.all([
+          get_traveller(),
+          getRewards(),
+          getTrips(),
+          getTickets(),
+          get_traveller_own_rewards(),
+        ]);
+        if (user !== null && profile_id == id) setIsOwner(true);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    fetchData();
   }, []);
+  
 
   const openModal = () => {
     setModalIsOpened(true);
@@ -179,13 +191,18 @@ function TravellerProf(props) {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // Show a loading indicator
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
   } else if (
-    user === null ||
-    traveller === null ||
-    traveller.role !== "traveller"
-  )
+    !isLoading &&
+    (user === null || traveller === null || traveller.role !== "traveller")
+  ) {
     return <div className="user-not-found-message">User not founded</div>;
+  }  
   else
     return (
       <>

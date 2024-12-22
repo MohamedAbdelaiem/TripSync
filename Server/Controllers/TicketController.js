@@ -50,7 +50,6 @@ exports.getAllTickets = async (req, res) => {
     );
 
     await client.query("COMMIT");
-    console.log(ticketsRes.rows);
     return res.status(200).json({
       status: true,
       data: ticketsRes.rows,

@@ -275,16 +275,29 @@ console.log(qaData)
                     <p className="qa-card-answer">{item.answer}</p>
                   </div>
                   <div className="qa-card-footer">
-                    <span>{new Date(item.date).toLocaleDateString("en-US")}</span> | <span>{item.time}</span>
-                    {user.role === "travel_agency" && Number(user_id) === user.user_id && (
-                      <button
-                        className="btn edit-btn"
-                        onClick={() => handleEdit(index)}
-                      >
-                        Edit
-                      </button>
-                    )}
-                  </div>
+                      <span>
+                        {new Intl.DateTimeFormat("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }).format(new Date(item.date))}{" "}
+                        |{" "}
+                        {new Intl.DateTimeFormat("en-US", {
+                          hour: "numeric",
+                          minute: "numeric",
+                          hour12: true,
+                        }).format(new Date(item.date))}
+                      </span>
+                      {user.role === "travel_agency" && Number(user_id) === user.user_id && (
+                        <button
+                          className="btn edit-btn"
+                          onClick={() => handleEdit(index)}
+                        >
+                          Edit
+                        </button>
+                      )}
+                    </div>
+
                 </>
               )}
             </div>

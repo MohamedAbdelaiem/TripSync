@@ -110,5 +110,7 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 
 
+---
+
 Thank you for using our travel application! We hope it enhances your travel experiences.
 

@@ -77,7 +77,7 @@ function AllAgencies() {
           {filteredAgencies.map((Agency, index) => (
             <div key={index}>
               <TravelAgencyCard
-                name={Agency.profilename}
+                name={Agency.username}
                 photo={Agency.profilephoto || profile}
                 id={Agency.travelagency_id}
               />
